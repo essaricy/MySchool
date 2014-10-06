@@ -1,0 +1,20 @@
+<project name="MySchoolServer" default="CleanBuildDeploy">
+    <description>Builds and deploys MySchool Scheduler to server</description>
+
+    <property file="deploy.properties" />
+
+    <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
+
+    <target name="Clean">
+        <echo message="Cleaning ${ant.project.name} ${basedir}" />
+        <delete dir="${target.dir}" />
+        <mkdir dir="${target.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="Build">
+    </target>
+
+    <target name="Deploy">
+    </target>
+</project>

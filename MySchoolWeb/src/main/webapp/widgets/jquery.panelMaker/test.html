@@ -1,0 +1,122 @@
+<link href="css/style.css" rel="stylesheet">
+
+<script type="text/javascript" language="javascript" src="http://localhost:8080/demo/widgets/jquery-ui-1.10.2/jquery-1.9.1.js"></script>
+<script src="js/myschool-panelMaker.js"></script>
+
+<script>
+$(document).ready(function(){
+	$("#TilesContainer").panelMaker({
+		containerName: 'TilesContainer',
+		width: '800px',
+		panels: [
+			{
+				id: 'UpcomingEvents',
+				align: 'left',
+				width: '250px',
+				title: 'Upcoming Events',
+				data: {
+					url: 'data/upcomingEvents.txt'
+				},
+				more: {
+					url: 'data/upcomingEvents.txt',
+					text: 'more...'
+				}
+			},
+			{
+				id: 'UpcomingExams',
+				align: 'right',
+				width: '250px',
+				title: 'Upcoming Exams',
+				data: {
+					url: 'data/upcomingExams.txt'
+				},
+				more: {
+					url: 'data/upcomingExams.txt',
+					text: 'more...'
+				}
+			},
+			{
+				id: 'BirthdayAlerts',
+				align: 'middle',
+				width: '250px',
+				title: 'Birthday Alerts',
+				data: {
+					url: 'data/birthdayAlerts.txt'
+				},
+				more: {
+					url: 'data/birthdayAlerts.txt',
+					text: 'more...'
+				}
+			}
+		]
+	});
+});
+</script>
+
+<div id="TilesContainer" />
+
+<!--
+<div id="TilesContainer" >
+  <div class="item left" style="width:250px;">
+	<span class="heading">Upcoming Events</span>
+	<ul class="content">
+		<li>List Item #1</li>
+		<li>List Item #2</li>
+		<li>List Item #3</li>
+		<li>List Item #4</li>
+		<li>List Item #5</li>
+	</ul>
+  </div>
+  <div class="item right" style="width:250px;">
+	<span class="heading">Upcoming Exams</span>
+	<ul class="content">
+		<li>List Item #1</li>
+		<li>List Item #2</li>
+		<li>List Item #3</li>
+		<li>List Item #4</li>
+		<li>List Item #5</li>
+	</ul>
+  </div>
+  <div class="item middle" style="width:250px;">
+	<span class="heading">Birthday Alerts</span>
+	<ul class="content">
+		<li>List Item #1</li>
+		<li>List Item #2</li>
+		<li>List Item #3</li>
+		<li>List Item #4</li>
+		<li>List Item #5</li>
+	</ul>
+  </div>
+  <div style="clear: both;" />
+  <div class="item left" style="width:250px;">
+	<span class="heading">Fee Summary</span>
+	<ul class="content">
+		<li>List Item #1</li>
+		<li>List Item #2</li>
+		<li>List Item #3</li>
+		<li>List Item #4</li>
+		<li>List Item #5</li>
+	</ul>
+  </div>
+  <div class="item right" style="width:250px;">
+	<span class="heading">Attendance</span>
+	<ul class="content">
+		<li>List Item #1</li>
+		<li>List Item #2</li>
+		<li>List Item #3</li>
+		<li>List Item #4</li>
+		<li>List Item #5</li>
+	</ul>
+  </div>
+  <div class="item middle" style="width:250px;">
+	<span class="heading">Birthday Alerts</span>
+	<ul class="content">
+		<li>List Item #1</li>
+		<li>List Item #2</li>
+		<li>List Item #3</li>
+		<li>List Item #4</li>
+		<li>List Item #5</li>
+	</ul>
+  </div>
+</div>
+-->

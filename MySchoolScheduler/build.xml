@@ -1,0 +1,34 @@
+<project name="MySchoolScheduler" default="CleanBuildDeploy">
+    <description>Builds and deploys MySchool Scheduler to server</description>
+
+    <property file="deploy.properties" />
+    <path id="jars-classpath">
+        <fileset dir="../${lib}" includes="*.jar" />
+        <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
+    	<fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
+    </path>
+
+    <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
+
+    <target name="Clean">
+    	<echo message="Cleaning ${ant.project.name} ${basedir}" />
+        <delete dir="${target.dir}" />
+        <mkdir dir="${target.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="Build">
+        <javac srcdir="${src.dir}"
+            destdir="${classes.dir}" classpathref="jars-classpath"
+            source="1.6" target="1.6" includeantruntime="true" />
+        <jar destfile="${target.dir}/${myschool.scheduler}.jar" basedir="${classes.dir}" />
+    </target>
+
+    <target name="Deploy">
+        <copy todir="${myschool.dir}/${lib}" file="${target.dir}/${myschool.scheduler}.jar" />
+        <!-- Deploy config items -->
+        <copy todir="${myschool.dir}/${config}">
+            <fileset dir="${resources.dir}/${config}" />
+        </copy>
+    </target>
+</project>

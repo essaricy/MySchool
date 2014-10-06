@@ -1,0 +1,59 @@
+<project name="MySchoolInfrastructure" default="CleanBuildDeploy">
+    <description>Builds and deploys MySchool to server</description>
+
+    <property file="deploy.properties" />
+
+    <path id="jars-classpath">
+        <fileset dir="../${lib}" includes="*.jar" />
+        <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
+    </path>
+
+    <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
+
+    <target name="Clean">
+        <echo message="Cleaning ${ant.project.name} ${basedir}" />
+        <delete dir="${target.dir}" />
+        <mkdir dir="${target.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="Build">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}"
+            source="1.6" target="1.6" classpathref="jars-classpath" includeantruntime="true" />
+        <jar destfile="${target.dir}/${myschool.infrastructure}.jar" basedir="${classes.dir}" />
+    </target>
+
+    <target name="Deploy" if="myschool.name">
+        <copy todir="${myschool.dir}/${lib}" file="${target.dir}/${myschool.infrastructure}.jar" />
+        <!-- Deploy config items -->
+        <copy todir="${myschool.dir}/${config}">
+            <fileset dir="${resources.dir}/${config}" />
+        </copy>
+        <move file="${myschool.dir}/${config}/${database}/${jboss.ds.file}" tofile="${myschool.dir}/${config}/${database}/${jboss.ds.ultimate}" />
+        <move file="${myschool.dir}/${config}/${database}/${tomcat.context.file}" tofile="${myschool.dir}/${config}/${database}/${tomcat.context.ultimate}" />
+        <antcall target="UpdateResources" />
+    </target>
+
+    <target name="UpdateResources">
+        <echo message="Updating all resources at ${myschool.base.dir}/${myschool.name}/${config} " />
+        <echo message="With token '@MYSCHOOL.DIR@' = '${myschool.base.dir}/${myschool.name}'" />
+        <echo message="With token '@MYSCHOOL.NAME@' = '${myschool.name}'" />
+        <echo message="With token '@DATABASE.NAME@' = '${myschool.name}'" />
+
+        <replace dir="${myschool.base.dir}/${myschool.name}/${config}">
+          <include name="**/*.*"/>
+          <replacefilter token="@MYSCHOOL.DIR@" value="${myschool.base.dir}/${myschool.name}" />
+          <replacefilter token="@MYSCHOOL.NAME@" value="${myschool.name}" />
+          <replacefilter token="@DATABASE.NAME@" value="${myschool.name}" />
+          <replacefilter token="@CONFIG@" value="${config}" />
+          <replacefilter token="@MIDDLEWARE@" value="${middleware}" />
+          <replacefilter token="@EMAIL@" value="${email}" />
+          <replacefilter token="@FILESYSTEM@" value="${filesystem}" />
+          <replacefilter token="@XML@" value="${xml}" />
+          <replacefilter token="@CACHE@" value="${cache}" />
+          <replacefilter token="@DATABASE@" value="${database}" />
+          <replacefilter token="@IMAGE@" value="${image}" />
+        </replace>
+    </target>
+
+</project>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- Report related views -->
+    <definition name="view_reports_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/report/view_reports.jsp" />
+    </definition>
+    <definition name="report_criteria_model" extends="model_layout">
+        <put-attribute name="body" value="/views/report/report_criteria.jsp" />
+    </definition>
+
+</tiles-definitions>

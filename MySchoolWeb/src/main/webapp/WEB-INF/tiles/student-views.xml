@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition name="view_admission_status_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/student/view_admission_status.jsp" />
+    </definition>
+    <definition name="maintain_admission_status_model" extends="model_layout">
+        <put-attribute name="body" value="/views/student/maintain_admission_status.jsp" />
+    </definition>
+    <!-- Student view names -->
+    <definition name="search_student_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/student/search_student.jsp" />
+    </definition>
+    <definition name="student_registration_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/student/student_registration.jsp" />
+    </definition>
+    <definition name="view_student_model" extends="model_layout">
+        <put-attribute name="body" value="/views/student/view_student.jsp" />
+    </definition>
+    <definition name="maintain_student_family_member_model" extends="model_layout">
+        <put-attribute name="body" value="/views/student/maintain_student_family_member.jsp" />
+    </definition>
+    <definition name="maintain_student_document_model" extends="model_layout">
+        <put-attribute name="body" value="/views/student/maintain_student_document.jsp" />
+    </definition>
+
+    <!-- Student Self View Details -->
+    <definition name="self_view_student" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/student/self_view_student.jsp" />
+        <put-attribute name="student_attribute_tile" value="" />
+    </definition>
+
+    <!-- <definition name="self_view_admission_details_wholepage" extends="self_view_student">
+        <put-attribute name="student_attribute_tile" value="/views/student/view_student_admission_details.jsp" />
+    </definition> -->
+    <definition name="self_view_admission_details_wholepage" extends="self_view_student">
+        <put-attribute name="student_attribute_tile" value="/views/student/view_student_admission_details.jsp" />
+    </definition>
+</tiles-definitions>

@@ -1,0 +1,93 @@
+.item {
+position: relative;
+  padding: 0px;
+  margin: 0px 10px 20px 10px;
+
+
+  color: black;
+ border: 1px solid #CC9900;
+  border-radius: 8px;
+  -moz-box-shadow: 0 0 1px 1px #CC9900;
+  -webkit-box-shadow: 0 0 1px 1px #CC9900;
+  box-shadow: 0 0 1px 1px #CC9900;
+}
+
+.item .heading {
+	float:left;
+	margin-top: 0px;
+
+    padding-top: 8px;
+    padding-bottom: 8px;
+
+	background-color: #CC9900;
+
+	width: 100%;
+	font-size: 14px;
+    font-weight: bold;
+    color: white;
+	text-align: center;
+	text-transform: uppercase;
+	text-decoration: none;
+	letter-spacing: 2px;
+	word-spacing: 5px;
+}
+
+.item .body {
+	padding-top: 30px;
+    padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.item .more {
+	padding-left: 75%;
+	padding-right: 10px;
+	font-style: italic;
+	letter-spacing: 1px;
+}
+
+.item .more .moreLink {
+	font-style: italic;
+
+	color: #888888;
+    font-size: 0.9em;
+    text-decoration: none;
+}
+.item .more .moreLink:hover {
+	font-style: italic;
+
+	color: #000000;
+    font-size: 0.9em;
+	font-weight: bold;
+}
+
+.left{float:left;}
+.right{float:right;}
+.middle{margin-left: auto; margin-right: auto;}
+
+.item .content {
+	margin: 0;
+	padding: 0;
+	padding-left: 5px;
+
+	list-style-type: none;
+	vertical-align: top;
+}
+
+.item .content li {
+	margin: 0;
+	padding-top: 5px;
+	text-align: left;
+
+    color: #888888;
+    font-size: 0.9em;
+    padding-right: 5px;
+    vertical-align: top;
+}
+
+.item .content li:before {
+    content: "• ";
+	font-size: 14px;
+	font-weight: bold;
+    color: #003365; /* or whatever color you prefer */
+}

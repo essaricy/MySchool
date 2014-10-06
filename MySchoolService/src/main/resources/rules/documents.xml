@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+    <field-sequence>
+        <field name="DOCUMENT_NAME" mandatory="true" maxlength="64" datatype="ANY_CHARACTER" />
+        <field name="DESCRIPTION" mandatory="true" maxlength="512" datatype="ANY_CHARACTER" />
+        <field name="APPLICABILITY_FOR_STUDENT" mandatory="true" maxlength="1" datatype="ALPHABETS" />
+        <field name="APPLICABILITY_FOR_EMPLOYEE" mandatory="true" maxlength="1" datatype="ALPHABETS" />
+    </field-sequence>
+</rules>

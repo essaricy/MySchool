@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+	<field-sequence>
+		<field name="BRANCH_CODE" mandatory="true" maxlength="8" datatype="ANY_CHARACTER" />
+		<field name="DIVISION_CODE" mandatory="true" maxlength="8" datatype="ANY_CHARACTER" />
+		<field name="SCHOOL_NAME" mandatory="true" maxlength="80" datatype="ANY_CHARACTER" />
+		<field name="CLASS_NAME" mandatory="true" maxlength="16" datatype="ANY_CHARACTER" />
+		<field name="MEDIUM_NAME" mandatory="true" maxlength="16" datatype="ANY_CHARACTER" />
+		<field name="SECTION_NAME" mandatory="true" maxlength="16" datatype="ANY_CHARACTER" />
+		<field name="YEAR" mandatory="true" maxlength="4" datatype="INTEGER" />
+		<field name="MONTH" mandatory="true" maxlength="2" datatype="INTEGER" />
+		<field name="DAY_1" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_2" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_3" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_4" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_5" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_6" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_7" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_8" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_9" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_10" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_11" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_12" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_13" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_14" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_15" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_16" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_17" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_18" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_19" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_20" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_21" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_22" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_23" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_24" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_25" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_26" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_27" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_28" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_29" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_30" mandatory="false" maxlength="3" datatype="YES_NO" />
+		<field name="DAY_31" mandatory="false" maxlength="3" datatype="YES_NO" />
+	</field-sequence>
+</rules>

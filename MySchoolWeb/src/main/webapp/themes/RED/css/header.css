@@ -1,0 +1,39 @@
+/********************************* HEADER STYLES **************************/
+#PageHeader {
+}
+
+table.headerTable {
+    border-width: 0px;
+    background-image:url('../images/bg.png');
+    width: 100%;
+}
+
+img.logo {
+    margin: 5px 5px 5px 5px;
+    width: 99px;
+    height: 80px;
+}
+
+.headerLabel {
+    font-size: 14px;
+    color: white;
+    padding-left: 5px;
+    padding-right: 5px;
+    letter-spacing: 1px;
+}
+
+.headerLink {
+    font-size: 14px;
+    font-weight: bold;
+    color: yellow;
+    letter-spacing: 1px;
+    text-decoration: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.headerSeperator {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}

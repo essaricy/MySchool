@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- Notification related views -->
+    <definition name="view_notification_templates_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/notification/view_notification_templates.jsp" />
+    </definition>
+    <definition name="maintain_notification_template" extends="base_layout">
+        <put-attribute name="body" value="/views/notification/maintain_notification_template.jsp" />
+    </definition>
+    <definition name="view_notification_to_students_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/notification/view_notification_to_students.jsp" />
+    </definition>
+    <definition name="view_notification_to_employees_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/notification/view_notification_to_employees.jsp" />
+    </definition>
+</tiles-definitions>

@@ -1,0 +1,22 @@
+.TileHeader {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  background-image: url('../images/bg.png');
+  color: white;
+}
+.TileHeader strong {
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.TileHeader img {
+  float: right;
+  padding-right: 4px;
+}
+.TileContent {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+}

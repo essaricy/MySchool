@@ -1,0 +1,30 @@
+ul.grid {
+    list-style: none;
+    margin: 10px auto;
+    padding: 0;
+    max-width: 100%;
+}
+ul.grid li {
+    width: 160px;
+    padding: 5px;
+    background-color: #f4f4f4;
+    border: 1px dashed #d7d7d7;
+    color: #525252;
+    text-align: center;
+    text-shadow: 1px 1px 1px #fff;
+}
+ul.grid li p {
+    font-size: 1em;
+}
+ul.grid li img {
+    margin-top: 10px;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+ul.grid li code {
+    background-color: #D8F6C0;
+    padding: 4px;
+    border: 1px dashed #9CCA77;
+    border-radius: 4px;
+}

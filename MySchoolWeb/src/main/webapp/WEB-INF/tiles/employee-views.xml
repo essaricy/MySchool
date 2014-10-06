@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- Employee related views -->
+    <definition name="view_designations_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/employee/view_designations.jsp" />
+    </definition>
+    <definition name="maintain_designation_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/maintain_designation.jsp" />
+    </definition>
+    <definition name="search_employee_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/employee/search_employee.jsp" />
+    </definition>
+    <definition name="view_employee_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/view_employee.jsp" />
+    </definition>
+    <definition name="employee_registration_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/employee/employee_registration.jsp" />
+    </definition>
+
+    <definition name="view_employment_status_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/employee/view_employment_status.jsp" />
+    </definition>
+    <definition name="maintain_employment_status_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/maintain_employment_status.jsp" />
+    </definition>
+    <definition name="maintain_employee_document_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/maintain_employee_document.jsp" />
+    </definition>
+    <definition name="maintain_employee_education_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/maintain_employee_education.jsp" />
+    </definition>
+    <definition name="maintain_employee_experience_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/maintain_employee_experience.jsp" />
+    </definition>
+    <definition name="maintain_employee_promotion_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/maintain_employee_promotion.jsp" />
+    </definition>
+    <definition name="maintain_employee_teaching_subject_model" extends="model_layout">
+        <put-attribute name="body" value="/views/employee/maintain_employee_teaching_subject.jsp" />
+    </definition>
+</tiles-definitions>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+    <definition name="employee_self_submit_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/portal/employee_self_submit.jsp" />
+    </definition>
+    <definition name="student_self_submit_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/portal/student_self_submit.jsp" />
+    </definition>
+</tiles-definitions>

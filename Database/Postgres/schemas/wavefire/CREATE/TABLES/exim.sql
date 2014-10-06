@@ -1,0 +1,8 @@
+CREATE TABLE wavefire.EXIM (
+    EXIM_KEY varchar(24) NOT NULL,
+    DESCRIPTION varchar(128) NOT NULL,
+    CAN_IMPORT char(1) DEFAULT 'N',
+    CAN_EXPORT char(1) DEFAULT 'N',
+    PRIMARY KEY (EXIM_KEY)
+);
+ALTER TABLE wavefire.EXIM ADD UNIQUE (EXIM_KEY);

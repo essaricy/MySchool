@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <definition name="view_attendance_profiles_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/attendance/view_attendance_profiles.jsp" />
+    </definition>
+
+    <definition name="maintain_attendance_profile_model" extends="model_layout">
+        <put-attribute name="body" value="/views/attendance/maintain_attendance_profile.jsp" />
+    </definition>
+
+    <definition name="view_student_attendance_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/attendance/view_student_attendance.jsp" />
+    </definition>
+
+    <definition name="maintain_student_attendance_model" extends="model_layout">
+        <put-attribute name="body" value="/views/attendance/maintain_student_attendance.jsp" />
+    </definition>
+
+</tiles-definitions>

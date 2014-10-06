@@ -1,0 +1,67 @@
+<project name="MySchool" default="CreateMySchool" basedir="../">
+    <description>Builds and deploys MySchool to server</description>
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml" />
+
+    <property file="build/build.properties" />
+    <property file="build/server_${os.name}.properties" />
+
+    <target name="CreateMySchool" if="myschool.name">
+        <ant antfile="build/build.xml" target="CleanBuildDeploy" />
+        <if>
+            <equals arg1="${action}" arg2="INIT" />
+            <then>
+                <echo message="Creating a new application named ${myschool.name}. This will create a new database and upload data from external files." />
+                <antcall target="CreateDatabase" />
+                <antcall target="ImportData" />
+            </then>
+            <elseif>
+                <equals arg1="${action}" arg2="LOAD" />
+                <then>
+                    <echo message="Will load data from extrnal files." />
+                    <antcall target="ImportData" />
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${action}" arg2="EXTRACT" />
+                <then>
+                    <echo message="Will extract data to extrnal files." />
+                    <antcall target="ExportData" />
+                </then>
+            </elseif>
+            <elseif>
+                <equals arg1="${action}" arg2="RELOAD" />
+                <then>
+                    <echo message="Will extract data to extrnal files. Reinitiates the database named ${myschool.name} and loads the data that was previously extracted." />
+                    <antcall target="ExportData" />
+                    <antcall target="CreateDatabase" />
+                    <antcall target="ImportData" />
+                </then>
+            </elseif>
+        </if>
+    </target>
+
+    <target name="CreateDatabase">
+        <echo message="Creating New School Database. Using below command" />
+        <echo message="${create.db.script} ${myschool.name}" />
+        <exec dir="${myschool.database}" executable="${executable}"> 
+            <arg line="${executable.option} ${create.db.script} ${myschool.name}" /> 
+        </exec>
+    </target>
+
+    <target name="ImportData">
+        <echo message="Importing data from external system. Using the below command" />
+        <echo message="${myschool.scripts.dir} ${executable} ${externalize.data.script} --action ${action} --data-format ${data.format} --extdir ${ext.dir} --ext-cfg ${ext.cfg}" />
+        <exec dir="${myschool.scripts.dir}" executable="${executable}"> 
+            <arg line="${executable.option} ${externalize.data.script} --action ${action} --data-format ${data.format} --ext-dir ${ext.dir} --ext-cfg ${ext.cfg}"/> 
+        </exec>
+    </target>
+
+    <target name="ExportData" if="export">
+        <echo message="Exporting data to external system. Using the below command" />
+        <echo message="${myschool.scripts.dir} ${executable} ${externalize.data.script} --action ${action} --data-format ${data.format} --extdir ${ext.dir} --ext-cfg ${ext.cfg}" />
+        <exec dir="${myschool.scripts.dir}" executable="${executable}"> 
+            <arg line="${myschool.scripts.dir} ${executable} ${externalize.data.script} --action ${action} --data-format ${data.format} --extdir ${ext.dir} --ext-cfg ${ext.cfg}"/> 
+        </exec>
+    </target>
+</project>

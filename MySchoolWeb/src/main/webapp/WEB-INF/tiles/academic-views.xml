@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+	<!-- Academic related views -->
+	<definition name="view_academics_wholepage" extends="wholepage_layout">
+		<put-attribute name="body" value="/views/academic/view_academics.jsp" />
+	</definition>
+	<definition name="maintain_academic_model" extends="model_layout">
+		<put-attribute name="body" value="/views/academic/maintain_academic.jsp" />
+	</definition>
+	<definition name="view_holidays_wholepage" extends="wholepage_layout">
+		<put-attribute name="body" value="/views/academic/view_holidays.jsp" />
+	</definition>
+	<definition name="maintain_holiday_model" extends="model_layout">
+		<put-attribute name="body" value="/views/academic/maintain_holiday.jsp" />
+	</definition>
+	<definition name="process_academic_year_closure_wholepage" extends="wholepage_layout">
+		<put-attribute name="body" value="/views/academic/process_academic_year_closure.jsp" />
+	</definition>
+
+</tiles-definitions>

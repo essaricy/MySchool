@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- Clazz related views -->
+    <definition name="view_classes_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/clazz/view_classes.jsp" />
+    </definition>
+    <definition name="view_mediums_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/clazz/view_mediums.jsp" />
+    </definition>
+    <definition name="view_subjects_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/clazz/view_subjects.jsp" />
+    </definition>
+    <definition name="view_sections_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/clazz/view_sections.jsp" />
+    </definition>
+    <definition name="maintain_section_model" extends="model_layout">
+        <put-attribute name="body" value="/views/clazz/maintain_section.jsp" />
+    </definition>
+    <definition name="maintain_class_model" extends="model_layout">
+        <put-attribute name="body" value="/views/clazz/maintain_class.jsp" />
+    </definition>
+    <definition name="maintain_medium_model" extends="model_layout">
+        <put-attribute name="body" value="/views/clazz/maintain_medium.jsp" />
+    </definition>
+    <definition name="maintain_subject_model" extends="model_layout">
+        <put-attribute name="body" value="/views/clazz/maintain_subject.jsp" />
+    </definition>
+    <definition name="view_registered_classes_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/clazz/view_registered_classes.jsp" />
+    </definition>
+    <definition name="maintain_registered_class_model" extends="model_layout">
+        <put-attribute name="body" value="/views/clazz/maintain_registered_class.jsp" />
+    </definition>
+    <definition name="view_registered_subjects_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/clazz/view_registered_subjects.jsp" />
+    </definition>
+    <definition name="maintain_registered_subject_model" extends="model_layout">
+        <put-attribute name="body" value="/views/clazz/maintain_registered_subject.jsp" />
+    </definition>
+    <definition name="lookup_class_model" extends="model_layout">
+        <put-attribute name="body" value="/views/clazz/lookup_class.jsp" />
+    </definition>
+
+</tiles-definitions>

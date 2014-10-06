@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <definition name="view_schools_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/school/view_schools.jsp" />
+    </definition>
+    <definition name="maintain_school_model" extends="model_layout">
+        <put-attribute name="body" value="/views/school/maintain_school.jsp" />
+    </definition>
+
+</tiles-definitions>

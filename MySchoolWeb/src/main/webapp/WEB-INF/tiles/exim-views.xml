@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- Exim related views -->
+    <definition name="export_data_multipart" extends="multipart_layout">
+        <put-attribute name="command_name" value="exportDataForm" />
+        <put-attribute name="body" value="/views/exim/export_data.jsp" />
+    </definition>
+    <definition name="upload_data_multipart" extends="multipart_layout">
+        <put-attribute name="command_name" value="importDataForm" />
+        <put-attribute name="body" value="/views/exim/upload_data.jsp" />
+    </definition>
+    <definition name="upload_record_status_model" extends="model_layout">
+        <put-attribute name="body" value="/views/exim/upload_record_status.jsp" />
+    </definition>
+</tiles-definitions>

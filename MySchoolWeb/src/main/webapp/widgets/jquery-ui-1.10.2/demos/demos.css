@@ -1,0 +1,32 @@
+div#accordion p.title {
+    text-align: left;
+    color: blue;
+}
+
+.formDataTable {
+}
+
+.formDataTable td {
+    font-size: 12px;
+}
+
+.tableLinks {
+    font-size: 12px;
+    padding-left: 20px;
+    text-align: left;
+}
+
+.formDataTable td label {
+    color: red;
+}
+
+.formDataLink {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+ }
+
+.ui-draggable, .ui-droppable {
+    background-position: top;
+}

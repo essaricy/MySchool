@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- This is an abstract layout -->
+    <definition name="base_layout" template="/views/common/layout.jsp">
+        <put-attribute name="title" value="School Information Management System" />
+        <put-attribute name="header" value="/views/common/header.jsp" />
+        <put-attribute name="menu" value="/views/common/menu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="footer" value="/views/common/footer.jsp" />
+    </definition>
+
+    <definition name="wholepage_layout" extends="base_layout">
+        <put-attribute name="icon_help" value="/views/common/icon_help.jsp" />
+        <put-attribute name="command_name" value="" />
+        <put-list-attribute name="css_imports">
+            <!-- Theme related styles -->
+            <add-attribute value="themes/${theme}/css/datatable.css" />
+            <add-attribute value="themes/${theme}/css/ddmegamenu.css" />
+            <add-attribute value="themes/${theme}/css/footer.css" />
+            <add-attribute value="themes/${theme}/css/form.css" />
+            <add-attribute value="themes/${theme}/css/header.css" />
+            <add-attribute value="themes/${theme}/css/messages.css" />
+            <add-attribute value="themes/${theme}/css/modal.css" />
+            <add-attribute value="themes/${theme}/css/page-layout.css" />
+
+            <!-- Full Calendar -->
+            <add-attribute value="widgets/fullcalendar/cupertino/theme.css" />
+            <add-attribute value="widgets/fullcalendar/fullcalendar.css" />
+
+            <!-- JQuery UI -->
+            <add-attribute value="widgets/jquery-ui-1.10.2/themes/base/jquery.ui.all.css" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/demos/demos.css" />
+
+            <!-- Multipart upload -->
+            <add-attribute value="widgets/plupload-master/js/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+
+            <!-- Input Controls -->
+            <add-attribute value="widgets/chosen/chosen.css" />
+
+            <!-- Modal -->
+            <add-attribute value="widgets/simplemodal/basic/css/basic.css" />
+            <add-attribute value="widgets/magnific-popup/magnific-popup.css" /> 
+
+            <!-- Tool Tips -->
+            <add-attribute value="widgets/tooltipster-master/css/tooltipster.css" />
+
+            <!-- Notifications -->
+            <add-attribute value="widgets/alertify.js/themes/alertify.core.css" />
+            <add-attribute value="widgets/alertify.js/themes/alertify.default.css" />
+            <add-attribute value="widgets/jquery.msgBox/Styles/msgBoxLight.css" />
+
+            <!-- Social  -->
+            <add-attribute value="widgets/social-likes/social-likes_birman.css" />
+
+        </put-list-attribute>
+        <!-- Java scripts -->
+        <put-list-attribute name="script_imports">
+            <!-- JQuery UI -->
+            <add-attribute value="widgets/jquery-ui-1.10.2/jquery-1.9.1.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.core.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.widget.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.accordion.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.datepicker.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.progressbar.js" />
+
+            <add-attribute value="widgets/jquery.datatable/jquery.dataTables.js" />
+            <add-attribute value="widgets/fullcalendar/fullcalendar.min.js" />
+
+            <add-attribute value="scripts/common.js" />
+            <add-attribute value="scripts/myschool-activeTable.js" />
+            <add-attribute value="scripts/myschool-validator.js" />
+            <add-attribute value="scripts/myschool-lazySelect.js" />
+            <add-attribute value="scripts/myschool-datePicker.js" />
+            <add-attribute value="scripts/myschool-myAccordion.js" />
+            <add-attribute value="scripts/myschool-social.js" />
+            <add-attribute value="scripts/ddmegamenu.js" />
+            <add-attribute value="scripts/dhtmlwindow.js" />
+
+            <!-- Multipart upload -->
+            <add-attribute value="widgets/plupload-master/js/plupload.full.min.js" />
+            <add-attribute value="widgets/plupload-master/js/jquery.plupload.queue/jquery.plupload.queue.js" />
+
+            <!-- Input Controls -->
+            <add-attribute value="widgets/chosen/chosen.jquery.js" />
+            <add-attribute value="widgets/chosen/docsupport/prism.js" />
+            <add-attribute value="widgets/jquery.textcounter/jquery.textcounter.js" />
+
+            <!-- Modal -->
+            <add-attribute value="widgets/simplemodal/basic/js/jquery.simplemodal.js" />
+            <add-attribute value="widgets/magnific-popup/jquery.magnific-popup.js" />
+
+            <!-- File Download -->
+            <add-attribute value="widgets/jquery.fileDownload/jquery.fileDownload.js" />
+
+            <!-- Tool Tips -->
+            <add-attribute value="widgets/tooltipster-master/js/jquery.tooltipster.js" />
+
+            <!-- Notifications -->
+            <add-attribute value="widgets/alertify.js/lib/alertify.min.js" />
+            <add-attribute value="scripts/message-box.js" />
+            <add-attribute value="widgets/jquery.msgBox/Scripts/jquery.msgBox.js" />
+
+            <!-- Scroll to Top -->
+            <add-attribute value="widgets/jquery.goup/jquery.goup.min.js" />
+
+            <!-- Social  -->
+            <add-attribute value="widgets/social-likes/social-likes.min.js" />
+
+            <!-- blockUI JS -->
+            <add-attribute value="widgets/jquery.blockUI/jquery.blockUI.js" />
+
+        </put-list-attribute>
+    </definition>
+
+    <!-- This layout should be used for JSP segments/tiles  -->
+    <definition name="tile_layout" template="/views/common/tile_layout.jsp">
+        <put-attribute name="body" value="" />
+    </definition>
+
+    <!-- This layout should be used for model pop up -->
+    <definition name="model_layout" template="/views/common/model_layout.jsp">
+        <put-list-attribute name="css_imports">
+        </put-list-attribute>
+        <put-list-attribute name="script_imports">
+        </put-list-attribute>
+    </definition>
+
+    <definition name="multipart_layout" template="/views/common/multipart_layout.jsp">
+        <put-attribute name="title" value="School Information Management System" />
+        <put-attribute name="header" value="/views/common/header.jsp" />
+        <put-attribute name="menu" value="/views/common/menu.jsp" />
+        <put-attribute name="body" value="" />
+        <put-attribute name="command_name" value="" />
+        <put-attribute name="footer" value="/views/common/footer.jsp" />
+        <put-list-attribute name="css_imports">
+            <!-- Theme related styles -->
+            <add-attribute value="themes/${theme}/css/datatable.css" />
+            <add-attribute value="themes/${theme}/css/ddmegamenu.css" />
+            <add-attribute value="themes/${theme}/css/footer.css" />
+            <add-attribute value="themes/${theme}/css/form.css" />
+            <add-attribute value="themes/${theme}/css/header.css" />
+            <add-attribute value="themes/${theme}/css/messages.css" />
+            <add-attribute value="themes/${theme}/css/modal.css" />
+            <add-attribute value="themes/${theme}/css/page-layout.css" />
+
+            <add-attribute value="widgets/fullcalendar/cupertino/theme.css" />
+            <add-attribute value="widgets/fullcalendar/fullcalendar.css" />
+
+            <!-- JQuery UI -->
+            <add-attribute value="widgets/jquery-ui-1.10.2/themes/base/jquery.ui.all.css" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/demos/demos.css" />
+
+            <!-- Multipart upload -->
+            <add-attribute value="widgets/plupload-master/js/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+
+            <!-- Input Controls -->
+            <add-attribute value="widgets/chosen/chosen.css" />
+
+            <!-- Modal -->
+            <add-attribute value="widgets/simplemodal/basic/css/basic.css" />
+
+            <!-- Notifications -->
+            <add-attribute value="widgets/alertify.js/themes/alertify.core.css" />
+            <add-attribute value="widgets/alertify.js/themes/alertify.default.css" />
+            <add-attribute value="widgets/jquery.msgBox/Styles/msgBoxLight.css" />
+        </put-list-attribute>
+        <put-list-attribute name="script_imports">
+            <!-- JQuery UI -->
+            <add-attribute value="widgets/jquery-ui-1.10.2/jquery-1.9.1.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.core.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.widget.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.accordion.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.datepicker.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.progressbar.js" />
+
+            <add-attribute value="widgets/jquery.datatable/jquery.dataTables.js" />
+
+            <add-attribute value="scripts/common.js" />
+            <add-attribute value="scripts/myschool-activeTable.js" />
+            <add-attribute value="scripts/myschool-lazySelect.js" />
+            <add-attribute value="scripts/myschool-datePicker.js" />
+            <add-attribute value="scripts/myschool-myAccordion.js" />
+            <add-attribute value="scripts/ddmegamenu.js" />
+            <add-attribute value="widgets/fullcalendar/fullcalendar.min.js" />
+            <add-attribute value="widgets/jquery.textcounter/jquery.textcounter.js" />
+
+            <!-- Multipart upload -->
+            <add-attribute value="widgets/plupload-master/js/plupload.full.min.js" />
+            <add-attribute value="widgets/plupload-master/js/jquery.plupload.queue/jquery.plupload.queue.js" />
+
+            <!-- Input Controls -->
+            <add-attribute value="widgets/chosen/chosen.jquery.js" />
+            <add-attribute value="widgets/chosen/docsupport/prism.js" />
+
+            <!-- Modal -->
+            <add-attribute value="widgets/simplemodal/basic/js/jquery.simplemodal.js" />
+
+            <!-- Notifications -->
+            <add-attribute value="widgets/alertify.js/lib/alertify.min.js" />
+            <add-attribute value="scripts/message-box.js" />
+            <add-attribute value="widgets/jquery.msgBox/Scripts/jquery.msgBox.js" />
+            <!-- Scroll to Top -->
+            <add-attribute value="widgets/jquery.goup/jquery.goup.min.js" />
+            <!-- blockUI JS -->
+            <add-attribute value="widgets/jquery.blockUI/jquery.blockUI.js" />
+        </put-list-attribute>
+    </definition>
+
+    <!-- Used for login screen. This is abstract layout and should be customized for different login screens -->
+    <definition name="login_layout" template="/views/user/login.jsp">
+        <put-attribute name="title" value="Welcome to MySchool" />
+        <put-attribute name="header" value="/views/common/header.jsp" />
+        <put-attribute name="menu" value="/views/common/menu.jsp" />
+        <put-attribute name="features" value="" />
+        <put-attribute name="notice_board" value="" />
+        <put-attribute name="achievements" value="" />
+        <put-attribute name="about_director" value="" />
+        <put-attribute name="contact_info" value="" />
+        <put-attribute name="login_box" value="" />
+        <put-attribute name="footer" value="/views/common/footer.jsp" />
+
+        <put-list-attribute name="css_imports">
+            <!-- Theme related styles -->
+            <add-attribute value="themes/BLUE/css/datatable.css" />
+            <add-attribute value="themes/BLUE/css/ddmegamenu.css" />
+            <add-attribute value="themes/BLUE/css/footer.css" />
+            <add-attribute value="themes/BLUE/css/form.css" />
+            <add-attribute value="themes/BLUE/css/header.css" />
+            <add-attribute value="themes/BLUE/css/messages.css" />
+            <add-attribute value="themes/BLUE/css/modal.css" />
+            <add-attribute value="themes/BLUE/css/page-layout.css" />
+            <!-- Notifications -->
+            <add-attribute value="widgets/alertify.js/themes/alertify.core.css" />
+            <!-- Social  -->
+            <add-attribute value="widgets/social-likes/social-likes_birman.css" />
+        </put-list-attribute>
+        <put-list-attribute name="script_imports">
+            <add-attribute value="widgets/jquery-ui-1.10.2/jquery-1.9.1.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.core.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.widget.js" />
+            <add-attribute value="scripts/common.js" />
+            <add-attribute value="scripts/myschool-social.js" />
+            <!-- Notifications -->
+            <add-attribute value="widgets/alertify.js/lib/alertify.min.js" />
+            <!-- Scroll to Top -->
+            <add-attribute value="widgets/jquery.goup/jquery.goup.min.js" />
+            <!-- Social  -->
+            <add-attribute value="widgets/social-likes/social-likes.min.js" />
+            <!-- blockUI JS -->
+            <add-attribute value="widgets/jquery.blockUI/jquery.blockUI.js" />
+        </put-list-attribute>
+    </definition>
+
+    <definition name="dashboard_layout" template="/views/application/view_dashboard.jsp">
+        <put-attribute name="title" value="Welcome to MySchool" />
+        <put-attribute name="header" value="/views/common/header.jsp" />
+        <put-attribute name="menu" value="/views/common/menu.jsp" />
+        <put-attribute name="features" value="" />
+        <put-attribute name="notice_board" value="" />
+        <put-attribute name="achievements" value="" />
+        <put-attribute name="about_director" value="" />
+        <put-attribute name="contact_info" value="" />
+        <put-attribute name="login_box" value="" />
+        <put-attribute name="footer" value="/views/common/footer.jsp" />
+
+        <put-list-attribute name="css_imports">
+            <!-- Theme related styles -->
+            <add-attribute value="themes/${theme}/css/datatable.css" />
+            <add-attribute value="themes/${theme}/css/ddmegamenu.css" />
+            <add-attribute value="themes/${theme}/css/footer.css" />
+            <add-attribute value="themes/${theme}/css/form.css" />
+            <add-attribute value="themes/${theme}/css/header.css" />
+            <add-attribute value="themes/${theme}/css/messages.css" />
+            <add-attribute value="themes/${theme}/css/modal.css" />
+            <add-attribute value="themes/${theme}/css/page-layout.css" />
+        </put-list-attribute>
+        <put-list-attribute name="script_imports">
+            <add-attribute value="widgets/jquery-ui-1.10.2/jquery-1.9.1.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.core.js" />
+            <add-attribute value="widgets/jquery-ui-1.10.2/ui/jquery.ui.widget.js" />
+            <add-attribute value="widgets/jquery.datatable/jquery.dataTables.js" />
+            <add-attribute value="scripts/common.js" />
+            <add-attribute value="scripts/ddmegamenu.js" />
+            <!-- Scroll to Top -->
+            <add-attribute value="widgets/jquery.goup/jquery.goup.min.js" />
+            <!-- blockUI JS -->
+            <add-attribute value="widgets/jquery.blockUI/jquery.blockUI.js" />
+        </put-list-attribute>
+    </definition>
+
+</tiles-definitions>

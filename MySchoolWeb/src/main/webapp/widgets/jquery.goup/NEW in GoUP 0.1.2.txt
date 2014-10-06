@@ -1,0 +1,13 @@
+
+	NEW IN GoUP 0.1.2
+
+	- New options: marginX and marginY
+	- Better compressed: now GoUp is even ligther (circa 1.3kb)
+	
+	Follow GoUP on twitter:
+	@jquerygoup
+
+	Follow me!
+	@_rogervila
+
+	Thank you for using GoUP!

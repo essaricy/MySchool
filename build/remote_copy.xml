@@ -1,0 +1,11 @@
+<project name="MySchool" default="CopyToRemote" basedir="../">
+	<description>Builds and deploys MySchool to server</description>
+
+	<target name="CopyToRemote">
+		<echo message="Copying file to remote machine." />
+		<scp remoteTodir="${remote.user}@${remote.host}:${remote.dir}"
+			password="${remote.password}" trust="yes" sftp="true" verbose="true">
+			<fileset dir="${local.dir}"/>
+		</scp>
+	</target>
+</project>

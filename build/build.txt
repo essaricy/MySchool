@@ -1,0 +1,39 @@
+# To Clean Local Directories
+ant Clean
+
+# To Clean Local and Remote Directories
+ant CleanAll
+
+# To build a particular school use school name
+ant -Dmyschool.name=demo
+ant -Dmyschool.name=ratnam
+
+# To Create new school, use this command. This creates Database, builds code and deploys war with the school name.
+ant -f myschool.xml -Dmyschool.name=demo
+
+# To create a new application and load data from excel sheets
+ant -f myschool.xml -Dmyschool.name=demo -Daction=INIT -Ddata.format=EXCEL -Dext.dir="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData" -Dext.cfg="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData\init.properties"
+ant -f myschool.xml -Dmyschool.name=demo -Daction=INIT -Ddata.format=EXCEL -Dext.dir="D:\Documents\MySchoolDox\ApplicationData\ratnam\ExcelData" -Dext.cfg="D:\Documents\MySchoolDox\ApplicationData\ratnam\ExcelData\init.properties"
+
+# To load data to an existing application using excel sheets
+ant -f myschool.xml -Dmyschool.name=demo -Daction=LOAD -Ddata.format=EXCEL -Dext.dir="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData" -Dext.cfg="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData\load.properties"
+
+
+# To copy a file to the remote machine
+ant -f remote_copy.xml -lib d:/projects/MySchool/lib/jsch-0.1.31.jar -Dremote.host=117.218.48.99 -Dremote.user=suman -Dremote.password=<password> -Dlocal.dir=D:\Documents\SIMS\demo\exim -Dremote.dir=/usr/myschool/demo/exim
+
+
+set permission to /usr/myschool/demo/lib and /usr/myschool/demo/scripts
+
+/usr/myschool/scripts/start_softwares.sh
+/usr/myschool/scripts/stop_softwares.sh
+
+#chmod +x /usr/myschool/demo/lib/*
+#chmod +x /usr/myschool/demo/config/*
+#chmod +x /usr/myschool/demo/scripts/*.sh
+
+nano /usr/myschool/demo/scripts/externalize_data.sh
+unzip -l /usr/myschool/demo/lib/MySchoolSautil.jar
+
+cd /usr/projects/branches/MySchool/build
+ant -Dmyschool.name=demo

@@ -1,0 +1,44 @@
+/** {margin:0; padding:0}*/
+.expand-collapse-wrapper {
+  border:1px solid #ccc;
+  text-align:left
+}
+
+.expand-collapse {
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+  position:relative;
+  overflow:hidden;
+  text-align: left;
+}
+.collapse {
+  margin: 5px 5px 5px 5px;
+  padding: 0px 0px 0px 0px;
+}
+.expand{
+  margin: 5px 5px 5px 5px;
+  padding: 0px 0px 0px 0px;
+}
+
+.expand a {
+  display:block;
+  border-width: 1px;
+  border-style: solid;
+  padding:3px 10px;
+  text-decoration: none;
+  font-size: 0.80em;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #666;
+}
+.expand a:link, .expand a:visited {
+  border-width:1px;
+  background-image:url('../img/arrow-down.gif');
+  background-repeat:no-repeat;
+  background-position:98% 50%;
+}
+.expand a.open:link, .expand a.open:visited {
+  border-style:solid;
+  background:#eee url('../img/arrow-up.gif') no-repeat 98% 50%
+}

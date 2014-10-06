@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <definition name="login_wholepage" extends="login_layout">
+        <put-attribute name="features" value="/views/application/view_features.jsp" />
+        <put-attribute name="notice_board" value="/views/application/view_notice_board.jsp" />
+        <put-attribute name="achievements" value="/views/application/view_achievements.jsp" />
+        <put-attribute name="login_box" value="/views/user/login_box.jsp" />
+        <put-attribute name="contact_info" value="/views/application/view_contact_info.jsp" />
+    </definition>
+
+    <!-- Application related views -->
+    <definition name="dashboard_wholepage" extends="dashboard_layout">
+        <put-attribute name="notice_board" value="/views/application/view_notice_board.jsp" />
+        <put-attribute name="achievements" value="/views/application/view_achievements.jsp" />
+    </definition>
+
+    <definition name="view_locate_us_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_locate_us.jsp" />
+    </definition>
+
+    <definition name="view_gallery" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_gallery.jsp" />
+    </definition>
+
+    <definition name="manage_profile_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/manage_profile.jsp" />
+    </definition>
+
+    <definition name="view_regions_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_regions.jsp" />
+    </definition>
+
+    <definition name="view_states_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_states.jsp" />
+    </definition>
+
+    <definition name="view_about_organization_wholepage" extends="wholepage_layout">
+        <put-attribute name="title" value="View Organization Profile" />
+        <put-attribute name="body" value="/views/application/view_about_organization.jsp" />
+    </definition>
+
+    <definition name="view_contact_info_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_contact_info.jsp" />
+    </definition>
+
+    <definition name="view_achievements_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_achievements.jsp" />
+    </definition>
+
+    <definition name="view_about_director_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_about_director.jsp" />
+    </definition>
+
+    <definition name="view_upcoming_events_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_upcoming_events.jsp" />
+    </definition>
+
+    <definition name="view_upcoming_exams_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_upcoming_exams.jsp" />
+    </definition>
+
+    <definition name="view_notice_board_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_notice_board.jsp" />
+    </definition>
+
+    <definition name="report_an_issue_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/report_an_issue.jsp" />
+    </definition>
+
+    <definition name="view_issues_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_issues.jsp" />
+    </definition>
+
+    <definition name="update_issue_model" extends="model_layout">
+        <put-attribute name="body" value="/views/application/update_issue.jsp" />
+    </definition>
+
+    <definition name="view_documents_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_documents.jsp" />
+    </definition>
+
+    <definition name="maintain_document_model" extends="model_layout">
+        <put-attribute name="body" value="/views/application/maintain_document.jsp" />
+    </definition>
+
+    <definition name="view_relationships_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_relationships.jsp" />
+    </definition>
+
+    <definition name="maintain_relationship_model" extends="model_layout">
+        <put-attribute name="body" value="/views/application/maintain_relationship.jsp" />
+    </definition>
+
+    <definition name="slideshow_model" extends="model_layout">
+        <put-attribute name="body" value="/views/application/slideshow.jsp" />
+    </definition>
+
+</tiles-definitions>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- Exam related views -->
+    <definition name="view_exam_grades_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/exam/view_exam_grades.jsp" />
+    </definition>
+    <definition name="maintain_exam_grade_model" extends="model_layout">
+        <put-attribute name="body" value="/views/exam/maintain_exam_grade.jsp" />
+    </definition>
+    <definition name="view_exams_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/exam/view_exams.jsp" />
+    </definition>
+    <definition name="maintain_exam_model" extends="model_layout">
+        <put-attribute name="body" value="/views/exam/maintain_exam.jsp" />
+    </definition>
+    <definition name="view_exam_results_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/exam/view_exam_results.jsp" />
+    </definition>
+    <definition name="maintain_exam_results_model" extends="model_layout">
+        <put-attribute name="body" value="/views/exam/maintain_exam_results.jsp" />
+    </definition>
+
+</tiles-definitions>

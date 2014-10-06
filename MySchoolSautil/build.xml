@@ -1,0 +1,77 @@
+<project name="MySchoolStandAloneUtils" default="CleanBuildDeploy">
+    <description>Builds and deploys MySchool to server</description>
+
+    <property file="deploy.properties" />
+    <property file="${resources.dir}/sautil-modules.properties" prefix="sautil.modules." />
+    <propertyselector property="sautil.modules" match="sautil.modules\.(.*)" select="\1"/>
+
+    <path id="jars-classpath">
+        <fileset dir="../${lib}" includes="*.jar" />
+        <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
+        <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
+        <fileset dir="../${myschool.service}/${target.dir}" includes="${myschool.service}.jar" />
+    </path>
+
+    <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
+
+    <target name="Clean">
+        <echo message="Cleaning ${ant.project.name} ${basedir}" />
+        <delete dir="${target.dir}" />
+        <mkdir dir="${target.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="Build">
+        <javac srcdir="${src.dir}:${test.src.dir}"
+            destdir="${classes.dir}" classpathref="jars-classpath"
+            source="1.6" target="1.6" includeantruntime="true" />
+        <copy todir="${classes.dir}">
+            <fileset dir="${resources.dir}" includes="*.properties,*.xml"/>
+        </copy>
+        <jar destfile="${target.dir}/${myschool.sautil}.jar" basedir="${classes.dir}" />
+    </target>
+
+    <target name="Deploy">
+        <copy todir="${myschool.dir}/${lib}" file="${target.dir}/${myschool.sautil}.jar" />
+        <for list="${sautil.modules}" param="sautil.module">
+          <sequential>
+            <propertyregex property="sautil.module.name" input="@{sautil.module}" regexp="sautil.module\.([^\.]*)" select="\1" override="true" />
+            <!-- Prepare a log4j config file for each module mentioned in the sautil-modules.properties -->
+            <echo message="Preparing Log configuration files for the sautil module : ${sautil.module.name} " />
+            <copy file="${resources.dir}/${config}/${logs}/${log.config.template.name}" tofile="${myschool.dir}/${config}/${logs}/${sautil.module.name}_log4j.xml">
+                <filterchain>
+                   <replacetokens>
+                        <token key="LOG.FILE.NAME" value="${myschool.dir}/${logs}/${sautil.module.name}.log"/>
+                    </replacetokens> 
+                </filterchain>
+            </copy>
+
+            <!-- Prepare an executable for each module mentioned in the sautil-modules.properties -->
+            <property file="${resources.dir}/${sautil.module.name}.properties" />
+            <echo message="Preparing executables for the sautil module : ${sautil.module.name}" />
+            <copy file="${resources.dir}/${scripts}/${exe.template.prefix}.${executable.extension}" tofile="${myschool.dir}/${scripts}/${sautil.module.name}.${executable.extension}">
+                <filterchain>
+                    <replacetokens>
+                        <token key="MYSCHOOL.DIR" value="${myschool.base.dir}/${myschool.name}"/>
+                        <token key="SAUTIL.MODULE.DESCRIPTION" value="${sautil.module.description}"/>
+                        <token key="SAUTIL.MODULE.LOG.CONFIG" value="${sautil.module.name}_log4j.xml"/>
+                        <token key="SAUTIL.MODULE.CLASS.NAME" value="${sautil.module.class_name}"/>
+                        <token key="SAUTIL.MODULE.STAY" value="${sautil.module.stay}"/>
+                    </replacetokens> 
+                </filterchain>
+            </copy>
+            <!-- Replace comments with the respective comment text of the script -->
+            <replace dir="${myschool.dir}/${scripts}">
+               <include name="*.${executable.extension}"/>
+               <replacefilter token="@COMMENT@" value="${line.separator}${executable.comment}" />
+            </replace>
+            <!-- Unset the properties file to allow to load the next properties file. -->
+            <unset file="${resources.dir}/${sautil.module.name}.properties" />
+          </sequential>
+        </for>
+        <!-- Deploy config items -->
+        <copy todir="${myschool.dir}/${config}/${spring}">
+            <fileset dir="${resources.dir}/${config}/${spring}" />
+        </copy>
+    </target>
+</project>
