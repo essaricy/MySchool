@@ -19,8 +19,10 @@ import com.myschool.attendance.dto.MonthAttendance;
 import com.myschool.attendance.validator.AttendanceProfileValidator;
 import com.myschool.branch.domain.BranchManager;
 import com.myschool.branch.domain.RegionManager;
+import com.myschool.branch.domain.StateManager;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.RegionDto;
+import com.myschool.branch.dto.StateDto;
 import com.myschool.clazz.domain.RegisteredClassManager;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.exception.DaoException;
@@ -59,6 +61,9 @@ public class AttendanceProfileManager {
     /** The attendance profile validator. */
     @Autowired
     private AttendanceProfileValidator attendanceProfileValidator;
+
+    @Autowired
+    private StateManager stateManager;
 
     /** The region manager. */
     @Autowired
@@ -310,6 +315,7 @@ public class AttendanceProfileManager {
             }
             System.out.println("Deleting all the previous assignments.");
             // delete all the previous assignments
+            attendanceAssignmentsDao.delete(attendanceProfileId, StateDto.class);
             attendanceAssignmentsDao.delete(attendanceProfileId, RegionDto.class);
             attendanceAssignmentsDao.delete(attendanceProfileId, BranchDto.class);
             attendanceAssignmentsDao.delete(attendanceProfileId, SchoolDto.class);
@@ -364,106 +370,62 @@ public class AttendanceProfileManager {
             throws DaoException, DataException {
         int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
 
-        List<RegionDto> assignToRegions = attendanceProfile.getRegions();
-        System.out.println("Assigned Regions -----> " + assignToRegions);
-        attendanceAssignmentsDao.create(attendanceProfileId, assignToRegions);
-        // if all regions are not selected then create branches
-        if (!assignedToAllRegions(assignToRegions, regionManager.getAll())) {
-            List<BranchDto> assignToBranches = attendanceProfile.getBranches();
-            System.out.println("Assigned Branches -----> " + assignToRegions);
-            attendanceAssignmentsDao.create(attendanceProfileId, assignToBranches);
-            // if all branches are not selected then create schools
-            if (!assignedToAllBranches(assignToBranches, branchManager.getAll())) {
-                List<SchoolDto> assignToSchools = attendanceProfile.getSchools();
-                System.out.println("Assigned Schools -----> " + assignToSchools);
-                attendanceAssignmentsDao.create(attendanceProfileId, assignToSchools);
-                // if all schools are not selected then create classes
-                if (!assignedToAllSchools(assignToSchools, schoolManager.getAll())) {
-                    List<RegisteredClassDto> assignToRegisteredClasses = attendanceProfile.getRegisteredClasses();
-                    System.out.println("Assigned Classes -----> " + assignToRegisteredClasses);
-                    attendanceAssignmentsDao.create(attendanceProfileId, assignToRegisteredClasses);
+        List<StateDto> assignToStates = attendanceProfile.getStates();
+        System.out.println("Assigned States -----> " + assignToStates);
+        attendanceAssignmentsDao.create(attendanceProfileId, assignToStates);
+        if (!isAssignedToAll(assignToStates, stateManager.getAll())) {
+            List<RegionDto> assignToRegions = attendanceProfile.getRegions();
+            System.out.println("Assigned Regions -----> " + assignToRegions);
+            attendanceAssignmentsDao.create(attendanceProfileId, assignToRegions);
+            // if all regions are not selected then create branches
+            if (!isAssignedToAll(assignToRegions, regionManager.getAll())) {
+                List<BranchDto> assignToBranches = attendanceProfile.getBranches();
+                System.out.println("Assigned Branches -----> " + assignToRegions);
+                attendanceAssignmentsDao.create(attendanceProfileId, assignToBranches);
+                // if all branches are not selected then create schools
+                if (!isAssignedToAll(assignToBranches, branchManager.getAll())) {
+                    List<SchoolDto> assignToSchools = attendanceProfile.getSchools();
+                    System.out.println("Assigned Schools -----> " + assignToSchools);
+                    attendanceAssignmentsDao.create(attendanceProfileId, assignToSchools);
+                    // if all schools are not selected then create classes
+                    if (!isAssignedToAll(assignToSchools, schoolManager.getAll())) {
+                        List<RegisteredClassDto> assignToRegisteredClasses = attendanceProfile.getRegisteredClasses();
+                        System.out.println("Assigned Classes -----> " + assignToRegisteredClasses);
+                        attendanceAssignmentsDao.create(attendanceProfileId, assignToRegisteredClasses);
+                    }
                 }
             }
         }
     }
 
-    /**
-     * Assigned to all regions.
-     * 
-     * @param assignToRegions the assign to regions
-     * @param allRegions the all regions
-     * @return true, if successful
-     */
-    private boolean assignedToAllRegions(List<RegionDto> assignToRegions,
-            List<RegionDto> allRegions) {
-        if (assignToRegions != null && allRegions != null) {
-            for (RegionDto region : allRegions) {
-                boolean regionPresent = false;
-                for (RegionDto assignToRegion : assignToRegions) {
-                    if (region != null && assignToRegion != null) {
-                        if (region.getRegionId() == assignToRegion.getRegionId()) {
-                            regionPresent = true;
-                            break;
-                        }
+    private boolean isAssignedToAll(List<? extends Object> assignTo, List<? extends Object> all) {
+        int id1=0,id2=0;
+        if (assignTo != null && all != null) {
+            for (Object allObject : all) {
+                boolean present = false;
+                for (Object assignToObject : assignTo) {
+                    if (allObject instanceof StateDto && assignToObject instanceof StateDto) {
+                        id1 = ((StateDto) allObject).getStateId();
+                        id2 = ((StateDto) assignToObject).getStateId();
+                    } else if (allObject instanceof RegionDto && assignToObject instanceof RegionDto) {
+                        id1 = ((RegionDto) allObject).getRegionId();
+                        id2 = ((RegionDto) assignToObject).getRegionId();
+                    } else if (allObject instanceof BranchDto && assignToObject instanceof BranchDto) {
+                        id1 = ((BranchDto) allObject).getBranchId();
+                        id2 = ((BranchDto) assignToObject).getBranchId();
+                    } else if (allObject instanceof SchoolDto && assignToObject instanceof SchoolDto) {
+                        id1 = ((SchoolDto) allObject).getSchoolId();
+                        id2 = ((SchoolDto) assignToObject).getSchoolId();
+                    } else if (allObject instanceof RegisteredClassDto && assignToObject instanceof RegisteredClassDto) {
+                        id1 = ((RegisteredClassDto) allObject).getClassId();
+                        id2 = ((RegisteredClassDto) assignToObject).getClassId();
+                    }
+                    if (id1 == id2) {
+                        present = true;
+                        break;
                     }
                 }
-                if (!regionPresent) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Assigned to all branches.
-     * 
-     * @param assignToBranches the assign to branches
-     * @param allBranches the all branches
-     * @return true, if successful
-     */
-    private boolean assignedToAllBranches(List<BranchDto> assignToBranches,
-            List<BranchDto> allBranches) {
-        if (assignToBranches != null && allBranches != null) {
-            for (BranchDto branch : allBranches) {
-                boolean branchPresent = false;
-                for (BranchDto assignToBranch : assignToBranches) {
-                    if (branch != null && assignToBranch != null) {
-                        if (branch.getBranchId() == assignToBranch.getBranchId()) {
-                            branchPresent = true;
-                            break;
-                        }
-                    }
-                }
-                if (!branchPresent) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * Assigned to all schools.
-     * 
-     * @param assignToSchools the assign to schools
-     * @param allSchools the all schools
-     * @return true, if successful
-     */
-    private boolean assignedToAllSchools(List<SchoolDto> assignToSchools,
-            List<SchoolDto> allSchools) {
-        if (assignToSchools != null && allSchools != null) {
-            for (SchoolDto school : allSchools) {
-                boolean schoolPresent = false;
-                for (SchoolDto assignToSchool : assignToSchools) {
-                    if (school != null && assignToSchool != null) {
-                        if (school.getSchoolId() == assignToSchool.getSchoolId()) {
-                            schoolPresent = true;
-                            break;
-                        }
-                    }
-                }
-                if (!schoolPresent) {
+                if (!present) {
                     return false;
                 }
             }

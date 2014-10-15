@@ -73,37 +73,72 @@
   border: 3px solid #333;
   box-shadow: 5px 5px 5px #888;
 }
-.numberCircle {
-  border-radius: 50%;
-  behavior: url(PIE.htc); /* remove if you don't care about IE8 */
 
-  width: 36px;
-  height: 36px;
-  padding: 8px;
-
-  background: #fff;
-  border: 2px solid #666;
-  color: #666;
-  text-align: center;
-
-  font: 32px Arial, sans-serif;
-}
-.circle {
-  border: 0.1em solid green;
-  background-color: green;
+.CircleText-RED {
+  background: red;
   border-radius: 100%;
-  height: 2em;
-  width: 2em;
-  text-align: center;
-}
-
-.circle p {
-  margin-top: 0.10em;
-  font-size: 1.5em;
+  display: inline-block;
+  font-size: 14px;
   font-weight: bold;
-  font-family: sans-serif;
+  line-height: 2em;
+  margin-right: 15px;
+  text-align: center;
+  width: 2em; 
   color: yellow;
 }
+
+.CircleText-GRAY {
+  background: #cccccc;
+  border-radius: 100%;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 2em;
+  margin-right: 15px;
+  text-align: center;
+  width: 2em; 
+  color: yellow;
+}
+
+.CircleText-GREEN {
+  background: green;
+  border-radius: 100%;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 2em;
+  margin-right: 15px;
+  text-align: center;
+  width: 2em; 
+  color: yellow;
+}
+
+.CircleText-BLUE {
+  background: #5178D0;
+  border-radius: 100%;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 2em;
+  margin-right: 15px;
+  text-align: center;
+  width: 2em; 
+  color: yellow;
+}
+
+.CircleText-PINK {
+  background: #EF0BD8;
+  border-radius: 100%;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 2em;
+  margin-right: 15px;
+  text-align: center;
+  width: 2em; 
+  color: yellow;
+}
+
 </style>
 
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery-ui-1.10.2/ui/jquery.ui.tabs.js"></script>
@@ -113,6 +148,14 @@ var AttendanceCodes=new Array();
 <c:forEach var="AttendanceCode" items="${AttendanceCodes}">
 AttendanceCodes[AttendanceCodes.length]='${AttendanceCode}';
 </c:forEach>
+
+var Assignments = ["AssignedStates", "AssignedRegions", "AssignedBranches", "AssignedSchools", "AssignedClasses"];
+var DataIdNames = ["StateId", "RegionId", "branchId", "schoolId", "ClassId"];
+var RequestUrls=["<%=request.getContextPath()%>/state/jsonList.htm",
+    "<%=request.getContextPath()%>/region/jsonList.htm",
+    "<%=request.getContextPath()%>/branch/jsonList.htm",
+    "<%=request.getContextPath()%>/school/jsonList.htm",
+    "<%=request.getContextPath()%>/class/jsonListBySchool.htm"];
 
 $(document).ready(function() {
   // Populate Academic Years
@@ -176,13 +219,6 @@ $(document).ready(function() {
     }
   }
 
-  var Assignments = ["AssignedStates", "AssignedRegions", "AssignedBranches", "AssignedSchools", "AssignedClasses"];
-  var DataIdNames = ["StateId", "RegionId", "branchId", "schoolId", "ClassId"];
-  var RequestUrls=["<%=request.getContextPath()%>/region/jsonList.htm",
-    "<%=request.getContextPath()%>/branch/jsonList.htm",
-    "<%=request.getContextPath()%>/school/jsonList.htm",
-    "<%=request.getContextPath()%>/class/jsonListBySchool.htm"];
-
   function prepareProfileAssignementsTab() {
     $('#AssignedStates').change(function(event, params) { changeSelections('AssignedStates', event, params); });
     $('#AssignedRegions').change(function(event, params) { changeSelections('AssignedRegions', event, params); });
@@ -225,7 +261,7 @@ $(document).ready(function() {
 
     $(this).lazySelect({
       id: "AssignedStates",
-      url: '<%=request.getContextPath()%>/state/jsonList.htm',
+      url: RequestUrls[0],
     });
     $('#AssignedRegions').chosen({width: '95%'});
     $('#AssignedBranches').chosen({width: '95%'});
@@ -241,7 +277,7 @@ $(document).ready(function() {
       var ajaxData={};
       var nextSelectBoxName = Assignments[selectBoxIndex+1];
       var dataIdName = DataIdNames[selectBoxIndex];
-      var requestUrl = RequestUrls[selectBoxIndex];
+      var requestUrl = RequestUrls[selectBoxIndex+1];
 
       if (selected) {
         ajaxData.url=requestUrl;
@@ -517,7 +553,7 @@ $(document).ready(function() {
 <input type="hidden" id="AttendanceProfileId" value="0" />
 <input type="hidden" id="EffectiveAcademicYearName" value="" />
 <input type="hidden" id="Active" value="false" />
-<img src="<%=request.getContextPath()%>/images/icons/draft.png" style="float: right;" width="100px" height="100px" />
+<img src="<%=request.getContextPath()%>/images/icons/draft.png" style="float: right;" width="80px" height="80px" border="0" />
 <table width="40%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
   <tr>
     <td width="40%" class="label">Profile Name<label class="mandatory">*</label></td>
@@ -540,7 +576,7 @@ $(document).ready(function() {
 <input type="hidden" id="EffectiveAcademicYearName" value="${AttendanceProfile.effectiveAcademic.academicYearName}" />
 <input type="hidden" id="Active" value="${AttendanceProfile.active}" />
 <c:if test="${!AttendanceProfile.active}">
-<img src="<%=request.getContextPath()%>/images/icons/draft.png" style="float: right;" width="40px" height="40px" />
+<img src="<%=request.getContextPath()%>/images/icons/draft.png" style="float: right;" width="80px" height="80px" border="0" />
 </c:if>
 
 <table width="40%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
@@ -623,17 +659,25 @@ $(document).ready(function() {
     <table id="ProfileAssignmentsTable" class="userFormTable" cellpadding="10" cellspacing="0" width="100%" style="font-size: 0.7em;" align="center">
       <tr>
         <td width="50%" valign="top">
-          <div class="circle"><p>1</p></div> Assign To States
-          [<a href="#" data-dest="AssignedStates" class="formLink ClearAllAssignments">ClearAll</a>,
-          <a href="#" data-dest="AssignedStates" class="formLink AddAllAssignments">Add All</a>]
+          <span class="CircleText-GREEN">1</span>
+          <b>
+            Assign To States [
+              <a href="#" data-dest="AssignedStates" class="formLink AddAllAssignments">Add All</a>,
+              <a href="#" data-dest="AssignedStates" class="formLink ClearAllAssignments">ClearAll</a>
+            ]
+          </b>
           <br /><br />
           <select id="AssignedStates" multiple class="chosen-select">
           </select>
         </td>
         <td width="50%" valign="top">
-          <div class="circle"><p>4</p></div> Assign To Schools
-          [<a href="#" data-dest="AssignedSchools" class="formLink ClearAllAssignments">ClearAll</a>,
-          <a href="#" data-dest="AssignedSchools" class="formLink AddAllAssignments">Add All</a>]
+          <span class="CircleText-GREEN">4</span>
+          <b>
+            Assign To Schools [
+              <a href="#" data-dest="AssignedSchools" class="formLink AddAllAssignments">Add All</a>,
+              <a href="#" data-dest="AssignedSchools" class="formLink ClearAllAssignments">ClearAll</a>
+            ]
+          </b>
           <br /><br />
           <select id="AssignedSchools" multiple class="chosen-select">
           </select>
@@ -641,17 +685,25 @@ $(document).ready(function() {
       </tr>
       <tr>
         <td width="50%" valign="top">
-          <div class="circle"><p>2</p></div> Assign To Regions
-          [<a href="#" data-dest="AssignedRegions" class="formLink ClearAllAssignments">ClearAll</a>,
-          <a href="#" data-dest="AssignedRegions" class="formLink AddAllAssignments">Add All</a>]
+          <span class="CircleText-GREEN">2</span>
+          <b>
+            Assign To Regions [
+              <a href="#" data-dest="AssignedRegions" class="formLink AddAllAssignments">Add All</a>,
+              <a href="#" data-dest="AssignedRegions" class="formLink ClearAllAssignments">ClearAll</a>
+            ]
+          </b>
           <br /><br />
           <select id="AssignedRegions" multiple class="chosen-select">
           </select>
         </td>
         <td rowspan="2" valign="top">
-          <div class="circle"><p>5</p></div> Assign To Classes
-          [<a href="#" data-dest="AssignedClasses" class="formLink ClearAllAssignments">ClearAll</a>,
-          <a href="#" data-dest="AssignedClasses" class="formLink AddAllAssignments">Add All</a>]
+          <span class="CircleText-GREEN">5</span>
+          <b>
+            Assign To Classes [
+              <a href="#" data-dest="AssignedClasses" class="formLink AddAllAssignments">Add All</a>,
+              <a href="#" data-dest="AssignedClasses" class="formLink ClearAllAssignments">ClearAll</a>
+            ]
+          </b>
           <br /><br />
           <select id="AssignedClasses" multiple class="chosen-select">
           </select>
@@ -659,9 +711,13 @@ $(document).ready(function() {
       </tr>
       <tr>
         <td width="50%" valign="top">
-          <div class="circle"><p>3</p></div> Assign To Branches
-          [<a href="#" data-dest="AssignedBranches" class="formLink ClearAllAssignments">ClearAll</a>,
-          <a href="#" data-dest="AssignedBranches" class="formLink AddAllAssignments">Add All</a>]
+          <span class="CircleText-GREEN">3</span>
+          <b>
+            Assign To Branches [
+              <a href="#" data-dest="AssignedBranches" class="formLink AddAllAssignments">Add All</a>,
+              <a href="#" data-dest="AssignedBranches" class="formLink ClearAllAssignments">ClearAll</a>
+            ]
+          </b>
           <br /><br />
           <select id="AssignedBranches" multiple class="chosen-select">
           </select>

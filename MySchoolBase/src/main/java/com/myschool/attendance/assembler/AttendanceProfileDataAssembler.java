@@ -14,6 +14,7 @@ import com.myschool.attendance.dto.Month;
 import com.myschool.attendance.dto.MonthAttendance;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.RegionDto;
+import com.myschool.branch.dto.StateDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.school.dto.SchoolDto;
@@ -122,6 +123,7 @@ public class AttendanceProfileDataAssembler {
             System.out.println("Attendance Profile is null");
         } else {
             debugYearAttendance(attendanceProfile.getYearAttendance());
+            debugAssignment(attendanceProfile.getStates(), "STATES");
             debugAssignment(attendanceProfile.getRegions(), "REGIONS");
             debugAssignment(attendanceProfile.getBranches(), "BRANCHES");
             debugAssignment(attendanceProfile.getSchools(), "SCHOOLS");
@@ -142,7 +144,10 @@ public class AttendanceProfileDataAssembler {
             StringBuffer buffer = new StringBuffer();
             buffer.append("Assigned to " + text + " IDs are ");
             for (Object assignment : assignments) {
-                if (assignment instanceof RegionDto) {
+                if (assignment instanceof StateDto) {
+                    StateDto assignmentState = (StateDto) assignment;
+                    buffer.append(assignmentState.getStateId()).append(", ");
+                } else if (assignment instanceof RegionDto) {
                     RegionDto assignmentRegion = (RegionDto) assignment;
                     buffer.append(assignmentRegion.getRegionId()).append(", ");
                 } else if (assignment instanceof BranchDto) {

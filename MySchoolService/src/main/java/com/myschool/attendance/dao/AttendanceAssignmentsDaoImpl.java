@@ -48,6 +48,7 @@ public class AttendanceAssignmentsDaoImpl implements AttendanceAssignmentsDao {
 
         try {
             connection = databaseAgent.getConnection();
+            System.out.println("AttendanceProfileDaoSql.SELECT_ALL_STATES_BY_PROFILE " + AttendanceProfileDaoSql.SELECT_ALL_STATES_BY_PROFILE);
             preparedStatement = connection.prepareStatement(AttendanceProfileDaoSql.SELECT_ALL_STATES_BY_PROFILE);
             preparedStatement.setInt(1, attendanceProfileId);
             resultSet = preparedStatement.executeQuery();
@@ -244,7 +245,15 @@ public class AttendanceAssignmentsDaoImpl implements AttendanceAssignmentsDao {
 
                 for (T assignment : assignments) {
                     int index = 0;
-                    if (assignment instanceof RegionDto) {
+                    if (assignment instanceof StateDto) {
+                        StateDto state = (StateDto) assignment;
+                        if (query == null) {
+                            query = AttendanceAssignmentsDaoSql.INSERT_ATTENDANCE_STATE;
+                            preparedStatement = connection.prepareStatement(query);
+                        }
+                        preparedStatement.setInt(++index, attendanceProfileId);
+                        preparedStatement.setInt(++index, state.getStateId());
+                    } else if (assignment instanceof RegionDto) {
                         RegionDto region = (RegionDto) assignment;
                         if (query == null) {
                             query = AttendanceAssignmentsDaoSql.INSERT_ATTENDANCE_REGION;
@@ -312,7 +321,9 @@ public class AttendanceAssignmentsDaoImpl implements AttendanceAssignmentsDao {
 
         try {
             connection = databaseAgent.getConnection();
-            if (assignment == RegionDto.class) {
+            if (assignment == StateDto.class) {
+                query = AttendanceAssignmentsDaoSql.DELETE_ATTENDANCE_STATE;
+            } else if (assignment == RegionDto.class) {
                 query = AttendanceAssignmentsDaoSql.DELETE_ATTENDANCE_REGION;
             } else if (assignment == BranchDto.class) {
                 query = AttendanceAssignmentsDaoSql.DELETE_ATTENDANCE_BRANCH;

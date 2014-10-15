@@ -41,3 +41,11 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+/bin
+
+*.class
+*.classpath
+*.project
+MySchoolBase/target/MySchoolBase.jar
+MySchoolInfrastructure/target/MySchoolInfrastructure.jar
+MySchoolSautil/target/classes/externalize_data.properties

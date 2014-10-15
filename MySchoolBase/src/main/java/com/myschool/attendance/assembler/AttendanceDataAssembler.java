@@ -502,6 +502,7 @@ public class AttendanceDataAssembler {
             jsonObject.put("Active", attendanceProfile.isActive());
 
             jsonObject.put("YearAttendance", getYearAttendance(attendanceProfile.getYearAttendance()));
+            jsonObject.put("AssignedStates", getAssigned(attendanceProfile.getStates()));
             jsonObject.put("AssignedRegions", getAssigned(attendanceProfile.getRegions()));
             jsonObject.put("AssignedBranches", getAssigned(attendanceProfile.getBranches()));
             jsonObject.put("AssignedSchools", getAssigned(attendanceProfile.getSchools()));
