@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This Configuration contains mapping to one or more configuration files. -->
+<schedulers-config>
+    <scheduler-config name="NotificationJob" class="com.myschool.job.notification.NotificationHandler" 
+        year="*" month="*" date="*" hour="4" minute="0" second="0" days="SUN-SAT" />
+</schedulers-config>

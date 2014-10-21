@@ -128,13 +128,13 @@ public class AttendanceController {
         String attendanceProfileIdVal = request.getParameter("AttendanceProfileId");
         String academicYearNameVal = request.getParameter("AcademicYearName");
         System.out.println(">>>>>>>>>>>>> jsonGetAttendanceProfile(" + attendanceProfileIdVal + ", " + academicYearNameVal + ")");
-        
+
         if (!StringUtil.isNullOrBlank(attendanceProfileIdVal)) {
             AttendanceProfileDto attendanceProfile = attendanceProfileService.get(Integer.parseInt(attendanceProfileIdVal), academicYearNameVal);
             jsonResponse.put("AttendanceProfile", AttendanceDataAssembler.create(attendanceProfile));
             AttendanceProfileDataAssembler.debugAttendanceProfile(attendanceProfile);
         }
-        
+
         response.setContentType(MimeTypes.APPLICATION_JSON);
         PrintWriter writer = response.getWriter();
         writer.print(jsonResponse.toString());

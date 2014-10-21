@@ -270,6 +270,7 @@ $(document).ready(function() {
   }
 
   function changeSelections(selBoxName, event, params) {
+    alert("changeSelections for " + selBoxName);
     var selected = (params.selected != null && params.selected != 'undefined');
     var changedOptionVal = (selected ? params.selected : params.deselected);
     var selectBoxIndex = getSelectBoxIndex(selBoxName);
@@ -362,10 +363,42 @@ $(document).ready(function() {
           fillProfileAttendance(AttendanceProfile.YearAttendance);
           if (AttendanceProfile.AttendanceProfileId != 0) {
             $('#EffectiveAcademicYear').prop('disabled', true).trigger("chosen:updated");
+
+            Assignments.forEach(function(Assignment) {
+              setAssigned(AttendanceProfile[Assignment], Assignment);
+              //alert("Assignment ID " + JSON.stringify(Assignment[Assignment.IDName]));
+            });
+
+            //setAssigned(AttendanceProfile.AssignedStates);
+            //setAssigned(AttendanceProfile.AssignedRegions);
+            //setAssigned(AttendanceProfile.AssignedBranches);
+            //setAssigned(AttendanceProfile.AssignedSchools);
+            //setAssigned(AttendanceProfile.AssignedClasses);
           }
         }
       }
     });
+  }
+
+  function setAssigned(Assignments, AssignmentName) {
+    if (Assignments != null && Assignments != 'undefined' && Assignments.length != 0) {
+      alert(AssignmentName);
+      //alert(JSON.stringify(Assignments));
+      Assignments.forEach(function(Assignment) {
+        var AssignmentID = Assignment[Assignment.IDName];
+        $('#' + AssignmentName + ' > option').each(function(index, value) {
+          var optionValue = $(value).val();
+          if (optionValue == AssignmentID) {
+            $('#' + AssignmentName + ' option[value="' + optionValue + '"]').prop('selected', true);
+            $('#' + AssignmentName).trigger("chosen:updated");
+            var optionVal = $(value).val();
+            var params = new Object();
+            params.selected=optionVal;
+            changeSelections(AssignmentName, null, params);
+          }
+        });
+      });
+    }
   }
 
   function enableActionButtons(enable) {

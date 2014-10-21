@@ -1,0 +1,1 @@
+GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA wavefire_audit TO appuser;

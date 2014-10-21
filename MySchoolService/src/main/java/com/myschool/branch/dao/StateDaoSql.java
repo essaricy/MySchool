@@ -19,7 +19,7 @@ public class StateDaoSql {
         StringBuffer buffer = new StringBuffer();
         buffer.append("SELECT ");
         buffer.append("REF_STATE.STATE_ID AS STATE_ID, ");
-        buffer.append("REF_STATE.STATE_NAME AS STATE_NAME");
+        buffer.append("REF_STATE.STATE_NAME AS STATE_NAME ");
         buffer.append("FROM ");
         buffer.append("REF_STATE ");
         SELECT_ALL = buffer.toString();

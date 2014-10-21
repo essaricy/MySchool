@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Compressing the monthly archive files and move to archive folder. Delete any archives older than X days -->
+<schedulers-config>
+    <scheduler-config name="NotificationJob" class="com.myschool.job.notification.NotificationHandler" 
+        year="*" month="*" date="*" hour="4" minute="0" second="0" days="SUN-SAT" />
+</schedulers-config>
+
+<!-- Image scaling utility runs every X hours on gallery items and image of file server -->
+
+<!-- Clear temp data older than X days. Run every Y hour -->
+
+<!-- Purge Audit data older than X days. -->
