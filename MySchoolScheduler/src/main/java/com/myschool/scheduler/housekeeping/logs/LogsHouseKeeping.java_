@@ -1,0 +1,583 @@
+package com.myschool.scheduler.housekeeping.logs;
+
+import java.io.Closeable;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import javax.mail.Folder;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
+import org.apache.commons.compress.archivers.ArchiveException;
+import org.apache.commons.compress.archivers.ArchiveStreamFactory;
+import org.apache.commons.compress.archivers.tar.TarArchiveEntry;
+import org.apache.commons.compress.archivers.tar.TarArchiveOutputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.apache.commons.compress.utils.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * 
+ * 
+ * IF OPERATION IS ARCHIVE, COMPRESS OLD FILES TO *.TAR.GZ AND MOVE TO ARCHIVE
+ * FOLDER.
+ * 
+ * IF OPERATION IS DELETE, DELETE FILES OLDER THAN 'RETENTION PERIOD'.
+ * 
+ * LIST OF FOLDERS TO BE PURGED/ARCHIVED IS MENTIONED IN A XML CONFIG FILE
+ * 
+ */
+public class LogsHouseKeeping {
+
+    // CONFIG FILE LOCATION, TODO GET FROM RESOURCE BUNDLE
+    private static final String configFile = "src/config/Sample.xml";
+
+    private Logger logger = LoggerFactory.getLogger(this.getClass()
+            .getSimpleName());
+    private Date currDate = new Date();
+    private String pathToBeExcluded = "";
+
+    /**
+     * Main method
+     * 
+     * @throws Exception
+     */
+    public void houseKeepingService() throws Exception {
+        logger.info("HOUSE KEEPING PROCESS - START");
+
+        // VARIABLES FROM XML
+        String folderId = null;
+        String srcDir = null;
+        String archDir = null;
+        Integer retentionPeriod;
+
+        String tarFileName = null;
+
+        // READ XML CONFIG FILE & UNMARSHALL; OBTAIN LIST OF FOLDERS
+        JAXBContext jc = JAXBContext.newInstance(Folders.class);
+        Unmarshaller unmarshaller = jc.createUnmarshaller();
+        Folders config = (Folders) unmarshaller.unmarshal(new FileReader(
+                new File(configFile)));
+        List<folder> folders = config.getFolder();
+
+        // LOOP THRU THE FOLDER LIST
+        for (Folder folder : folders) {
+            folderId = folder.getId();
+            logger.info("PROCESSING - " + folderId);
+
+            srcDir = folder.getFolderName();
+            if (isStringEmpty(srcDir)) {
+                logger.error("SRC DIRECTORY NOT SPECIFIED FOR " + folderId);
+                continue;
+            }
+
+            retentionPeriod = folder.getRetentionPeriodInDays();
+            logger.debug("RETENTION PERIOD - " + retentionPeriod);
+
+            archDir = folder.getArchivalFolder();
+
+            // CHECK FOR DELETE / ARCHIVE
+            if (folder.getOperation().equals(OperationType.DELETE)) {
+                logger.debug("DELETE: CHECKING FOR OLD FILES IN DIR - "
+                        + srcDir);
+                try {
+                    dataRetention(new File(srcDir), retentionPeriod);
+                } catch (IOException ioEx) {
+                    logger.error("error deleting old files for " + folderId,
+                            ioEx);
+                }
+
+            } else if (folder.getOperation().equals(OperationType.ARCHIVE)) {
+                /*
+                 * COMPRESS OLD FILES TO *.TAR.GZ AND MOVE TO ARCHIVE FOLDER.
+                 * ALSO DELETE THE FILES ADDED TO THE ARCHIVE.
+                 */
+                try {
+                    logger.debug("ARCHIVE: CHECKING FOR OLD FILES IN DIR - "
+                            + srcDir);
+                    // CREATE TAR FILE
+                    tarFileName = archiveFiles(srcDir, archDir,
+                            retentionPeriod, folderId);
+                    if (isStringEmpty(tarFileName)) {
+                        logger.warn("ARCHIVAL PROCESS FAILED FOR " + folderId);
+                    } else {
+                        // GZIP FILE
+                        gzipCompressFile(tarFileName);
+                        // DELETE TAR FILE AFTER CREATION OF GZIP
+                        deleteFile(new File(tarFileName));
+                    }
+                } catch (FileNotFoundException fileEx) {
+                    logger.error("file not found " + tarFileName, fileEx);
+                } catch (ArchiveException archiveEx) {
+                    logger.error("housekeeping failed for " + folderId,
+                            archiveEx);
+                } catch (IOException ioEx) {
+                    logger.error("housekeeping failed for " + folderId, ioEx);
+                }
+            } else {
+                // INVALID OPTION
+                logger.warn("INVALID OPERATION. SHOULD BE DELETE / ARCHIVE");
+            }
+
+            // CONTINUE WITH NEXT RULE IF ANY
+        }
+
+        logger.info("HOUSE KEEPING PROCESS - COMPLETED");
+    }
+
+    /**
+     * CRAETE A TAR FILE
+     * 
+     * @param strSrcDir src dir ending with File.separator
+     * @param strArchDir target archive dir ending with File.separator. tar
+     *            files will be created here.
+     * @param archivalPeriod
+     * @throws FileNotFoundException
+     * @throws ArchiveException
+     * @throws IOException
+     */
+    public String archiveFiles(String strSrcDir, String strArchDir,
+            Integer archivalPeriod, String folderId)
+            throws FileNotFoundException, ArchiveException, IOException {
+
+        // VALIDATIONS!
+        if (archivalPeriod == null) {
+            logger.warn("ARCHIVAL PERIOD NOT SPECIFIED FOR " + folderId);
+            return null;
+        }
+
+        if (isStringEmpty(strSrcDir)) {
+            logger.error("SRC DIRECTORY IS MISSING FOR " + folderId);
+            return null;
+        }
+
+        if (isStringEmpty(strArchDir)) {
+            logger.error("ARCHIVE DIRECTORY NOT SPECFIED FOR " + folderId
+                    + ". USE INPUT DIR AS ARCHIVE DIR.");
+            // SO ARCHIVE IN THE SRC DIR
+            strArchDir = strSrcDir;
+        }
+
+        File srcDir = new File(strSrcDir);
+        if (!srcDir.exists()) {
+            logger.warn("SKIP ARCHIVAL... INVALID SOURCE DIRECTORY "
+                    + strSrcDir);
+            return null;
+        }
+
+        File archDir = new File(strArchDir);
+        if (!archDir.exists()) {
+            // AIX UNIX - FOLDER WILL GET CREATED AUTOMATICALLY. BUT
+            // IN WINDOWS - ERROR!
+            logger.error("ARCHIVE DIRECTORY DOES NOT EXIST " + archDir);
+            return null;
+        }
+
+        // ARCHIVE
+
+        pathToBeExcluded = srcDir.getCanonicalPath();
+        logger.debug("pathToBeExcluded " + pathToBeExcluded);
+
+        File[] dirList = null; // LIST OF FILES IN SRC DIR
+        if (srcDir.isDirectory()) {
+            logger.debug("LOOKING FOR FILES IN " + srcDir.getCanonicalPath());
+            dirList = srcDir.listFiles();
+
+            if (dirList.length == 0) {
+                logger.warn("NO FILES FOUND IN DIR - " + strSrcDir);
+                return null;
+            }
+        } else {
+            // JUST ADD THE SINGLE FILE TO TAR
+            dirList = new File[] { srcDir };
+            pathToBeExcluded = srcDir.getCanonicalPath().substring(0,
+                    srcDir.getCanonicalPath().lastIndexOf(File.separator));
+        }
+
+        // TAR FILE NAME WILL BE CURRENT DATE & TIMESTAMP
+        String tarFileName = strArchDir + getCurrentDateTime("yyyyMMddhhmm")
+                + ".tar";
+        logger.debug("creating tarFile.... " + tarFileName);
+        File tarFile = new File(tarFileName);
+        tarFileName = tarFile.getCanonicalPath();
+        OutputStream out = null;
+        TarArchiveOutputStream aos = null;
+
+        try {
+            out = new FileOutputStream(tarFile);
+            aos = (TarArchiveOutputStream) new ArchiveStreamFactory()
+                    .createArchiveOutputStream(ArchiveStreamFactory.TAR, out);
+
+            // LOOP THRU LIST OF FILES IN SRC DIR
+            for (File file : dirList) {
+                logger.trace("FileName:" + file.getCanonicalPath());
+                if (file.isDirectory()) {
+                    // CHK SUB FOLDERS FOR FILES & ADD TO TAR
+                    tarDir(file, aos, archivalPeriod);
+                } else if (file.isFile()) {
+                    // TODO CHEK FOR FILENAME PATTERN
+                    if (isFileOld(file, archivalPeriod)) {
+                        tarFile(file, aos);
+                        // DELETE THE FILE WHICH HAS BEEN ADDED TO TAR
+                        deleteFile(file);
+                    }
+                }
+            }
+            logger.info("TAR FILE CREATED SUCCESSFULLY - " + tarFileName);
+        } finally {
+            this.finish(aos);
+            this.close(aos);
+            this.close(out);
+        }
+        return tarFileName;
+    }
+
+    /**
+     * DELETE FILES OLDER THAN SPECIFED RETENTION PERIOD
+     * 
+     * @param deleteDir
+     * @param retentionPeriod
+     * @throws IOException
+     */
+    private void dataRetention(File deleteDir, Integer retentionPeriod)
+            throws IOException {
+        if (!deleteDir.exists()) {
+            logger.warn("SKIP RETENTION... INVALID DIRECTORY TO DELETE FILE FROM -"
+                    + deleteDir);
+            return;
+        }
+
+        if (retentionPeriod == null) {
+            logger.warn("SKIP RETENTION... RETENTION PERIOD NOT SPECIFIED");
+            return;
+        }
+
+        logger.info("CHECKING FOR OLD FILES IN DIR - "
+                + deleteDir.getCanonicalPath());
+
+        File[] dirList = deleteDir.listFiles();
+        if (dirList.length == 0) {
+            logger.info("NO FILES FOUND IN " + deleteDir.getCanonicalPath());
+            return;
+        }
+        for (File file : dirList) {
+            logger.trace("processing file:" + file);
+            if (file.isDirectory()) {
+                // DO NOT DELETE DIRECTORIES!!!!
+                // RECURSIVELY CHECK SUB-DIRECTORIES FOR OLDER FILES
+                dataRetention(file, retentionPeriod);
+            } else if (file.isFile()) {
+                // TODO CHEK FOR FILENAME PATTERN
+                if (isFileOld(file, retentionPeriod)) {
+                    deleteFile(file);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 
+     * @param file file to be verified
+     * @param retentionPeriod number of days to retain files
+     * @return
+     * @throws IOException
+     */
+    private boolean isFileOld(File file, int retentionPeriod)
+            throws IOException {
+        Date lastModifiedDate;
+        lastModifiedDate = new Date(file.lastModified());
+        logger.trace(file + " last modified on " + lastModifiedDate);
+        int diffInDays = getDifferenceInDays(currDate, lastModifiedDate);
+        logger.trace("DIFF IN DAYS:" + diffInDays);
+
+        if (diffInDays > retentionPeriod) {
+            logger.trace(file.getCanonicalPath() + " IS OLD. DAYS-"
+                    + diffInDays);
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * ADD FILE TO TAR ARCHIVE
+     * 
+     * @param reqFile file to be verified
+     * @param aos
+     * @param retentionPeriod number of days to retain files
+     * @throws IOException
+     */
+    private void tarDir(File reqFile, TarArchiveOutputStream aos,
+            int retentionPeriod) throws IOException {
+        logger.debug("looking for files in directory "
+                + reqFile.getCanonicalPath());
+        File[] dirList = reqFile.listFiles();
+
+        // TODO - FIX EMPTY DIR CREATION IN TAR (NO ELIGIBLE FILE IS PRESENT).
+
+        // ADD A EMPTY DIRECTORY
+        addDirectoryToTar(reqFile, aos);
+
+        for (File file : dirList) {
+            logger.trace("processing file:" + file);
+            if (file.isDirectory()) {
+                // RECURSIVELY CHECK FOR FILES IN DIR
+                tarDir(file, aos, retentionPeriod);
+            } else if (file.isFile()) {
+                if (isFileOld(file, retentionPeriod)) {
+                    // ADD FILE TO TAR
+                    tarFile(file, aos);
+                    // DELETE THE FILE WHICH HAS BEEN ADDED TO TAR
+                    deleteFile(file);
+                }
+            }
+        }
+
+    }
+
+    /**
+     * 
+     * @param file
+     * @param aos
+     * @throws IOException
+     */
+    private void addDirectoryToTar(File file, TarArchiveOutputStream aos)
+            throws IOException {
+        try {
+            String dirName = getFileName(file);
+            logger.debug("ADD DIR TO TAR - " + dirName);
+            TarArchiveEntry entry = new TarArchiveEntry(file, dirName);
+            aos.putArchiveEntry(entry);
+            aos.closeArchiveEntry();
+        } catch (IOException ioEx) {
+            logger.warn("error adding dir to tar -" + file.getCanonicalPath(),
+                    ioEx);
+            throw ioEx;
+        }
+    }
+
+    /**
+     * 
+     * @param file
+     * @param aos
+     * @throws IOException
+     */
+    private void tarFile(File file, TarArchiveOutputStream aos)
+            throws IOException {
+        TarArchiveEntry entry;
+        FileInputStream fin = null;
+        try {
+            String fileName = getFileName(file);
+            logger.debug("ADD FILE TO TAR - " + fileName);
+            entry = new TarArchiveEntry(file, fileName);
+            entry.setSize(file.length());
+            aos.putArchiveEntry(entry);
+            fin = new FileInputStream(file);
+            IOUtils.copy(fin, aos);
+            aos.closeArchiveEntry();
+        } catch (IOException ioEx) {
+            logger.warn("error adding file to tar -" + file.getCanonicalPath(),
+                    ioEx);
+            throw ioEx;
+        } finally {
+            this.close(fin);
+        }
+    }
+
+    /**
+     * 
+     * @param srcFileName file to gzipped!
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    private void gzipCompressFile(String srcFileName)
+            throws FileNotFoundException, IOException {
+        OutputStream out = null;
+        InputStream fin = null;
+        GzipCompressorOutputStream gzip = null;
+        String gzipFileName = srcFileName + ".gz";
+        logger.debug("CREATING GZIP FILE..... " + gzipFileName);
+
+        try {
+            File srcFile = new File(srcFileName);
+            if (!srcFile.exists() || !srcFile.isFile()) {
+                logger.error("INVALID FILE - " + srcFileName);
+                return;
+            }
+
+            fin = new FileInputStream(srcFile);
+            out = new FileOutputStream(gzipFileName);
+            gzip = new GzipCompressorOutputStream(out);
+            IOUtils.copy(fin, gzip);
+            logger.info("SUCCESSFULLY CREATED GZIP FILE - " + gzipFileName);
+        } finally {
+            this.close(fin);
+            this.close(gzip);
+            this.close(out);
+        }
+
+    }
+
+    /**
+     * DELETE SPECIFIED FILE
+     * 
+     * @param file file to be deleted
+     * @throws IOException
+     */
+    public void deleteFile(File file) throws IOException {
+        String strCanonicalPath = file.getCanonicalPath();
+        logger.debug("DELETING FILE " + strCanonicalPath);
+        // DO NOT DELETE ANY DIRECTORIES
+        if (!file.exists() || !file.isFile()) {
+            logger.error("INVALID FILE " + strCanonicalPath);
+            return;
+        }
+        boolean deleteStatus = file.delete();
+        if (!deleteStatus) {
+            logger.error("FAILED TO DELETE FILE " + strCanonicalPath);
+        }
+    }
+
+    /**
+     * derive file name to be used in tar. basically removes the directory path.
+     * 
+     * @param file
+     * @return file name to be used in tar
+     * @throws IOException
+     */
+    private String getFileName(File file) throws IOException {
+        // filename to be used in tar
+        String strCanonicalPath = file.getCanonicalPath();
+        String fileName = "";
+        // INDEX OF SRC
+        int index = strCanonicalPath.indexOf(pathToBeExcluded);
+        if (index >= 0) {
+            fileName = strCanonicalPath.substring(index
+                    + pathToBeExcluded.length() + 1);
+        }
+        logger.trace("Name to be used in TAR-" + fileName);
+        return fileName;
+    }
+
+    // ************ COMMON UTILITY FUNCTIONS ****************
+
+    /**
+     * CLOSE STREAM
+     * 
+     * @param stream
+     * @throws IOException
+     */
+    private void close(Closeable stream) throws IOException {
+        try {
+            if (stream != null) {
+                stream.close();
+            }
+        } catch (IOException ioEx) {
+            logger.warn("error closing stream", ioEx);
+            throw ioEx;
+        }
+    }
+
+    /**
+     * Ends the TAR archive without closing the underlying OutputStream
+     * 
+     * @param aos
+     * @throws IOException on error
+     */
+    private void finish(TarArchiveOutputStream aos) throws IOException {
+        try {
+            if (aos != null) {
+                aos.finish();
+            }
+        } catch (IOException ioEx) {
+            logger.warn("error while finish TarArchiveOutputStream", ioEx);
+            throw ioEx;
+        }
+    }
+
+    /**
+     * This method checks whether the string is empty or not
+     * 
+     * @param strToCheck the string to be checked
+     * @return it returns true if the string is null or empty, otherwise it
+     *         returns false
+     */
+    public static boolean isStringEmpty(String strToCheck) {
+        if ((null == strToCheck) || strToCheck.trim().isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * get the difference in days between two dates. considers DST.
+     * 
+     * @param date1 the first date
+     * @param date1 the second date
+     * 
+     * @return int the difference in days (-ve if date1 < date2)
+     * @throws ParseException
+     */
+    public static int getDifferenceInDays(Date date1, Date date2) {
+
+        Calendar cal1 = Calendar.getInstance();
+        cal1.setTime(date1);
+
+        Calendar cal2 = Calendar.getInstance();
+        cal2.setTime(date2);
+
+        // HAVE TO CONVERT BOTH THE INPUT DATES TO GMT TIMEZONE
+
+        // cal.getTimeZone().getOffset(cal.getTimeInMillis()) -> amount of time
+        // in milliseconds to add to GMT to get local time
+
+        long timeDiff = (cal1.getTimeInMillis() + cal1.getTimeZone().getOffset(
+                cal1.getTimeInMillis()))
+                - (cal2.getTimeInMillis() + cal2.getTimeZone().getOffset(
+                        cal2.getTimeInMillis()));
+        return (int) TimeUnit.MILLISECONDS.toDays(timeDiff);
+
+        // long timeDiff = Math.abs(date1.getTime() - date2.getTime());
+        // return (int) TimeUnit.MILLISECONDS.toDays(timeDiff);
+    }
+
+    /**
+     * get current date
+     * 
+     * @param dateFormat
+     * @return
+     */
+    public static String getCurrentDateTime(String dateFormat) {
+        Date today = new Date();
+        DateFormat formatter = new SimpleDateFormat(dateFormat);
+        return formatter.format(today);
+    }
+
+    public static void main(String[] args) {
+
+        HouseKeeping tester = new HouseKeeping();
+        try {
+            tester.houseKeepingService();
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
+}

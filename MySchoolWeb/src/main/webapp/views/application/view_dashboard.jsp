@@ -18,11 +18,9 @@
     </c:forEach>
 
     <script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/awesome-grid-master/awesome-grid.js"></script>
-    <script type="text/javascript" src="<%=request.getContextPath()%>/widgets/zweatherfeed-121/jquery.zweatherfeed.min.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/scripts/myschool-activeTable.js"></script>
     <script type="text/javascript" src="<%=request.getContextPath()%>/widgets/jquery.freewall/scripts/freewall.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/widgets/zweatherfeed-121/example.css" />
     <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/widgets/awesome-grid-master/demo/css/custom.styles.css" />
     <link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/widgets/jquery.freewall/styles/style.css" />
     <link type="text/css" rel="stylesheet" href="/demo/widgets/tooltipster-master/css/tooltipster.css" />
