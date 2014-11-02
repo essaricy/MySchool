@@ -251,13 +251,11 @@ public class AttendanceProfileManager {
             attendanceProfile.setAttendanceProfileId(attendanceProfileId);
             assignProfilesTo(attendanceProfile);
         } catch (ValidationException validationException) {
-            validationException.printStackTrace();
             if (attendanceProfileId != 0) {
                 delete(attendanceProfileId);
             }
             throw new DataException(validationException.getMessage(), validationException);
         } catch (DaoException daoException) {
-            daoException.printStackTrace();
             if (attendanceProfileId != 0) {
                 delete(attendanceProfileId);
             }

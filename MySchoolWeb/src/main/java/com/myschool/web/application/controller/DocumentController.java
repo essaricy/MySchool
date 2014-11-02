@@ -1,6 +1,5 @@
 package com.myschool.web.application.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,11 +20,9 @@ import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.user.constants.UserType;
 import com.myschool.web.application.constants.ApplicationViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 
 /**
@@ -65,33 +61,29 @@ public class DocumentController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        List<DocumentDto> documents = null;
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        String type = request.getParameter("type");
-
-        if (StringUtil.isNullOrBlank(type)) {
-            documents = documentService.getAll();
-        } else {
-            documents = documentService.getAll(UserType.get(type));
-        }
-
-        if (documents != null) {
-            for(DocumentDto document : documents) {
-                JSONArray row = new JSONArray();
-                row.put(document.getDocumentId())
-                .put(document.getName())
-                .put(document.getDescription())
-                .put(document.getApplicabilityForEmployee().toString())
-                .put(document.getApplicabilityForStudent().toString());
-                data.put(row);
+        List<DocumentDto> documents = null;
+        try {
+            String type = request.getParameter("type");
+            if (StringUtil.isNullOrBlank(type)) {
+                documents = documentService.getAll();
+            } else {
+                documents = documentService.getAll(UserType.get(type));
             }
+            if (documents != null) {
+                for(DocumentDto document : documents) {
+                    JSONArray row = new JSONArray();
+                    row.put(document.getDocumentId());
+                    row.put(document.getName());
+                    row.put(document.getDescription());
+                    row.put(document.getApplicabilityForEmployee().toString());
+                    row.put(document.getApplicabilityForStudent().toString());
+                    data.put(row);
+                }
+            }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -129,17 +121,17 @@ public class DocumentController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             DocumentDto document = validateAndGetDocument(request);
-            resultDto.setSuccessful(documentService.create(document));
+            result.setSuccessful(documentService.create(document));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(dataException.getMessage());
+            result.setStatusMessage(dataException.getMessage());
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -156,21 +148,21 @@ public class DocumentController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String documentId = request.getParameter("documentId");
             if (!StringUtil.isNullOrBlank(documentId)) {
                 DocumentDto document = validateAndGetDocument(request);
-                resultDto.setSuccessful(documentService.update(Integer.parseInt(documentId), document));
-                resultDto.setStatusMessage("Document has been updated.");
+                result.setSuccessful(documentService.update(Integer.parseInt(documentId), document));
+                result.setStatusMessage("Document has been updated.");
             }
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(dataException.getMessage());
+            result.setStatusMessage(dataException.getMessage());
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -187,15 +179,14 @@ public class DocumentController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String documentId = request.getParameter("documentId");
-            resultDto.setSuccessful(documentService.delete(Integer.parseInt(documentId)));
+            result.setSuccessful(documentService.delete(Integer.parseInt(documentId)));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

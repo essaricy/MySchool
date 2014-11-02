@@ -76,11 +76,11 @@ public class AyeProcessManager {
             // TODO can initiate academic year closure process
             // Update the AYE status
             // Send message to the middleware to start corresponding sautil program.
-            ResultDto resultDto = new ResultDto();
-            resultDto.setSuccessful(ResultDto.SUCCESS);
-            resultDto.setStatusMessage("Academic Year Closure process has been successfully started.");
+            ResultDto result = new ResultDto();
+            result.setSuccessful(ResultDto.SUCCESS);
+            result.setStatusMessage("Academic Year Closure process has been successfully started.");
             List<ResultDto> closureStatus = new ArrayList<ResultDto>();
-            closureStatus.add(resultDto);
+            closureStatus.add(result);
             return closureStatus;
         } else {
             return canStartAcademicYearEnd;

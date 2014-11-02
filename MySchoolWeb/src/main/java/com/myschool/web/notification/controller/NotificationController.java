@@ -1,6 +1,5 @@
 package com.myschool.web.notification.controller;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +17,6 @@ import com.myschool.application.constants.Device;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.notification.assembler.NotificationDataAssembler;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationMode;
@@ -27,7 +24,6 @@ import com.myschool.notification.constants.NotificationType;
 import com.myschool.notification.dto.NotificationCriteriaDto;
 import com.myschool.notification.dto.NotificationDto;
 import com.myschool.notification.service.NotificationService;
-import com.myschool.web.common.parser.ResponseParser;
 import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
@@ -75,32 +71,29 @@ public class NotificationController {
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
         List<NotificationDto> notifications = null;
-
-        String notificationCriteriaValue = request.getParameter("NotificationCriteria");
-        if (StringUtil.isNullOrBlank(notificationCriteriaValue)) {
-            notifications = notificationService.getAll();
-        } else {
-            NotificationCriteriaDto notificationCriteria = NotificationDataAssembler.createNotification(new JSONObject(notificationCriteriaValue));
-            notifications = notificationService.getAll(notificationCriteria);
-        }
-
-        if (notifications != null) {
-            for(NotificationDto notification : notifications) {
-                JSONArray row = new JSONArray();
-                row.put(notification.getNotificationId());
-                row.put(notification.getNotificationEndPoint().getValue());
-                row.put(notification.getNotificationMode().toString());
-                row.put(notification.getNotificationType().getValue());
-                data.put(row);
+        try {
+            String notificationCriteriaValue = request.getParameter("NotificationCriteria");
+            if (StringUtil.isNullOrBlank(notificationCriteriaValue)) {
+                notifications = notificationService.getAll();
+            } else {
+                NotificationCriteriaDto notificationCriteria = NotificationDataAssembler.createNotification(new JSONObject(notificationCriteriaValue));
+                notifications = notificationService.getAll(notificationCriteria);
             }
+            
+            if (notifications != null) {
+                for(NotificationDto notification : notifications) {
+                    JSONArray row = new JSONArray();
+                    row.put(notification.getNotificationId());
+                    row.put(notification.getNotificationEndPoint().getValue());
+                    row.put(notification.getNotificationMode().toString());
+                    row.put(notification.getNotificationType().getValue());
+                    data.put(row);
+                }
+            }
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "NotificationTemplates", data);
         }
-        jsonResponse.put("NotificationTemplates", data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -108,22 +101,19 @@ public class NotificationController {
     public ModelAndView jsonListNotificationEndPoints(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        NotificationEndPoint[] notificationEndPoints = NotificationEndPoint.values();
-        if (notificationEndPoints != null) {
-            for(NotificationEndPoint notificationEndPoint : notificationEndPoints) {
-                JSONArray row = new JSONArray();
-                row.put(notificationEndPoint.getId());
-                row.put(notificationEndPoint.getValue());
-                data.put(row);
+        try {
+            NotificationEndPoint[] notificationEndPoints = NotificationEndPoint.values();
+            if (notificationEndPoints != null) {
+                for(NotificationEndPoint notificationEndPoint : notificationEndPoints) {
+                    JSONArray row = new JSONArray();
+                    row.put(notificationEndPoint.getId());
+                    row.put(notificationEndPoint.getValue());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -131,22 +121,19 @@ public class NotificationController {
     public ModelAndView jsonListNotificationModes(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        NotificationMode[] notificationModes = NotificationMode.values();
-        if (notificationModes != null) {
-            for(NotificationMode notificationMode : notificationModes) {
-                JSONArray row = new JSONArray();
-                row.put(notificationMode.getId());
-                row.put(notificationMode.toString());
-                data.put(row);
+        try {
+            NotificationMode[] notificationModes = NotificationMode.values();
+            if (notificationModes != null) {
+                for(NotificationMode notificationMode : notificationModes) {
+                    JSONArray row = new JSONArray();
+                    row.put(notificationMode.getId());
+                    row.put(notificationMode.toString());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -154,22 +141,19 @@ public class NotificationController {
     public ModelAndView jsonListNotificationTypes(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        NotificationType[] notificationTypes = NotificationType.values();
-        if (notificationTypes != null) {
-            for(NotificationType notificationType : notificationTypes) {
-                JSONArray row = new JSONArray();
-                row.put(notificationType.getId());
-                row.put(notificationType.getValue());
-                data.put(row);
+        try {
+            NotificationType[] notificationTypes = NotificationType.values();
+            if (notificationTypes != null) {
+                for(NotificationType notificationType : notificationTypes) {
+                    JSONArray row = new JSONArray();
+                    row.put(notificationType.getId());
+                    row.put(notificationType.getValue());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -202,28 +186,24 @@ public class NotificationController {
     public ModelAndView jsonListParents(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        List<NotificationEndPoint> notificationEndPoints = new ArrayList<NotificationEndPoint>();
-        notificationEndPoints.add(NotificationEndPoint.STUDENT);
-        notificationEndPoints.add(NotificationEndPoint.NOTICE_BOARD);
-
-        List<NotificationDto> notifications = notificationService.getAll(notificationEndPoints);
-        if (notifications != null) {
-            for(NotificationDto notification : notifications) {
-                JSONArray row = new JSONArray();
-                row.put(notification.getNotificationId());
-                row.put(notification.getNotificationEndPoint().getValue());
-                row.put(notification.getNotificationMode().toString());
-                row.put(notification.getNotificationType().getValue());
-                data.put(row);
+        try {
+            List<NotificationEndPoint> notificationEndPoints = new ArrayList<NotificationEndPoint>();
+            notificationEndPoints.add(NotificationEndPoint.STUDENT);
+            notificationEndPoints.add(NotificationEndPoint.NOTICE_BOARD);
+            List<NotificationDto> notifications = notificationService.getAll(notificationEndPoints);
+            if (notifications != null) {
+                for(NotificationDto notification : notifications) {
+                    JSONArray row = new JSONArray();
+                    row.put(notification.getNotificationId());
+                    row.put(notification.getNotificationEndPoint().getValue());
+                    row.put(notification.getNotificationMode().toString());
+                    row.put(notification.getNotificationType().getValue());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -255,29 +235,26 @@ public class NotificationController {
     public ModelAndView jsonListEmployees(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        List<NotificationEndPoint> notificationEndPoints = new ArrayList<NotificationEndPoint>();
-        notificationEndPoints.add(NotificationEndPoint.EMPLOYEE);
-        notificationEndPoints.add(NotificationEndPoint.NOTICE_BOARD);
-
-        List<NotificationDto> notifications = notificationService.getAll(notificationEndPoints);
-
-        if (notifications != null) {
-            for(NotificationDto notification : notifications) {
-                JSONArray row = new JSONArray();
-                row.put(notification.getNotificationId());
-                row.put(notification.getNotificationEndPoint().getValue());
-                row.put(notification.getNotificationMode().toString());
-                row.put(notification.getNotificationType().getValue());
-                data.put(row);
+        try {
+            List<NotificationEndPoint> notificationEndPoints = new ArrayList<NotificationEndPoint>();
+            notificationEndPoints.add(NotificationEndPoint.EMPLOYEE);
+            notificationEndPoints.add(NotificationEndPoint.NOTICE_BOARD);
+            
+            List<NotificationDto> notifications = notificationService.getAll(notificationEndPoints);
+            
+            if (notifications != null) {
+                for(NotificationDto notification : notifications) {
+                    JSONArray row = new JSONArray();
+                    row.put(notification.getNotificationId());
+                    row.put(notification.getNotificationEndPoint().getValue());
+                    row.put(notification.getNotificationMode().toString());
+                    row.put(notification.getNotificationType().getValue());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -324,7 +301,7 @@ public class NotificationController {
     @RequestMapping(value="notifyEndPoints")
     public ModelAndView notifyEndPoints(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String notificationTemplateIdValue = request.getParameter("notificationTemplateId");
             if (!StringUtil.isNullOrBlank(notificationTemplateIdValue)) {
@@ -335,14 +312,14 @@ public class NotificationController {
                     List<Integer> notifyingIds = StringUtil.toCollectionsOfIntegers(sendToIds);
                     if (notifyingIds != null && !notifyingIds.isEmpty()) {
                         notification.setNotifyingIds(notifyingIds);
-                        resultDto.setSuccessful(notificationService.create(notification));
+                        result.setSuccessful(notificationService.create(notification));
                     }
                 }
             }
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

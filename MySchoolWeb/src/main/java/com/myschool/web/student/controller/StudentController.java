@@ -1,6 +1,5 @@
 package com.myschool.web.student.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.school.dto.SchoolDto;
 import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.dto.StudentDto;
@@ -35,7 +33,7 @@ import com.myschool.student.dto.StudentSearchCriteriaDto;
 import com.myschool.student.service.StudentService;
 import com.myschool.user.service.LoginService;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 import com.myschool.web.student.constants.StudentViewNames;
@@ -196,7 +194,6 @@ public class StudentController {
         try {
             nextAdmissionNumber = studentService.getLastAdmissionNumber();
         } finally {
-            response.setContentType(MimeTypes.APPLICATION_JSON);
             JSONObject result = new JSONObject();
             if (nextAdmissionNumber == null) {
                 result.put("successful", Boolean.FALSE);
@@ -204,8 +201,7 @@ public class StudentController {
                 result.put("successful", Boolean.TRUE);
             }
             result.put("value", nextAdmissionNumber);
-            PrintWriter writer = response.getWriter();
-            writer.print(result.toString());
+            HttpUtil.writeJson(response, result);
         }
         return null;
     }
@@ -251,7 +247,7 @@ public class StudentController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -268,68 +264,66 @@ public class StudentController {
             HttpServletResponse response, String verifiedStatus) throws Exception {
 
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        String studentSearchCriteriaValue = request.getParameter("StudentSearchCriteria");
+        try {
+            String studentSearchCriteriaValue = request.getParameter("StudentSearchCriteria");
 
-        if (!StringUtil.isNullOrBlank(studentSearchCriteriaValue)) {
-            JSONObject studentSearchCriteria = new JSONObject(studentSearchCriteriaValue);
-            StudentSearchCriteriaDto studentSearchCriteriaDto = StudentDataAssembler.createStudentSearchCriteriaDto(studentSearchCriteria);
-            studentSearchCriteriaDto.setVerifiedStatus(verifiedStatus);
-            List<StudentDto> students = studentService.getAll(studentSearchCriteriaDto);
-            if (students != null && !students.isEmpty()) {
-                for (StudentDto student : students) {
-                    JSONArray row = new JSONArray();
-                    row.put(student.getStudentId());
-                    row.put(student.getAdmissionNumber());
+            if (!StringUtil.isNullOrBlank(studentSearchCriteriaValue)) {
+                JSONObject studentSearchCriteria = new JSONObject(studentSearchCriteriaValue);
+                StudentSearchCriteriaDto studentSearchCriteriaDto = StudentDataAssembler.createStudentSearchCriteriaDto(studentSearchCriteria);
+                studentSearchCriteriaDto.setVerifiedStatus(verifiedStatus);
+                List<StudentDto> students = studentService.getAll(studentSearchCriteriaDto);
+                if (students != null && !students.isEmpty()) {
+                    for (StudentDto student : students) {
+                        JSONArray row = new JSONArray();
+                        row.put(student.getStudentId());
+                        row.put(student.getAdmissionNumber());
 
-                    PersonalDetailsDto personalDetails = student.getPersonalDetails();
-                    RegisteredClassDto registeredClassDto = student.getRegisteredClassDto();
-                    ClassDto classDto = registeredClassDto.getClassDto();
-                    MediumDto medium = registeredClassDto.getMedium();
-                    SchoolDto school = registeredClassDto.getSchool();
-                    SectionDto section = registeredClassDto.getSection();
-                    BranchDto branch = school.getBranch();
-                    DivisionDto division = school.getDivision();
+                        PersonalDetailsDto personalDetails = student.getPersonalDetails();
+                        RegisteredClassDto registeredClassDto = student.getRegisteredClassDto();
+                        ClassDto classDto = registeredClassDto.getClassDto();
+                        MediumDto medium = registeredClassDto.getMedium();
+                        SchoolDto school = registeredClassDto.getSchool();
+                        SectionDto section = registeredClassDto.getSection();
+                        BranchDto branch = school.getBranch();
+                        DivisionDto division = school.getDivision();
 
-                    row.put(personalDetails.getFirstName());
-                    row.put(personalDetails.getMiddleName());
-                    row.put(personalDetails.getLastName());
-                    row.put(personalDetails.getGender());
-                    row.put(personalDetails.getDateOfBirth());
-                    row.put(personalDetails.getBloodGroup());
-                    row.put(personalDetails.getNationality());
-                    row.put(personalDetails.getReligion()); // 10
-                    row.put(personalDetails.getCaste());
-                    row.put(personalDetails.getMotherTongue());
-                    row.put(personalDetails.getIdentificationMarks());
-                    row.put(personalDetails.getMobileNumber());
-                    row.put(personalDetails.getCorrespondenceAddress()); //15
-                    row.put(personalDetails.getPermanentAddress());
+                        row.put(personalDetails.getFirstName());
+                        row.put(personalDetails.getMiddleName());
+                        row.put(personalDetails.getLastName());
+                        row.put(personalDetails.getGender());
+                        row.put(personalDetails.getDateOfBirth());
+                        row.put(personalDetails.getBloodGroup());
+                        row.put(personalDetails.getNationality());
+                        row.put(personalDetails.getReligion()); // 10
+                        row.put(personalDetails.getCaste());
+                        row.put(personalDetails.getMotherTongue());
+                        row.put(personalDetails.getIdentificationMarks());
+                        row.put(personalDetails.getMobileNumber());
+                        row.put(personalDetails.getCorrespondenceAddress()); //15
+                        row.put(personalDetails.getPermanentAddress());
 
-                    row.put(registeredClassDto.getClassId());
-                    row.put(branch.getBranchId());
-                    row.put(branch.getBranchCode());
-                    row.put(division.getDivisionId()); // 20
-                    row.put(division.getDivisionCode());
-                    row.put(school.getSchoolId());
-                    row.put(school.getSchoolName());
-                    row.put(classDto.getClassId());
-                    row.put(classDto.getClassName());
-                    row.put(medium.getMediumId());
-                    row.put(medium.getDescription());
-                    row.put(section.getSectionId());
-                    row.put(section.getSectionName());
+                        row.put(registeredClassDto.getClassId());
+                        row.put(branch.getBranchId());
+                        row.put(branch.getBranchCode());
+                        row.put(division.getDivisionId()); // 20
+                        row.put(division.getDivisionCode());
+                        row.put(school.getSchoolId());
+                        row.put(school.getSchoolName());
+                        row.put(classDto.getClassId());
+                        row.put(classDto.getClassName());
+                        row.put(medium.getMediumId());
+                        row.put(medium.getDescription());
+                        row.put(section.getSectionId());
+                        row.put(section.getSectionName());
 
-                    row.put(student.getDateOfJoining());
-                    data.put(row);
+                        row.put(student.getDateOfJoining());
+                        data.put(row);
+                    }
                 }
             }
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "StudentsData", data);
         }
-        jsonResponse.put("StudentsData", data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 

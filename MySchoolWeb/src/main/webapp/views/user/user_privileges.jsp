@@ -12,64 +12,62 @@ var UPDATE_COLUMN_INDEX = 4;
 var DELETE_COLUMN_INDEX = 5;
 
 function show(tableRow) {
-    var img = document.getElementById('image_' + tableRow);
-    if (img.alt == 'Expand'){
-        $('#functions_table_div_' + tableRow).slideDown(1000);
-        img.src = "<%=request.getContextPath()%>/images/icons/triangle_up.png";
-        img.alt = "Collapse";
-    } else if (img.alt == 'Collapse'){
-        $('#functions_table_div_' + tableRow).slideUp(1000);
-        img.src = "<%=request.getContextPath()%>/images/icons/triangle_down.png";
-        img.alt = "Expand";
-    }
+  var img = document.getElementById('image_' + tableRow);
+  if (img.alt == 'Expand'){
+    $('#functions_table_div_' + tableRow).slideDown(1000);
+    img.src = "<%=request.getContextPath()%>/images/icons/triangle_up.png";
+    img.alt = "Collapse";
+  } else if (img.alt == 'Collapse'){
+    $('#functions_table_div_' + tableRow).slideUp(1000);
+    img.src = "<%=request.getContextPath()%>/images/icons/triangle_down.png";
+    img.alt = "Expand";
+  }
 }
 
 function getPrivileges(changeType, id) {
-        if (changeType == 'UserType') {
-            document.forms[0].userTypeId.value = id;
-            if (typeof(document.forms[0].userId) != 'undefined') {
-                document.forms[0].userId.value = "";
-            }
-        } else if (changeType == 'User') {
-            if (id > 0) {
-                document.forms[0].userId.value = id;
-            } else {
-                document.forms[0].userId.value = "";
-            }
-        }
-        submitPage('<%=request.getContextPath()%>/privileges/userPrivileges.htm', '');
+  if (changeType == 'UserType') {
+    document.forms[0].userTypeId.value = id;
+    if (typeof(document.forms[0].userId) != 'undefined') {
+      document.forms[0].userId.value = "";
+    }
+  } else if (changeType == 'User') {
+    if (id > 0) {
+      document.forms[0].userId.value = id;
+    } else {
+      document.forms[0].userId.value = "";
+    }
+  }
+  submitPage('<%=request.getContextPath()%>/privileges/userPrivileges.htm', '');
 }
 
 function submitForm() {
-    var userTypeId = document.forms[0].userTypeId.value;
-    var userId = document.forms[0].userId.value;
-    var numberOfModules = parseInt(document.getElementById('numberOfModules').value);
-    var privilegesData = '{"userTypeId":"'+ userTypeId + '", "userId": "' + userId + '", "modules":{ \n' ;
+  var userTypeId = document.forms[0].userTypeId.value;
+  var userId = document.forms[0].userId.value;
+  var numberOfModules = parseInt(document.getElementById('numberOfModules').value);
+  var privilegesData = '{"userTypeId":"'+ userTypeId + '", "userId": "' + userId + '", "modules":{ \n' ;
+  var moduleData = "";
+  for (var moduleIndex=1; moduleIndex<numberOfModules+1; moduleIndex++) {
+    moduleData = moduleData + ' "' + document.getElementById('module_' + moduleIndex).value + '": {';
+    var functionsTable = document.getElementById('functions_table_' + moduleIndex);
+    var numberOfFunctions = functionsTable.rows.length;
+    var functionData = "";
 
-    var moduleData = "";
-    for (var moduleIndex=1; moduleIndex<numberOfModules+1; moduleIndex++) {
-        moduleData = moduleData + ' "' + document.getElementById('module_' + moduleIndex).value + '": {';
-
-        var functionsTable = document.getElementById('functions_table_' + moduleIndex);
-        var numberOfFunctions = functionsTable.rows.length;
-        var functionData = "";
-
-        for (var functionIndex=1; functionIndex<numberOfFunctions+1; functionIndex++) {
-            functionData = functionData
-                + ' "' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex).value
-                + '": ['
-                + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_view').checked + '", '
-                + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_create').checked + '", '
-                + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_update').checked + '", '
-                + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_delete').checked + '"'
-                + '], ';
-        }
-        moduleData = moduleData + functionData + '\n\t }, \n';
+    for (var functionIndex=1; functionIndex<numberOfFunctions+1; functionIndex++) {
+      functionData = functionData
+        + ' "' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex).value
+        + '": ['
+        + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_view').checked + '", '
+        + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_create').checked + '", '
+        + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_update').checked + '", '
+        + '"' + document.getElementById('module_' + moduleIndex + '_function_' + functionIndex + '_delete').checked + '"'
+        + '], ';
     }
-    privilegesData = privilegesData + moduleData + '\n }' + '\n }';
-    sendData(userId, privilegesData);
-    //document.getElementById('privilegesData').value = privilegesData;
-    //submitPage('<%=request.getContextPath()%>/privileges/jsonUserSave.htm', '');
+    moduleData = moduleData + functionData + '\n\t }, \n';
+  }
+  privilegesData = privilegesData + moduleData + '\n }' + '\n }';
+  sendData(userId, privilegesData);
+  //document.getElementById('privilegesData').value = privilegesData;
+  //submitPage('<%=request.getContextPath()%>/privileges/jsonUserSave.htm', '');
 }
 
 function sendData(userId, privilegesData) {

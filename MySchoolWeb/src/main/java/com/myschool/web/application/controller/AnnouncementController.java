@@ -1,7 +1,5 @@
 package com.myschool.web.application.controller;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.infra.web.constants.MimeTypes;
+import com.myschool.web.common.util.HttpUtil;
 
 /**
  * The Class AnnouncementController.
@@ -31,16 +29,16 @@ public class AnnouncementController {
     public ModelAndView jsonPublicAnnouncements(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        data.put("[Public] New Branch has been created.");
-        data.put("[Public] Schools in Hyderabad will be closed on Monday.");
-        data.put("[Public] Science Exhibition to be held in bangalore in December.");
-        data.put("[Public] Third quarterly exams to begin from December 10th.");
-        data.put("[Public] Employees submit their pending leave requests by this weekend.");
-        data.put("[Public] MySchool selected as the school of the award for the year 2013.");
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(data.toString());
-        writer.close();
+        try {
+            data.put("[Public] New Branch has been created.");
+            data.put("[Public] Schools in Hyderabad will be closed on Monday.");
+            data.put("[Public] Science Exhibition to be held in bangalore in December.");
+            data.put("[Public] Third quarterly exams to begin from December 10th.");
+            data.put("[Public] Employees submit their pending leave requests by this weekend.");
+            data.put("[Public] MySchool selected as the school of the award for the year 2013.");
+        } finally {
+            HttpUtil.writeJson(response, data);
+        }
         return null;
     }
 

@@ -1,18 +1,14 @@
 package com.myschool.web.academic.controller;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
+import com.myschool.web.common.util.HttpUtil;
 
 /**
  * The Class StudentController.
@@ -32,14 +28,7 @@ public class DummyController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
-        JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
+        HttpUtil.wrapAndWriteAsAAData(response, new JSONArray());
         return null;
     }
 

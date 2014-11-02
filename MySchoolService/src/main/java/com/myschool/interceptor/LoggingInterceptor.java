@@ -25,7 +25,6 @@ public class LoggingInterceptor {
     public void afterServiceException(JoinPoint joinPoint, Throwable error) {
         //System.out.println("*******************************LoggingInterceptor*************************************");
         //System.out.println("hijacked method is : " + joinPoint.getSignature().getName());
-        //error.printStackTrace();
         //System.out.println("*******************************LoggingInterceptor*************************************");
         //LOGGER.error(error.getMessage(), error);
     }

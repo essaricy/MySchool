@@ -1,6 +1,5 @@
 package com.myschool.web.application.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +19,8 @@ import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.application.constants.ApplicationViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 
 /**
@@ -64,22 +60,19 @@ public class RelationshipController {
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        List<Relationship> relationships = relationshipService.getAll();
-
-        if (relationships != null) {
-            for(Relationship relationship : relationships) {
-                JSONArray row = new JSONArray();
-                row.put(relationship.getCode())
-                .put(relationship.getName());
-                data.put(row);
+        try {
+            List<Relationship> relationships = relationshipService.getAll();
+            if (relationships != null) {
+                for(Relationship relationship : relationships) {
+                    JSONArray row = new JSONArray();
+                    row.put(relationship.getCode())
+                    .put(relationship.getName());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -117,17 +110,17 @@ public class RelationshipController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             Relationship relationship = validateAndGetRelationship(request);
-            resultDto.setSuccessful(relationshipService.create(relationship));
+            result.setSuccessful(relationshipService.create(relationship));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(dataException.getMessage());
+            result.setStatusMessage(dataException.getMessage());
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -144,17 +137,17 @@ public class RelationshipController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             Relationship relationship = validateAndGetRelationship(request);
-            resultDto.setSuccessful(relationshipService.update(relationship.getCode(), relationship));
+            result.setSuccessful(relationshipService.update(relationship.getCode(), relationship));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(dataException.getMessage());
+            result.setStatusMessage(dataException.getMessage());
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -171,15 +164,14 @@ public class RelationshipController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String code = request.getParameter("code");
-            resultDto.setSuccessful(relationshipService.delete(code));
+            result.setSuccessful(relationshipService.delete(code));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

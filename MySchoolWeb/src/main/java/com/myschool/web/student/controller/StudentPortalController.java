@@ -16,7 +16,7 @@ import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.PortalViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.JCaptchaUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 
@@ -84,7 +84,7 @@ public class StudentPortalController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

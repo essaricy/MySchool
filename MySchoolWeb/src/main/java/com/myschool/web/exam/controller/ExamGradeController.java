@@ -1,6 +1,5 @@
 package com.myschool.web.exam.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +19,7 @@ import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exam.dto.ExamGradeDto;
 import com.myschool.exam.service.ExamGradeService;
-import com.myschool.infra.web.constants.MimeTypes;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 import com.myschool.web.exam.constants.ExamViewNames;
@@ -65,23 +62,20 @@ public class ExamGradeController {
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        List<ExamGradeDto> examGradees = examGradeService.getAll();
-
-        if (examGradees != null) {
-            for(ExamGradeDto examGrade : examGradees) {
-                JSONArray row = new JSONArray();
-                row.put(examGrade.getExamGradeId());
-                row.put(examGrade.getGradeName());
-                row.put(examGrade.getQualifyingPercentage());
-                data.put(row);
+        try {
+            List<ExamGradeDto> examGradees = examGradeService.getAll();
+            if (examGradees != null) {
+                for(ExamGradeDto examGrade : examGradees) {
+                    JSONArray row = new JSONArray();
+                    row.put(examGrade.getExamGradeId());
+                    row.put(examGrade.getGradeName());
+                    row.put(examGrade.getQualifyingPercentage());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -111,17 +105,17 @@ public class ExamGradeController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             ExamGradeDto examGradeDto = validateAndGetExamGrade(request);
-            resultDto.setSuccessful(examGradeService.create(examGradeDto));
+            result.setSuccessful(examGradeService.create(examGradeDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -181,18 +175,18 @@ public class ExamGradeController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String examGradeId = request.getParameter("examGradeId");
             ExamGradeDto examGradeDto = validateAndGetExamGrade(request);
-            resultDto.setSuccessful(examGradeService.update(Integer.parseInt(examGradeId), examGradeDto));
+            result.setSuccessful(examGradeService.update(Integer.parseInt(examGradeId), examGradeDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -209,15 +203,14 @@ public class ExamGradeController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String examGradeId = request.getParameter("examGradeId");
-            resultDto.setSuccessful(examGradeService.delete(Integer.parseInt(examGradeId)));
+            result.setSuccessful(examGradeService.delete(Integer.parseInt(examGradeId)));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

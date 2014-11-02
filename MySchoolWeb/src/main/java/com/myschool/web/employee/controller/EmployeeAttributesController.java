@@ -1,6 +1,5 @@
 package com.myschool.web.employee.controller;
 
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import com.myschool.clazz.service.RegisteredSubjectService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.assembler.EmployeeDocumentDataAssembler;
 import com.myschool.employee.assembler.EmployeeEducationDataAssembler;
 import com.myschool.employee.assembler.EmployeeExperienceDataAssembler;
@@ -39,8 +37,7 @@ import com.myschool.employee.service.EmployeeExperienceService;
 import com.myschool.employee.service.EmployeePromotionService;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.employee.service.EmployeeSubjectService;
-import com.myschool.infra.web.constants.MimeTypes;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.employee.constants.EmployeeViewNames;
 
@@ -177,38 +174,34 @@ public class EmployeeAttributesController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONObject jsonResponse = new JSONObject();
-        JSONArray jsonEmployeeAttributes = null;
-
-        String employeeNumber = request.getParameter("EmployeeNumber");
-        String attribute = request.getParameter("attribute");
-
-        if (!StringUtil.isNullOrBlank(attribute) && !StringUtil.isNullOrBlank(employeeNumber)) {
-            if (attribute.equals(EMPLOYEE_DOCUMENT)) {
-                jsonEmployeeAttributes = EmployeeDocumentDataAssembler.create(
-                        employeeDocumentService.getByEmployee(employeeNumber));
-            } else if (attribute.equals(EMPLOYEE_EDUCATION)) {
-                jsonEmployeeAttributes = EmployeeEducationDataAssembler.create(
-                        employeeEducationService.getByEmployee(employeeNumber));
-            } else if (attribute.equals(EMPLOYEE_EXPERIENCE)) {
-                jsonEmployeeAttributes = EmployeeExperienceDataAssembler.create(
-                        employeeExperienceService.getByEmployee(employeeNumber));
-            } else if (attribute.equals(EMPLOYEE_PROMOTION)) {
-                jsonEmployeeAttributes = EmployeePromotionDataAssembler.create(
-                        employeePromotionService.getByEmployee(employeeNumber));
-            } else if (attribute.equals(EMPLOYEE_TEACHING_SUBJECT)) {
-                jsonEmployeeAttributes = EmployeeSubjectDataAssembler.create(
-                        employeeSubjectService.getByEmployee(employeeNumber));
+        JSONArray data = null;
+        try {
+            String employeeNumber = request.getParameter("EmployeeNumber");
+            String attribute = request.getParameter("attribute");
+            if (!StringUtil.isNullOrBlank(attribute) && !StringUtil.isNullOrBlank(employeeNumber)) {
+                if (attribute.equals(EMPLOYEE_DOCUMENT)) {
+                    data = EmployeeDocumentDataAssembler.create(
+                            employeeDocumentService.getByEmployee(employeeNumber));
+                } else if (attribute.equals(EMPLOYEE_EDUCATION)) {
+                    data = EmployeeEducationDataAssembler.create(
+                            employeeEducationService.getByEmployee(employeeNumber));
+                } else if (attribute.equals(EMPLOYEE_EXPERIENCE)) {
+                    data = EmployeeExperienceDataAssembler.create(
+                            employeeExperienceService.getByEmployee(employeeNumber));
+                } else if (attribute.equals(EMPLOYEE_PROMOTION)) {
+                    data = EmployeePromotionDataAssembler.create(
+                            employeePromotionService.getByEmployee(employeeNumber));
+                } else if (attribute.equals(EMPLOYEE_TEACHING_SUBJECT)) {
+                    data = EmployeeSubjectDataAssembler.create(
+                            employeeSubjectService.getByEmployee(employeeNumber));
+                }
             }
+            if (data == null) {
+                data = new JSONArray();
+            }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        if (jsonEmployeeAttributes == null) {
-            jsonEmployeeAttributes = new JSONArray();
-        }
-        jsonResponse.put(DataTypeValidator.AA_DATA, jsonEmployeeAttributes);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -275,7 +268,7 @@ public class EmployeeAttributesController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -329,7 +322,7 @@ public class EmployeeAttributesController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -391,10 +384,9 @@ public class EmployeeAttributesController {
                 result.setStatusMessage(message);
             }
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

@@ -28,7 +28,7 @@ import com.myschool.exam.service.ExamGradeService;
 import com.myschool.exam.service.ExamService;
 import com.myschool.exam.service.StudentExamService;
 import com.myschool.student.dto.StudentDto;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.exam.constants.ExamViewNames;
 
@@ -146,9 +146,8 @@ public class StudentExamController {
             result.setStatusMessage(numberFormatException.getMessage());
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
-            serviceException.printStackTrace();
         } finally {
-            ResponseParser.writeResponse(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

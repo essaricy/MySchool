@@ -26,7 +26,7 @@ import com.myschool.user.dto.UsersDto;
 import com.myschool.user.service.PrivilegesService;
 import com.myschool.user.service.UserTypeService;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.user.constants.UserViewNames;
 
@@ -118,7 +118,7 @@ public class PrivilegesController {
         JSONObject jsonObject = new JSONObject(privilegesData);
         JSONObject modulesObject = jsonObject.getJSONObject("modules");
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             if (modulesObject != null) {
@@ -148,7 +148,7 @@ public class PrivilegesController {
                         }
                         moduleAccessList.add(moduleAccess);
                         moduleAccess.setFunctionAccess(functionAccessList);
-                        resultDto.setSuccessful(privilegesService.saveDefaultPrivileges(userTypeId, moduleAccessList));
+                        result.setSuccessful(privilegesService.saveDefaultPrivileges(userTypeId, moduleAccessList));
 
                         // Update the information that is present in the session
                         HttpSession session = request.getSession();
@@ -161,9 +161,9 @@ public class PrivilegesController {
                 }
             }
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
         //return defaultPrivileges(request, response);
@@ -231,7 +231,7 @@ public class PrivilegesController {
         JSONObject jsonObject = new JSONObject(privilegesData);
         JSONObject modulesObject = jsonObject.getJSONObject("modules");
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             if (modulesObject != null){
@@ -262,14 +262,14 @@ public class PrivilegesController {
                         moduleAccessList.add(moduleAccess);
                         moduleAccess.setFunctionAccess(functionAccessList);
                         
-                        resultDto.setSuccessful(privilegesService.saveUserPrivileges(userId, moduleAccessList));
+                        result.setSuccessful(privilegesService.saveUserPrivileges(userId, moduleAccessList));
                     }
                 }
             }
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -285,15 +285,15 @@ public class PrivilegesController {
     @RequestMapping(value="restoreUserPrivileges")
     public ModelAndView restoreUserPrivileges(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             int userId = Integer.parseInt(request.getParameter("userId"));
             privilegesService.deleteUserPrivileges(userId);
-            resultDto.setSuccessful(ResultDto.SUCCESS);
+            result.setSuccessful(ResultDto.SUCCESS);
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package com.myschool.web.user.controller;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,9 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.application.assembler.GalleryDataAssembler;
 import com.myschool.application.service.ImageService;
 import com.myschool.application.service.ProfileService;
+import com.myschool.common.dto.ResultDto;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.application.constants.ApplicationViewNames;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 
 /**
@@ -75,13 +75,13 @@ public class NoticeBoardController {
     @RequestMapping(value="jsonGalleryNames")
     public ModelAndView jsonGalleryNames(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONObject jsonResponse = new JSONObject();
-        List<String> galleryNames = imageService.getGalleryNames();
-        jsonResponse.put("GalleryNames", GalleryDataAssembler.create(galleryNames));
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
+        JSONArray data = null;
+        try {
+            List<String> galleryNames = imageService.getGalleryNames();
+            data = GalleryDataAssembler.create(galleryNames);
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "GalleryNames", data);
+        }
         return null;
     }
 
@@ -96,13 +96,13 @@ public class NoticeBoardController {
     @RequestMapping(value="getLatestGalleryName")
     public ModelAndView getLatestGalleryName(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONObject jsonResponse = new JSONObject();
-        String galleryName = imageService.getLatestGalleryName();
-        jsonResponse.put("GalleryName", galleryName);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
+        JSONObject data = new JSONObject();
+        try {
+            String galleryName = imageService.getLatestGalleryName();
+            data.put("GalleryName", galleryName);
+        } finally {
+            HttpUtil.writeJson(response, data);
+        }
         return null;
     }
 
@@ -117,18 +117,16 @@ public class NoticeBoardController {
     @RequestMapping(value="jsonGalleryItemNames")
     public ModelAndView jsonGalleryItemNames(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONArray jsonArray = null;
-        JSONObject jsonResponse = new JSONObject();
-        String galleryName = request.getParameter("GalleryName");
-        if (!StringUtil.isNullOrBlank(galleryName)) {
-            List<String> galleryNames = imageService.getGalleryItemNames(galleryName);
-            jsonArray = GalleryDataAssembler.create(galleryNames);
+        JSONArray data = null;
+        try {
+            String galleryName = request.getParameter("GalleryName");
+            if (!StringUtil.isNullOrBlank(galleryName)) {
+                List<String> galleryNames = imageService.getGalleryItemNames(galleryName);
+                data = GalleryDataAssembler.create(galleryNames);
+            }
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "GalleryItemNames", data);
         }
-        jsonResponse.put("GalleryItemNames", jsonArray);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -200,6 +198,24 @@ public class NoticeBoardController {
     public ModelAndView upcomingExams(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.VIEW_UPCOMING_EXAMS);
+    }
+
+    @RequestMapping(value="markAsLatest")
+    public ModelAndView markAsLatest(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ResultDto result = new ResultDto();
+        try {
+            String galleryName = request.getParameter("GalleryName");
+            System.out.println("Marking gallery " + galleryName + " as latest.....");
+            if (!StringUtil.isNullOrBlank(galleryName)) {
+                imageService.markAsLatest(galleryName);
+                result.setSuccessful(ResultDto.SUCCESS);
+                result.setStatusMessage("Gallery " + galleryName + " is marked as latest and will be shown on the dashboard.");
+            }
+        } finally {
+            HttpUtil.writeAsJson(response, result);
+        }
+        return null;
     }
 
 }

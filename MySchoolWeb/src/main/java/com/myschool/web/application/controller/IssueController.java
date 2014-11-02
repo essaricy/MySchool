@@ -1,6 +1,5 @@
 package com.myschool.web.application.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,10 +22,8 @@ import com.myschool.application.service.IssueService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.application.constants.ApplicationViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.JCaptchaUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
@@ -110,19 +107,19 @@ public class IssueController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String issueId = request.getParameter("issueId");
             String issueDataValue = request.getParameter("IssueData");
             if (!StringUtil.isNullOrBlank(issueDataValue) && !StringUtil.isNullOrBlank(issueId)) {
                 IssueDto issue = IssueDataAssembler.create(new JSONObject(issueDataValue));
-                resultDto.setSuccessful(issueService.update(Integer.parseInt(issueId), issue));
+                result.setSuccessful(issueService.update(Integer.parseInt(issueId), issue));
             }
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -158,7 +155,7 @@ public class IssueController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String issueDataValue = request.getParameter("IssueData");
             if (!StringUtil.isNullOrBlank(issueDataValue)) {
@@ -166,12 +163,12 @@ public class IssueController {
                 String userCaptchaResponse = issueJsonObject.getString("Captcha_UserFeed");
                 JCaptchaUtil.validateCaptcha(request, userCaptchaResponse);
                 IssueDto issue = IssueDataAssembler.create(issueJsonObject);
-                resultDto.setSuccessful(issueService.create(issue));
+                result.setSuccessful(issueService.create(issue));
             }
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -206,21 +203,18 @@ public class IssueController {
     private void searchIssues(HttpServletResponse response,
             IssueSearchCriteriaDto issueSearchCriteria) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        if (issueSearchCriteria != null) {
-            List<IssueDto> issues = issueService.getAll(issueSearchCriteria);
-            if (issues != null && !issues.isEmpty()) {
-                for (IssueDto issue : issues) {
-                    data.put(IssueDataAssembler.create(issue));
+        try {
+            if (issueSearchCriteria != null) {
+                List<IssueDto> issues = issueService.getAll(issueSearchCriteria);
+                if (issues != null && !issues.isEmpty()) {
+                    for (IssueDto issue : issues) {
+                        data.put(IssueDataAssembler.create(issue));
+                    }
                 }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
     }
 
 }

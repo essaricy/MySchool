@@ -1,6 +1,5 @@
 package com.myschool.web.clazz.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,10 +23,8 @@ import com.myschool.clazz.service.SubjectService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.clazz.constants.ClazzViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -83,27 +79,24 @@ public class RegisteredSubjectController {
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        String classId = request.getParameter("classId");
-        if (classId != null && !StringUtil.isEmpty(classId)) {
-            List<RegisteredSubjectDto> registeredSubjects = registeredSubjectService.getByClass(Integer.parseInt(classId));
-            if (registeredSubjects != null) {
-                for(RegisteredSubjectDto registeredSubject : registeredSubjects) {
-                    JSONArray row = new JSONArray();
-                    row.put(registeredSubject.getSubjectId());
-                    SubjectDto subject = registeredSubject.getSubject();
-                    row.put(subject.getSubjectId());
-                    row.put(subject.getSubjectName());
-                    data.put(row);
+        try {
+            String classId = request.getParameter("classId");
+            if (classId != null && !StringUtil.isEmpty(classId)) {
+                List<RegisteredSubjectDto> registeredSubjects = registeredSubjectService.getByClass(Integer.parseInt(classId));
+                if (registeredSubjects != null) {
+                    for(RegisteredSubjectDto registeredSubject : registeredSubjects) {
+                        JSONArray row = new JSONArray();
+                        row.put(registeredSubject.getSubjectId());
+                        SubjectDto subject = registeredSubject.getSubject();
+                        row.put(subject.getSubjectId());
+                        row.put(subject.getSubjectName());
+                        data.put(row);
+                    }
                 }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -164,18 +157,18 @@ public class RegisteredSubjectController {
    public ModelAndView doCreateRegisteredSubject(HttpServletRequest request,
            HttpServletResponse response) throws Exception {
 
-       ResultDto resultDto = new ResultDto();
+       ResultDto result = new ResultDto();
        try {
            RegisteredSubjectDto registeredSubject = getRegisteredSubject(0, request);
            boolean success = registeredSubjectService.create(registeredSubject);
            if (success) {
-               resultDto.setSuccessful(ResultDto.SUCCESS);
-               resultDto.setStatusMessage(viewErrorHandler.getMessage("subject.created"));
+               result.setSuccessful(ResultDto.SUCCESS);
+               result.setStatusMessage(viewErrorHandler.getMessage("subject.created"));
            }
        } catch (ServiceException serviceException) {
-           resultDto.setStatusMessage(serviceException.getMessage());
+           result.setStatusMessage(serviceException.getMessage());
        } finally {
-           ResponseParser.writeResponse(response, resultDto);
+           HttpUtil.writeAsJson(response, result);
        }
        return null;
    }
@@ -192,7 +185,7 @@ public class RegisteredSubjectController {
    public ModelAndView doUpdateRegisteredSubject(HttpServletRequest request,
            HttpServletResponse response) throws Exception {
 
-       ResultDto resultDto = new ResultDto();
+       ResultDto result = new ResultDto();
        try {
            String registeredSubjectIdValue = request.getParameter("RegisteredSubjectId");
            if (!StringUtil.isNullOrBlank(registeredSubjectIdValue)) {
@@ -201,15 +194,15 @@ public class RegisteredSubjectController {
                    RegisteredSubjectDto registeredSubject = getRegisteredSubject(registeredSubjectId, request);
                    boolean success = registeredSubjectService.update(registeredSubjectId, registeredSubject);
                    if (success) {
-                       resultDto.setSuccessful(ResultDto.SUCCESS);
-                       resultDto.setStatusMessage(viewErrorHandler.getMessage("subject.updated"));
+                       result.setSuccessful(ResultDto.SUCCESS);
+                       result.setStatusMessage(viewErrorHandler.getMessage("subject.updated"));
                    }
                }
            }
        } catch (ServiceException serviceException) {
-           resultDto.setStatusMessage(serviceException.getMessage());
+           result.setStatusMessage(serviceException.getMessage());
        } finally {
-           ResponseParser.writeResponse(response, resultDto);
+           HttpUtil.writeAsJson(response, result);
        }
        return null;
    }
@@ -225,7 +218,7 @@ public class RegisteredSubjectController {
    @RequestMapping(value="doDelete")
    public ModelAndView doDelete(HttpServletRequest request,
            HttpServletResponse response) throws Exception {
-       ResultDto resultDto = new ResultDto();
+       ResultDto result = new ResultDto();
        try {
            String registeredSubjectIdValue = request.getParameter("RegisteredSubjectId");
            if (!StringUtil.isNullOrBlank(registeredSubjectIdValue)) {
@@ -233,15 +226,15 @@ public class RegisteredSubjectController {
                if (registeredSubjectId > 0) {
                    boolean success = registeredSubjectService.delete(registeredSubjectId);
                    if (success) {
-                       resultDto.setSuccessful(ResultDto.SUCCESS);
-                       resultDto.setStatusMessage(viewErrorHandler.getMessage("subject.deleted"));
+                       result.setSuccessful(ResultDto.SUCCESS);
+                       result.setStatusMessage(viewErrorHandler.getMessage("subject.deleted"));
                    }
                }
            }
        } catch (ServiceException serviceException) {
-           resultDto.setStatusMessage(serviceException.getMessage());
+           result.setStatusMessage(serviceException.getMessage());
        } finally {
-           ResponseParser.writeResponse(response, resultDto);
+           HttpUtil.writeAsJson(response, result);
        }
        return null;
    }

@@ -1,6 +1,5 @@
 package com.myschool.web.exam.controller;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,12 +22,10 @@ import com.myschool.clazz.service.RegisteredSubjectService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.SubjectExamDto;
 import com.myschool.exam.service.ExamService;
-import com.myschool.infra.web.constants.MimeTypes;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.exam.constants.ExamViewNames;
 
@@ -79,29 +76,26 @@ public class ExamController {
     @RequestMapping(value="jsonListByClass")
     public ModelAndView jsonListByClass(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        String classId = request.getParameter("classId");
-        if (classId != null && !StringUtil.isEmpty(classId)) {
-            JSONArray data = new JSONArray();
-            JSONObject jsonResponse = new JSONObject();
-
-            List<ExamDto> byClass = examService.getByClass(Integer.parseInt(classId));
-            if (byClass != null) {
-                for(ExamDto exam: byClass){
-                    if (exam != null) {
-                        JSONArray row = new JSONArray();
-                        row.put(exam.getExamId());
-                        row.put(exam.getExamName());
-                        row.put(exam.getExamDate());
-                        row.put(exam.isExamCompleted());
-                        data.put(row);
+        JSONArray data = new JSONArray();
+        try {
+            String classId = request.getParameter("classId");
+            if (classId != null && !StringUtil.isEmpty(classId)) {
+                List<ExamDto> byClass = examService.getByClass(Integer.parseInt(classId));
+                if (byClass != null) {
+                    for(ExamDto exam: byClass){
+                        if (exam != null) {
+                            JSONArray row = new JSONArray();
+                            row.put(exam.getExamId());
+                            row.put(exam.getExamName());
+                            row.put(exam.getExamDate());
+                            row.put(exam.isExamCompleted());
+                            data.put(row);
+                        }
                     }
                 }
             }
-            jsonResponse.put(DataTypeValidator.AA_DATA, data);
-            response.setContentType(MimeTypes.APPLICATION_JSON);
-            PrintWriter writer = response.getWriter();
-            writer.print(jsonResponse.toString());
-            writer.close();
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
         return null;
     }
@@ -163,9 +157,8 @@ public class ExamController {
             result.setStatusMessage(numberFormatException.getMessage());
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
-            serviceException.printStackTrace();
         } finally {
-            ResponseParser.writeResponse(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -181,14 +174,14 @@ public class ExamController {
     @RequestMapping(value="doDelete")
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String examId = request.getParameter("examId");
-            resultDto.setSuccessful(examService.delete(Integer.parseInt(examId)));
+            result.setSuccessful(examService.delete(Integer.parseInt(examId)));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -248,7 +241,7 @@ public class ExamController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

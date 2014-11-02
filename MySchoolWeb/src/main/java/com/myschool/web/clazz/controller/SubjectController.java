@@ -1,6 +1,5 @@
 package com.myschool.web.clazz.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,10 +21,9 @@ import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.school.service.SchoolService;
 import com.myschool.web.clazz.constants.ClazzViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -83,22 +80,19 @@ public class SubjectController {
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        List<SubjectDto> subjects = subjectService.getAll();
-        if (subjects != null) {
-            for(SubjectDto subject : subjects) {
-                JSONArray row = new JSONArray();
-                row.put(subject.getSubjectId());
-                row.put(subject.getSubjectName());
-                data.put(row);
+        try {
+            List<SubjectDto> subjects = subjectService.getAll();
+            if (subjects != null) {
+                for(SubjectDto subject : subjects) {
+                    JSONArray row = new JSONArray();
+                    row.put(subject.getSubjectId());
+                    row.put(subject.getSubjectName());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -128,17 +122,17 @@ public class SubjectController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             SubjectDto subjectDto = validateAndGetSubject(request);
-            resultDto.setSuccessful(subjectService.create(subjectDto));
+            result.setSuccessful(subjectService.create(subjectDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -192,18 +186,18 @@ public class SubjectController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String subjectId = request.getParameter("subjectId");
             SubjectDto subjectDto = validateAndGetSubject(request);
-            resultDto.setSuccessful(subjectService.update(Integer.parseInt(subjectId), subjectDto));
+            result.setSuccessful(subjectService.update(Integer.parseInt(subjectId), subjectDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -220,15 +214,14 @@ public class SubjectController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String subjectId = request.getParameter("subjectId");
-            resultDto.setSuccessful(subjectService.delete(Integer.parseInt(subjectId)));
+            result.setSuccessful(subjectService.delete(Integer.parseInt(subjectId)));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

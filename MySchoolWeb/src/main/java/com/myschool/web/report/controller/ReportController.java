@@ -1,7 +1,6 @@
 package com.myschool.web.report.controller;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.service.ImageService;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.report.assembler.ReportDataAssembler;
 import com.myschool.report.dto.ReportCriteria;
@@ -69,25 +67,22 @@ public class ReportController {
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        List<ReportDto> reports = reportService.getAll();
-
-        if (reports != null) {
-            for (ReportDto report : reports) {
-                JSONArray row = new JSONArray();
-                row.put(report.getReportKey());
-                row.put(report.getReportName());
-                row.put(report.isCanAdminView());
-                row.put(report.isCanEmployeeView());
-                row.put(report.isCanStudentView());
-                data.put(row);
+        try {
+            List<ReportDto> reports = reportService.getAll();
+            if (reports != null) {
+                for (ReportDto report : reports) {
+                    JSONArray row = new JSONArray();
+                    row.put(report.getReportKey());
+                    row.put(report.getReportName());
+                    row.put(report.isCanAdminView());
+                    row.put(report.isCanEmployeeView());
+                    row.put(report.isCanStudentView());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 

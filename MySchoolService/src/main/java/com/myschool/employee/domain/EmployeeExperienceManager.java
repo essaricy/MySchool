@@ -155,7 +155,6 @@ public class EmployeeExperienceManager {
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
         } catch (InvalidDataException invalidDataException) {
-            invalidDataException.printStackTrace();
             throw new DataException("Employee Experience dates clash.");
         }
     }

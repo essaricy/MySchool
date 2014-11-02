@@ -4,12 +4,19 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.ResourceUtil;
+import com.myschool.common.validator.DataTypeValidator;
+import com.myschool.infra.web.constants.MimeTypes;
 
 /**
  * The Class HttpUtil.
@@ -141,6 +148,123 @@ public class HttpUtil {
             ResourceUtil.releaseResource(bufferedOutputStream);
             ResourceUtil.releaseResource(fileInputStream);
         }
+    }
+
+    /**
+     * Write json.
+     * 
+     * @param response the response
+     * @param result the result
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public static void writeAsJson(HttpServletResponse response, ResultDto result)
+            throws IOException {
+        PrintWriter writer = null;
+        JSONObject jsonObject = new JSONObject();
+        response.setContentType(MimeTypes.APPLICATION_JSON);
+        writer = response.getWriter();
+        try {
+            if (result != null) {
+                jsonObject.put("Successful", result.isSuccessful());
+                jsonObject.put("StatusMessage", result.getStatusMessage());
+                jsonObject.put("ReferenceNumber", result.getReferenceNumber());
+            }
+            writer.write(jsonObject.toString());
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+    }
+
+    /**
+     * Write json.
+     * 
+     * @param response the response
+     * @param jsonResponse the json response
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public static void writeJson(HttpServletResponse response,
+            JSONObject jsonResponse) throws IOException {
+        PrintWriter writer = null;
+        try {
+            if (jsonResponse != null) {
+                response.setContentType(MimeTypes.APPLICATION_JSON);
+                writer = response.getWriter();
+                writer.print(jsonResponse.toString());
+            }
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+        
+    }
+
+    /**
+     * Write json.
+     * 
+     * @param response the response
+     * @param jsonResponse the json response
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public static void writeJson(HttpServletResponse response,
+            JSONArray jsonResponse) throws IOException {
+        PrintWriter writer = null;
+        try {
+            if (jsonResponse != null) {
+                response.setContentType(MimeTypes.APPLICATION_JSON);
+                writer = response.getWriter();
+                writer.print(jsonResponse.toString());
+            }
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
+        
+    }
+
+    /**
+     * Write as aa data.
+     * 
+     * @param response the response
+     * @param data the data
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public static void wrapAndWriteAsAAData(HttpServletResponse response,
+            JSONArray data) throws IOException {
+        wrapAndWriteJson(response, DataTypeValidator.AA_DATA, data);
+    }
+
+    /**
+     * Wrap and write json.
+     * 
+     * @param response the response
+     * @param keyName the key name
+     * @param data the data
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public static void wrapAndWriteJson(HttpServletResponse response, String keyName,
+            JSONArray data) throws IOException {
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put(keyName, data);
+        writeJson(response, jsonResponse);
+    }
+
+    /**
+     * Wrap and write json.
+     * 
+     * @param response the response
+     * @param keyName the key name
+     * @param data the data
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public static void wrapAndWriteJson(HttpServletResponse response, String keyName,
+            JSONObject data) throws IOException {
+        JSONObject jsonResponse = new JSONObject();
+        jsonResponse.put(keyName, data);
+        writeJson(response, jsonResponse);
     }
 
 }

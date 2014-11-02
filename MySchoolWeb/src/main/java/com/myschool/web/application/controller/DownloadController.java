@@ -1,23 +1,19 @@
 package com.myschool.web.application.controller;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.download.dto.BrochureDto;
 import com.myschool.download.service.BrochureService;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.application.constants.DownloadViewNames;
 import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
@@ -59,23 +55,21 @@ public class DownloadController {
     public ModelAndView jsonBrochuresList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        List<BrochureDto> brochures = brochureService.getAll();
-        if (brochures != null) {
-            for(BrochureDto brochure : brochures){
-                JSONArray row = new JSONArray();
-                row.put(brochure.getBrochureFile().getName());
-                row.put(brochure.getBrochureName());
-                row.put(brochure.getBrochureType());
-                row.put(brochure.getLastUpdatedOn());
-                data.put(row);
+        try {
+            List<BrochureDto> brochures = brochureService.getAll();
+            if (brochures != null) {
+                for(BrochureDto brochure : brochures){
+                    JSONArray row = new JSONArray();
+                    row.put(brochure.getBrochureFile().getName());
+                    row.put(brochure.getBrochureName());
+                    row.put(brochure.getBrochureType());
+                    row.put(brochure.getLastUpdatedOn());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 

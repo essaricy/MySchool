@@ -270,7 +270,7 @@ $(document).ready(function() {
   }
 
   function changeSelections(selBoxName, event, params) {
-    alert("changeSelections for " + selBoxName);
+    //alert("changeSelections for " + selBoxName);
     var selected = (params.selected != null && params.selected != 'undefined');
     var changedOptionVal = (selected ? params.selected : params.deselected);
     var selectBoxIndex = getSelectBoxIndex(selBoxName);
@@ -285,7 +285,9 @@ $(document).ready(function() {
         ajaxData.data=new Object();
         ajaxData.data[dataIdName]=changedOptionVal;
         ajaxData.data.sid=new Date().getTime();
+        ajaxData.async=false;
         jQuery.ajax(ajaxData).done(function(response) {
+          //alert("changeSelections response " + response);
           if (response != null && response.aaData != null) {
             $(response.aaData).each(function(index, data) {
               var alreadyPresent=false;
@@ -382,13 +384,13 @@ $(document).ready(function() {
 
   function setAssigned(Assignments, AssignmentName) {
     if (Assignments != null && Assignments != 'undefined' && Assignments.length != 0) {
-      alert(AssignmentName);
       //alert(JSON.stringify(Assignments));
       Assignments.forEach(function(Assignment) {
         var AssignmentID = Assignment[Assignment.IDName];
         $('#' + AssignmentName + ' > option').each(function(index, value) {
           var optionValue = $(value).val();
           if (optionValue == AssignmentID) {
+            //alert(AssignmentName + ", AssignmentID = " + AssignmentID);
             $('#' + AssignmentName + ' option[value="' + optionValue + '"]').prop('selected', true);
             $('#' + AssignmentName).trigger("chosen:updated");
             var optionVal = $(value).val();
@@ -574,7 +576,7 @@ $(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseJsonReponse(result);
+      parseModelReponse(result);
     });
   }
 

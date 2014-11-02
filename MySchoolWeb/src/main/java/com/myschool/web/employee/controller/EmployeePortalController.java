@@ -16,7 +16,7 @@ import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.web.application.constants.PortalViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.JCaptchaUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 
@@ -88,7 +88,7 @@ public class EmployeePortalController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

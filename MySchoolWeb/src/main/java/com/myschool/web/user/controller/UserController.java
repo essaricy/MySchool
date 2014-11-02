@@ -25,7 +25,7 @@ import com.myschool.user.dto.UserPreference;
 import com.myschool.user.service.UserService;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -69,17 +69,17 @@ public class UserController {
     @RequestMapping(value="changePassword")
     public ModelAndView changePassword(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             ChangePasswordDto changePassword = validateAndGetChangePassword(request);
-            resultDto.setSuccessful(userService.changePassword(changePassword));
-            resultDto.setStatusMessage("Your password has been changed successfully.");
+            result.setSuccessful(userService.changePassword(changePassword));
+            result.setStatusMessage("Your password has been changed successfully.");
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -95,22 +95,22 @@ public class UserController {
     @RequestMapping(value="changePreferences")
     public ModelAndView changePreferences(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             UserPreference userPreference = validateAndGetUserPreference(request);
-            resultDto.setSuccessful(userService.changePreferences(userPreference));
-            resultDto.setStatusMessage("Your preferences has been changed successfully.");
+            result.setSuccessful(userService.changePreferences(userPreference));
+            result.setStatusMessage("Your preferences has been changed successfully.");
             // Update User preferences in the session object.
             UserContext userContext = (UserContext) request.getSession().getAttribute(WebConstants.USER_CONTEXT);
             if (userContext != null) {
                 userContext.setUserPreference(userPreference);
             }
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

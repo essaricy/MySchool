@@ -1,6 +1,5 @@
 package com.myschool.web.academic.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,9 +19,8 @@ import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.academic.constants.AcademicViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -69,25 +66,23 @@ public class HolidayController {
             HttpServletResponse response) throws Exception {
 
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
 
-        // TODO get only holidays in the current academic year.
-        List<HolidayDto> holidays = holidayService.getAll();
-        if (holidays != null) {
-            for(HolidayDto holiday : holidays) {
-                JSONArray row = new JSONArray();
-                row.put(holiday.getHolidayId());
-                row.put(holiday.getHolidayName());
-                row.put(holiday.getStartDate());
-                row.put(holiday.getEndDate());
-                data.put(row);
+        try {
+            // TODO get only holidays in the current academic year.
+            List<HolidayDto> holidays = holidayService.getAll();
+            if (holidays != null) {
+                for(HolidayDto holiday : holidays) {
+                    JSONArray row = new JSONArray();
+                    row.put(holiday.getHolidayId());
+                    row.put(holiday.getHolidayName());
+                    row.put(holiday.getStartDate());
+                    row.put(holiday.getEndDate());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -117,16 +112,16 @@ public class HolidayController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             HolidayDto holiday = validateAndGetHoliday(request);
-            resultDto.setSuccessful(holidayService.create(holiday));
+            result.setSuccessful(holidayService.create(holiday));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -188,18 +183,18 @@ public class HolidayController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String holidayId = request.getParameter("holidayId");
             HolidayDto holiday = validateAndGetHoliday(request);
-            resultDto.setSuccessful(holidayService.update(Integer.parseInt(holidayId), holiday));
+            result.setSuccessful(holidayService.update(Integer.parseInt(holidayId), holiday));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -216,15 +211,14 @@ public class HolidayController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String holidayId = request.getParameter("holidayId");
-            resultDto.setSuccessful(holidayService.delete(Integer.parseInt(holidayId)));
+            result.setSuccessful(holidayService.delete(Integer.parseInt(holidayId)));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package com.myschool.web.branch.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,9 +21,8 @@ import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.branch.constants.BranchViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -70,30 +67,28 @@ public class BranchController {
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        List<BranchDto> branches = branchService.getAll();
-
-        String regionIdval = request.getParameter("RegionId");
-        if (StringUtil.isNullOrBlank(regionIdval)) {
-            branches = branchService.getAll();
-        } else {
-            branches = branchService.getByRegion(Integer.parseInt(regionIdval));
-        }
-        if (branches != null) {
-            for (BranchDto branch : branches) {
-                JSONArray row = new JSONArray();
-                row.put(branch.getBranchId()).put(branch.getMapUrl())
-                .put(branch.getBranchCode()).put(branch.getDescription())
-                .put(branch.getAddress()).put(branch.getRegion().getRegionName())
-                .put(branch.getPhoneNumber()).put(branch.getEmailId());
-                data.put(row);
+        try {
+            List<BranchDto> branches = branchService.getAll();
+            
+            String regionIdval = request.getParameter("RegionId");
+            if (StringUtil.isNullOrBlank(regionIdval)) {
+                branches = branchService.getAll();
+            } else {
+                branches = branchService.getByRegion(Integer.parseInt(regionIdval));
             }
+            if (branches != null) {
+                for (BranchDto branch : branches) {
+                    JSONArray row = new JSONArray();
+                    row.put(branch.getBranchId()).put(branch.getMapUrl())
+                    .put(branch.getBranchCode()).put(branch.getDescription())
+                    .put(branch.getAddress()).put(branch.getRegion().getRegionName())
+                    .put(branch.getPhoneNumber()).put(branch.getEmailId());
+                    data.put(row);
+                }
+            }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -123,17 +118,17 @@ public class BranchController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             BranchDto branchDto = validateAndGetBranch(request);
-            resultDto.setSuccessful(branchService.create(branchDto));
+            result.setSuccessful(branchService.create(branchDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -205,18 +200,18 @@ public class BranchController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String branchId = request.getParameter("branchId");
             BranchDto branchDto = validateAndGetBranch(request);
-            resultDto.setSuccessful(branchService.update(Integer.parseInt(branchId), branchDto));
+            result.setSuccessful(branchService.update(Integer.parseInt(branchId), branchDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -233,15 +228,14 @@ public class BranchController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String branchId = request.getParameter("branchId");
-            resultDto.setSuccessful(branchService.delete(Integer.parseInt(branchId)));
+            result.setSuccessful(branchService.delete(Integer.parseInt(branchId)));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

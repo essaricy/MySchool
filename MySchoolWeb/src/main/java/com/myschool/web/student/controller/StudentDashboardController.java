@@ -1,6 +1,5 @@
 package com.myschool.web.student.controller;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +19,6 @@ import com.myschool.application.service.HolidayService;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exam.assembler.ExamDataAssembler;
 import com.myschool.exam.assembler.StudentExamDataAssembler;
 import com.myschool.exam.dto.ExamDto;
@@ -31,10 +29,10 @@ import com.myschool.exam.service.ExamService;
 import com.myschool.exam.service.StudentExamService;
 import com.myschool.graph.assembler.ChartDataAssembler;
 import com.myschool.graph.dto.LineChartDto;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.WebConstants;
+import com.myschool.web.common.util.HttpUtil;
 
 /**
  * The Class StudentDashboardController.
@@ -81,16 +79,16 @@ public class StudentDashboardController {
     public ModelAndView privateAnnouncements(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONArray data = new JSONArray();
-        data.put("[Private] New Branch has been created.");
-        data.put("[Private] Schools in Hyderabad will be closed on Monday.");
-        data.put("[Private] Science Exhibition to be held in bangalore in December.");
-        data.put("[Private] Third quarterly exams to begin from December 10th.");
-        data.put("[Private] Employees submit their pending leave requests by this weekend.");
-        data.put("[Private] MySchool selected as the school of the award for the year 2013.");
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(data.toString());
-        writer.close();
+        try {
+            data.put("[Private] New Branch has been created.");
+            data.put("[Private] Schools in Hyderabad will be closed on Monday.");
+            data.put("[Private] Science Exhibition to be held in bangalore in December.");
+            data.put("[Private] Third quarterly exams to begin from December 10th.");
+            data.put("[Private] Employees submit their pending leave requests by this weekend.");
+            data.put("[Private] MySchool selected as the school of the award for the year 2013.");
+        } finally {
+            HttpUtil.writeJson(response, data);
+        }
         return null;
     }
 
@@ -105,14 +103,13 @@ public class StudentDashboardController {
     @RequestMapping(value="monthlyAttendanceSummary")
     public ModelAndView jsonPrivateAnnouncements(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        List<HolidayDto> holidays = holidayService.getAll();
-        jsonObject.put("DeclaredHolidays", HolidayDataAssembler.create(holidays));
-        // TODO add leaves, absents
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonObject.toString());
-        writer.close();
+        List<HolidayDto> holidays = null;
+        try {
+            holidays = holidayService.getAll();
+            // TODO add leaves, absents
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "DeclaredHolidays", HolidayDataAssembler.create(holidays));
+        }
         return null;
     }
 
@@ -128,20 +125,19 @@ public class StudentDashboardController {
     public ModelAndView getLatestExam(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         ExamDto latestExam = null;
-        JSONObject jsonResponse = new JSONObject();
-        HttpSession session = request.getSession();
-        StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
-        if (student != null) {
-            RegisteredClassDto registeredClass = student.getRegisteredClassDto();
-            if (registeredClass != null && registeredClass.getClassId() != 0) {
-                latestExam = examService.getLatestExam(registeredClass.getClassId());
+        try {
+            HttpSession session = request.getSession();
+            StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
+            if (student != null) {
+                RegisteredClassDto registeredClass = student.getRegisteredClassDto();
+                if (registeredClass != null && registeredClass.getClassId() != 0) {
+                    latestExam = examService.getLatestExam(registeredClass.getClassId());
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "ExamDetails", ExamDataAssembler.create(latestExam));
         }
-        jsonResponse.put("ExamDetails", ExamDataAssembler.create(latestExam));
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
+
         return null;
     }
 
@@ -158,39 +154,37 @@ public class StudentDashboardController {
             HttpServletResponse response) throws Exception {
         ExamDto latestExam = null;
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        HttpSession session = request.getSession();
-        StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
-        PersonalDetailsDto personalDetails = null;
-        if (student != null) {
-            RegisteredClassDto registeredClass = student.getRegisteredClassDto();
-            if (registeredClass != null && registeredClass.getClassId() != 0) {
-                latestExam = examService.getLatestExam(registeredClass.getClassId());
-                if (latestExam != null) {
-                    List<StudentInExamDto> studentsInExam = studentExamService.getStudentsInExam(latestExam.getExamId(), registeredClass.getClassId());
-                    if (studentsInExam != null && !studentsInExam.isEmpty()) {
-                        for (StudentInExamDto studentInExam : studentsInExam) {
-                            student = studentInExam.getStudent();
-                            personalDetails = student.getPersonalDetails();
-                            JSONArray row = new JSONArray();
-                            row.put(student.getAdmissionNumber());
-                            row.put(personalDetails.getFirstName());
-                            row.put(personalDetails.getMiddleName());
-                            row.put(personalDetails.getLastName());
-                            row.put(studentInExam.getTotalMarks());
-                            row.put(studentInExam.getPercentage());
-                            row.put(studentInExam.getGrade());
-                            data.put(row);
+        try {
+            HttpSession session = request.getSession();
+            StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
+            PersonalDetailsDto personalDetails = null;
+            if (student != null) {
+                RegisteredClassDto registeredClass = student.getRegisteredClassDto();
+                if (registeredClass != null && registeredClass.getClassId() != 0) {
+                    latestExam = examService.getLatestExam(registeredClass.getClassId());
+                    if (latestExam != null) {
+                        List<StudentInExamDto> studentsInExam = studentExamService.getStudentsInExam(latestExam.getExamId(), registeredClass.getClassId());
+                        if (studentsInExam != null && !studentsInExam.isEmpty()) {
+                            for (StudentInExamDto studentInExam : studentsInExam) {
+                                student = studentInExam.getStudent();
+                                personalDetails = student.getPersonalDetails();
+                                JSONArray row = new JSONArray();
+                                row.put(student.getAdmissionNumber());
+                                row.put(personalDetails.getFirstName());
+                                row.put(personalDetails.getMiddleName());
+                                row.put(personalDetails.getLastName());
+                                row.put(studentInExam.getTotalMarks());
+                                row.put(studentInExam.getPercentage());
+                                row.put(studentInExam.getGrade());
+                                data.put(row);
+                            }
                         }
                     }
                 }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -205,27 +199,25 @@ public class StudentDashboardController {
     @RequestMapping(value="studentExamSummary")
     public ModelAndView studentExamSummary(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONObject jsonResponse = new JSONObject();
-        HttpSession session = request.getSession();
-
-        JSONObject jsonObject = (JSONObject) session.getAttribute(STUDENT_EXAM_SUMMARY_LINE_CHART_DATA);
-        if (jsonObject == null) {
-            StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
-            if (student != null) {
-                String admissionNumber = student.getAdmissionNumber();
-                if (!StringUtil.isNullOrBlank(admissionNumber)) {
-                    StudentExamsSummaryDto studentExamsSummary = studentExamService.getStudentMarks(admissionNumber);
-                    LineChartDto lineChart = StudentExamDataAssembler.create(studentExamsSummary);
-                    jsonObject = ChartDataAssembler.create(lineChart);
-                    session.setAttribute(STUDENT_EXAM_SUMMARY_LINE_CHART_DATA, jsonObject);
+        JSONObject data = null;
+        try {
+            HttpSession session = request.getSession();
+            data = (JSONObject) session.getAttribute(STUDENT_EXAM_SUMMARY_LINE_CHART_DATA);
+            if (data == null) {
+                StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
+                if (student != null) {
+                    String admissionNumber = student.getAdmissionNumber();
+                    if (!StringUtil.isNullOrBlank(admissionNumber)) {
+                        StudentExamsSummaryDto studentExamsSummary = studentExamService.getStudentMarks(admissionNumber);
+                        LineChartDto lineChart = StudentExamDataAssembler.create(studentExamsSummary);
+                        data = ChartDataAssembler.create(lineChart);
+                        session.setAttribute(STUDENT_EXAM_SUMMARY_LINE_CHART_DATA, data);
+                    }
                 }
             }
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, CHART_DATA, data);
         }
-        jsonResponse.put(CHART_DATA, jsonObject);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 

@@ -2,7 +2,6 @@ package com.myschool.web.exim.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +26,6 @@ import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.exception.InsufficientInputException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exim.assembler.UploadTrackerDataAssembler;
 import com.myschool.exim.dto.EximDto;
 import com.myschool.exim.dto.UploadFileTrackerDto;
@@ -37,11 +35,9 @@ import com.myschool.exim.service.EximService;
 import com.myschool.exim.service.UploadService;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.infra.filesystem.util.FileUtil;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.UserContext;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.parser.ResponseParser;
 import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
@@ -99,18 +95,18 @@ public class UploadController {
     @RequestMapping("generateUploadTracker")
     public ModelAndView generateUploadTracker(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
-        Object userContextObject = session.getAttribute(WebConstants.USER_CONTEXT);
-        if (userContextObject instanceof UserContext) {
-            UserContext userContext = (UserContext) userContextObject;
-            int loginId = userContext.getLoginId();
-            int uploadTrackerId = uploadService.createUploadTracker(loginId);
-            JSONObject jsonResponse = new JSONObject();
-            jsonResponse.put("uploadTrackerId", uploadTrackerId);
-            response.setContentType(MimeTypes.APPLICATION_JSON);
-            PrintWriter writer = response.getWriter();
-            writer.print(jsonResponse.toString());
-            writer.close();
+        JSONObject jsonResponse = new JSONObject();
+        try {
+            HttpSession session = request.getSession();
+            Object userContextObject = session.getAttribute(WebConstants.USER_CONTEXT);
+            if (userContextObject instanceof UserContext) {
+                UserContext userContext = (UserContext) userContextObject;
+                int loginId = userContext.getLoginId();
+                int uploadTrackerId = uploadService.createUploadTracker(loginId);
+                jsonResponse.put("uploadTrackerId", uploadTrackerId);
+            }
+        } finally {
+            HttpUtil.writeJson(response, jsonResponse);
         }
         return null;
     }
@@ -129,7 +125,7 @@ public class UploadController {
             HttpServletResponse response,
             @ModelAttribute("UploadDataFileBean") UploadDataFileBean uploadDataFileBean,
             BindingResult bindingResult) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             if (uploadDataFileBean == null) {
                 throw new InsufficientInputException("There is no data to upload.");
@@ -156,14 +152,14 @@ public class UploadController {
             }
             String referenceNumber = imageTempFile.getName();
             System.out.println("referenceNumber " + referenceNumber);
-            resultDto.setSuccessful(ResultDto.SUCCESS);
-            resultDto.setReferenceNumber(String.valueOf(referenceNumber));
+            result.setSuccessful(ResultDto.SUCCESS);
+            result.setReferenceNumber(String.valueOf(referenceNumber));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -182,20 +178,20 @@ public class UploadController {
             HttpServletResponse response,
             @ModelAttribute("UploadDataFileBean") UploadDataFileBean uploadDataFileBean,
             BindingResult bindingResult) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             UploadFileTrackerDto uploadFileTracker = validateAndGetUploadFileTracker(uploadDataFileBean);
             String multiUploadId = uploadDataFileBean.getMultiUploadId();
             int uploadFileTrackerId = uploadService.createUploadFileTracker(
                     Integer.parseInt(multiUploadId), uploadFileTracker);
-            resultDto.setSuccessful(ResultDto.SUCCESS);
-            resultDto.setReferenceNumber(String.valueOf(uploadFileTrackerId));
+            result.setSuccessful(ResultDto.SUCCESS);
+            result.setReferenceNumber(String.valueOf(uploadFileTrackerId));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -211,33 +207,30 @@ public class UploadController {
     @RequestMapping("getUploadTrackers")
     public ModelAndView getUploadTrackers(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONArray jsonuploadTrackersArray = null;
-        JSONObject jsonResponseObject = new JSONObject();
-
-        HttpSession session = request.getSession();
-        Object userContextObject = session.getAttribute(WebConstants.USER_CONTEXT);
-        if (userContextObject instanceof UserContext) {
-            UserContext userContext = (UserContext) userContextObject;
-            // If admin is logged in, then show all the upload trackers.
-            UserType userType = userContext.getUserType();
-            List<UploadTrackerDto> uploadTrackers = null;
-            if (userType == UserType.ADMIN) {
-                uploadTrackers = uploadService.getUploadTrackers();
-            } else {
-                int loginId = userContext.getLoginId();
-                uploadTrackers = uploadService.getUploadTrackers(loginId);
-            }
-            if (uploadTrackers != null && !uploadTrackers.isEmpty()) {
-                jsonuploadTrackersArray = new JSONArray();
-                for (UploadTrackerDto uploadTracker : uploadTrackers) {
-                    jsonuploadTrackersArray.put(UploadTrackerDataAssembler.getUploadTracker(uploadTracker));
+        JSONArray data = null;
+        try {
+            HttpSession session = request.getSession();
+            Object userContextObject = session.getAttribute(WebConstants.USER_CONTEXT);
+            if (userContextObject instanceof UserContext) {
+                UserContext userContext = (UserContext) userContextObject;
+                // If admin is logged in, then show all the upload trackers.
+                UserType userType = userContext.getUserType();
+                List<UploadTrackerDto> uploadTrackers = null;
+                if (userType == UserType.ADMIN) {
+                    uploadTrackers = uploadService.getUploadTrackers();
+                } else {
+                    int loginId = userContext.getLoginId();
+                    uploadTrackers = uploadService.getUploadTrackers(loginId);
+                }
+                if (uploadTrackers != null && !uploadTrackers.isEmpty()) {
+                    data = new JSONArray();
+                    for (UploadTrackerDto uploadTracker : uploadTrackers) {
+                        data.put(UploadTrackerDataAssembler.getUploadTracker(uploadTracker));
+                    }
                 }
             }
-            jsonResponseObject.put("UploadTrackers", jsonuploadTrackersArray);
-            response.setContentType(MimeTypes.APPLICATION_JSON);
-            PrintWriter writer = response.getWriter();
-            writer.print(jsonResponseObject.toString());
-            writer.close();
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "UploadTrackers", data);
         }
         return null;
     }
@@ -253,26 +246,23 @@ public class UploadController {
     @RequestMapping("getUploadFileTrackers")
     public ModelAndView getUploadFileTrackers(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONArray jsonuploadTrackersArray = null;
-        JSONObject jsonResponseObject = new JSONObject();
-
-        String uploadTrackerIdVal = request.getParameter("uploadTrackerId");
-        if (!StringUtil.isNullOrBlank(uploadTrackerIdVal)) {
-            List<UploadFileTrackerDto> uploadFileTrackerByTracker = 
-                    uploadService.getUploadFileTrackerByTracker(
-                            Integer.parseInt(uploadTrackerIdVal));
-            if (uploadFileTrackerByTracker != null && !uploadFileTrackerByTracker.isEmpty()) {
-                jsonuploadTrackersArray = new JSONArray();
-                for (UploadFileTrackerDto uploadFileTracker : uploadFileTrackerByTracker) {
-                    jsonuploadTrackersArray.put(UploadTrackerDataAssembler.getUploadFileTracker(uploadFileTracker));
+        JSONArray data = null;
+        try {
+            String uploadTrackerIdVal = request.getParameter("uploadTrackerId");
+            if (!StringUtil.isNullOrBlank(uploadTrackerIdVal)) {
+                List<UploadFileTrackerDto> uploadFileTrackerByTracker = 
+                        uploadService.getUploadFileTrackerByTracker(
+                                Integer.parseInt(uploadTrackerIdVal));
+                if (uploadFileTrackerByTracker != null && !uploadFileTrackerByTracker.isEmpty()) {
+                    data = new JSONArray();
+                    for (UploadFileTrackerDto uploadFileTracker : uploadFileTrackerByTracker) {
+                        data.put(UploadTrackerDataAssembler.getUploadFileTracker(uploadFileTracker));
+                    }
                 }
             }
-            jsonResponseObject.put("UploadFileTrackers", jsonuploadTrackersArray);
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "UploadFileTrackers", data);
         }
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponseObject.toString());
-        writer.close();
         return null;
     }
 
@@ -326,26 +316,22 @@ public class UploadController {
     @RequestMapping("jsonGetUploadRecordTrackers")
     public ModelAndView jsonGetUploadRecordTrackers(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONArray jsonuploadTrackersArray = null;
-        JSONObject jsonResponseObject = new JSONObject();
-
-        String fileTrackerIdVal = request.getParameter("fileTrackerId");
-        if (!StringUtil.isNullOrBlank(fileTrackerIdVal)) {
-            List<UploadRecordTrackerDto> uploadRecordTrackerByTracker =
-                    uploadService.getUploadRecordTrackerByFileTracker(Integer.parseInt(fileTrackerIdVal));
-            if (uploadRecordTrackerByTracker != null && !uploadRecordTrackerByTracker.isEmpty()) {
-                jsonuploadTrackersArray = new JSONArray();
-                for (UploadRecordTrackerDto uploadRecordTracker : uploadRecordTrackerByTracker) {
-                    jsonuploadTrackersArray.put(UploadTrackerDataAssembler.getUploadRecordTracker(uploadRecordTracker));
+        JSONArray data = null;
+        try {
+            String fileTrackerIdVal = request.getParameter("fileTrackerId");
+            if (!StringUtil.isNullOrBlank(fileTrackerIdVal)) {
+                List<UploadRecordTrackerDto> uploadRecordTrackerByTracker =
+                        uploadService.getUploadRecordTrackerByFileTracker(Integer.parseInt(fileTrackerIdVal));
+                if (uploadRecordTrackerByTracker != null && !uploadRecordTrackerByTracker.isEmpty()) {
+                    data = new JSONArray();
+                    for (UploadRecordTrackerDto uploadRecordTracker : uploadRecordTrackerByTracker) {
+                        data.put(UploadTrackerDataAssembler.getUploadRecordTracker(uploadRecordTracker));
+                    }
                 }
             }
-            //jsonResponseObject.put("UploadRecordTrackers", jsonuploadTrackersArray);
-            jsonResponseObject.put(DataTypeValidator.AA_DATA, jsonuploadTrackersArray);
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponseObject.toString());
-        writer.close();
         return null;
     }
 

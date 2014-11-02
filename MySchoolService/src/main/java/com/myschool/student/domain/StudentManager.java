@@ -165,7 +165,6 @@ public class StudentManager {
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
         } catch (DaoException daoException) {
-            daoException.printStackTrace();
             // Rollback student details if already  have been saved.
             try {
                 if (!StringUtil.isNullOrBlank(admissionNumber)) {

@@ -140,4 +140,16 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.myschool.application.service.ImageService#markAsLatest(java.lang.String)
+     */
+    @Override
+    public void markAsLatest(String galleryName) throws ServiceException {
+        try {
+            imageManager.markAsLatest(galleryName);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(), dataException);
+        }
+    }
+
 }

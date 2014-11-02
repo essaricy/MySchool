@@ -1,12 +1,9 @@
 package com.myschool.web.branch.controller;
 
-import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,9 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.branch.dto.StateDto;
 import com.myschool.branch.service.StateService;
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.application.constants.ApplicationViewNames;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -60,21 +56,17 @@ public class StateController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        for(StateDto state : stateService.getAll()){
-            JSONArray row = new JSONArray();
-            row.put(state.getStateId());
-            row.put(state.getStateName());
-            data.put(row);
+        try {
+            for(StateDto state : stateService.getAll()){
+                JSONArray row = new JSONArray();
+                row.put(state.getStateId());
+                row.put(state.getStateName());
+                data.put(row);
+            }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 

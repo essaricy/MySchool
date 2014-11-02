@@ -22,7 +22,7 @@ import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -74,15 +74,15 @@ public class ProfileController {
     @RequestMapping(value = "updateOrganizationProfile")
     public ModelAndView updateOrganizationProfile(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             OrganizationProfileDto organizationProfile = validateAndGetOrganizationProfile(request);
-            resultDto.setSuccessful(profileService.update(organizationProfile));
-            resultDto.setStatusMessage("Organization Profile has been updated successfully.");
+            result.setSuccessful(profileService.update(organizationProfile));
+            result.setStatusMessage("Organization Profile has been updated successfully.");
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -98,18 +98,18 @@ public class ProfileController {
     @RequestMapping(value = "updateMySchoolProfile")
     public ModelAndView updateMySchoolProfile(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             MySchoolProfileDto mySchoolProfile = validateAndGetMySchoolProfile(request);
-            resultDto.setSuccessful(profileService.update(mySchoolProfile));
-            resultDto.setStatusMessage("MySchool Profile has been updated successfully.");
+            result.setSuccessful(profileService.update(mySchoolProfile));
+            result.setStatusMessage("MySchool Profile has been updated successfully.");
 
             HttpSession session = request.getSession();
             session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

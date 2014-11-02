@@ -1,6 +1,5 @@
 package com.myschool.web.clazz.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,11 +28,10 @@ import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.school.dto.SchoolDto;
 import com.myschool.school.service.SchoolService;
 import com.myschool.web.clazz.constants.ClazzViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -97,23 +94,19 @@ public class ClassController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        List<ClassDto> classes = classService.getAll();
-        if (classes != null) {
-            for(ClassDto classDto : classes) {
-                JSONArray row = new JSONArray();
-                row.put(classDto.getClassId()).put(classDto.getClassName()).put(classDto.getPromotionOrder());
-                data.put(row);
+        try {
+            List<ClassDto> classes = classService.getAll();
+            if (classes != null) {
+                for(ClassDto classDto : classes) {
+                    JSONArray row = new JSONArray();
+                    row.put(classDto.getClassId()).put(classDto.getClassName()).put(classDto.getPromotionOrder());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -144,9 +137,6 @@ public class ClassController {
         }
         jsonResponse.put(DataTypeValidator.AA_DATA, data);
         response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }*/
 
@@ -176,17 +166,17 @@ public class ClassController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             ClassDto classDto = validateAndGetClass(request);
-            resultDto.setSuccessful(classService.create(classDto));
+            result.setSuccessful(classService.create(classDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -245,18 +235,18 @@ public class ClassController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String classId = request.getParameter("classId");
             ClassDto classDto = validateAndGetClass(request);
-            resultDto.setSuccessful(classService.update(Integer.parseInt(classId), classDto));
+            result.setSuccessful(classService.update(Integer.parseInt(classId), classDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -273,15 +263,14 @@ public class ClassController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String classId = request.getParameter("classId");
-            resultDto.setSuccessful(classService.delete(Integer.parseInt(classId)));
+            result.setSuccessful(classService.delete(Integer.parseInt(classId)));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -313,40 +302,37 @@ public class ClassController {
             HttpServletResponse response) throws Exception {
 
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        String schoolId = request.getParameter("schoolId");
-        if (schoolId != null && !StringUtil.isEmpty(schoolId)) {
-            List<RegisteredClassDto> registeredClassDtos = registeredClassService.getBySchool(Integer.parseInt(schoolId));
-            if (registeredClassDtos != null) {
-                for(RegisteredClassDto registeredClassDto : registeredClassDtos) {
-                    JSONArray row = new JSONArray();
-                    ClassDto classDto = registeredClassDto.getClassDto();
-                    MediumDto medium = registeredClassDto.getMedium();
-                    SectionDto section = registeredClassDto.getSection();
-                    SchoolDto school = registeredClassDto.getSchool();
-                    BranchDto branch = school.getBranch();
-
-                    row.put(registeredClassDto.getClassId());
-                    row.put(classDto.getClassId());
-                    row.put(classDto.getClassName());
-                    row.put(medium.getMediumId());
-                    row.put(medium.getDescription());
-                    row.put(section.getSectionId());
-                    row.put(section.getSectionName());
-                    row.put(school.getSchoolId());
-                    row.put(school.getSchoolName());
-                    row.put(branch.getBranchId());
-                    row.put(branch.getBranchCode());
-                    data.put(row);
+        try {
+            String schoolId = request.getParameter("schoolId");
+            if (schoolId != null && !StringUtil.isEmpty(schoolId)) {
+                List<RegisteredClassDto> registeredClassDtos = registeredClassService.getBySchool(Integer.parseInt(schoolId));
+                if (registeredClassDtos != null) {
+                    for(RegisteredClassDto registeredClassDto : registeredClassDtos) {
+                        JSONArray row = new JSONArray();
+                        ClassDto classDto = registeredClassDto.getClassDto();
+                        MediumDto medium = registeredClassDto.getMedium();
+                        SectionDto section = registeredClassDto.getSection();
+                        SchoolDto school = registeredClassDto.getSchool();
+                        BranchDto branch = school.getBranch();
+                        
+                        row.put(registeredClassDto.getClassId());
+                        row.put(classDto.getClassId());
+                        row.put(classDto.getClassName());
+                        row.put(medium.getMediumId());
+                        row.put(medium.getDescription());
+                        row.put(section.getSectionId());
+                        row.put(section.getSectionName());
+                        row.put(school.getSchoolId());
+                        row.put(school.getSchoolName());
+                        row.put(branch.getBranchId());
+                        row.put(branch.getBranchCode());
+                        data.put(row);
+                    }
                 }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -414,16 +400,16 @@ public class ClassController {
     @RequestMapping(value="doCreateRegistered")
     public ModelAndView doCreateRegistered(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             RegisteredClassDto registeredClassDto = validateAndGetRegisteredClass(request);
-            resultDto.setSuccessful(registeredClassService.create(registeredClassDto));
+            result.setSuccessful(registeredClassService.create(registeredClassDto));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -439,22 +425,22 @@ public class ClassController {
     @RequestMapping(value="doUpdateRegistered")
     public ModelAndView doUpdateRegistered(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String registeredClassId = request.getParameter("registeredClassId");
             viewErrorHandler.validate(registeredClassId, "className", DataTypeValidator.INTEGER, true);
 
             if (registeredClassId != null && !StringUtil.isEmpty(registeredClassId)) {
                 RegisteredClassDto registeredClassDto = validateAndGetRegisteredClass(request);
-                resultDto.setSuccessful(registeredClassService.update(
+                result.setSuccessful(registeredClassService.update(
                         Integer.parseInt(registeredClassId), registeredClassDto));
             }
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -471,19 +457,18 @@ public class ClassController {
     public ModelAndView doDeleteRegistered(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String registeredClassId = request.getParameter("registeredClassId");
             viewErrorHandler.validate(registeredClassId, "className", DataTypeValidator.INTEGER, true);
 
             if (registeredClassId != null && !StringUtil.isEmpty(registeredClassId)) {
-                resultDto.setSuccessful(registeredClassService.delete(Integer.parseInt(registeredClassId)));
+                result.setSuccessful(registeredClassService.delete(Integer.parseInt(registeredClassId)));
             }
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

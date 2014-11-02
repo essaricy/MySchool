@@ -21,6 +21,7 @@ import com.myschool.common.assembler.ResultDataAssembler;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.academic.constants.AcademicViewNames;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 
 /**
@@ -71,10 +72,7 @@ public class AyeProcessController {
         } catch (Exception exception) {
             jsonResponse.put("Response", (Object)null);
         } finally {
-            response.setContentType(MimeTypes.APPLICATION_JSON);
-            PrintWriter writer = response.getWriter();
-            writer.print(jsonResponse.toString());
-            writer.close();
+            HttpUtil.writeJson(response, jsonResponse);
         }
         return null;
     }

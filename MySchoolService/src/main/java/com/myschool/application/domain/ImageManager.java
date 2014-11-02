@@ -238,14 +238,28 @@ public class ImageManager {
     /**
      * Gets the gallery item.
      * 
-     * @param galleryPath the gallery path
+     * @param galleryName the gallery name
      * @param imageSize the image size
      * @return the gallery item
      * @throws DataException the data exception
      */
-    public File getGalleryItem(String galleryPath, ImageSize imageSize) throws DataException {
+    public File getGalleryItem(String galleryName, ImageSize imageSize) throws DataException {
         try {
-            return galleryFileSystem.getGalleryItem(galleryPath, imageSize);
+            return galleryFileSystem.getGalleryItem(galleryName, imageSize);
+        } catch (FileSystemException fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+        }
+    }
+
+    /**
+     * Mark as latest.
+     * 
+     * @param galleryName the gallery name
+     * @throws DataException the data exception
+     */
+    public void markAsLatest(String galleryName) throws DataException {
+        try {
+            galleryFileSystem.updateTimestamp(galleryName);
         } catch (FileSystemException fileSystemException) {
             throw new DataException(fileSystemException.getMessage(), fileSystemException);
         }

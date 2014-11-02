@@ -78,18 +78,34 @@ public class GalleryFileSystem extends AbstractSubFileSystem {
     /**
      * Gets the gallery item.
      * 
-     * @param galleryPath the gallery path
+     * @param galleryName the gallery name
      * @param imageSize the image size
      * @return the gallery item
      * @throws FileSystemException the file system exception
      */
-    public File getGalleryItem(String galleryPath, ImageSize imageSize) throws FileSystemException {
-        String galleryFileAbsPath = getDirectory().getAbsolutePath() + "/" + galleryPath;
+    public File getGalleryItem(String galleryName, ImageSize imageSize) throws FileSystemException {
+        String galleryFileAbsPath = getDirectory().getAbsolutePath() + "/" + galleryName;
         File galleryFile = new File(galleryFileAbsPath.replaceAll("\\\\", "/"));
         if (galleryFile.exists()) {
-            return imageScalingAgent.getImage(galleryFile, imageSize);   
+            return imageScalingAgent.getImage(galleryFile, imageSize);
         }
         return null;
+    }
+
+    /**
+     * Update timestamp.
+     * 
+     * @param galleryName the gallery name
+     * @throws FileSystemException the file system exception
+     */
+    public void updateTimestamp(String galleryName) throws FileSystemException {
+        String galleryFileAbsPath = getDirectory().getAbsolutePath() + "/" + galleryName;
+        File galleryFile = new File(galleryFileAbsPath.replaceAll("\\\\", "/"));
+        if (galleryFile.exists() && galleryFile.isDirectory()) {
+            System.out.println("before updating timestamp " + galleryFile.lastModified());
+            galleryFile.setLastModified(System.currentTimeMillis());
+            System.out.println("after updating timestamp " + galleryFile.lastModified());
+        }
     }
 
 }

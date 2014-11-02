@@ -1,6 +1,5 @@
 package com.myschool.web.employee.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,16 +19,14 @@ import com.myschool.application.service.DocumentService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
 import com.myschool.employee.dto.EmploymentStatus;
 import com.myschool.employee.service.EmployeeService;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 import com.myschool.web.employee.constants.EmployeeViewNames;
@@ -185,16 +182,14 @@ public class EmployeeController {
         try {
             nextEmployeeNumber = employeeService.getLastEmployeeNumber();
         } finally {
-            response.setContentType(MimeTypes.APPLICATION_JSON);
             JSONObject result = new JSONObject();
+            result.put("value", nextEmployeeNumber);
             if (nextEmployeeNumber == null) {
                 result.put("successful", Boolean.FALSE);
             } else {
                 result.put("successful", Boolean.TRUE);
             }
-            result.put("value", nextEmployeeNumber);
-            PrintWriter writer = response.getWriter();
-            writer.print(result.toString());
+            HttpUtil.writeJson(response, result);
         }
         return null;
     }
@@ -240,7 +235,7 @@ public class EmployeeController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -256,15 +251,14 @@ public class EmployeeController {
     @RequestMapping(value="doDelete")
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String employeeNumber = request.getParameter("employeeNumber");
-            resultDto.setSuccessful(employeeService.delete(employeeNumber));
+            result.setSuccessful(employeeService.delete(employeeNumber));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }*/
@@ -312,72 +306,69 @@ public class EmployeeController {
             HttpServletResponse response, String verifiedStatus) throws Exception {
 
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        String employeeSearchCriteriaValue = request.getParameter("EmployeeSearchCriteria");
-
-        if (!StringUtil.isNullOrBlank(employeeSearchCriteriaValue)) {
-            JSONObject employeeSearchCriteria = new JSONObject(employeeSearchCriteriaValue);
-            EmployeeSearchCriteriaDto employeeSearchCriteriaDto = EmployeeDataAssembler.createEmployeeSearchCriteriaDto(employeeSearchCriteria);
-            employeeSearchCriteriaDto.setVerifiedStatus(verifiedStatus);
-            List<EmployeeDto> employees = employeeService.getAll(employeeSearchCriteriaDto);
-            if (employees != null && !employees.isEmpty()) {
-                for (EmployeeDto employee : employees) {
-                    JSONArray row = new JSONArray();
-                    row.put(employee.getEmployeeId());
-                    row.put(employee.getEmployeeNumber());
-                    row.put(employee.getFirstName());
-                    row.put(employee.getMiddleName());
-                    row.put(employee.getLastName());
-                    row.put(employee.getGender());
-                    row.put(employee.getDateOfBirth());
-                    
-                    DesignationDto designation = employee.getDesignation();
-                    row.put(designation.getDesignation());
-                    row.put(employee.getEmployedAtBranch().getBranchCode());
-                    row.put(employee.getEmploymentStartDate());
-                    EmploymentStatus employmentStatus = employee.getEmploymentStatus();
-                    row.put(employmentStatus.getDescription());
-                    EmployeeDto reportingTo = employee.getReportingTo();
-                    if (reportingTo == null) {
-                        row.put("");
-                        row.put("");
-                        row.put("");
-                        row.put("");
-                    } else {
-                        String employeeNumber = reportingTo.getEmployeeNumber();
-                        if (employeeNumber == null) {
+        try {
+            String employeeSearchCriteriaValue = request.getParameter("EmployeeSearchCriteria");
+            if (!StringUtil.isNullOrBlank(employeeSearchCriteriaValue)) {
+                JSONObject employeeSearchCriteria = new JSONObject(employeeSearchCriteriaValue);
+                EmployeeSearchCriteriaDto employeeSearchCriteriaDto = EmployeeDataAssembler.createEmployeeSearchCriteriaDto(employeeSearchCriteria);
+                employeeSearchCriteriaDto.setVerifiedStatus(verifiedStatus);
+                List<EmployeeDto> employees = employeeService.getAll(employeeSearchCriteriaDto);
+                if (employees != null && !employees.isEmpty()) {
+                    for (EmployeeDto employee : employees) {
+                        JSONArray row = new JSONArray();
+                        row.put(employee.getEmployeeId());
+                        row.put(employee.getEmployeeNumber());
+                        row.put(employee.getFirstName());
+                        row.put(employee.getMiddleName());
+                        row.put(employee.getLastName());
+                        row.put(employee.getGender());
+                        row.put(employee.getDateOfBirth());
+                        
+                        DesignationDto designation = employee.getDesignation();
+                        row.put(designation.getDesignation());
+                        row.put(employee.getEmployedAtBranch().getBranchCode());
+                        row.put(employee.getEmploymentStartDate());
+                        EmploymentStatus employmentStatus = employee.getEmploymentStatus();
+                        row.put(employmentStatus.getDescription());
+                        EmployeeDto reportingTo = employee.getReportingTo();
+                        if (reportingTo == null) {
+                            row.put("");
+                            row.put("");
+                            row.put("");
                             row.put("");
                         } else {
-                            row.put(employeeNumber);
+                            String employeeNumber = reportingTo.getEmployeeNumber();
+                            if (employeeNumber == null) {
+                                row.put("");
+                            } else {
+                                row.put(employeeNumber);
+                            }
+                            String firstName = reportingTo.getFirstName();
+                            if (firstName == null) {
+                                row.put("");
+                            } else {
+                                row.put(firstName);
+                            }
+                            String middleName = reportingTo.getMiddleName();
+                            if (middleName == null) {
+                                row.put("");
+                            } else {
+                                row.put(middleName);
+                            }
+                            String lastName = reportingTo.getLastName();
+                            if (lastName == null) {
+                                row.put("");
+                            } else {
+                                row.put(lastName);
+                            }
                         }
-                        String firstName = reportingTo.getFirstName();
-                        if (firstName == null) {
-                            row.put("");
-                        } else {
-                            row.put(firstName);
-                        }
-                        String middleName = reportingTo.getMiddleName();
-                        if (middleName == null) {
-                            row.put("");
-                        } else {
-                            row.put(middleName);
-                        }
-                        String lastName = reportingTo.getLastName();
-                        if (lastName == null) {
-                            row.put("");
-                        } else {
-                            row.put(lastName);
-                        }
+                        data.put(row);
                     }
-                    data.put(row);
                 }
             }
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, "EmployeesData", data);
         }
-        jsonResponse.put("EmployeesData", data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -392,27 +383,25 @@ public class EmployeeController {
     private void employeesJSONList(HttpServletRequest request,
             HttpServletResponse response, String verifiedStatus) throws Exception {
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        EmployeeSearchCriteriaDto employeeSearchCriteria = new EmployeeSearchCriteriaDto();
-        employeeSearchCriteria.setVerifiedStatus(verifiedStatus);
-        List<EmployeeDto> employees = employeeService.getAll(employeeSearchCriteria);
-
-        if (employees != null) {
-            for (EmployeeDto employee : employees) {
-                JSONArray row = new JSONArray();
-                row.put(employee.getEmployeeId());
-                row.put(employee.getEmployeeNumber());
-                row.put(employee.getFirstName());
-                row.put(employee.getMiddleName());
-                row.put(employee.getLastName());
-                data.put(row);
+        try {
+            EmployeeSearchCriteriaDto employeeSearchCriteria = new EmployeeSearchCriteriaDto();
+            employeeSearchCriteria.setVerifiedStatus(verifiedStatus);
+            List<EmployeeDto> employees = employeeService.getAll(employeeSearchCriteria);
+            
+            if (employees != null) {
+                for (EmployeeDto employee : employees) {
+                    JSONArray row = new JSONArray();
+                    row.put(employee.getEmployeeId());
+                    row.put(employee.getEmployeeNumber());
+                    row.put(employee.getFirstName());
+                    row.put(employee.getMiddleName());
+                    row.put(employee.getLastName());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
     }
 
 }

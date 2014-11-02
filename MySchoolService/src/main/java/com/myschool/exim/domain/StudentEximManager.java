@@ -121,7 +121,6 @@ public class StudentEximManager extends AbstractEximManager {
                 validateStudentDocument((StudentDocument) content);
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
             importRecordStatus.setActionCode(ImportRecordStatusDto.ACTION_CODE_SKIP);
             importRecordStatus.setStatusCode(ImportRecordStatusDto.STATUS_INVALID_DATA);
             importRecordStatus.setStatusDescription(exception.getMessage());
@@ -148,7 +147,6 @@ public class StudentEximManager extends AbstractEximManager {
                 handleStudentDocument(importRecordStatus);
             }
         } catch (Exception exception) {
-            exception.printStackTrace();
             importRecordStatus.setStatusCode(ImportRecordStatusDto.STATUS_FAILED);
             importRecordStatus.setStatusDescription(exception.getMessage());
         }

@@ -1,6 +1,5 @@
 package com.myschool.web.student.controller;
 
-import java.io.PrintWriter;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,15 +20,13 @@ import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.student.assembler.StudentDocumentDataAssembler;
 import com.myschool.student.assembler.StudentFamilyDataAssembler;
 import com.myschool.student.dto.StudentDocument;
 import com.myschool.student.service.StudentDocumentService;
 import com.myschool.student.service.StudentFamilyService;
 import com.myschool.student.service.StudentService;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.student.constants.StudentViewNames;
 
@@ -118,30 +115,26 @@ public class StudentAttributesController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONObject jsonResponse = new JSONObject();
-        JSONArray jsonStudentAttributes = null;
-
-        String admissionNumber = request.getParameter("AdmissionNumber");
-        String attribute = request.getParameter("attribute");
-
-        System.out.println("AdmissionNumber " + admissionNumber);
-        if (!StringUtil.isNullOrBlank(attribute) && !StringUtil.isNullOrBlank(admissionNumber)) {
-            if (attribute.equals(STUDENT_DOCUMENT)) {
-                jsonStudentAttributes = StudentDocumentDataAssembler.create(
-                        studentDocumentService.getByStudent(admissionNumber));
-            } else if (attribute.equals(STUDENT_FAMILY_MEMBER)) {
-                jsonStudentAttributes = StudentFamilyDataAssembler.create(
-                        studentFamilyService.getByStudent(admissionNumber));
+        JSONArray data = null;
+        try {
+            String admissionNumber = request.getParameter("AdmissionNumber");
+            String attribute = request.getParameter("attribute");
+            System.out.println("AdmissionNumber " + admissionNumber);
+            if (!StringUtil.isNullOrBlank(attribute) && !StringUtil.isNullOrBlank(admissionNumber)) {
+                if (attribute.equals(STUDENT_DOCUMENT)) {
+                    data = StudentDocumentDataAssembler.create(
+                            studentDocumentService.getByStudent(admissionNumber));
+                } else if (attribute.equals(STUDENT_FAMILY_MEMBER)) {
+                    data = StudentFamilyDataAssembler.create(
+                            studentFamilyService.getByStudent(admissionNumber));
+                }
             }
+            if (data == null) {
+                data = new JSONArray();
+            }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        if (jsonStudentAttributes == null) {
-            jsonStudentAttributes = new JSONArray();
-        }
-        jsonResponse.put(DataTypeValidator.AA_DATA, jsonStudentAttributes);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -191,7 +184,7 @@ public class StudentAttributesController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeJson(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -232,7 +225,7 @@ public class StudentAttributesController {
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -277,10 +270,9 @@ public class StudentAttributesController {
                 result.setStatusMessage(message);
             }
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
             result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, result);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

@@ -1,6 +1,5 @@
 package com.myschool.web.user.controller;
 
-import java.io.PrintWriter;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +19,9 @@ import com.myschool.application.service.IssueService;
 import com.myschool.graph.assembler.ChartDataAssembler;
 import com.myschool.graph.constant.ToDateType;
 import com.myschool.graph.dto.LineChartDto;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.service.UserService;
+import com.myschool.web.common.util.HttpUtil;
 
 /**
  * The Class AdminDashboardController.
@@ -59,27 +58,25 @@ public class AdminDashboardController {
     public ModelAndView getLoginsToDate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        String keyInSession = null;
-        JSONObject jsonResponse = new JSONObject();
-        HttpSession session = request.getSession();
+        JSONObject data = null;
+        try {
+            String keyInSession = null;
+            HttpSession session = request.getSession();
 
-        ToDateType toDateType = ToDateType.get(request.getParameter("ToDateType"));
-        if (toDateType != null) {
-            keyInSession = USAGE_BY_USER_TYPE + toDateType;
+            ToDateType toDateType = ToDateType.get(request.getParameter("ToDateType"));
+            if (toDateType != null) {
+                keyInSession = USAGE_BY_USER_TYPE + toDateType;
 
-            JSONObject jsonObject = (JSONObject) session.getAttribute(keyInSession);
-            if (jsonObject == null) {
-                Map<UserType, List<DateValueDto>> loginsToDateByUserType = userService.getLoginsToDate(toDateType);
-                LineChartDto lineChart = StatisticsDataAssembler.create(loginsToDateByUserType);
-                jsonObject = ChartDataAssembler.create(lineChart);
-                session.setAttribute(keyInSession, jsonObject);
+                data = (JSONObject) session.getAttribute(keyInSession);
+                if (data == null) {
+                    Map<UserType, List<DateValueDto>> loginsToDateByUserType = userService.getLoginsToDate(toDateType);
+                    LineChartDto lineChart = StatisticsDataAssembler.create(loginsToDateByUserType);
+                    data = ChartDataAssembler.create(lineChart);
+                    session.setAttribute(keyInSession, data);
+                }
             }
-
-            jsonResponse.put(CHART_DATA, jsonObject);
-            response.setContentType(MimeTypes.APPLICATION_JSON);
-            PrintWriter writer = response.getWriter();
-            writer.print(jsonResponse.toString());
-            writer.close();
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, CHART_DATA, data);
         }
         return null;
     }
@@ -95,28 +92,23 @@ public class AdminDashboardController {
     @RequestMapping(value="getIssuesToDate")
     public ModelAndView getIssuesToDate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
         String keyInSession = null;
-        JSONObject jsonResponse = new JSONObject();
-        HttpSession session = request.getSession();
-
-        ToDateType toDateType = ToDateType.get(request.getParameter("ToDateType"));
-        if (toDateType != null) {
-            keyInSession = ISSUES_BY_USER_TYPE + toDateType;
-
-            JSONObject jsonObject = (JSONObject) session.getAttribute(keyInSession);
-            if (jsonObject == null) {
-                Map<UserType, List<DateValueDto>> issuesToDateByUserType = issueService.getIssuesToDate(toDateType);
-                LineChartDto lineChart = StatisticsDataAssembler.create(issuesToDateByUserType);
-                jsonObject = ChartDataAssembler.create(lineChart);
-                session.setAttribute(keyInSession, jsonObject);
+        JSONObject data = null;
+        try {
+            HttpSession session = request.getSession();
+            ToDateType toDateType = ToDateType.get(request.getParameter("ToDateType"));
+            if (toDateType != null) {
+                keyInSession = ISSUES_BY_USER_TYPE + toDateType;
+                data = (JSONObject) session.getAttribute(keyInSession);
+                if (data == null) {
+                    Map<UserType, List<DateValueDto>> issuesToDateByUserType = issueService.getIssuesToDate(toDateType);
+                    LineChartDto lineChart = StatisticsDataAssembler.create(issuesToDateByUserType);
+                    data = ChartDataAssembler.create(lineChart);
+                    session.setAttribute(keyInSession, data);
+                }
             }
-
-            jsonResponse.put(CHART_DATA, jsonObject);
-            response.setContentType(MimeTypes.APPLICATION_JSON);
-            PrintWriter writer = response.getWriter();
-            writer.print(jsonResponse.toString());
-            writer.close();
+        } finally {
+            HttpUtil.wrapAndWriteJson(response, CHART_DATA, data);
         }
         return null;
     }

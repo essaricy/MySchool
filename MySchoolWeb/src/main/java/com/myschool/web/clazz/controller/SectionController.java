@@ -1,6 +1,5 @@
 package com.myschool.web.clazz.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +20,9 @@ import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.school.service.SchoolService;
 import com.myschool.web.clazz.constants.ClazzViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -79,22 +76,19 @@ public class SectionController {
             HttpServletResponse response) throws Exception {
 
         JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-
-        List<SectionDto> sections = sectionService.getAll();
-        if (sections != null) {
-            for(SectionDto section : sections) {
-                JSONArray row = new JSONArray();
-                row.put(section.getSectionId());
-                row.put(section.getSectionName());
-                data.put(row);
+        try {
+            List<SectionDto> sections = sectionService.getAll();
+            if (sections != null) {
+                for(SectionDto section : sections) {
+                    JSONArray row = new JSONArray();
+                    row.put(section.getSectionId());
+                    row.put(section.getSectionName());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -124,16 +118,16 @@ public class SectionController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             SectionDto section = validateAndGetSection(request);
-            resultDto.setSuccessful(sectionService.create(section));
+            result.setSuccessful(sectionService.create(section));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -187,18 +181,18 @@ public class SectionController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             String sectionId = request.getParameter("sectionId");
             SectionDto section = validateAndGetSection(request);
-            resultDto.setSuccessful(sectionService.update(Integer.parseInt(sectionId), section));
+            result.setSuccessful(sectionService.update(Integer.parseInt(sectionId), section));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -215,15 +209,14 @@ public class SectionController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String sectionId = request.getParameter("sectionId");
-            resultDto.setSuccessful(sectionService.delete(Integer.parseInt(sectionId)));
+            result.setSuccessful(sectionService.delete(Integer.parseInt(sectionId)));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

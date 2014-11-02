@@ -15,13 +15,13 @@ public class SmsIntegraServerAgent extends SmsServerAgent {
      */
     @Override
     public ResultDto getResult(String response) {
-        ResultDto resultDto = new ResultDto();
-        resultDto.setSuccessful(ResultDto.FAILURE);
+        ResultDto result = new ResultDto();
+        result.setSuccessful(ResultDto.FAILURE);
         if (response != null && response.indexOf("100") != -1) {
-            resultDto.setSuccessful(ResultDto.SUCCESS);
+            result.setSuccessful(ResultDto.SUCCESS);
         }
-        resultDto.setStatusMessage(response);
-        return resultDto;
+        result.setStatusMessage(response);
+        return result;
     }
 
 }

@@ -24,8 +24,8 @@ public class ResultDataAssembler {
         JSONArray jsonArray = null;
         if (resultList != null && !resultList.isEmpty()) {
             jsonArray = new JSONArray();
-            for (ResultDto resultDto : resultList) {
-                jsonArray.put(create(resultDto));
+            for (ResultDto result : resultList) {
+                jsonArray.put(create(result));
             }
         }
         return jsonArray;
@@ -34,16 +34,16 @@ public class ResultDataAssembler {
     /**
      * Creates the.
      * 
-     * @param resultDto the result dto
+     * @param result the result dto
      * @return the jSON object
      * @throws JSONException the jSON exception
      */
-    private static JSONObject create(ResultDto resultDto) throws JSONException {
+    private static JSONObject create(ResultDto result) throws JSONException {
         JSONObject jsonObject = new JSONObject();
-        if (resultDto != null) {
-            jsonObject.put("Successful", resultDto.isSuccessful());
-            jsonObject.put("StatusMessage", resultDto.getStatusMessage());
-            jsonObject.put("ReferenceNumber", resultDto.getReferenceNumber());
+        if (result != null) {
+            jsonObject.put("Successful", result.isSuccessful());
+            jsonObject.put("StatusMessage", result.getStatusMessage());
+            jsonObject.put("ReferenceNumber", result.getReferenceNumber());
         }
         return jsonObject;
     }

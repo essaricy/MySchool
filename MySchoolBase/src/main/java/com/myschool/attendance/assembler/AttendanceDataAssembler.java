@@ -580,7 +580,6 @@ public class AttendanceDataAssembler {
             }
         } catch (Exception exception) {
             // Nothing to do. skip this entry
-            exception.printStackTrace();
         }
         return assignments;
     }

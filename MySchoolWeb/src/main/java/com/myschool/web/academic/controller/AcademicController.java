@@ -1,6 +1,5 @@
 package com.myschool.web.academic.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +20,8 @@ import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.academic.constants.AcademicViewNames;
-import com.myschool.web.common.parser.ResponseParser;
+import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.common.util.ViewErrorHandler;
 
@@ -68,24 +65,23 @@ public class AcademicController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        JSONArray data = new JSONArray();
-        JSONObject jsonResponse = new JSONObject();
-        List<AcademicDto> academics = academicService.getAll();
+        JSONArray data = null;
+        try {
+            data = new JSONArray();
+            List<AcademicDto> academics = academicService.getAll();
 
-        if (academics != null) {
-            for(AcademicDto academic : academics){
-                JSONArray row = new JSONArray();
-                row.put(academic.getAcademicYearName())
-                .put(academic.getAcademicYearStartDate())
-                .put(academic.getAcademicYearEndDate());
-                data.put(row);
+            if (academics != null) {
+                for(AcademicDto academic : academics){
+                    JSONArray row = new JSONArray();
+                    row.put(academic.getAcademicYearName())
+                    .put(academic.getAcademicYearStartDate())
+                    .put(academic.getAcademicYearEndDate());
+                    data.put(row);
+                }
             }
+        } finally {
+            HttpUtil.wrapAndWriteAsAAData(response, data);
         }
-        jsonResponse.put(DataTypeValidator.AA_DATA, data);
-        response.setContentType(MimeTypes.APPLICATION_JSON);
-        PrintWriter writer = response.getWriter();
-        writer.print(jsonResponse.toString());
-        writer.close();
         return null;
     }
 
@@ -137,17 +133,17 @@ public class AcademicController {
     public ModelAndView doCreate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             AcademicDto academic = validateAndGetAcademic(request);
-            resultDto.setSuccessful(academicService.create(academic));
+            result.setSuccessful(academicService.create(academic));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -164,17 +160,17 @@ public class AcademicController {
     public ModelAndView doUpdate(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
 
         try {
             AcademicDto academic = validateAndGetAcademic(request);
-            resultDto.setSuccessful(academicService.update(academic.getAcademicYearName(), academic));
+            result.setSuccessful(academicService.update(academic.getAcademicYearName(), academic));
         } catch (DataException dataException) {
-            resultDto.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
+            result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -191,15 +187,14 @@ public class AcademicController {
     public ModelAndView doDelete(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        ResultDto resultDto = new ResultDto();
+        ResultDto result = new ResultDto();
         try {
             String academicYearName = request.getParameter("academicYearName");
-            resultDto.setSuccessful(academicService.delete(academicYearName));
+            result.setSuccessful(academicService.delete(academicYearName));
         } catch (ServiceException serviceException) {
-            serviceException.printStackTrace();
-            resultDto.setStatusMessage(serviceException.getMessage());
+            result.setStatusMessage(serviceException.getMessage());
         } finally {
-            ResponseParser.writeResponse(response, resultDto);
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

@@ -100,4 +100,12 @@ public interface ImageService {
      */
     File getOrgImage(String imageName, ImageSize imageSize) throws ServiceException;
 
+    /**
+     * Mark as latest.
+     * 
+     * @param galleryName the gallery name
+     * @throws ServiceException the service exception
+     */
+    void markAsLatest(String galleryName) throws ServiceException;
+
 }
