@@ -75,6 +75,24 @@
     top:1px;
 }
 
+.inactive[type="button"] {
+    background-color: gray;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid #797D80;
+    display: inline-block;
+    color: #ffffff;
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold;
+    height: 30px;
+    margin-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
 
 .formLink {
     font-size: 0.85em;

@@ -19,4 +19,8 @@
         <put-attribute name="body" value="/views/user/view_settings.jsp" />
     </definition>
 
+    <definition name="copy_user_privileges_model" extends="model_layout">
+        <put-attribute name="body" value="/views/user/copy_user_privileges.jsp" />
+    </definition>
+
 </tiles-definitions>

@@ -48,6 +48,7 @@ $(document).ready(function() {
             } ]
         },
         'delete': {
+            title: 'Delete Branch',
             url: '<%=request.getContextPath()%>/branch/doDelete.htm',
             selectRowMessage: '<spring:message code="common.selectRow.delete"/>',
             confirmMessage: '<spring:message code="branch.delete.warning"/>',

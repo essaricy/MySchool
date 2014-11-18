@@ -200,6 +200,14 @@ public class NoticeBoardController {
         return ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.VIEW_UPCOMING_EXAMS);
     }
 
+    /**
+     * Mark as latest.
+     * 
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
     @RequestMapping(value="markAsLatest")
     public ModelAndView markAsLatest(HttpServletRequest request,
             HttpServletResponse response) throws Exception {

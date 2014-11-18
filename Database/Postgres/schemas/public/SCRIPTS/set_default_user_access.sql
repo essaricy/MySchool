@@ -1,5 +1,5 @@
 -- Procedure to create default user access records.
---CREATE OR REPLACE FUNCTION set_default_user_access() RETURNS void AS
+CREATE OR REPLACE FUNCTION set_default_user_access() RETURNS void AS
 DO
 $BODY$
   DECLARE

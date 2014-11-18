@@ -32,7 +32,8 @@ function parseWholepageResponse(result, reload) {
       returnCode = true;
     }
     if (reload) {
-      reloadData();
+      //reloadData();
+	  location.reload();
     }
   } else {
     var message = result.StatusMessage;

@@ -8,7 +8,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/medium/doCreate.htm",
-      dataType: 'xml',
       data: {
         description: $('#description').val()
       }, 
@@ -22,7 +21,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/medium/doUpdate.htm",
-      dataType: 'xml',
       data: {
          mediumId: $('#mediumId').val(),
          description: $('#description').val()

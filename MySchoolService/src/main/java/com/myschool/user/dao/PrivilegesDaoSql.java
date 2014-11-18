@@ -1,5 +1,9 @@
 package com.myschool.user.dao;
 
+import java.util.List;
+
+import com.myschool.common.util.CollectionUtil;
+
 /**
  * The Class PrivilegesDaoSql.
  */
@@ -146,6 +150,16 @@ public class PrivilegesDaoSql {
         buffer.append("INSERT INTO USER_ACCESS (USER_ID, FUNCTION_ID, CAN_VIEW, CAN_CREATE, CAN_UPDATE, CAN_DELETE) ");
         buffer.append("VALUES (?, ?, ?, ?, ?, ?) ");
         return buffer.toString();
+    }
+
+    /**
+     * Gets the copy privileges sql.
+     * 
+     * @return the copy privileges sql
+     */
+    public static String getCopyPrivilegesSql(Integer copyFromUserId,
+            List<Integer> copyToUserIds) {
+        return "SELECT copy_user_privileges(" + copyFromUserId + ", '" + CollectionUtil.getSqlArray(copyToUserIds) + "'::INT[]);";
     }
 
 }

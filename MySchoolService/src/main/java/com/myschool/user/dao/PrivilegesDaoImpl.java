@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -311,6 +312,37 @@ public class PrivilegesDaoImpl implements PrivilegesDao {
             }
         }
         return saved;
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.user.dao.PrivilegesDao#copyUserPrivileges(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public void copyUserPrivileges(Integer copyFromUserId,
+            List<Integer> copyToUserIds) throws DaoException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            String query = PrivilegesDaoSql.getCopyPrivilegesSql(copyFromUserId, copyToUserIds);
+            System.out.println("query " + query);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(),
+                    connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, statement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
     }
 
 }

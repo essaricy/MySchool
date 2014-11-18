@@ -406,7 +406,7 @@ var currentDataTable = null;
           success: function(result){
             $(this).addClass("done");
             oTable.fnDeleteRow(anSelected);
-            parseWholepageResponse(result, true);
+            parseWholepageResponse(result, false);
           }
         });
       }

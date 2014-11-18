@@ -1,10 +1,12 @@
 package com.myschool.web.user.controller;
 
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,9 @@ import com.myschool.user.constants.UserTheme;
 import com.myschool.user.dto.ChangePasswordDto;
 import com.myschool.user.dto.UserContext;
 import com.myschool.user.dto.UserPreference;
+import com.myschool.user.dto.UsersDto;
 import com.myschool.user.service.UserService;
+import com.myschool.user.service.UserTypeService;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.common.util.HttpUtil;
@@ -40,6 +44,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /** The user type service. */
+    @Autowired
+    private UserTypeService userTypeService;
+
     /** The view error handler. */
     @Autowired
     private ViewErrorHandler viewErrorHandler;
@@ -56,6 +64,34 @@ public class UserController {
     public ModelAndView viewDashboard(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         return ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.DASH_BOARD);
+    }
+
+    /**
+     * Users by type.
+     * 
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="usersByType")
+    public ModelAndView usersByType(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        JSONArray data = null;
+        try {
+            String userTypeId = request.getParameter("UserTypeID");
+            System.out.println("userTypeId " + userTypeId);
+            if (!StringUtil.isNullOrBlank(userTypeId)) {
+                // add users list by user type id
+                List<UsersDto> users = userTypeService.getUsers(Integer.parseInt(userTypeId));
+                data = UserDataAssembler.create(users);
+            }
+        }  finally {
+            System.out.println("data " + data);
+            HttpUtil.wrapAndWriteJson(response, "Users", data);
+        }
+        return null;
     }
 
     /**

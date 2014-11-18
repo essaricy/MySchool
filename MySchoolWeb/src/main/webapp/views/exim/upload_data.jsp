@@ -32,8 +32,9 @@ $(document).ready(function() {
     document.forms[0].submit();
   });
 
+<c:if test="${PAGE_ACCESS != null && PAGE_ACCESS.create}">
   // Setup html5 version
-  $("#uploader").pluploadQueue({
+  $("#UploadContainer").pluploadQueue({
     // General settings
     runtimes : 'html5',
     multipart: true,
@@ -52,7 +53,7 @@ $(document).ready(function() {
     ]
   });
 
-  var uploader = $('#uploader').pluploadQueue();
+  var uploader = $('#UploadContainer').pluploadQueue();
   var uploadTrackerId = null;
   var validated = false;
   var BeforeUpload = function (up, file) {
@@ -105,6 +106,7 @@ $(document).ready(function() {
       });
     }
   });
+</c:if>
 
   function validateUpload(up, file) {
     var error = null;
@@ -331,7 +333,7 @@ function showRecordStatus(fileTrackerId) {
     <div style="float: left; position:relative; padding-left: 10px;">
       <img src="<%=request.getContextPath()%>/images/icons/download.png" width="35" height="35" border="0"/>
     </div>
-    <div class="title">Donwload Template</div>
+    <div class="title">Download Template</div>
     <div class="updateTime">Select any template from below list and click on "Download Template" to download the template.</div>
   </div>
   <p/>
@@ -353,9 +355,11 @@ function showRecordStatus(fileTrackerId) {
   </table>
 </div>
 
-<div id="uploader">
+<c:if test="${PAGE_ACCESS != null && PAGE_ACCESS.create}">
+<div id="UploadContainer">
     <p>You browser doesn't have HTML5 support.</p>
 </div>
+</c:if>
 
 <div class="uploadStatus">
   <div class="heading">

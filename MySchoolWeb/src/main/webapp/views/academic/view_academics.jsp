@@ -26,7 +26,7 @@ $(document).ready(function() {
     },
     buttons: actionButtons,
     'add' : {
-      title: '<spring:message code="academic.create" />',
+      title: '<spring:message code="academic.add" />',
       url: '<%=request.getContextPath()%>/academic/launchNew.htm',
       width: 420,
       height: 240
@@ -43,6 +43,7 @@ $(document).ready(function() {
       } ]
     },
     'delete': {
+      title: '<spring:message code="academic.delete" />',
       url: '<%=request.getContextPath()%>/academic/doDelete.htm',
       selectRowMessage: '<spring:message code="common.selectRow.delete"/>',
       confirmMessage: 'Deleting an academic year will delete the associated data with it. Do you really want to continue?',

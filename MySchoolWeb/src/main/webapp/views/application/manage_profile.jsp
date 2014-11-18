@@ -9,7 +9,6 @@
   text-align: left;
 }
 </style>
-
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   $(this).myAccordion({id: 'ProfilesAccordion'});
@@ -56,7 +55,7 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseWholepageResponse(result, true);
+      parseWholepageResponse(result, false);
     });
   });
 
@@ -76,7 +75,7 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseWholepageResponse(result, true);
+      parseWholepageResponse(result, false);
     });
   });
 });
@@ -131,7 +130,14 @@ $(document).ready(function() {
             <tfoot>
               <tr>
                 <td colspan="2" align="center">
-                  <input type="button" id="SaveOrganizationProfile" class="formButton" style="width:120px;" value='Save Changes' />
+                <c:choose>
+                  <c:when test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
+                    <input type="button" id="SaveOrganizationProfile" class="formButton" style="width:120px;" value='Save Changes' />
+                  </c:when>
+                  <c:otherwise>
+                    <input type="button" class="inactive" style="width:120px;" value='Save Changes'  disabled />
+                  </c:otherwise>
+                </c:choose>
                 </td>
               </tr>
             </tfoot>
@@ -145,7 +151,7 @@ $(document).ready(function() {
         </c:if>
         <c:if test="${MySchoolProfile != null}">
         <div>
-          <table cellpadding="5" cellspacing="0" align="center"class="formDataTable" border="0">
+          <table cellpadding="5" cellspacing="0" align="center" class="formDataTable" border="0" width="100%">
             <tbody>
               <!-- Email service configuration -->
               <tr>
@@ -233,7 +239,14 @@ $(document).ready(function() {
             <tfoot>
               <tr>
                 <td colspan="2" align="center">
-                  <input type="button" id="SaveMySchoolProfile" class="formButton" style="width:120px;" value='Save Changes' />
+                <c:choose>
+                  <c:when test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
+                    <input type="button" id="SaveMySchoolProfile" class="formButton" style="width:120px;" value='Save Changes' />
+                  </c:when>
+                  <c:otherwise>
+                    <input type="button" class="inactive" style="width:120px;" value='Save Changes' disabled />
+                  </c:otherwise>
+                </c:choose>
                 </td>
               </tr>
             </tfoot>

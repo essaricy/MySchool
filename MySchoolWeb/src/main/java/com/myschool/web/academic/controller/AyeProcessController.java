@@ -1,6 +1,5 @@
 package com.myschool.web.academic.controller;
 
-import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +18,6 @@ import com.myschool.academic.dto.AyeProcessCriteriaDto;
 import com.myschool.academic.service.AyeProcessService;
 import com.myschool.common.assembler.ResultDataAssembler;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.academic.constants.AcademicViewNames;
 import com.myschool.web.common.util.HttpUtil;
 import com.myschool.web.common.util.ViewDelegationController;

@@ -8,7 +8,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/examGrade/doCreate.htm",
-      dataType: 'xml',
       data: {
         gradeName: $('#gradeName').val(),
         qualifyingPercentage: $('#qualifyingPercentage').val()
@@ -23,7 +22,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/examGrade/doUpdate.htm",
-      dataType: 'xml',
       data: {
          examGradeId: $('#examGradeId').val(),
          gradeName: $('#gradeName').val(),

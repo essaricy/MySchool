@@ -2,9 +2,9 @@ package com.myschool.common.assembler;
 
 import java.util.List;
 
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
-import org.codehaus.jettison.json.JSONObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import com.myschool.common.dto.ResultDto;
 
@@ -20,7 +20,7 @@ public class ResultDataAssembler {
      * @return the jSON array
      * @throws JSONException the jSON exception
      */
-    public static JSONArray create(List<ResultDto> resultList) throws JSONException {
+    public static JSONArray create(List<ResultDto> resultList) {
         JSONArray jsonArray = null;
         if (resultList != null && !resultList.isEmpty()) {
             jsonArray = new JSONArray();
@@ -38,7 +38,7 @@ public class ResultDataAssembler {
      * @return the jSON object
      * @throws JSONException the jSON exception
      */
-    private static JSONObject create(ResultDto result) throws JSONException {
+    private static JSONObject create(ResultDto result) {
         JSONObject jsonObject = new JSONObject();
         if (result != null) {
             jsonObject.put("Successful", result.isSuccessful());

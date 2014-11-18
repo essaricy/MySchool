@@ -68,4 +68,13 @@ public interface PrivilegesService {
      */
     public void deleteUserPrivileges(int userId) throws ServiceException;
 
+    /**
+     * Copy user privileges.
+     * 
+     * @param copyFrom the copy from
+     * @param copyTo the copy to
+     * @throws ServiceException the service exception
+     */
+    public void copyUserPrivileges(Integer copyFrom, List<Integer> copyTo) throws ServiceException;
+
 }

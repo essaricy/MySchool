@@ -184,30 +184,41 @@ function showStudent(admissionNumber, firstName, middleName, lastName) {
 
 <input type="hidden" id="Selected_AdmissionNumber" name="AdmissionNumber" value="" />
 <table width="90%" align="center" cellpadding="0" cellspacing="0" border="0" class="display" id="StudentsTable">
-    <thead>
-        <tr>
-            <th>&nbsp;</th>
-            <th><spring:message code="student.admissionNumber"/></th>
-            <th>Name</th>
-            <th><spring:message code="common.gender"/></th>
-            <th><spring:message code="common.bloodGroup"/></th>
-            <th><spring:message code="common.dateOfBirth"/></th>
-            <th><spring:message code="common.dateOfJoining"/></th>
-            <th>Branch</th>
-            <th>Division</th>
-            <th>School</th>
-            <th>Class</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-        <tr>
-            <th colspan="14" align="right">
-                <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Add Student" />
-                <img id="update" src="<%=request.getContextPath()%>/images/icons/update.png" class="iconImage" title="Update Student" />
-            </th>
-        </tr>
-    </tfoot>
+  <thead>
+    <tr>
+      <th>&nbsp;</th>
+      <th><spring:message code="student.admissionNumber"/></th>
+      <th>Name</th>
+      <th><spring:message code="common.gender"/></th>
+      <th><spring:message code="common.bloodGroup"/></th>
+      <th><spring:message code="common.dateOfBirth"/></th>
+      <th><spring:message code="common.dateOfJoining"/></th>
+      <th>Branch</th>
+      <th>Division</th>
+      <th>School</th>
+      <th>Class</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+  <tfoot>
+    <tr>
+      <th colspan="14" align="right">
+        <c:choose>
+          <c:when test="${PAGE_ACCESS != null}">
+            <c:if test="${PAGE_ACCESS.create}">
+            <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Add Student" />
+            </c:if>
+            <c:if test="${PAGE_ACCESS.update}">
+            <img id="update" src="<%=request.getContextPath()%>/images/icons/update.png" class="iconImage" title="Update Student" />
+            </c:if>
+          </c:when>
+          <c:otherwise>
+            &nbsp;
+          </c:otherwise>
+        </c:choose>
+      </th>
+    </tr>
+  </tfoot>
 </table>
 <br />
 

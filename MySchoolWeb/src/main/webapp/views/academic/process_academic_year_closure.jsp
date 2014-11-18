@@ -177,7 +177,7 @@ $(document).ready(function () {
           </c:if>
       </table>
 
-      <c:set var="canProcess" value="${MySchoolProfile.ayeInProgress != true and CurrentAcademic != null and NextAcademic != null}" />
+      <c:set var="canProcess" value="${PAGE_ACCESS != null && PAGE_ACCESS.update && MySchoolProfile.ayeInProgress != true and CurrentAcademic != null and NextAcademic != null}" />
       <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5" width="100%">
         <tr>
           <td align="center">
@@ -185,7 +185,7 @@ $(document).ready(function () {
               <input type="button" id="InitiateAYC" class="active" value='Initiate Academic Year Closure' />
             </c:if>
             <c:if test="${not canProcess}">
-              <input type="button" id="InitiateAYC" class="inactive" value='Initiate Academic Year Closure' disabled />
+              <input type="button" class="inactive" value='Initiate Academic Year Closure' disabled />
             </c:if>
           </td>
         </tr>

@@ -189,8 +189,19 @@ function showEmployee(employeNumber, firstName, middleName, lastName) {
     <tfoot>
       <tr>
         <th colspan="10" align="right">
-          <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Add Employee" />
-          <img id="update" src="<%=request.getContextPath()%>/images/icons/update.png" class="iconImage" title="Update Employee" />
+        <c:choose>
+          <c:when test="${PAGE_ACCESS != null}">
+            <c:if test="${PAGE_ACCESS.create}">
+            <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Add Employee" />
+            </c:if>
+            <c:if test="${PAGE_ACCESS.update}">
+            <img id="update" src="<%=request.getContextPath()%>/images/icons/update.png" class="iconImage" title="Update Employee" />
+            </c:if>
+          </c:when>
+          <c:otherwise>
+            &nbsp;
+          </c:otherwise>
+        </c:choose>
         </th>
       </tr>
     </tfoot>

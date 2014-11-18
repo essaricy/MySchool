@@ -2,7 +2,9 @@ package com.myschool.user.assembler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.common.util.ConversionUtil;
@@ -189,6 +191,59 @@ public class UserDataAssembler {
         userAccess.setDelete(ConversionUtil.toBoolean(resultSet.getString("CAN_DELETE")));
         userAccess.setFunction(ModuleDataAssembler.createFunction(resultSet, true));
         return userAccess;
+    }
+
+    /**
+     * Creates the.
+     * 
+     * @param users the users
+     * @return the jSON array
+     */
+    public static JSONArray create(List<UsersDto> users) {
+        JSONArray jsonArray = null;
+        if (users != null && !users.isEmpty()) {
+            jsonArray = new JSONArray();
+            for (UsersDto user : users) {
+                jsonArray.put(create(user));
+            }
+        }
+        return jsonArray;
+    }
+
+    /**
+     * Creates the.
+     * 
+     * @param user the user
+     * @return the jSON object
+     */
+    private static JSONObject create(UsersDto user) {
+        JSONObject jsonObject = null;
+        if (user != null) {
+            jsonObject = new JSONObject();
+            jsonObject.put("Id", user.getId());
+            jsonObject.put("RefUserId", user.getRefUserId());
+            jsonObject.put("DisplayName", user.getDisplayName());
+            jsonObject.put("UserName", user.getUserName());
+            jsonObject.put("UserType", create(user.getUserType()));
+        }
+        return jsonObject;
+    }
+
+    /**
+     * Creates the.
+     * 
+     * @param userType the user type
+     * @return the jSON object
+     */
+    private static JSONObject create(UserType userType) {
+        JSONObject jsonObject = null;
+        if (userType != null) {
+            jsonObject = new JSONObject();
+            jsonObject.put("Prefix", userType.getPrefix());
+            jsonObject.put("UserTypeValue", userType.getUserTypeValue());
+            jsonObject.put("UserType", userType.toString());
+        }
+        return jsonObject;
     }
 
 }

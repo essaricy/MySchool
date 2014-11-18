@@ -159,6 +159,7 @@ public class HttpUtil {
      */
     public static void writeAsJson(HttpServletResponse response, ResultDto result)
             throws IOException {
+        System.out.println("writeAsJson result " + result);
         PrintWriter writer = null;
         JSONObject jsonObject = new JSONObject();
         response.setContentType(MimeTypes.APPLICATION_JSON);
@@ -169,6 +170,7 @@ public class HttpUtil {
                 jsonObject.put("StatusMessage", result.getStatusMessage());
                 jsonObject.put("ReferenceNumber", result.getReferenceNumber());
             }
+            System.out.println("jsonObject " + jsonObject);
             writer.write(jsonObject.toString());
         } finally {
             if (writer != null) {

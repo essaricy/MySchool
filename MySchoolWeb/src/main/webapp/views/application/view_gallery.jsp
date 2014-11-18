@@ -76,7 +76,8 @@ function markAsLatest(galleryName) {
       context: document.body,
       success: function(result) {
         parseWholepageResponse(result, false);
-      });
+      }
+    });
   }
 
   function showGalleryItems(galleryName, galleryThumbsContainer, galleryHeading) {
@@ -90,7 +91,7 @@ function markAsLatest(galleryName) {
       context: document.body,
       success: function(result) {
         var count=0;
-        <c:if test="${USER_CONTEXT.userType == 'ADMIN'}">
+        <c:if test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
             var link = $('<a href="#" class="formLink">Mark This As Latest</a>');
             link.click(function () {
               markAsLatest(galleryName);

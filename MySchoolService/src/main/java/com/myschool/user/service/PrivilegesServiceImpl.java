@@ -112,4 +112,17 @@ public class PrivilegesServiceImpl implements PrivilegesService {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.myschool.user.service.PrivilegesService#copyUserPrivileges(java.lang.Integer, java.util.List)
+     */
+    @Override
+    public void copyUserPrivileges(Integer copyFromUserId, List<Integer> copyToUserIds) throws ServiceException {
+        try {
+            privilegesManager.copyUserPrivileges(copyFromUserId, copyToUserIds);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
 }

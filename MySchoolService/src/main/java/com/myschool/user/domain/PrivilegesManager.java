@@ -135,4 +135,37 @@ public class PrivilegesManager {
             throw new DataException(daoException.getMessage(), daoException);
         }
     }
+
+    /**
+     * Copy user privileges.
+     * 
+     * @param copyFromUserId the copy from user id
+     * @param copyToUserIds the copy to user ids
+     * @throws DataException the data exception
+     */
+    public void copyUserPrivileges(Integer copyFromUserId,
+            List<Integer> copyToUserIds) throws DataException {
+        try {
+            System.out.println("copyFromUserId " + copyFromUserId);
+            System.out.println("copyToUserIds " + copyToUserIds);
+            if (copyFromUserId == null || copyFromUserId == 0) {
+                throw new DataException("'Copy From User ID' is not given.");
+            }
+            if (copyToUserIds == null || copyToUserIds.isEmpty()) {
+                throw new DataException("'Copy To User IDs' are not given.");
+            }
+            for (Integer copyToUserId : copyToUserIds) {
+                if (copyToUserId == null || copyToUserId == 0) {
+                    throw new DataException("'Copy To User ID' cannot be null.");
+                }
+                if (copyToUserId == copyFromUserId) {
+                    throw new DataException("'Copy From User ID' and 'Copy To User ID' cannot same.");
+                }
+            }
+            privilegesDao.copyUserPrivileges(copyFromUserId, copyToUserIds);
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+    }
+
 }

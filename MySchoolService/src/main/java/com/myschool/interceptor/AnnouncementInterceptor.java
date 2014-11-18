@@ -1,18 +1,9 @@
 package com.myschool.interceptor;
 
-import java.text.MessageFormat;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
-
-import com.myschool.academic.dto.AcademicDto;
-import com.myschool.branch.dto.BranchDto;
-import com.myschool.branch.dto.DivisionDto;
-import com.myschool.branch.dto.RegionDto;
-import com.myschool.branch.dto.StateDto;
-import com.myschool.school.dto.SchoolDto;
 
 @Component
 @Aspect
@@ -23,7 +14,7 @@ public class AnnouncementInterceptor {
     private static final String CREATE_DIVISION = "Introducing a new Division {0}";
 
     @After("execution(* com.myschool.*.service.*ServiceImpl.create(..))")
-    public void afterCreate(JoinPoint joinPoint) {
+    public void afterCreate(JoinPoint joinPoint) {/*
         String announcement = null;
         //System.out.println("*******************************AnnouncementInterceptor*************************************");
         //System.out.println("hijacked method is : " + joinPoint.getSignature().getName());
@@ -51,6 +42,6 @@ public class AnnouncementInterceptor {
         }
         //System.out.println("announcement " + announcement);
         //System.out.println("*******************************AnnouncementInterceptor*************************************");
-    }
+    */}
 
 }

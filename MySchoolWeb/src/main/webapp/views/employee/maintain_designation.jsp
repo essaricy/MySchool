@@ -8,7 +8,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/designation/doCreate.htm",
-      dataType: 'xml',
       data: {
         designationId: $('#designationId').val(),
         designation: $('#designation').val()
@@ -23,7 +22,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/designation/doUpdate.htm",
-      dataType: 'xml',
       data: {
         designationId: $('#designationId').val(),
         designation: $('#designation').val()

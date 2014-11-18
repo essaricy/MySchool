@@ -8,7 +8,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/class/doCreate.htm",
-      dataType: 'xml',
       data: {
         className: $('#className').val(),
         promotionOrder: $('#promotionOrder').val()
@@ -23,7 +22,6 @@ $(document).ready(function() {
     $.ajax({
       type: "POST",
       url: "<%=request.getContextPath()%>/class/doUpdate.htm",
-      dataType: 'xml',
       data: {
         classId: $('#classId').val(),
         className: $('#className').val(),

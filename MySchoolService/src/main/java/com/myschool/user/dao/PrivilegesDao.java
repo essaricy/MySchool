@@ -77,4 +77,13 @@ public interface PrivilegesDao {
     boolean saveUserPrivileges(int userId,
             List<ModuleAccessDto> moduleAccessList) throws DaoException;
 
+    /**
+     * Copy user privileges.
+     * 
+     * @param copyFromUserId the copy from user id
+     * @param copyToUserIds the copy to user ids
+     * @throws DaoException the dao exception
+     */
+    void copyUserPrivileges(Integer copyFromUserId, List<Integer> copyToUserIds) throws DaoException;
+
 }
