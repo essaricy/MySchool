@@ -92,7 +92,7 @@ $(document).ready(function() {
         data: { StudentsMarksData: JSON.stringify(StudentsMarksData) },
         context: this
       }).done(function(result) {
-        parseModelReponse(result);
+        parseModelResponse(result);
       });
     }
   });
@@ -113,7 +113,7 @@ $(document).ready(function() {
         },
         context: this
       }).done(function(result) {
-        parseModelReponse(result);
+        parseModelResponse(result);
       });
     }
   }

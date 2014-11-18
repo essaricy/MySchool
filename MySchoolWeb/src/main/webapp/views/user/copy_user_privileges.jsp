@@ -35,7 +35,8 @@ $(document).ready(function () {
         },
         context: this
       }).done(function(result) {
-        alert(JSON.stringify(result));
+        //alert(JSON.stringify(result));
+        parseModelResponse(result);
       });
 
   });

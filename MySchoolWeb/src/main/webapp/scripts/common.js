@@ -1,4 +1,4 @@
-function parseModelReponse(result) {
+function parseModelResponse(result) {
   if (result.Successful) {
     var message = result.StatusMessage;
     if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {

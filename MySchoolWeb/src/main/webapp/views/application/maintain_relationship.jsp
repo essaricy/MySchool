@@ -15,7 +15,7 @@ $(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseModelReponse(result);
+      parseModelResponse(result);
     });
   });
 
@@ -30,7 +30,7 @@ $(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseModelReponse(result);
+      parseModelResponse(result);
     });
   });
 });

@@ -144,7 +144,7 @@ $(document).ready(function() {
             },
             context: document.body,
             success: function(result) {
-                parseModelReponse(result);
+                parseModelResponse(result);
             }
         });
     });
