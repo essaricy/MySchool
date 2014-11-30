@@ -170,6 +170,13 @@ public class UploadManager {
         int fileTrackerId = 0;
         FileWriter fileWriter = null;
         try {
+            String uploadType = uploadFileTracker.getUploadType();
+            System.out.println("uploadType " + uploadType);
+            EximPolicy policy = EximPolicy.getPolicy(uploadType);
+            System.out.println("policy " + policy);
+            if (policy == null) {
+                throw new DataException("Unknown File type " + uploadType);
+            }
             fileTrackerId = uploadDao.createUploadFileTracker(trackerId, uploadFileTracker);
             // put the file in respective upload tracker directory.
             File trackerDirectory = tempFileSystem.getUploadFile(String.valueOf(trackerId));
@@ -180,7 +187,7 @@ public class UploadManager {
                     + FileUtil.FILE_EXTENSION_SEPARATOR
                     + FileExtension.PROPERTIES.getFileExtension());
             Properties properties = PropertiesUtil.loadProperties(propertiesFile);
-            properties.put(uploadFileTracker.getUploadType(), uploadFileTracker.getFileName());
+            properties.put(uploadType, uploadFileTracker.getFileName());
             fileWriter = new FileWriter(propertiesFile);
             properties.store(fileWriter, null);
         } catch (DaoException daoException) {

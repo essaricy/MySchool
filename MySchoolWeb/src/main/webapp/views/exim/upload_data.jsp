@@ -11,7 +11,7 @@ $(document).ready(function() {
 
   /* Add a click handler to the rows - this could be used as a callback */
   $("#downloadTemplate").click(function() {
-    var importKey = $('#downloadSelect').val();
+    var importKey = $('#EximPolicies').val();
     $.fileDownload(
       '<%=request.getContextPath()%>/upload/downloadTemplate.htm?importKey=' + importKey,
       {
@@ -33,6 +33,17 @@ $(document).ready(function() {
   });
 
 <c:if test="${PAGE_ACCESS != null && PAGE_ACCESS.create}">
+
+  var extra_column_html = '';
+  <c:if test="${exims != null}">
+    <c:forEach var="exim" items="${exims}">
+      <c:if test="${exim != null && exim != ''}">
+        extra_column_html += '<option value="${exim.eximPolicy}">${exim.description}</option>';
+      </c:if>
+    </c:forEach>
+  </c:if>
+  extra_column_html = '<select class="chosen-select plupload_file_type">' + extra_column_html + '</select>';
+
   // Setup html5 version
   $("#UploadContainer").pluploadQueue({
     // General settings
@@ -50,6 +61,14 @@ $(document).ready(function() {
     // Specify what files to browse for
     filters : [
       {title : "Excel files", extensions : "xls"}
+    ],
+    extra_columns: [
+      {
+        column_name: 'File Type',
+        column_html: extra_column_html,
+        //column_css: "float: left; overflow: hidden; width: 300px; border:1px solid red;"
+        column_css: "float: left; overflow: hidden; width: 300px;",
+      }
     ]
   });
 
@@ -74,7 +93,8 @@ $(document).ready(function() {
           return false;
         }
       }
-      var uploadName = $('#' + file.id).find('.plupload_file_type').find('select>option:selected').val();
+      //console.log($('#' + file.id).find('.plupload_file_type >option:selected').val());
+      var uploadName = $('#' + file.id).find('.plupload_file_type >option:selected').val();
       $.extend(up.settings.multipart_params, {
         multiUploadId: uploadTrackerId,
         uploadName: uploadName
@@ -89,6 +109,13 @@ $(document).ready(function() {
     }
   };
 
+  uploader.bind('FilesAdded', function(up, files) {
+      /*for (var index=0; index<files.length; index++) {
+          var file = files[index];
+          $('#' + file.id).find('.plupload_file_type').chosen({width: "100%"});
+      }*/
+  });
+
   uploader.bind('BeforeUpload', BeforeUpload);
   uploader.bind('FileUploaded', function(up, file, res) {
     if(this.total.queued == 0) {
@@ -101,6 +128,7 @@ $(document).ready(function() {
         },
         async: false,
         success: function(respnose) {
+              alert('respnose');
           uploadTrackerId = respnose.uploadTrackerId;
         }
       });
@@ -340,10 +368,10 @@ function showRecordStatus(fileTrackerId) {
   <table width="60%" cellpadding="10"cellspacing="0" align="center" border="0">
     <tr>
       <td width="50%">
-        <select id="downloadSelect" class="chosen-select">
+        <select id="EximPolicies" class="chosen-select">
           <c:if test="${exims != null}">
             <c:forEach var="exim" items="${exims}">
-              <option value="${exim.eximPolicy}">${exim.eximPolicy}</option>
+              <option value="${exim.eximPolicy}">${exim.description}</option>
             </c:forEach>
           </c:if>
         </select>
@@ -380,7 +408,7 @@ function showRecordStatus(fileTrackerId) {
     <option value="-1">Select</option>
     <c:if test="${exims != null}">
       <c:forEach var="exim" items="${exims}">
-        <option value="${exim.eximPolicy}">${exim.eximPolicy}</option>
+        <option value="${exim.eximPolicy}">${exim.description}</option>
       </c:forEach>
     </c:if>
   </select>

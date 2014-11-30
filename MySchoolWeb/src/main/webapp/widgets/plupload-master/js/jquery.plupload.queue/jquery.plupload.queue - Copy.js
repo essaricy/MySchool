@@ -80,7 +80,7 @@ used as it is.
 		return plupload.translate(str) || str;
 	}
 
-	function renderUI(id, target, extra_columns) {
+	function renderUI(id, target) {
 		// Remove all existing non plupload items
 		target.contents().each(function(i, node) {
 			node = $(node);
@@ -89,15 +89,6 @@ used as it is.
 				node.remove();
 			}
 		});
-
-	    // Added this block
-        var extra_columns_html = '';
-        if (extra_columns != null && extra_columns.length != 0) {
-			for (var index=0; index<extra_columns.length; index++) {
-				var extra_column = extra_columns[index];
-				extra_columns_html += '<div style="' + extra_column.column_css + '">' + extra_column.column_name + '</div>';
-			}
-        }
 
 		target.prepend(
 			'<div class="plupload_wrapper plupload_scroll">' +
@@ -113,9 +104,7 @@ used as it is.
 						'<div class="plupload_content">' +
 							'<div class="plupload_filelist_header">' +
 								'<div class="plupload_file_name">' + _('Filename') + '</div>' +
-							    // Changed here
-						        extra_columns_html + 
-						        '<div class="plupload_file_action">&nbsp;</div>' +
+								'<div class="plupload_file_action">&nbsp;</div>' +
 								'<div class="plupload_file_status"><span>' + _('Status') + '</span></div>' +
 								'<div class="plupload_file_size">' + _('Size') + '</div>' +
 								'<div class="plupload_clearer">&nbsp;</div>' +
@@ -163,7 +152,7 @@ used as it is.
 				}
 
 				contents_bak = target.html();
-				renderUI(id, target, settings.extra_columns);
+				renderUI(id, target);
 
 				settings = $.extend({
 					dragdrop : true,
@@ -232,23 +221,9 @@ used as it is.
 							$('#' + id + '_count').val(inputCount);
 						}
 
-	                    // Added this block
-                        var extra_columns_html = '';
-						var extra_columns = settings.extra_columns;
-                        if (extra_columns != null && extra_columns.length != 0) {
-			              for (var index=0; index<extra_columns.length; index++) {
-				            var extra_column = extra_columns[index];
-							//alert($(extra_column.column_html).html());
-							//alert($('<div>').append($(extra_columns.columnDataModel).clone()).html());
-				            extra_columns_html += '<div style="' + extra_column.column_css + '">' + extra_column.column_html + '</div>';
-			              }
-                        }
-
 						fileList.append(
 							'<li id="' + file.id + '">' +
 								'<div class="plupload_file_name"><span>' + file.name + '</span></div>' +
-							    // Changed here
-						        extra_columns_html + 
 								'<div class="plupload_file_action"><a href="#"></a></div>' +
 								'<div class="plupload_file_status">' + file.percent + '%</div>' +
 								'<div class="plupload_file_size">' + plupload.formatSize(file.size) + '</div>' +

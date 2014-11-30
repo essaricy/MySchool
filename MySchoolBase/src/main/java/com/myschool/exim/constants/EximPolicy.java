@@ -8,6 +8,9 @@ import java.util.List;
  */
 public enum EximPolicy {
 
+    /** The ACADEMICS. */
+    ACADEMICS(1),
+
     /** The DOCUMENTS. */
     DOCUMENTS(1),
 
