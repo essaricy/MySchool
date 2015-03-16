@@ -13,11 +13,8 @@ public class UserContext implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The login id. */
-    private int loginId;
-
-    /** The login name. */
-    private String loginName;
+    /** The login. */
+    private LoginDto login;
 
     /** The user type. */
     private UserType userType;
@@ -31,43 +28,25 @@ public class UserContext implements Serializable {
     /** The module access. */
     private List<ModuleAccessDto> moduleAccess;
 
-    /**
-     * Gets the login id.
-     *
-     * @return the login id
-     */
-    public int getLoginId() {
-        return loginId;
-    }
+	/**
+	 * Gets the login.
+	 *
+	 * @return the login
+	 */
+	public LoginDto getLogin() {
+		return login;
+	}
 
-    /**
-     * Sets the login id.
-     *
-     * @param loginId the new login id
-     */
-    public void setLoginId(int loginId) {
-        this.loginId = loginId;
-    }
+	/**
+	 * Sets the login.
+	 *
+	 * @param login the new login
+	 */
+	public void setLogin(LoginDto login) {
+		this.login = login;
+	}
 
-    /**
-     * Gets the login name.
-     * 
-     * @return the login name
-     */
-    public String getLoginName() {
-        return loginName;
-    }
-
-    /**
-     * Sets the login name.
-     * 
-     * @param loginName the new login name
-     */
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
-
-    /**
+	/**
      * Gets the user type.
      *
      * @return the user type
@@ -139,26 +118,25 @@ public class UserContext implements Serializable {
         this.moduleAccess = moduleAccess;
     }
 
-    /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
-     *
-     * @return a <code>String</code> representation 
-     * of this object.
-     */
-    public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("UserContext ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("loginId = ").append(this.loginId).append(SEPARATOR)
-            .append("loginName = ").append(this.loginName).append(SEPARATOR)
-            .append("moduleAccess = ").append(this.moduleAccess).append(SEPARATOR)
-            .append("userPreference = ").append(this.userPreference).append(SEPARATOR)
-            .append("userStatistics = ").append(this.userStatistics).append(SEPARATOR)
-            .append("userType = ").append(this.userType).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
-    }
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString() {
+	    final String SEPARATOR = ", ";
+	    StringBuilder retValue = new StringBuilder();
+	    retValue.append("UserContext ( ")
+	        .append(super.toString()).append(SEPARATOR)
+	        .append("login = ").append(this.login).append(SEPARATOR)
+	        .append("userType = ").append(this.userType).append(SEPARATOR)
+	        .append("userPreference = ").append(this.userPreference).append(SEPARATOR)
+	        .append("userStatistics = ").append(this.userStatistics).append(SEPARATOR)
+	        .append("moduleAccess = ").append(this.moduleAccess).append(SEPARATOR)
+	        .append(" )\n");
+	    return retValue.toString();
+	}
 
 }

@@ -327,7 +327,6 @@ public class PrivilegesDaoImpl implements PrivilegesDao {
         try {
             connection = databaseAgent.getConnection();
             String query = PrivilegesDaoSql.getCopyPrivilegesSql(copyFromUserId, copyToUserIds);
-            System.out.println("query " + query);
             statement = connection.createStatement();
             resultSet = statement.executeQuery(query);
         } catch (SQLException sqlException) {

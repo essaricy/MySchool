@@ -23,8 +23,8 @@ import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.web.attendance.constants.AttendanceViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class AttendanceController.
@@ -76,7 +76,7 @@ public class AttendanceController {
                     } else {
                         row.put(academic.getAcademicYearName());
                     }
-                    row.put(attendanceProfile.isActive());
+                    //row.put(attendanceProfile.isActive());
                     data.put(row);
                 }
             }
@@ -179,34 +179,6 @@ public class AttendanceController {
                 HttpUtil.writeAsJson(response, result);
             } catch (Exception exception) {
             }
-        }
-        return null;
-    }
-
-    /**
-     * Activate.
-     * 
-     * @param request the request
-     * @param response the response
-     * @return the model and view
-     * @throws Exception the exception
-     */
-    @RequestMapping(value="activate")
-    public ModelAndView activate(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ResultDto result = new ResultDto();
-        try {
-            String attendanceProfileId = request.getParameter("AttendanceProfileId");
-            System.out.println("activate attendanceProfileId " + attendanceProfileId);
-            if (!StringUtil.isNullOrBlank(attendanceProfileId)) {
-                result.setSuccessful(attendanceProfileService.activate(Integer.parseInt(attendanceProfileId)));
-                result.setStatusMessage("Attendance Profile has been activated succesfully.");
-            }
-        } catch (ServiceException serviceException) {
-            result.setStatusMessage(serviceException.getMessage());
-        } finally {
-            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }

@@ -12,3 +12,6 @@ CREATE TRIGGER tr_after_insert_users
 AFTER INSERT ON wavefire.users
 FOR EACH ROW EXECUTE PROCEDURE wavefire.fn_users();
 
+CREATE TRIGGER tr_before_delete_user_session
+BEFORE DELETE ON wavefire.user_session
+FOR EACH ROW EXECUTE PROCEDURE fn_user_session();

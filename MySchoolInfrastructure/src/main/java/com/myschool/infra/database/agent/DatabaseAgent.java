@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.MessageFormat;
 
 import javax.sql.DataSource;
 
@@ -26,6 +27,8 @@ import com.myschool.infra.webserver.agent.WebServerAgent;
  */
 @Component
 public class DatabaseAgent extends AbstractAgent {
+
+	private static final String SELECT_MAX_ID = "SELECT COALESCE(MAX({0})+1, 1) AS MAX_ID FROM {1}";
 
     /** The data source. */
     private static DataSource dataSource;
@@ -169,8 +172,7 @@ public class DatabaseAgent extends AbstractAgent {
         try {
             connection = getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT COALESCE(MAX("
-                    + columnName + ")+1, 1) AS MAX_ID FROM " + tableName);
+            resultSet = statement.executeQuery(MessageFormat.format(SELECT_MAX_ID, columnName, tableName));
 
             if (resultSet.next()) {
                 nextId = resultSet.getInt("MAX_ID");

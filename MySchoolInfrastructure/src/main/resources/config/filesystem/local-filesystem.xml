@@ -32,6 +32,7 @@
         </directory>
         <directory name="spring" absence="ERROR">
             <file name="MySchoolBase.xml" absence="ERROR" />
+            <file name="MySchoolTransformation.xml" absence="ERROR" />
             <file name="MySchoolInfrastructure.xml" absence="ERROR" />
             <file name="MySchoolSautil.xml" absence="ERROR" />
             <file name="MySchoolService.xml" absence="ERROR" />

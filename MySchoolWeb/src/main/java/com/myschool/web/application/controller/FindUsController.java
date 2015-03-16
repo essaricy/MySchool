@@ -15,7 +15,7 @@ import com.myschool.application.service.ProfileService;
 import com.myschool.branch.service.BranchService;
 import com.myschool.school.service.SchoolService;
 import com.myschool.web.application.constants.ApplicationViewNames;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
 
 /**
  */

@@ -1,5 +1,6 @@
 package com.myschool.web.user.constants;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class UserViewNames.
  */
@@ -19,5 +20,8 @@ public class UserViewNames {
 
     /** The Constant COPY_USER_PRIVILEGES. */
     public static final String COPY_USER_PRIVILEGES = "copy_user_privileges";
+
+	/** The Constant VIEW_USAGE_STATISTICS. */
+	public static final String VIEW_USAGE_STATISTICS = "view_usage_statistics";
 
 }

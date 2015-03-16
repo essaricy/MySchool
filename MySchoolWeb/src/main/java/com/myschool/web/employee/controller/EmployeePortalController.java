@@ -16,9 +16,9 @@ import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.web.application.constants.PortalViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.JCaptchaUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
+import com.myschool.web.framework.util.JCaptchaUtil;
 
 /**
  * The Class EmployeePortalController.

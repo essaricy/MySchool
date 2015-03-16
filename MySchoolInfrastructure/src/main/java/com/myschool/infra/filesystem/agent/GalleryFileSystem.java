@@ -102,9 +102,7 @@ public class GalleryFileSystem extends AbstractSubFileSystem {
         String galleryFileAbsPath = getDirectory().getAbsolutePath() + "/" + galleryName;
         File galleryFile = new File(galleryFileAbsPath.replaceAll("\\\\", "/"));
         if (galleryFile.exists() && galleryFile.isDirectory()) {
-            System.out.println("before updating timestamp " + galleryFile.lastModified());
             galleryFile.setLastModified(System.currentTimeMillis());
-            System.out.println("after updating timestamp " + galleryFile.lastModified());
         }
     }
 

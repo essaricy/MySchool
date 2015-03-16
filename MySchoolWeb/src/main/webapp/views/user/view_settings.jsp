@@ -81,7 +81,7 @@ jQuery(document).ready(function() {
           <table cellpadding="5" cellspacing="0" align="center" width="100%" class="formDataTable" border="0">
             <tr>
               <td width="50%" class="formLabel"><spring:message code="user.login.name"/></td>
-              <td width="50%" align="left"><b>${USER_CONTEXT.loginName}</b></td>
+              <td width="50%" align="left"><b>${USER_CONTEXT.login.loginId}</b></td>
             </tr>
             <tr>
               <td width="50%" class="formLabel"><spring:message code="user.type"/></td>
@@ -110,7 +110,7 @@ jQuery(document).ready(function() {
         </div>
         <p class="title"><spring:message code="password.change"/></p>
         <div>
-          <input type="hidden" id="UserId" value="${USER_CONTEXT.loginId}" />
+          <input type="hidden" id="UserId" value="${USER_CONTEXT.login.loginId}" />
           <table cellpadding="5" cellspacing="0" align="center" width="70%" class="formDataTable" border="0">
             <tr>
               <td width="50%" class="formLabel"><spring:message code="password.current"/><label class="mandatory">*</label></td>

@@ -6,7 +6,9 @@ import com.myschool.application.dto.DateValueDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.graph.constant.ToDateType;
 import com.myschool.user.constants.UserType;
+import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
+import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UserStatistics;
 import com.myschool.user.dto.UsersDto;
 
@@ -35,14 +37,6 @@ public interface UserDao {
      */
     boolean restorePassword(UserType userType, int refUserId,
             String initialPassword) throws DaoException;
-
-    /**
-     * Update user statistics.
-     *
-     * @param userId the user id
-     * @throws DaoException the dao exception
-     */
-    void updateUserStatistics(int userId) throws DaoException;
 
     /**
      * Gets the user preferences.
@@ -109,5 +103,43 @@ public interface UserDao {
      * @throws DaoException the dao exception
      */
     List<DateValueDto> getLoginsToDate(UserType userType, ToDateType toDateType) throws DaoException;
+
+    /**
+     * Gets the user session.
+     *
+     * @param sessionId the session id
+     * @return the user session
+     * @throws DaoException the dao exception
+     */
+    UserSession getUserSession(String sessionId) throws DaoException;
+
+    /**
+     * Creates the.
+     *
+     * @param userSession the user session
+     * @return the int
+     * @throws DaoException the dao exception
+     */
+    int create(UserSession userSession) throws DaoException;
+
+	/**
+	 * Creates the.
+	 *
+	 * @param sessionId the session id
+	 * @param userActivities the user activities
+	 * @return true, if successful
+	 * @throws DaoException the dao exception
+	 */
+	boolean create(String sessionId, List<UserActivity> userActivities) throws DaoException;
+
+	/**
+	 * Update.
+	 *
+	 * @param userSession the user session
+	 * @return true, if successful
+	 * @throws DaoException the dao exception
+	 */
+	boolean update(UserSession userSession) throws DaoException;
+
 
 }

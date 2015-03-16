@@ -16,9 +16,9 @@ import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.PortalViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.JCaptchaUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
+import com.myschool.web.framework.util.JCaptchaUtil;
 
 /**
  */

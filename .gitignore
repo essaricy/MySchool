@@ -46,6 +46,7 @@ Temporary Items
 *.class
 *.classpath
 *.project
+.metadata*
 MySchoolBase/target/MySchoolBase.jar
 MySchoolInfrastructure/target/MySchoolInfrastructure.jar
 MySchoolSautil/target/classes/externalize_data.properties

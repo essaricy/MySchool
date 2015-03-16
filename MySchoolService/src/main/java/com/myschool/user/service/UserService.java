@@ -11,7 +11,9 @@ import com.myschool.graph.constant.ToDateType;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.ChangePasswordDto;
+import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
+import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -81,5 +83,33 @@ public interface UserService extends Servicable<UsersDto> {
      * @throws ServiceException the service exception
      */
     Map<UserType, List<DateValueDto>> getLoginsToDate(ToDateType toDateType) throws ServiceException;
+
+    /**
+     * Creates the.
+     *
+     * @param userSession the user session
+     * @return the int
+     * @throws ServiceException the service exception
+     */
+    int create(UserSession userSession) throws ServiceException;
+
+    /**
+     * Update.
+     *
+     * @param userSession the user session
+     * @return true, if successful
+     * @throws ServiceException the service exception
+     */
+    boolean update(UserSession userSession) throws ServiceException;
+
+    /**
+     * Creates the user activities.
+     *
+     * @param sessionId the session id
+     * @param userActivities the user activities
+     * @return true, if successful
+     * @throws ServiceException the service exception
+     */
+    boolean createUserActivities(String sessionId, List<UserActivity> userActivities) throws ServiceException;
 
 }

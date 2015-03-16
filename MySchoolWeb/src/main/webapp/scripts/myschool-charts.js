@@ -7,11 +7,13 @@ modified by Srikanth Kumar, 2013.
   $.fn.chart = function(settings) {
     var id = null;
     var url = null;
+	var data = null;
     var chartType = null;
 
     var defaultSettings = {
       id: 'Graph',
       url: null,
+      data: null,
       width: 500,
       height: 500,
 	  lineWidth: 5
@@ -28,8 +30,9 @@ modified by Srikanth Kumar, 2013.
         throw('chart - id is not specified.');
       }
       url = (settings.url == 'undefined') ? defaultSettings.url : settings.url;
-      if (url == null) {
-        throw('chart - url is not specified.');
+	  data = (settings.data == 'undefined') ? defaultSettings.data : settings.data;
+      if (url == null && data == null) {
+        throw('chart - url or data must be specified.');
       }
       width = (settings.width == 'undefined') ? defaultSettings.width : settings.width;
       height = (settings.height == 'undefined') ? defaultSettings.height : settings.height;
@@ -38,22 +41,29 @@ modified by Srikanth Kumar, 2013.
     }
 
     function getChartData() {
-      $.ajax({
-        url: url,
-        data: {
-          sid: new Date().getTime()
-        },
-        success: function(response) {
-          $('#' + id).width(width).height(height);
-          var chartData = response.CHART_DATA;
-          if (chartData != null) {
-            var chartType = chartData.CHART_TYPE;
-            if (chartType == 'LINE_CHART') {
-              generateLineChart(chartData);
-            }
-          }
-        }
-      });
+      if (data == null) {
+    	  $.ajax({
+    		  url: url,
+    		  data: {
+    			  sid: new Date().getTime()
+    		  },
+    		  success: function(response) {
+    			  $('#' + id).width(width).height(height);
+    			  var chartData = response.CHART_DATA;
+    			  if (chartData != null) {
+    				  var chartType = chartData.CHART_TYPE;
+    				  if (chartType == 'LINE_CHART') {
+    					  generateLineChart(chartData);
+    				  }
+    			  }
+    		  }
+    	  });
+      } else {
+		var chartType = data.CHART_TYPE;
+    	if (chartType == 'LINE_CHART') {
+    		generateLineChart(data);
+    	}
+      }
     }
 
     function getAttribute(chartData, parent, child) {
@@ -116,6 +126,7 @@ modified by Srikanth Kumar, 2013.
         }
       }
 	  var lineWidth = (chartData.lineWidth == null || chartData.lineWidth == 'undefined') ? settings.lineWidth : chartData.lineWidth;
+	  console.log("graphSeriesData " + JSON.stringify(graphSeriesData));
       $.jqplot(id, graphSeriesData,
         {
           animate: true,

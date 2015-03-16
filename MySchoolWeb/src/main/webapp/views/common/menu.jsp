@@ -19,7 +19,7 @@ img.menuItemImage {
             <c:forEach var="moduleAccess" items="${USER_CONTEXT.moduleAccess}">
                 <c:if test="${moduleAccess.moduleAccessible == true}">
                     <li>
-                        <a href="${moduleAccess.accessUrl}" rel="${fn:replace(moduleAccess.moduleName," ", "_")}_Menu">${moduleAccess.moduleName}</a>
+                        <a href="${moduleAccess.accessUrl}" rel='${fn:replace(moduleAccess.moduleName," ", "_")}_Menu'>${moduleAccess.moduleName}</a>
                     </li>
                 </c:if>
             </c:forEach>
@@ -27,7 +27,7 @@ img.menuItemImage {
 
         <c:forEach var="moduleAccess" items="${USER_CONTEXT.moduleAccess}">
             <c:if test="${moduleAccess.functionAccess != null}">
-                <div id="${fn:replace(moduleAccess.moduleName," ", "_")}_Menu" class="mega solidblocktheme">
+                <div id='${fn:replace(moduleAccess.moduleName, " ", "_")}_Menu' class="mega solidblocktheme">
                     <div class="column">
                         <ul>
                             <c:forEach var="functionAccess" items="${moduleAccess.functionAccess}">

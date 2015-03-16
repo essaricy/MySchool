@@ -17,8 +17,8 @@ import com.myschool.application.service.ImageService;
 import com.myschool.common.util.StringUtil;
 import com.myschool.infra.image.constants.ImageSize;
 import com.myschool.web.application.constants.ApplicationViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class ImageController.
@@ -82,10 +82,10 @@ public class ImageController {
             if (type.equals("logo")) {
                 // First try to get the image from the File server.
                 file = imageService.getLogo();
-            } else /*if (type.equals("no-image")) {
+            } else if (type.equals("no-image")) {
                 // First try to get the image from the File server.
                 file = imageService.getNoImage();
-            } else*/ if (type.equals("student")) {
+            } else if (type.equals("student")) {
                 file = imageService.getStudentImage(contentId, ImageSize.getImageType(imageSize));
             } else if (type.equals("employee")) {
                 file = imageService.getEmployeeImage(contentId, ImageSize.getImageType(imageSize));

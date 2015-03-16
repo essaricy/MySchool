@@ -15,6 +15,7 @@ set LIB_DIR=%MYSCHOOL_DIR%/lib
 set CLASSPATH=%LIB_DIR%/MySchoolSautil.jar
 set CLASSPATH=%CLASSPATH%;%LIB_DIR%/MySchoolBase.jar
 set CLASSPATH=%CLASSPATH%;%LIB_DIR%/MySchoolService.jar
+set CLASSPATH=%CLASSPATH%;%LIB_DIR%/MySchoolTransformation.jar
 set CLASSPATH=%CLASSPATH%;%LIB_DIR%/MySchoolInfrastructure.jar
 
 :: Third party jars

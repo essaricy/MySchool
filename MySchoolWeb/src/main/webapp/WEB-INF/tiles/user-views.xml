@@ -23,4 +23,8 @@
         <put-attribute name="body" value="/views/user/copy_user_privileges.jsp" />
     </definition>
 
+	<definition name="view_usage_statistics_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/user/view_usage_statistics.jsp" />
+    </definition>
+
 </tiles-definitions>

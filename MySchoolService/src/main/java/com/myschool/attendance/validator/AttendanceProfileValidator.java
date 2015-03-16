@@ -94,7 +94,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
      * 
      * @param attendanceProfile the attendance profile
      * @param strict the strict
-     * @param activate the activate
      * @throws ValidationException the validation exception
      */
     public void doValidate(AttendanceProfileDto attendanceProfile) throws ValidationException {
@@ -103,12 +102,10 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             if (attendanceProfile == null) {
                 throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Attendance Profile"));
             }
-            boolean activate = attendanceProfile.isActive();
-            System.out.println("activate? " + activate);
-            int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
-            if (activate && attendanceProfileId == 0) {
+            /*int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
+            if (attendanceProfileId == 0) {
                 throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Attendance Profile"));
-            }
+            }*/
             String profileName = attendanceProfile.getProfileName();
             validate(profileName, "Attendance Profile Name", DataTypeValidator.ANY_CHARACTER, true);
             AcademicDto currentAcademic = academicDao.getCurrentAcademic();
@@ -138,12 +135,9 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
                 throw new ValidationException("Academic profiles with past academics cannot be created.");
             }
 
-            validateYearAttendance(attendanceProfile.getYearAttendance(), effectiveAcademicYearStartDate, effectiveAcademicYearEndDate, activate);
-            validateAssignments(attendanceProfile, activate);
-
-            if (activate) {
-                validateAssignmentConflicts(attendanceProfile);
-            }
+            validateYearAttendance(attendanceProfile.getYearAttendance(), effectiveAcademicYearStartDate, effectiveAcademicYearEndDate);
+            validateAssignments(attendanceProfile);
+            validateAssignmentConflicts(attendanceProfile);
         } catch (DaoException daoException) {
             throw new ValidationException(daoException.getMessage(), daoException);
         } catch (InvalidDataException invalidDataException) {
@@ -174,23 +168,18 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             System.out.println("There are " + profileForAYear + " profiles to compare for academic " + effectiveAcademic.getAcademicYearName());
             for (int index=0; index<allAttendanceProfiles.size(); index++) {
                 AttendanceProfileDto existingAttendanceProfile = allAttendanceProfiles.get(index);
-                if (existingAttendanceProfile.isActive()) {
-                    int existingAttendanceProfileId = existingAttendanceProfile.getAttendanceProfileId();
-                    existingAttendanceProfile.setStates(attendanceAssignmentsDao.getAssignedStates(existingAttendanceProfileId));
-                    existingAttendanceProfile.setRegions(attendanceAssignmentsDao.getAssignedRegions(existingAttendanceProfileId));
-                    existingAttendanceProfile.setBranches(attendanceAssignmentsDao.getAssignedBranches(existingAttendanceProfileId));
-                    existingAttendanceProfile.setSchools(attendanceAssignmentsDao.getAssignedSchools(existingAttendanceProfileId));
-                    existingAttendanceProfile.setRegisteredClasses(attendanceAssignmentsDao.getAssignedClasses(existingAttendanceProfileId));
-                } else {
-                    allAttendanceProfiles.remove(index);
-                    index--;
-                }
+                int existingAttendanceProfileId = existingAttendanceProfile.getAttendanceProfileId();
+                existingAttendanceProfile.setStates(attendanceAssignmentsDao.getAssignedStates(existingAttendanceProfileId));
+                existingAttendanceProfile.setRegions(attendanceAssignmentsDao.getAssignedRegions(existingAttendanceProfileId));
+                existingAttendanceProfile.setBranches(attendanceAssignmentsDao.getAssignedBranches(existingAttendanceProfileId));
+                existingAttendanceProfile.setSchools(attendanceAssignmentsDao.getAssignedSchools(existingAttendanceProfileId));
+                existingAttendanceProfile.setRegisteredClasses(attendanceAssignmentsDao.getAssignedClasses(existingAttendanceProfileId));
             }
 
             System.out.println("Filtered out self, other academics, past academics, inactive attendance profiles. left " + allAttendanceProfiles.size());
             // If still there are some profile to compare then compare.
             if (!allAttendanceProfiles.isEmpty()) {
-                System.out.println("There are some other profiles to validate before activate.");
+                System.out.println("There are some other profiles to validate.");
                 /*List<RegionDto> assignedRegions = attendanceAssignmentsDao.getAssignedRegions(attendanceProfileId);
                 List<BranchDto> assignedBranches = attendanceAssignmentsDao.getAssignedBranches(attendanceProfileId);
                 List<SchoolDto> assignedSchools = attendanceAssignmentsDao.getAssignedSchools(attendanceProfileId);
@@ -273,12 +262,10 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
     /**
      * 
      * @param attendanceProfile the attendance profile
-     * @param activate 
      * @throws ValidationException the validation exception
      * @throws DaoException the dao exception
      */
-    private void validateAssignments(
-            AttendanceProfileDto attendanceProfile, boolean activate)
+    private void validateAssignments(AttendanceProfileDto attendanceProfile)
             throws ValidationException, DaoException {
         List<RegionDto> regions = attendanceProfile.getRegions();
         List<BranchDto> branches = attendanceProfile.getBranches();
@@ -302,9 +289,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             }
             if (!noClasses) {
                 throw new ValidationException(MessageFormat.format(PROFILE_ERROR_DEPENDANCY, "CLASS", "SCHOOL"));
-            }
-            if (activate) {
-                //throw new ValidationException(PROFILE_ERROR_USE_ORG_OFF_NO_ASSIGNEMNTS);
             }
         } else {
             System.out.println("noBranches " + noBranches);
@@ -393,19 +377,15 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
      * @param effectiveAcademicYearStartDate the effective academic year start
      *            date
      * @param effectiveAcademicYearEndDate the effective academic year end date
-     * @param strict the strict
      * @throws ValidationException the validation exception
      * @throws InvalidDataException the invalid data exception
      */
     private void validateYearAttendance(List<MonthAttendance> yearAttendance,
             Date effectiveAcademicYearStartDate,
-            Date effectiveAcademicYearEndDate, boolean strict) throws ValidationException, InvalidDataException {
-        if (strict) {
-            if (yearAttendance == null) {
-                throw new ValidationException("Attendance profile definition is incomplete.");
-            }
-        }
-        if (yearAttendance != null) {
+            Date effectiveAcademicYearEndDate) throws ValidationException, InvalidDataException {
+        if (yearAttendance == null) {
+            throw new ValidationException("Attendance profile definition is incomplete.");
+        } else {
             int numberOfMonthsInProfile = yearAttendance.size();
             int numberOfMonthsInAcademic = DateUtil.dateDiffInMonthNumbers(effectiveAcademicYearStartDate, effectiveAcademicYearEndDate);
             if (numberOfMonthsInProfile != numberOfMonthsInAcademic) {
@@ -462,9 +442,7 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
                         if (attendanceCode == AttendanceCode.UNACCOUNTED) {
                             throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE_SUGGEST, attendanceCode, dayIndex, monthShortNameYear, "Must not be " + AttendanceCode.UNACCOUNTED));
                         } else if (attendanceCode == AttendanceCode.UNASSIGNED) {
-                            if (strict) {
-                                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE, attendanceCode, dayIndex, monthShortNameYear));
-                            }
+                            throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE, attendanceCode, dayIndex, monthShortNameYear));
                         }
                     }
                     attendanceDateCalendar.set(Calendar.DAY_OF_MONTH, attendanceDateCalendar.get(Calendar.DAY_OF_MONTH)+1);

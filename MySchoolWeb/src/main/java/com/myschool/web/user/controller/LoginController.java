@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,18 +25,26 @@ import com.myschool.student.service.StudentService;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.LoginDto;
 import com.myschool.user.dto.UserContext;
+import com.myschool.user.dto.UserSession;
 import com.myschool.user.service.LoginService;
+import com.myschool.user.service.UserService;
 import com.myschool.user.util.ContextUtil;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
 
 /**
  * The Class LoginController.
  */
 @Controller
 public class LoginController {
+
+	/** The Constant LOGGER. */
+	private static final Logger LOGGER = Logger.getLogger(LoginController.class);
+
+	@Autowired
+	private UserService userService;
 
     /** The login service. */
     @Autowired
@@ -126,6 +135,19 @@ public class LoginController {
                 session.setAttribute(WebConstants.EMPLOYEE, employee);
                 map.put(WebConstants.EMPLOYEE, employee);
             }
+
+            try {
+				// Update session with the user id that is logged in here. Update to database.
+            	if (loginDetails != null) {
+            		UserSession userSession = (UserSession) session.getAttribute(WebConstants.USER_SESSION);
+            		userSession.setUserId(loginDetails.getId());
+            		userService.update(userSession);
+            	}
+			} catch (Exception exception) {
+				LOGGER.error(exception.getMessage(), exception);
+				exception.printStackTrace();
+			}
+
             MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
             session.setAttribute(WebConstants.USER_CONTEXT, context);
             session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
@@ -153,6 +175,7 @@ public class LoginController {
             HttpServletResponse response) throws Exception {
         HttpSession session = request.getSession();
         if (session != null) {
+        	session.removeAttribute(WebConstants.USER_CONTEXT);
             session.invalidate();
         }
         request.setAttribute(ViewDelegationController.ERROR_KEY, messageUtil.getMessage("logout.done"));

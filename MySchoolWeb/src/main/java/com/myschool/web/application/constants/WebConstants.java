@@ -23,4 +23,7 @@ public class WebConstants {
     /** The Constant EMPLOYEE. */
     public static final String EMPLOYEE = "Employee";
 
+	/** The Constant USER_SESSION. */
+	public static final String USER_SESSION = "USER_SESSION";
+
 }

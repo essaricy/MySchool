@@ -25,9 +25,9 @@ import com.myschool.common.util.StringUtil;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.SubjectExamDto;
 import com.myschool.exam.service.ExamService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.exam.constants.ExamViewNames;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class ExamController.

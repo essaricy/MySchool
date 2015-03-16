@@ -37,9 +37,9 @@ import com.myschool.employee.service.EmployeeExperienceService;
 import com.myschool.employee.service.EmployeePromotionService;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.employee.service.EmployeeSubjectService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.employee.constants.EmployeeViewNames;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class EmployeeAttributesController.

@@ -19,10 +19,10 @@ import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.service.DesignationService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
 import com.myschool.web.employee.constants.EmployeeViewNames;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class DesignationController.

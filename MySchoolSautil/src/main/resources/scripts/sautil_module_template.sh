@@ -14,6 +14,7 @@ LIB_DIR=$MYSCHOOL_DIR/lib
 CLASSPATH=$LIB_DIR/MySchoolSautil.jar
 CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolBase.jar
 CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolService.jar
+CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolTransformation.jar
 CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolInfrastructure.jar
 
 # Third party jars

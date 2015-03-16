@@ -28,8 +28,8 @@ import com.myschool.user.service.PrivilegesService;
 import com.myschool.user.service.UserService;
 import com.myschool.user.service.UserTypeService;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.user.constants.UserViewNames;
 
 /**
@@ -66,7 +66,6 @@ public class PrivilegesController {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("UserTypes", userTypeService.getAll());
         String userTypeIdString = request.getParameter("UserTypeID");
-        System.out.println("defaultPrivileges userTypeIdString " + userTypeIdString);
         if (!StringUtil.isNullOrBlank(userTypeIdString)) {
             List<ModuleAccessDto> defaultPrivileges = privilegesService.getDefaultPrivileges(Integer.parseInt(userTypeIdString));
             map.put("Privileges", defaultPrivileges);
@@ -93,13 +92,11 @@ public class PrivilegesController {
         JSONObject privileges = new JSONObject();
         try {
             String userTypeIdString = request.getParameter("UserTypeID");
-            System.out.println("jsonDefaultPrivileges userTypeIdString " + userTypeIdString);
             if (!StringUtil.isNullOrBlank(userTypeIdString)) {
                 List<ModuleAccessDto> defaultPrivileges = privilegesService.getDefaultPrivileges(Integer.parseInt(userTypeIdString));
                 privileges.put("Modules", PrivilegesDataAssembler.create(defaultPrivileges));
             }
         } finally {
-            System.out.println("privileges " + privileges);
             HttpUtil.wrapAndWriteJson(response, "Privileges", privileges);
         }
         return null;
@@ -154,13 +151,11 @@ public class PrivilegesController {
         try {
             String userIdString = request.getParameter("UserID");
             String userTypeIdString = request.getParameter("UserTypeID");
-            System.out.println("jsonDefaultPrivileges userIdString " + userIdString + ", userTypeIdString " + userTypeIdString);
             if (!StringUtil.isNullOrBlank(userIdString) && !StringUtil.isNullOrBlank(userTypeIdString)) {
                 List<ModuleAccessDto> defaultPrivileges = privilegesService.getUserPrivileges(Integer.parseInt(userIdString), Integer.parseInt(userTypeIdString));
                 privileges.put("Modules", PrivilegesDataAssembler.create(defaultPrivileges));
             }
         } finally {
-            System.out.println("privileges " + privileges);
             HttpUtil.wrapAndWriteJson(response, "Privileges", privileges);
         }
         return null;
@@ -177,29 +172,24 @@ public class PrivilegesController {
     @RequestMapping(value="jsonSaveDefaultPrivileges")
     public ModelAndView jsonSaveDefaultPrivileges(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        System.out.println("jsonSaveDefaultPrivileges");
         ResultDto result = new ResultDto();
         List<ModuleAccessDto> moduleAccessList = null;
         try {
             String privilegesDataVal = request.getParameter("PrivilegesData");
-            System.out.println("privilegesDataVal " + privilegesDataVal);
             if (!StringUtil.isNullOrBlank(privilegesDataVal)) {
                 JSONObject privilegesData = new JSONObject(privilegesDataVal);
                 JSONArray jsonModules = privilegesData.getJSONArray("Modules");
                 int userTypeId = privilegesData.getInt("UserTypeID");
-                System.out.println("userTypeId " + userTypeId);
                 if (userTypeId > 0) {
-                    System.out.println("jsonModules " + jsonModules);
                     moduleAccessList = PrivilegesDataAssembler.createModuleAccessList(jsonModules);
-                    System.out.println("moduleAccessList " + moduleAccessList);
                     if (moduleAccessList != null && !moduleAccessList.isEmpty()) {
                         result.setSuccessful(privilegesService.saveDefaultPrivileges(userTypeId, moduleAccessList));
                         result.setStatusMessage("Default Privileges have been updated successfully.");
                         // Update the information that is present in the session
                         HttpSession session = request.getSession();
                         UserContext context = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
-                        if (context != null) {
-                            context.setModuleAccess(privilegesService.getUserPrivileges(context.getLoginId(), userTypeId));
+                        if (context != null && context.getLogin() != null) {
+                            context.setModuleAccess(privilegesService.getUserPrivileges(context.getLogin().getId(), userTypeId));
                             session.setAttribute(WebConstants.USER_CONTEXT, context);
                         }
                     }
@@ -209,7 +199,6 @@ public class PrivilegesController {
             exception.printStackTrace();
             result.setStatusMessage(exception.getMessage());
         } finally {
-            System.out.println("result " + result);
             HttpUtil.writeAsJson(response, result);
         }
         return null;
@@ -228,19 +217,15 @@ public class PrivilegesController {
     public ModelAndView jsonSaveUserPrivileges(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        System.out.println("jsonSaveUserPrivileges");
         ResultDto result = new ResultDto();
         List<ModuleAccessDto> moduleAccessList = null;
         try {
             String privilegesDataVal = request.getParameter("PrivilegesData");
-            System.out.println("privilegesDataVal " + privilegesDataVal);
             if (!StringUtil.isNullOrBlank(privilegesDataVal)) {
                 JSONObject privilegesData = new JSONObject(privilegesDataVal);
                 JSONArray jsonModules = privilegesData.getJSONArray("Modules");
                 int userTypeId = privilegesData.getInt("UserTypeID");
                 int userId = privilegesData.getInt("UserID");
-                System.out.println("userTypeId " + userTypeId);
-                System.out.println("userId " + userId);
                 if (userTypeId > 0 && userId > 0) {
                     moduleAccessList = PrivilegesDataAssembler.createModuleAccessList(jsonModules);
                     if (moduleAccessList != null && !moduleAccessList.isEmpty()) {
@@ -249,7 +234,7 @@ public class PrivilegesController {
                         // Update the information that is present in the session
                         HttpSession session = request.getSession();
                         UserContext context = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
-                        if (context != null && context.getLoginId() == userId) {
+                        if (context != null && context.getLogin() != null && context.getLogin().getId() == userId) {
                             context.setModuleAccess(privilegesService.getUserPrivileges(userId, userTypeId));
                             session.setAttribute(WebConstants.USER_CONTEXT, context);
                         }
@@ -306,16 +291,13 @@ public class PrivilegesController {
         List<UsersDto> users = null;
         Map<String, Object> map = new HashMap<String, Object>();
         String userTypeIDVal = request.getParameter("UserTypeID");
-        System.out.println("UserTypeID: " + userTypeIDVal);
         if (StringUtil.isNullOrBlank(userTypeIDVal)) {
             String userIDVal = request.getParameter("UserID");
-            System.out.println("UserID: " + userIDVal);
             if (!StringUtil.isNullOrBlank(userIDVal)) {
                 userDto = userService.get(Integer.parseInt(userIDVal));
                 if (userDto != null) {
                     UserType userType = userDto.getUserType();
                     if (userType != null) {
-                        System.out.println("userType.getUserTypeValue() " + userType.getUserTypeValue());
                         users = userTypeService.getUsers(userType.getUserTypeValue());
                     }
                 }
@@ -342,7 +324,6 @@ public class PrivilegesController {
         ResultDto result = new ResultDto();
         try {
             String copyUserPrivilegesData = request.getParameter("CopyUserPrivilegesData");
-            System.out.println("copyUserPrivilegesData " + copyUserPrivilegesData);
             if (!StringUtil.isNullOrBlank(copyUserPrivilegesData)) {
                 JSONObject copyUserPrivileges = new JSONObject(copyUserPrivilegesData);
                 Integer copyFrom = copyUserPrivileges.getInt("CopyFromID");

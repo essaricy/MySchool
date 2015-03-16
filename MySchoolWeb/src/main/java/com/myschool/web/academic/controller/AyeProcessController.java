@@ -19,8 +19,8 @@ import com.myschool.academic.service.AyeProcessService;
 import com.myschool.common.assembler.ResultDataAssembler;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.web.academic.constants.AcademicViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class AyeProcessController.

@@ -1,6 +1,6 @@
 package com.myschool.clazz.dao;
 
-import com.myschool.infra.database.util.DatabaseUtil;
+import com.myschool.common.util.DatabaseUtil;
 
 
 /**

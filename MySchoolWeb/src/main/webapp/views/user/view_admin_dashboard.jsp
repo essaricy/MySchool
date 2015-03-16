@@ -107,7 +107,7 @@ $(document).ready(function() {
   <div class="brick size43">
     <div class="TileHeader" align="left">
       <strong>Logins By User Type [ Week-To-Date ]</strong>
-      <a href="#"><img src="<%=request.getContextPath()%>/images/icons/more.png" title="Findout more..." style="cursor: pointer;"/></a>
+      <a href="<%=request.getContextPath()%>/usage/list.htm"><img src="<%=request.getContextPath()%>/images/icons/more.png" title="Findout more..." style="cursor: pointer;"/></a>
     </div>
     <div class="TileContent" align="left">
       <div id="WTDLoginsByUserTypeGraph"></div>
@@ -135,8 +135,8 @@ $(document).ready(function() {
             <th>Description</th>
             <th>Contact Email Id</th>
           </tr>
-          </thead>
-        </table>
+        </thead>
+      </table>
     </div>
   </div>
 

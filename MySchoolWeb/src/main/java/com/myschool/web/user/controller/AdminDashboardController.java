@@ -21,7 +21,7 @@ import com.myschool.graph.constant.ToDateType;
 import com.myschool.graph.dto.LineChartDto;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.service.UserService;
-import com.myschool.web.common.util.HttpUtil;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class AdminDashboardController.

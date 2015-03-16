@@ -101,7 +101,7 @@
 									<table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
 										<tr>
 											<td align="center">
-												<div id="studentImageDiv"><img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/images/icons/no-image.jpg" border="1" width="150px" height="160px"/></div>
+												<div id="studentImageDiv"><img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="160px"/></div>
 											</td>
 										</tr>
 										<tr>

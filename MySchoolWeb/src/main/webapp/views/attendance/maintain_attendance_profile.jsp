@@ -15,7 +15,7 @@
   padding-top: 3px;
   padding-bottom: 3px;
   font-family: Verdana,Arial,sans-serif;
-  font-size: 0.6em;
+  font-size: 0.5em;
   min-width:20px;
   border-collapse: collapse;
 }
@@ -500,21 +500,10 @@ $(document).ready(function() {
   $('#update').click(function(){
     saveAttendanceProfile('<%=request.getContextPath()%>/attendance/jsonSaveAttendanceProfile.htm', getAttendanceProfileData());
   });
-  $('#activate').click(function() {
-    var AttendanceProfileData=getAttendanceProfileData();
-    AttendanceProfileData.Active='true';
-    saveAttendanceProfile('<%=request.getContextPath()%>/attendance/jsonSaveAttendanceProfile.htm', AttendanceProfileData);
-  });
-  $('#inactivate').click(function() {
-    var AttendanceProfileData=getAttendanceProfileData();
-    AttendanceProfileData.Active='false';
-    saveAttendanceProfile('<%=request.getContextPath()%>/attendance/jsonSaveAttendanceProfile.htm', AttendanceProfileData);
-  });
 
   function getAttendanceProfileData() {
     var AttendanceProfileData = new Object();
     AttendanceProfileData.AttendanceProfileId=$('#AttendanceProfileId').val();
-    AttendanceProfileData.Active=$('#Active').val();
     AttendanceProfileData.ProfileName=$('#ProfileName').val();
     AttendanceProfileData.EffectiveAcademicYear=$('#EffectiveAcademicYear').val();
 
@@ -587,18 +576,14 @@ $(document).ready(function() {
 <c:if test="${AttendanceProfile == null}">
 <input type="hidden" id="AttendanceProfileId" value="0" />
 <input type="hidden" id="EffectiveAcademicYearName" value="" />
-<input type="hidden" id="Active" value="false" />
-<img src="<%=request.getContextPath()%>/images/icons/draft.png" style="float: right;" width="80px" height="80px" border="0" />
-<table width="40%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table width="90%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
   <tr>
-    <td width="40%" class="label">Profile Name<label class="mandatory">*</label></td>
-    <td width="60%" class="value">
+    <td width="20%" class="label">Profile Name<label class="mandatory">*</label></td>
+    <td width="30%" class="value">
       <input type="text" id="ProfileName" maxlength="128" />
     </td>
-  </tr>
-  <tr>
-    <td width="40%" class="label">Effective Academic Year<label class="mandatory">*</label></td>
-    <td width="60%" class="value">
+    <td width="20%" class="label">Effective Academic Year<label class="mandatory">*</label></td>
+    <td width="30%" class="value">
       <select id="EffectiveAcademicYear">
       </select>
     </td>
@@ -609,21 +594,15 @@ $(document).ready(function() {
 <c:if test="${AttendanceProfile != null}">
 <input type="hidden" id="AttendanceProfileId" value="${AttendanceProfile.attendanceProfileId}" />
 <input type="hidden" id="EffectiveAcademicYearName" value="${AttendanceProfile.effectiveAcademic.academicYearName}" />
-<input type="hidden" id="Active" value="${AttendanceProfile.active}" />
-<c:if test="${!AttendanceProfile.active}">
-<img src="<%=request.getContextPath()%>/images/icons/draft.png" style="float: right;" width="80px" height="80px" border="0" />
-</c:if>
 
-<table width="40%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table width="90%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
   <tr>
-    <td width="40%" class="label">Profile Name<label class="mandatory">*</label></td>
-    <td width="60%" class="value">
+    <td width="20%" class="label">Profile Name<label class="mandatory">*</label></td>
+    <td width="30%" class="value">
       <input type="text" id="ProfileName" maxlength="128" value="${AttendanceProfile.profileName}" />
     </td>
-  </tr>
-  <tr>
-    <td width="40%" class="label">Effective Academic Year<label class="mandatory">*</label></td>
-    <td width="60%" class="value">
+    <td width="20%" class="label">Effective Academic Year<label class="mandatory">*</label></td>
+    <td width="30%" class="value">
       <select id="EffectiveAcademicYear">
       </select>
     </td>
@@ -637,57 +616,47 @@ $(document).ready(function() {
     <li><a id="ProfileAssignmentsTab" href="#ProfileAssignments">Profile Assignments</a></li>
   </ul>
   <div id="ProfileDefinition">
-    <fieldset>
-      <table id="AttendanceToolsTable" class="userFormTable" cellpadding="0" cellspacing="5" width="100%" style="font-size: 0.7em;" align="center">
-        <tr>
-          <td>
-            Change All 
-            <select id="ChangeAttendanceFrom"></select>
-            To
-            <select id="ChangeAttendanceTo"></select>
-            <input type="button" id="ChangeBulkAttendace" class="active" value="Change" />
-          </td>
-        </tr>
-      </table>
-    </fieldset>
+    <table id="AttendanceToolsTable" class="userFormTable" cellpadding="0" cellspacing="5" width="100%" style="font-size: 0.7em;" align="center">
+      <tr>
+        <td>
+          Change All 
+          <select id="ChangeAttendanceFrom"></select>
+          To
+          <select id="ChangeAttendanceTo"></select>
+          <input type="button" id="ChangeBulkAttendace" class="active" value="Change" />
+        </td>
+      </tr>
+    </table>
 
-    <table id="YearViewCalendar" cellpadding="0" cellspacing="2" width="100%">
+    <table id="YearViewCalendar" cellpadding="0" cellspacing="2" width="100%" border="0">
       <thead>
       </thead>
       <tbody>
       </tbody>
     </table>
 
-    <fieldset>
-      <table cellpadding="0" cellspacing="2" width="100%" style="font-size: 0.6em;">
-        <tr>
-          <c:forEach var="AttendanceCode" items="${AttendanceCodes}">
-            <td width="30px" class="Attendance-${AttendanceCode}">&nbsp;</td>
-            <td>${AttendanceCode}</td>
-          </c:forEach>
-        </tr>
-      </table>
-    </fieldset>
-    <fieldset>
-      <table cellpadding="0" cellspacing="2" width="100%" style="font-size: 0.6em;" align="center" class="userFormTable">
-        <tr>
-          <td align="center">
-            <c:if test="${AttendanceProfile == null}">
-              <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
-            </c:if>
-            <c:if test="${AttendanceProfile != null}">
-              <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
-              <c:if test="${AttendanceProfile.active}">
-              <input type="button" id="inactivate" class="active" value='Inactivate' />
-              </c:if>
-              <c:if test="${!AttendanceProfile.active}">
-              <input type="button" id="activate" class="active" value='Activate' />
-              </c:if>
-            </c:if>
-          </td>
-        </tr>
-      </table>
-    </fieldset>
+    <table cellpadding="0" cellspacing="2" width="100%" style="font-size: 0.6em;">
+      <tr>
+        <c:forEach var="AttendanceCode" items="${AttendanceCodes}">
+          <td width="30px" class="Attendance-${AttendanceCode}">&nbsp;</td>
+          <td>${AttendanceCode}</td>
+        </c:forEach>
+      </tr>
+    </table>
+    <hr />
+
+    <table cellpadding="0" cellspacing="2" width="100%" style="font-size: 0.6em;" align="center" class="userFormTable">
+      <tr>
+        <td align="center">
+          <c:if test="${AttendanceProfile == null}">
+            <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+          </c:if>
+          <c:if test="${AttendanceProfile != null}">
+            <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
+          </c:if>
+        </td>
+      </tr>
+    </table>
   </div>
 
   <div id="ProfileAssignments">

@@ -19,9 +19,9 @@ import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmploymentStatus;
 import com.myschool.employee.service.EmploymentStatusService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.employee.constants.EmployeeViewNames;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class EmploymentStatusController.

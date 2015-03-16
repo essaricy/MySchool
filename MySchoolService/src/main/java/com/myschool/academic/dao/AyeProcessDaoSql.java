@@ -1,6 +1,6 @@
 package com.myschool.academic.dao;
 
-import com.myschool.infra.database.util.DatabaseUtil;
+import com.myschool.common.util.DatabaseUtil;
 
 /**
  * The Class AyeProcessDaoSql.

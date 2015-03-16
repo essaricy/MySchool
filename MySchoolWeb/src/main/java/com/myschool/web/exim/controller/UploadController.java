@@ -38,11 +38,11 @@ import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.UserContext;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
 import com.myschool.web.exim.bean.UploadDataFileBean;
 import com.myschool.web.exim.constants.EximViewNames;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class UploadController.
@@ -101,7 +101,7 @@ public class UploadController {
             Object userContextObject = session.getAttribute(WebConstants.USER_CONTEXT);
             if (userContextObject instanceof UserContext) {
                 UserContext userContext = (UserContext) userContextObject;
-                int loginId = userContext.getLoginId();
+                int loginId = userContext.getLogin().getId();
                 int uploadTrackerId = uploadService.createUploadTracker(loginId);
                 jsonResponse.put("uploadTrackerId", uploadTrackerId);
             }
@@ -219,7 +219,7 @@ public class UploadController {
                 if (userType == UserType.ADMIN) {
                     uploadTrackers = uploadService.getUploadTrackers();
                 } else {
-                    int loginId = userContext.getLoginId();
+                    int loginId = userContext.getLogin().getId();
                     uploadTrackers = uploadService.getUploadTrackers(loginId);
                 }
                 if (uploadTrackers != null && !uploadTrackers.isEmpty()) {

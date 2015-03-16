@@ -146,8 +146,6 @@ public class PrivilegesManager {
     public void copyUserPrivileges(Integer copyFromUserId,
             List<Integer> copyToUserIds) throws DataException {
         try {
-            System.out.println("copyFromUserId " + copyFromUserId);
-            System.out.println("copyToUserIds " + copyToUserIds);
             if (copyFromUserId == null || copyFromUserId == 0) {
                 throw new DataException("'Copy From User ID' is not given.");
             }

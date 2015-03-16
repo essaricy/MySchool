@@ -17,16 +17,20 @@ import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.Encryptor;
 import com.myschool.common.util.PasswordUtil;
+import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dao.EmployeeDao;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.graph.constant.ToDateType;
 import com.myschool.student.dao.StudentDao;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.user.assembler.UserDataAssembler;
+import com.myschool.user.assembler.UserSessionDataAssembler;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dao.UserDao;
 import com.myschool.user.dto.ChangePasswordDto;
+import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
+import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -265,5 +269,107 @@ public class UserManager {
         }
         return map;
     }
+
+	/**
+	 * Creates the.
+	 *
+	 * @param userSession the user session
+	 * @return the int
+	 * @throws DataException the data exception
+	 */
+	public int create(UserSession userSession) throws DataException {
+		try {
+			validateUserSession(userSession);
+			return userDao.create(userSession);
+		} catch (DaoException daoException) {
+			throw new DataException(daoException.getMessage(), daoException);
+		}
+	}
+
+	/**
+	 * Update.
+	 *
+	 * @param userSession the user session
+	 * @return true, if successful
+	 * @throws DataException the data exception
+	 */
+	public boolean update(UserSession userSession) throws DataException {
+		boolean updated = false;
+		try {
+			validateUserSession(userSession);
+			String sessionId = userSession.getSessionId();
+			UserSession existingSession = userDao.getUserSession(sessionId);
+			if (existingSession == null) {
+				throw new DataException("User Session " + sessionId + " is not created.");
+			}
+			if (existingSession.getSessionEndTime() != null) {
+				throw new DataException("User Session " + sessionId + " is already closed. Cannot update now.");
+			}
+			int userId = userSession.getUserId();
+			// check if the user id is present in the database or not.
+			if (userId != 0) {
+				UsersDto user = userDao.getUser(userId);
+				if (user == null) {
+					throw new DataException("User with ID " + userId + " not found.");
+				}
+			}
+			updated = userDao.update(userSession);
+		} catch (DaoException daoException) {
+			throw new DataException(daoException.getMessage(), daoException);
+		}
+		return updated;
+	}
+
+	public boolean createUserActivities(String sessionId,
+			List<UserActivity> userActivities) throws DataException {
+		boolean updated = false;
+		try {
+			//String sessionId = userSession.getSessionId();
+			UserSession existingSession = userDao.getUserSession(sessionId);
+			if (existingSession == null) {
+				throw new DataException("User Session " + sessionId + " is not created.");
+			}
+			if (userActivities != null && !userActivities.isEmpty()) {
+				// Update user activities
+				updated = userDao.create(sessionId, userActivities);
+			}
+		} catch (DaoException daoException) {
+			throw new DataException(daoException.getMessage(), daoException);
+		}
+		return updated;
+	}
+
+	/**
+	 * Validate user session.
+	 *
+	 * @param userSession the user session
+	 * @throws DataException the data exception
+	 */
+	private void validateUserSession(UserSession userSession) throws DataException {
+		if (userSession == null) {
+			throw new DataException("UserSession object is null");
+		}
+		String sessionId = userSession.getSessionId();
+		if (StringUtil.isNullOrBlank(sessionId)) {
+			throw new DataException("Session ID is null");
+		}
+		Date sessionStartTime = userSession.getSessionStartTime();
+		if (sessionStartTime == null) {
+			throw new DataException("Session start time is not provided");
+		}
+		String browserName = userSession.getBrowserName();
+		if (StringUtil.isNullOrBlank(browserName)) {
+			throw new DataException("Browser Information is not provided");
+		}
+		String device = userSession.getDevice();
+		if (StringUtil.isNullOrBlank(device)) {
+			throw new DataException("Device Information is not provided");
+		}
+		String ipAddress = userSession.getIpAddress();
+		if (StringUtil.isNullOrBlank(ipAddress)) {
+			throw new DataException("IP Address is not provided");
+		}
+		UserSessionDataAssembler.updateInformation(userSession);
+	}
 
 }

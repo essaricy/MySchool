@@ -20,13 +20,4 @@ public interface AttendanceProfileService extends Servicable<AttendanceProfileDt
     AttendanceProfileDto get(int attendanceProfileId,
             String academicYearName) throws ServiceException;
 
-    /**
-     * Activate.
-     * 
-     * @param attendanceProfileId the attendance profile id
-     * @return true, if successful
-     * @throws ServiceException the service exception
-     */
-    boolean activate(int attendanceProfileId) throws ServiceException;
-
 }

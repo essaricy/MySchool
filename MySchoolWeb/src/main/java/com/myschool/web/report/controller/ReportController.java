@@ -22,8 +22,8 @@ import com.myschool.report.assembler.ReportDataAssembler;
 import com.myschool.report.dto.ReportCriteria;
 import com.myschool.report.dto.ReportDto;
 import com.myschool.report.service.ReportService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.report.constants.ReportViewNames;
 
 /**

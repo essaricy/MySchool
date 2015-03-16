@@ -24,9 +24,9 @@ import com.myschool.notification.constants.NotificationType;
 import com.myschool.notification.dto.NotificationCriteriaDto;
 import com.myschool.notification.dto.NotificationDto;
 import com.myschool.notification.service.NotificationService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.notification.constants.NotificationViewNames;
 
 /**

@@ -15,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.download.dto.BrochureDto;
 import com.myschool.download.service.BrochureService;
 import com.myschool.web.application.constants.DownloadViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class DownloadController.

@@ -15,7 +15,9 @@ import com.myschool.student.dto.StudentDto;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.domain.UserManager;
 import com.myschool.user.dto.ChangePasswordDto;
+import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
+import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -164,5 +166,45 @@ public class UserServiceImpl implements UserService {
         }
         return map;
     }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.user.service.UserService#create(com.myschool.user.dto.UserSession)
+	 */
+	@Override
+	public int create(UserSession userSession) throws ServiceException {
+        try {
+            return userManager.create(userSession);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.user.service.UserService#update(com.myschool.user.dto.UserSession)
+	 */
+	@Override
+	public boolean update(UserSession userSession) throws ServiceException {
+        try {
+            return userManager.update(userSession);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.user.service.UserService#createUserActivities(java.lang.String, java.util.List)
+	 */
+	@Override
+	public boolean createUserActivities(String sessionId,
+			List<UserActivity> userActivities) throws ServiceException {
+		try {
+            return userManager.createUserActivities(sessionId, userActivities);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+	}
 
 }

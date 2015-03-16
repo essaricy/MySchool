@@ -23,10 +23,10 @@ import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.web.application.constants.ApplicationViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.JCaptchaUtil;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
+import com.myschool.web.framework.util.JCaptchaUtil;
 
 /**
  * The Class IssueController.

@@ -240,7 +240,6 @@ public class AttendanceProfileManager {
             if (existingProfile != null) {
                 throw new DataException("Attendance Profile (" + profileName + ") already exists.");
             }
-            attendanceProfile.setActive(false);
             attendanceProfileId = attendanceProfileDao.create(attendanceProfile);
             if (attendanceProfileId == 0) {
                 throw new DataException("Unable to create Attendance Profile now.");
@@ -292,10 +291,7 @@ public class AttendanceProfileManager {
             if (existingProfile != null && existingProfile.getAttendanceProfileId() != attendanceProfileId) {
                 throw new DataException("Attendance Profile (" + profileName + ") already exists.");
             }
-            if (!attendanceProfile.isActive() && existingAttendanceProfile.isActive()) {
-                attendanceProfile.setActive(existingAttendanceProfile.isActive());
-                attendanceProfileValidator.validateAssignmentConflicts(attendanceProfile);
-            }
+            attendanceProfileValidator.validateAssignmentConflicts(attendanceProfile);
             attendanceProfileId = existingAttendanceProfile.getAttendanceProfileId();
             attendanceProfileDao.update(existingAttendanceProfile.getAttendanceProfileId(), attendanceProfile);
 
@@ -326,35 +322,6 @@ public class AttendanceProfileManager {
             throw new DataException("Unable to update Attendance Profile now. Please try again.");
         }
         return true;
-    }
-
-    /**
-     * Activate attendance profile.
-     * 
-     * @param attendanceProfileId the attendance profile id
-     * @return true, if successful
-     * @throws DataException the data exception
-     */
-    public boolean activate(int attendanceProfileId) throws DataException {
-        try {
-            // If requested to activate this attendance profile then activate
-            AttendanceProfileDto attendanceProfile = get(attendanceProfileId, null);
-            if (attendanceProfile == null) {
-                throw new DataException("Attendance Profile does not exists!");
-            }
-            boolean active = attendanceProfile.isActive();
-            if (active) {
-                throw new DataException("Attendance Profile is active already.");
-            }
-            attendanceProfile.setActive(true);
-            attendanceProfileValidator.validate(attendanceProfile);
-            return attendanceProfileDao.update(attendanceProfileId, attendanceProfile);
-        } catch (ValidationException validationException) {
-            throw new DataException(validationException.getMessage(), validationException);
-        } catch (DaoException daoException) {
-            throw new DataException("Unable to activate Attendance Profile now. Please try again.");
-        }
-
     }
 
     /**

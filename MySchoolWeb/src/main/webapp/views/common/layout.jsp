@@ -8,7 +8,8 @@
   <head>
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
     <tiles:useAttribute id="css_imports" name="css_imports" classname="java.util.List" />
-    <c:set var="current_theme" value="${USER_CONTEXT.userPreference.userTheme}" />
+	<c:set var="current_theme" value="${(USER_CONTEXT == null || USER_CONTEXT.userPreference == null || USER_CONTEXT.userPreference.userTheme == null)? 'BLUE' : USER_CONTEXT.userPreference.userTheme}" />
+
     <c:forEach var="css_import" items="${css_imports}">
       <c:set var="modified_css_import_name" value="${fn:replace(css_import, '${theme}', current_theme)}" />
       <link type="text/css" rel="stylesheet" href="<%=request.getContextPath() %>/${modified_css_import_name}" />

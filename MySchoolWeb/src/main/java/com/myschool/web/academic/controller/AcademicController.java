@@ -21,9 +21,9 @@ import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.web.academic.constants.AcademicViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class BranchController.
@@ -211,15 +211,15 @@ public class AcademicController {
 
         String academicYearName = request.getParameter("academicYearName");
         String academicYearStartDate = request.getParameter("academicYearStartDate");
-        String academicYearEndDate = request.getParameter("academicYearEndDate").trim();
+        String academicYearEndDate = request.getParameter("academicYearEndDate");
 
         viewErrorHandler.validate(academicYearName, "academicYearName", DataTypeValidator.ANY_CHARACTER, true);
         viewErrorHandler.validate(academicYearStartDate, "academicYearStartDate", DataTypeValidator.DATE, true);
         viewErrorHandler.validate(academicYearEndDate, "academicYearEndDate", DataTypeValidator.DATE, true);
 
-        academic.setAcademicYearName(academicYearName);
-        academic.setAcademicYearStartDate(academicYearStartDate);
-        academic.setAcademicYearEndDate(academicYearEndDate);
+        academic.setAcademicYearName(academicYearName.trim());
+        academic.setAcademicYearStartDate(academicYearStartDate.trim());
+        academic.setAcademicYearEndDate(academicYearEndDate.trim());
         return academic;
     }
 

@@ -3,9 +3,9 @@ package com.myschool.employee.dao;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.myschool.common.util.DatabaseUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
-import com.myschool.infra.database.util.DatabaseUtil;
 
 /**
  * The Class EmployeeDaoSql.

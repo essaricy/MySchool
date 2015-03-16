@@ -28,9 +28,9 @@ import com.myschool.exam.service.ExamGradeService;
 import com.myschool.exam.service.ExamService;
 import com.myschool.exam.service.StudentExamService;
 import com.myschool.student.dto.StudentDto;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
 import com.myschool.web.exam.constants.ExamViewNames;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class StudentExamController.

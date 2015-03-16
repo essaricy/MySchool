@@ -26,10 +26,10 @@ import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
 import com.myschool.employee.dto.EmploymentStatus;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
 import com.myschool.web.employee.constants.EmployeeViewNames;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class EmployeeController.

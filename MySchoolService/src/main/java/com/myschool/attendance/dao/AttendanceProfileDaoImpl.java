@@ -120,7 +120,6 @@ public class AttendanceProfileDaoImpl implements AttendanceProfileDao {
             preparedStatement.setInt(++index, attendanceProfileId);
             preparedStatement.setString(++index, attendanceProfile.getProfileName().trim());
             preparedStatement.setString(++index, attendanceProfile.getEffectiveAcademic().getAcademicYearName());
-            preparedStatement.setString(++index, ConversionUtil.toYN(attendanceProfile.isActive()));
 
             attendanceProfileId = (preparedStatement.executeUpdate() > 0) ? attendanceProfileId : 0;
         } catch (SQLException sqlException) {
@@ -153,12 +152,10 @@ public class AttendanceProfileDaoImpl implements AttendanceProfileDao {
         try {
             System.out.println("update");
             System.out.println("attendanceProfile.getProfileName() " + attendanceProfile.getProfileName());
-            System.out.println("attendanceProfile.isActive() " + attendanceProfile.isActive());
             connection = databaseAgent.getConnection();
             preparedStatement = connection.prepareStatement(AttendanceProfileDaoSql.UPDATE);
             preparedStatement.setString(++index, attendanceProfile.getProfileName().trim());
             preparedStatement.setString(++index, attendanceProfile.getEffectiveAcademic().getAcademicYearName());
-            preparedStatement.setString(++index, ConversionUtil.toYN(attendanceProfile.isActive()));
             preparedStatement.setInt(++index, attendanceProfileId);
 
             attendanceProfileUpdated = (preparedStatement.executeUpdate() > 0) ? true : false;

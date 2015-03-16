@@ -27,8 +27,8 @@ public class AttendanceProfileDto implements Serializable {
     /** The effective academic. */
     private AcademicDto effectiveAcademic;
 
-    /** The active. */
-    private boolean active;
+    /** The active. *//*
+    private boolean active;*/
 
     /** The year attendance. */
     private List<MonthAttendance> yearAttendance;
@@ -52,19 +52,19 @@ public class AttendanceProfileDto implements Serializable {
      * Checks if is active.
      * 
      * @return true, if is active
-     */
+     *//*
     public boolean isActive() {
         return active;
     }
 
-    /**
+    *//**
      * Sets the active.
      * 
      * @param active the new active
-     */
+     *//*
     public void setActive(boolean active) {
         this.active = active;
-    }
+    }*/
 
     /**
      * Gets the attendance profile id.
@@ -243,7 +243,7 @@ public class AttendanceProfileDto implements Serializable {
             .append("attendanceProfileId = ").append(this.attendanceProfileId).append(SEPARATOR)
             .append("profileName = ").append(this.profileName).append(SEPARATOR)
             .append("effectiveAcademic = ").append(this.effectiveAcademic).append(SEPARATOR)
-            .append("active = ").append(this.active).append(SEPARATOR)
+            //.append("active = ").append(this.active).append(SEPARATOR)
             .append("yearAttendance = ").append(this.yearAttendance).append(SEPARATOR)
             .append("states = ").append(this.states).append(SEPARATOR)
             .append("regions = ").append(this.regions).append(SEPARATOR)

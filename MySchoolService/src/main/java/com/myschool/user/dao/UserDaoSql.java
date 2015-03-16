@@ -20,8 +20,8 @@ public class UserDaoSql {
     /** The Constant SELECT_USER_PREFERENCES_BY_ID. */
     public static final String SELECT_USER_PREFERENCES_BY_ID;
 
-    /** The Constant SELECT_USER_STATISTICS_BY_ID. */
-    public static final String SELECT_USER_STATISTICS_BY_ID;
+    /** The Constant SELECT_USER_SESSIONS_BY_ID. */
+    public static final String SELECT_USER_SESSIONS_BY_ID;
 
     /** The Constant INSERT. */
     public static final String INSERT;
@@ -34,9 +34,6 @@ public class UserDaoSql {
 
     /** The UPDATE_USER_PREFERENCES_BY_ID. */
     public static String UPDATE_USER_PREFERENCES_BY_ID;
-
-    /** The INSERT_USER_STATISTICS. */
-    public static String INSERT_USER_STATISTICS;
 
     /** The SELECT_LOGINS_BY_USER_TYPE. */
     private static String SELECT_LOGINS_BY_USER_TYPE;
@@ -113,21 +110,17 @@ public class UserDaoSql {
         builder.setLength(0);
 
         builder.append("SELECT ");
-        builder.append("COUNT(LOGIN_TS) AS NUMBER_OF_VISITS, ");
-        builder.append("MAX(LOGIN_TS) AS LAST_VISIT ");
-        builder.append("FROM USER_STATISTICS ");
+        builder.append("COUNT(SESSION_ID) AS NUMBER_OF_VISITS, ");
+        builder.append("MAX(SESSION_START_TIME) AS LAST_VISIT ");
+        builder.append("FROM USER_SESSION ");
         builder.append("WHERE USER_ID=?");
-        SELECT_USER_STATISTICS_BY_ID = builder.toString();
-        builder.setLength(0);
-
-        builder.append("INSERT INTO USER_STATISTICS (USER_ID) VALUES (?)");
-        INSERT_USER_STATISTICS = builder.toString();
+        SELECT_USER_SESSIONS_BY_ID = builder.toString();
         builder.setLength(0);
 
         builder.append("SELECT ");
-        builder.append("CAST(LOGIN_TS AS DATE) AS TO_DATE, ");
-        builder.append("COUNT(LOGIN_TS) AS TO_DATE_VALUE ");
-        builder.append("FROM USER_STATISTICS ");
+        builder.append("COUNT(SESSION_ID) AS TO_DATE_VALUE, ");
+        builder.append("MAX(SESSION_START_TIME) AS TO_DATE ");
+        builder.append("FROM USER_SESSION ");
         builder.append("WHERE ");
         builder.append("USER_ID IN (SELECT USER_ID FROM USERS WHERE REF_USER_TYPE_ID = ?) ");
         SELECT_LOGINS_BY_USER_TYPE = builder.toString();
@@ -144,10 +137,10 @@ public class UserDaoSql {
     public static String getToDateLoginsSql(ToDateType toDateType) {
         StringBuilder builder = new StringBuilder();
         builder.append(SELECT_LOGINS_BY_USER_TYPE);
-        builder.append("AND CAST(LOGIN_TS AS DATE) > (CURRENT_DATE - ");
+        builder.append("AND CAST(SESSION_START_TIME AS DATE) > (CURRENT_DATE - ");
         builder.append(toDateType.getDuration());
-        builder.append(") AND CAST(LOGIN_TS AS DATE) <= CURRENT_DATE ");
-        builder.append("GROUP BY TO_DATE ");
+        builder.append(") AND CAST(SESSION_START_TIME AS DATE) <= CURRENT_DATE ");
+        //builder.append("GROUP BY TO_DATE ");
         builder.append("ORDER BY TO_DATE DESC ");
         return builder.toString();
     }

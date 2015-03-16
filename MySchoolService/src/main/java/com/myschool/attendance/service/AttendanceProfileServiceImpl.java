@@ -97,17 +97,5 @@ public class AttendanceProfileServiceImpl implements AttendanceProfileService {
        }
     }
 
-    /* (non-Javadoc)
-     * @see com.myschool.attendance.service.AttendanceProfileService#activate(int)
-     */
-    @Override
-    public boolean activate(int attendanceProfileId) throws ServiceException {
-        try {
-            return attendanceProfileManager.activate(attendanceProfileId);
-       } catch (DataException dataException) {
-           throw new ServiceException(dataException.getMessage(),
-                   dataException);
-       }
-    }
 
 }

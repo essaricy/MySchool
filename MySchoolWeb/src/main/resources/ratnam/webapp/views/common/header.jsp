@@ -28,7 +28,7 @@
 					<td>
 						<table border="0" cellpadding="0" cellspacing="0" width="100%" valign="top">
 							<tr>
-								<td align="right" class="headerLabel">Welcome,&nbsp;${USER_CONTEXT.loginName}</td>
+								<td align="right" class="headerLabel">Welcome,&nbsp;${USER_CONTEXT.login.loginId}</td>
 								<td width="60px" align="center">&nbsp;
 								<!-- Values are equal to the constants used in com.myschool.common.dto.UserTypeDto class-->
 								<c:if test="${USER_CONTEXT.userType == 'ADMIN'}">

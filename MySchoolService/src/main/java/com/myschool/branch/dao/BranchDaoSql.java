@@ -6,7 +6,7 @@ import java.util.Map;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.RegionDto;
 import com.myschool.branch.dto.StateDto;
-import com.myschool.infra.database.util.DatabaseUtil;
+import com.myschool.common.util.DatabaseUtil;
 
 /**
  * The Class BranchDaoSql.

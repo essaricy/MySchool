@@ -7,6 +7,7 @@
         <fileset dir="../${lib}" includes="*.jar" />
         <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
         <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
+		<fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
         <fileset dir="../${myschool.service}/${target.dir}" includes="${myschool.service}.jar" />
     </path>
 
@@ -136,6 +137,7 @@
     <fileset id="spring-contexts" dir="${myschool.dir}/${config}/${spring}">
         <include name="${myschool.base}.xml"/>
         <include name="${myschool.infrastructure}.xml"/>
+    	<include name="${myschool.transformation}.xml"/>
         <include name="${myschool.service}.xml"/>
     </fileset>
 
@@ -143,6 +145,7 @@
         <!-- Application Jars -->
         <include name="${myschool.base}.jar" />
         <include name="${myschool.infrastructure}.jar" />
+    	<include name="${myschool.transformation}.jar" />
         <include name="${myschool.service}.jar" />
     </fileset>
 
@@ -202,6 +205,13 @@
     	<include name="org.springframework.context.support-3.0.5.RELEASE.jar" />
     	<include name="cglib-2.2.jar" />
     	<include name="asm-3.3.1.jar" />
+
+    	<!-- User Agent Jars -->
+    	<include name="uadetector-core-0.9.22.jar" />
+    	<include name="uadetector-resources-2014.10.jar" />
+    	<include name="quality-check-1.1.jar" />
+    	<include name="logback-core-0.9.6.jar" />
+    	<include name="logback-classic-0.9.jar" />
     </fileset>
 
     <fileset id="libraries-for-tomcat" dir="../${lib}">

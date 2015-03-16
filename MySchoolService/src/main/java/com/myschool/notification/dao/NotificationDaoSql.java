@@ -3,8 +3,8 @@ package com.myschool.notification.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.myschool.common.util.DatabaseUtil;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.database.util.DatabaseUtil;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationStatus;
 import com.myschool.notification.dto.NotificationCriteriaDto;

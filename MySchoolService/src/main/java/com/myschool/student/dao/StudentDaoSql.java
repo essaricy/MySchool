@@ -3,8 +3,8 @@ package com.myschool.student.dao;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.myschool.common.util.DatabaseUtil;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.database.util.DatabaseUtil;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
 
 /**

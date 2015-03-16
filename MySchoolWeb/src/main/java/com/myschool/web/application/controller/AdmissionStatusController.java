@@ -19,8 +19,8 @@ import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.student.dto.AdmissionStatus;
 import com.myschool.student.service.AdmissionStatusService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.student.constants.StudentViewNames;
 
 /**

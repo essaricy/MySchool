@@ -50,7 +50,6 @@ public class AttendanceProfileDaoSql {
         buffer.append("SELECT ");
         buffer.append("PROFILE_ID, ");
         buffer.append("PROFILE_NAME, ");
-        buffer.append("ACTIVE, ");
         buffer.append("ACADEMICS.ACADEMIC_YEAR_NAME AS ACADEMICS_ACADEMIC_YEAR_NAME, ");
         buffer.append("ACADEMICS.AY_START_DATE AS ACADEMICS_AY_START_DATE, ");
         buffer.append("ACADEMICS.AY_END_DATE AS ACADEMICS_AY_END_DATE ");
@@ -73,7 +72,6 @@ public class AttendanceProfileDaoSql {
 
         buffer.append(SELECT_ALL);
         buffer.append("WHERE PROFILE_ID<>? ");
-        //buffer.append("AND ACTIVE=? ");
         buffer.append("AND ACADEMICS.ACADEMIC_YEAR_NAME=? ");
         SELECT_ALL_EXCLUDE_THIS = buffer.toString();
         buffer.setLength(0);
@@ -114,15 +112,14 @@ public class AttendanceProfileDaoSql {
         buffer.setLength(0);
 
         buffer.append("INSERT INTO ATTENDANCE_PROFILE (");
-        buffer.append("PROFILE_ID, PROFILE_NAME, EFFECTIVE_ACADEMIC, ACTIVE");
-        buffer.append(")VALUES(?, ?, ?, ?)");
+        buffer.append("PROFILE_ID, PROFILE_NAME, EFFECTIVE_ACADEMIC");
+        buffer.append(")VALUES(?, ?, ?)");
         INSERT = buffer.toString();
         buffer.setLength(0);
 
         buffer.append("UPDATE ATTENDANCE_PROFILE ");
         buffer.append("SET PROFILE_NAME=?,");
-        buffer.append("EFFECTIVE_ACADEMIC=?,");
-        buffer.append("ACTIVE=? ");
+        buffer.append("EFFECTIVE_ACADEMIC=? ");
         buffer.append("WHERE PROFILE_ID=?");
         UPDATE = buffer.toString();
         buffer.setLength(0);

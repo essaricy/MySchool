@@ -31,9 +31,9 @@ import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.school.dto.SchoolDto;
 import com.myschool.school.service.SchoolService;
 import com.myschool.web.clazz.constants.ClazzViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
-import com.myschool.web.common.util.ViewErrorHandler;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class ClassController.

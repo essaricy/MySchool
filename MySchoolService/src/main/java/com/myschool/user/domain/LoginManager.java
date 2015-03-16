@@ -101,8 +101,6 @@ public class LoginManager {
 
                 loginDetails.setUserPreference(userDao.getUserPreferences(userId));
                 loginDetails.setUserStatistics(userDao.getUserStatistics(userId));
-                // Update user statistics
-                userDao.updateUserStatistics(userId);
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);

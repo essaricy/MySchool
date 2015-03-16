@@ -26,8 +26,8 @@ import com.myschool.student.dto.StudentDocument;
 import com.myschool.student.service.StudentDocumentService;
 import com.myschool.student.service.StudentFamilyService;
 import com.myschool.student.service.StudentService;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.student.constants.StudentViewNames;
 
 /**

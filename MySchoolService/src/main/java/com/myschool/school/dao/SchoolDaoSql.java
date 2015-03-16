@@ -5,8 +5,8 @@ import java.util.Map;
 
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
+import com.myschool.common.util.DatabaseUtil;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.database.util.DatabaseUtil;
 import com.myschool.school.dto.SchoolDto;
 
 /**

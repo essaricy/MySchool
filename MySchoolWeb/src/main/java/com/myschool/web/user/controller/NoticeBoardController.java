@@ -18,8 +18,8 @@ import com.myschool.application.service.ProfileService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.util.StringUtil;
 import com.myschool.web.application.constants.ApplicationViewNames;
-import com.myschool.web.common.util.HttpUtil;
-import com.myschool.web.common.util.ViewDelegationController;
+import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class NoticeBoardController.

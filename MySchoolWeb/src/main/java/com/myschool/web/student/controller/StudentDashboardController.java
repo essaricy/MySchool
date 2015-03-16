@@ -32,7 +32,7 @@ import com.myschool.graph.dto.LineChartDto;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.common.util.HttpUtil;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class StudentDashboardController.

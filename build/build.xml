@@ -19,9 +19,14 @@
         <fileset dir="${lib.dir}" includes="*.jar" />
     </path>
 
-    <target name="CleanBuildDeploy" if="myschool.name" depends="Init,CleanAll,Build,Deploy,CopyLibs"
-        description="Cleaning, Building and Deploying all modules">
-        <antcall target="Clean" />
+    <target name="CleanBuildDeploy" description="Cleaning, Building and Deploying all modules">
+    	<fail unless="myschool.name" message="You must set 'myschool.name' property to run the build"/>
+        <antcall target="Init" />
+    	<antcall target="CleanAll" />
+    	<antcall target="Build" />
+    	<antcall target="Deploy" />
+    	<antcall target="CopyLibs" />
+   		<antcall target="Clean" />
     </target>
 
     <target name="Init">
@@ -39,6 +44,7 @@
 
     <target name="CleanCodeBases">
         <ant antfile="build.xml" target="Clean" dir="${myschool.base}" />
+    	<ant antfile="build.xml" target="Clean" dir="${myschool.transformation}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.infrastructure}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.service}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.web}" />
@@ -69,6 +75,7 @@
     <target name="Build">
         <echo message="Using Java version ${ant.java.version}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.base}" />
+    	<ant antfile="build.xml" target="Build" dir="${myschool.transformation}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.infrastructure}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.service}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.web}" />
@@ -79,6 +86,7 @@
 
     <target name="Deploy">
         <ant antfile="build.xml" target="Deploy" dir="${myschool.base}" />
+    	<ant antfile="build.xml" target="Deploy" dir="${myschool.transformation}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.infrastructure}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.service}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.web}" />

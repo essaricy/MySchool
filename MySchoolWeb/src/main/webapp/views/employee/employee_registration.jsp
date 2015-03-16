@@ -245,7 +245,7 @@ jQuery(document).ready(function() {
       <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
         <tr>
           <td align="center">
-            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/images/icons/no-image.jpg" border="1" width="150px" height="180px"/>
+            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
           </td>
         </tr>
       </table>
