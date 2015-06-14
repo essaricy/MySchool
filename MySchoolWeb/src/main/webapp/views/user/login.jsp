@@ -4,6 +4,7 @@
 <html>
   <head>
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
+	<link rel="icon" type="image/gif" href="<%=request.getContextPath() %>/images/school/favicon.png" />
     <tiles:useAttribute id="css_imports" name="css_imports" classname="java.util.List" />
     <c:forEach var="css_import" items="${css_imports}">
         <link type="text/css" rel="stylesheet" href="<%=request.getContextPath() %>/${css_import}" />

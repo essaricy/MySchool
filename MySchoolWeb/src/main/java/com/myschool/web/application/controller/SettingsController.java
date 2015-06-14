@@ -17,6 +17,7 @@ import com.myschool.user.dto.UserContext;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.user.constants.UserViewNames;
 
 /**
@@ -42,7 +43,7 @@ public class SettingsController {
     public ModelAndView launch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        HttpSession session = request.getSession();
+        HttpSession session = HttpUtil.getExistingSession(request);
         UserContext userContext = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
         map.put(WebConstants.USER_CONTEXT, userContext);
         return ViewDelegationController.delegateWholePageView(request, UserViewNames.VIEW_SETTINGS, map);

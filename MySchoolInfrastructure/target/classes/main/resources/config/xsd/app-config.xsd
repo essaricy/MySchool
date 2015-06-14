@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://www.example.org/AppConfig"
+    xmlns:tns="http://www.example.org/AppConfig">
+
+    <element name="app-config" type="tns:AppConfigType" />
+
+    <complexType name="AppConfigType">
+        <all>
+            <element name="agents" type="tns:AgentsType" minOccurs="1" maxOccurs="1" />
+        </all>
+        <attribute name="base-dir" type="tns:FilePathType" use="required" />
+        <attribute name="myschool-name" type="tns:NameType" use="required" />
+    </complexType>
+
+    <complexType name="AgentsType">
+        <sequence>
+            <element name="agents" type="tns:AgentType" minOccurs="1" maxOccurs="unbounded" />
+        </sequence>
+    </complexType>
+
+    <complexType name="AgentType">
+        <attribute name="name" type="tns:NameType" use="required" />
+        <attribute name="class" type="tns:JavaClassType" use="required" />
+        <attribute name="config" type="tns:FilePathType" use="required" />
+    </complexType>
+
+    <simpleType name="NameType">
+        <restriction base="string">
+            <pattern value="[a-zA-Z_]+" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="JavaClassType">
+        <restriction base="string">
+            <pattern value="([a-z]{2,3}(\.[a-zA-Z][a-zA-Z_$0-9]*)*)\.([A-Z][a-zA-Z_$0-9]*)$" />
+        </restriction>
+    </simpleType>
+
+    <simpleType name="FilePathType">
+        <restriction base="string">
+            <pattern value='^((([a-zA-Z]:|\\)\\)|(\\))?(((\.)|(\.\.)|([^\\/:\*\?"\|&lt;&gt;\. ](([^\\/:\*\?"\|&lt;&gt;\. ])|([^\\/:\*\?"\|&lt;&gt;]*[^\\/:\*\?"\|&lt;&gt;\. ]))?))\\)*[^\\/:\*\?"\|&lt;&gt;\. ](([^\\/:\*\?"\|&lt;&gt;\. ])|([^\\/:\*\?"\|&lt;&gt;]*[^\\/:\*\?"\|&lt;&gt;\. ]))?$' />
+        </restriction>
+    </simpleType>
+
+</schema>

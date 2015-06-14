@@ -26,4 +26,7 @@ public class WebConstants {
 	/** The Constant USER_SESSION. */
 	public static final String USER_SESSION = "USER_SESSION";
 
+	/** The Constant PAGE_ACCESS. */
+	public static final String PAGE_ACCESS = "PAGE_ACCESS";
+
 }

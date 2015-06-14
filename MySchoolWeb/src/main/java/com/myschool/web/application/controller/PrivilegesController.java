@@ -186,7 +186,7 @@ public class PrivilegesController {
                         result.setSuccessful(privilegesService.saveDefaultPrivileges(userTypeId, moduleAccessList));
                         result.setStatusMessage("Default Privileges have been updated successfully.");
                         // Update the information that is present in the session
-                        HttpSession session = request.getSession();
+                        HttpSession session = HttpUtil.getExistingSession(request);
                         UserContext context = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
                         if (context != null && context.getLogin() != null) {
                             context.setModuleAccess(privilegesService.getUserPrivileges(context.getLogin().getId(), userTypeId));
@@ -232,7 +232,7 @@ public class PrivilegesController {
                         result.setSuccessful(privilegesService.saveUserPrivileges(userId, moduleAccessList));
                         result.setStatusMessage("User Privileges have been updated successfully.");
                         // Update the information that is present in the session
-                        HttpSession session = request.getSession();
+                        HttpSession session = HttpUtil.getExistingSession(request);
                         UserContext context = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
                         if (context != null && context.getLogin() != null && context.getLogin().getId() == userId) {
                             context.setModuleAccess(privilegesService.getUserPrivileges(userId, userTypeId));

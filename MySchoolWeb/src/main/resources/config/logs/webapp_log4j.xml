@@ -20,14 +20,25 @@
    <!-- Preserve messages in a local file -->
    <!-- ================================= -->
 
-    <appender name="FILE_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+    <appender name="WEB_APP_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="5MB"/>
         <param name="MaxBackupIndex" value="10"/>
         <param name="DatePattern" value="yyyy-MM-dd" />
-        <param name="File" value="@LOG.FILE.NAME@" />
+        <param name="File" value="@LOG.FILE.LOCATION@/webapp.log" />
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %-5p [%c{1}] %m%n" />
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="WEB_USER_SESSION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="DatePattern" value="yyyy-MM-dd" />
+        <param name="File" value="@LOG.FILE.LOCATION@/web_user_session.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
         </layout>
     </appender>
 
@@ -43,11 +54,25 @@
         <priority value="FATAL" />
     </category>
 
+	<!-- User session management and activity tracking logs category. -->
+	<category name="com.myschool.web.framework.filter.WebUserActivityLogFilter">
+		<priority value="DEBUG" />
+		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
+	</category>
+	<category name="com.myschool.web.framework.listener.WebUserSessionListener">
+		<priority value="DEBUG" />
+		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
+	</category>
+	<category name="com.myschool.web.user.controller.LoginController">
+		<priority value="DEBUG" />
+		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
+	</category>
+
     <!-- ======================= -->
     <!-- Setup the Root category -->
     <!-- ======================= -->
     <root>
         <level value="DEBUG" />
-        <appender-ref ref="FILE_APPENDER" />
+        <appender-ref ref="WEB_APP_APPENDER" />
     </root>
 </log4j:configuration>

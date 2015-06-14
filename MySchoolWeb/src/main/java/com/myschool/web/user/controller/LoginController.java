@@ -13,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.application.dto.MySchoolProfileDto;
-import com.myschool.application.dto.OrganizationProfileDto;
 import com.myschool.application.service.ImageService;
 import com.myschool.application.service.ProfileService;
 import com.myschool.common.util.Encryptor;
@@ -33,6 +31,7 @@ import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class LoginController.
@@ -86,13 +85,13 @@ public class LoginController {
         if (errorKey != null) {
             map.put(ViewDelegationController.ERROR_KEY, errorKey);
         }
-        HttpSession session = request.getSession();
-        OrganizationProfileDto organizationProfile = profileService.getOrganizationProfile();
-        MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
-        session.setAttribute(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
-        session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-        map.put(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-        map.put(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
+        //HttpSession session = HttpUtil.getExistingSession(request);
+        //OrganizationProfileDto organizationProfile = profileService.getOrganizationProfile();
+        //MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
+        //session.setAttribute(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
+        //session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
+        //map.put(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
+        //map.put(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
         return ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.LOGIN, map);
     }
 
@@ -123,9 +122,12 @@ public class LoginController {
             login.setPassword(Encryptor.getInstance().encrypt(password));
             LoginDto loginDetails = loginService.login(login);
 
-            HttpSession session = request.getSession();
+            LOGGER.debug("loginDetails " + loginDetails);
+            HttpSession session = HttpUtil.getExistingSession(request);
             UserType userType = loginDetails.getUserType();
+            LOGGER.debug("userType ===============> " + userType);
             context = ContextUtil.createUserContext(loginDetails);
+            LOGGER.debug("context ===============> " + context);
             if (userType == UserType.STUDENT) {
                 StudentDto student = (StudentDto) loginDetails.getUserDetails();
                 session.setAttribute(WebConstants.STUDENT, student);
@@ -140,19 +142,22 @@ public class LoginController {
 				// Update session with the user id that is logged in here. Update to database.
             	if (loginDetails != null) {
             		UserSession userSession = (UserSession) session.getAttribute(WebConstants.USER_SESSION);
-            		userSession.setUserId(loginDetails.getId());
-            		userService.update(userSession);
+            		LOGGER.debug("userSession " + userSession);
+            		if (userSession != null) {
+            			userSession.setUserId(loginDetails.getId());
+            			userService.update(userSession);
+            		}
             	}
 			} catch (Exception exception) {
 				LOGGER.error(exception.getMessage(), exception);
 				exception.printStackTrace();
 			}
 
-            MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
+            //MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
             session.setAttribute(WebConstants.USER_CONTEXT, context);
-            session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
+            //session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
             map.put(WebConstants.USER_CONTEXT, context);
-            map.put(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
+            //map.put(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
             modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.DASH_BOARD, map);
         } catch (Exception exception) {
             map.put("features", imageService.getFeatures());
@@ -173,7 +178,7 @@ public class LoginController {
     @RequestMapping(value="logout")
     public ModelAndView logout(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        HttpSession session = request.getSession();
+        HttpSession session = HttpUtil.getExistingSession(request);
         if (session != null) {
         	session.removeAttribute(WebConstants.USER_CONTEXT);
             session.invalidate();

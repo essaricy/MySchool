@@ -1,0 +1,42 @@
+<Message NotificationEndPoint="STUDENT" NotificationMode="SMS" NotificationType="REGISTRATION">
+  <ToPerson FirstName="First Name" MiddleName="Middle Name" LastName="Last Name" EmailId="abc@xyz.com" MobileNumber="XXX XXX XXXX"/>
+  <MySchool MySchoolName="demo" WebUrl="http://localhost:8080/demo"/>
+  <OrganizationProfile OrganizationName="My Organization" CurrentAcademicYear="2011-12" Address="Mysore" MailParents="true" SmsParents="true" AyeInProgress="N"/>
+  <Content class="Student" StudentId="1" AdmissionNumber="1" DateOfJoining="2013-10-10" Remarks="Remarks" Active="true" AcademicYear="2013-14">
+    <DocumentsSubmitted>
+      <Document DocumentName="BIRTH_CERTIFICATE" Mandatory="true" Submitted="true"/>
+      <Document DocumentName="TRANSFER_CERTIFICATE" Mandatory="true" Submitted="true"/>
+      <Document DocumentName="NATIVITY_CERTIFICATE" Mandatory="true" Submitted="true"/>
+      <Document DocumentName="PREVIOUS_CLASS_MARKS_CARD" Mandatory="true" Submitted="true"/>
+      <Document DocumentName="CONDUCT_CERTIFICATE" Mandatory="true" Submitted="true"/>
+      <Document DocumentName="PHOTO_GRAPHS" Mandatory="true" Submitted="true"/>
+    </DocumentsSubmitted>
+    <RegisteredClass ClassId="1">
+      <Branch BranchId="1" BranchCode="BC" Description="Description" Address="Address" EmailId="branch@myschoolims.in" PhoneNumber="123 456 7890" MapUrl="http://www.google.co.in">
+        <Region RegionId="1" RegionName="Region Name">
+          <State StateId="1" StateName="State Name"/>
+        </Region>
+      </Branch>
+      <Class ClassId="1" ClassName="Class Name" PromotionOrder="100"/>
+      <Medium MediumId="1" Description="Description"/>
+      <Section SectionId="1" SectionName="Section Name"/>
+      <Division DivisionId="1" DivisionCode="DC" Description="Description"/>
+      <School SchoolId="1" SchoolName="School Name" Address="Address" EmailId="school@myschoolims.in" PrimaryPhoneNumber="123 456 7890" SecondaryPhoneNumber="123 456 7890" FaxNumber="123 456 7890" MobileNumber="123 456 7890" MapUrl="http://www.google.co.in">
+        <Branch BranchId="1" BranchCode="BC" Description="Description" Address="Address" EmailId="branch@myschoolims.in" PhoneNumber="123 456 7890" MapUrl="http://www.google.co.in">
+          <Region RegionId="1" RegionName="Region Name">
+            <State StateId="1" StateName="State Name"/>
+          </Region>
+        </Branch>
+        <Division DivisionId="1" DivisionCode="DC" Description="Description"/>
+      </School>
+    </RegisteredClass>
+    <PersonalDetails FirstName="First Name" MiddleName="Middle Name" LastName="Last Name" Gender="M" DateOfBirth="1970-01-01" Religion="Religion" Caste="Caste" Nationality="Nationality" MotherTongue="Mother Tongue" PermanentAddress="Permanent Address" CorrespondenceAddress="CorrespondenceAddress" MobileNumber="123 456 7890" IdentificationMarks="Identification Marks" BloodGroup="AB+"/>
+    <FamilyMembers>
+      <FamilyMember FamilyMemberId="1" Relationship="FATHER" Name="Family Member 1" Occupation="Occupation 1" MobileNumber="1111111111" EmailId="familymember1@myschoolims.in" AvailSMS="true" AvailEmail="true"/>
+      <FamilyMember FamilyMemberId="1" Relationship="MOTHER" Name="Family Member 2" Occupation="Occupation 2" MobileNumber="-2072745074" EmailId="familymember2@myschoolims.in" AvailSMS="true" AvailEmail="true"/>
+      <FamilyMember FamilyMemberId="1" Relationship="GUARDIAN" Name="Family Member 3" Occupation="Occupation 3" MobileNumber="-961633963" EmailId="familymember3@myschoolims.in" AvailSMS="true" AvailEmail="true"/>
+      <FamilyMember FamilyMemberId="1" Relationship="BROTHER" Name="Family Member 4" Occupation="Occupation 4" MobileNumber="149477148" EmailId="familymember4@myschoolims.in" AvailSMS="true" AvailEmail="true"/>
+      <FamilyMember FamilyMemberId="1" Relationship="SISTER" Name="Family Member 5" Occupation="Occupation 5" MobileNumber="1260588259" EmailId="familymember5@myschoolims.in" AvailSMS="true" AvailEmail="true"/>
+    </FamilyMembers>
+  </Content>
+</Message>

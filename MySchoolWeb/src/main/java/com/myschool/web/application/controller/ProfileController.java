@@ -104,7 +104,7 @@ public class ProfileController {
             result.setSuccessful(profileService.update(mySchoolProfile));
             result.setStatusMessage("MySchool Profile has been updated successfully.");
 
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());
@@ -149,6 +149,8 @@ public class ProfileController {
         mySchoolProfile.setSmsEmployees(ConversionUtil.toBoolean(request.getParameter("smsEmployees")));
         mySchoolProfile.setSmsStudents(ConversionUtil.toBoolean(request.getParameter("smsStudents")));
         mySchoolProfile.setUseMenuIcons(ConversionUtil.toBoolean(request.getParameter("useMenuIcons")));
+        mySchoolProfile.setUseEmployeeSelfSubmit(ConversionUtil.toBoolean(request.getParameter("useEmployeeSelfSubmit")));
+        mySchoolProfile.setUseStudentSelfSubmit(ConversionUtil.toBoolean(request.getParameter("useStudentSelfSubmit")));
         return mySchoolProfile;
     }
 

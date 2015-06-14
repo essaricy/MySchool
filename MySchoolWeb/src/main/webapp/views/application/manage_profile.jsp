@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
+<!-- TODO: Rename this view name -->
 <style>
 #ProfilesAccordion p {
   font-size: 0.8em;
@@ -71,6 +71,8 @@ $(document).ready(function() {
         smsEmployees: $('#smsEmployees').is(":checked"),
         smsStudents: $('#smsStudents').is(":checked"),
         useMenuIcons: $('#useMenuIcons').is(":checked"),
+        useEmployeeSelfSubmit: $('#useEmployeeSelfSubmit').is(":checked"),
+        useStudentSelfSubmit: $('#useStudentSelfSubmit').is(":checked"),
         sid: new Date().getTime()
       }, 
       context: this
@@ -235,6 +237,32 @@ $(document).ready(function() {
                 </c:if>
                 </td>
               </tr>
+
+              <!-- User self submit options Options -->
+              <tr>
+                <td width="50%" class="formLabel">Use Employee Self-Submit</td>
+                <td width="50%" align="left">
+                <c:if test="${MySchoolProfile.useEmployeeSelfSubmit}">
+                  <input id="useEmployeeSelfSubmit" type="checkbox" checked />
+                </c:if>
+                <c:if test="${!MySchoolProfile.useEmployeeSelfSubmit}">
+                  <input id="useEmployeeSelfSubmit" type="checkbox" />
+                </c:if>
+                </td>
+              </tr>
+              <!-- Menu Options -->
+              <tr>
+                <td width="50%" class="formLabel">Use Student Self-Submit</td>
+                <td width="50%" align="left">
+                <c:if test="${MySchoolProfile.useStudentSelfSubmit}">
+                  <input id="useStudentSelfSubmit" type="checkbox" checked />
+                </c:if>
+                <c:if test="${!MySchoolProfile.useStudentSelfSubmit}">
+                  <input id="useStudentSelfSubmit" type="checkbox" />
+                </c:if>
+                </td>
+              </tr>
+
             <tbody>
             <tfoot>
               <tr>

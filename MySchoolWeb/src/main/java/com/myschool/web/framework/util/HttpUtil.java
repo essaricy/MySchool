@@ -311,7 +311,7 @@ public class HttpUtil {
     		    if (deviceCategory != null) {
     		    	userSession.setDevice(deviceCategory.getName());
     		    }
-    		    HttpSession session = request.getSession();
+    		    HttpSession session = getExistingSession(request);
     			userSession.setIpAddress(request.getRemoteAddr());
 
     			userSession.setSessionId(session.getId());
@@ -320,4 +320,25 @@ public class HttpUtil {
     	}
 		return userSession;
     }
+
+    /**
+     * Gets the existing session.
+     *
+     * @param request the request
+     * @return the existing session
+     */
+    public static HttpSession getExistingSession(HttpServletRequest request) {
+    	return request.getSession();
+    }
+
+    /**
+     * Creates the new session.
+     *
+     * @param request the request
+     * @return the http session
+     */
+    public static HttpSession createNewSession(HttpServletRequest request) {
+    	return request.getSession(true);
+    }
+
 }

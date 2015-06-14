@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Message Type="Email">
+    <MySchool MySchoolName="Demo" BaseDir=""
+        WebUrl="http://localhost:8080/demo" />
+    <OrganizationProfile OrganizationName="Demo Public School"
+        EmailId="contact@demo.com" PhoneNumber="123456789" />
+    <ToAddress FirstName="To FirstName" MiddleName="To MiddleName"
+        LastName="To LastName" EmailId="firstname.lastname@domain.com"
+        MobileNumber="MobileNumber" />
+    <AcademicYearEnd AcademicName="AcademicName" StartDate="StartDate"
+        EndDate="EndDate" NextAcademicName="NextAcademicName"
+        NextAcademicStartDate="NextAcademicStartDate" NextAcademicEndDate="NextAcademicEndDate"
+        PromotedClass="PromotedClass" />
+    <Exam Name="ExamName" Date="ExamDate" Completed="Yes">
+        <Subject Name="SubjectName1" MaximuMarks="MaximuMarks"
+            MarksObtained="MarksObtained" />
+        <Subject Name="SubjectName2" MaximuMarks="MaximuMarks"
+            MarksObtained="MarksObtained" />
+        <Subject Name="SubjectName3" MaximuMarks="MaximuMarks"
+            MarksObtained="MarksObtained" />
+        <Subject Name="SubjectName4" MaximuMarks="MaximuMarks"
+            MarksObtained="MarksObtained" />
+    </Exam>
+    <Student>
+        <PersonalDetails FirstName="Student First Name"
+            MiddleName="Student Middle Name" LastName="Student Last Name" Gender="Gender"
+            DateOfBirth="Date Of Birth" Religion="Religion" Caste="Caste"
+            Nationality="Nationality" MotherTongue="MotherTongue" MobileNumber="MobileNumber"
+            BloodGroup="BloodGroup" PermanentAddress="PermanentAddress"
+            CorrespondenceAddress="CorrespondenceAddress" IdentificationMarks="IdentificationMarks" />
+        <AdmissionDetails AdmissionNumber="1" BranchName="BranchName"
+            SchoolName="SchoolName" ClassName="ClassName" SectionName="SectionName"
+            MediumName="MediumName" AdmissionDate="AdmissionDate" Remarks="Remarks" />
+    </Student>
+</Message> 

@@ -61,7 +61,7 @@ public class AdminDashboardController {
         JSONObject data = null;
         try {
             String keyInSession = null;
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
 
             ToDateType toDateType = ToDateType.get(request.getParameter("ToDateType"));
             if (toDateType != null) {
@@ -95,7 +95,7 @@ public class AdminDashboardController {
         String keyInSession = null;
         JSONObject data = null;
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             ToDateType toDateType = ToDateType.get(request.getParameter("ToDateType"));
             if (toDateType != null) {
                 keyInSession = ISSUES_BY_USER_TYPE + toDateType;

@@ -391,8 +391,6 @@ public class UserDaoImpl implements UserDao {
 	 */
 	@Override
 	public int create(UserSession userSession) throws DaoException {
-        boolean userCreated = false;
-        int userId = 0;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
 
@@ -404,10 +402,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.setString(3, userSession.getDeviceInformation());
             preparedStatement.setString(4, userSession.getBrowserInformation());
             preparedStatement.setString(5, userSession.getIpAddress());
-            userCreated = (preparedStatement.executeUpdate() > 0) ? true : false;
-            if (!userCreated) {
-                userId = 0;
-            }
+            return preparedStatement.executeUpdate();
         } catch (SQLException sqlException) {
             throw new DaoException(sqlException.getMessage(), sqlException);
         } catch (ConnectionException connectionException) {
@@ -421,7 +416,6 @@ public class UserDaoImpl implements UserDao {
                         connectionException);
             }
         }
-        return userId;
     }
 
 	/* (non-Javadoc)

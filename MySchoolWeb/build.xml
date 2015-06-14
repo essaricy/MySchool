@@ -126,10 +126,12 @@
 
     <target name="UpdateResources">
         <echo message="Updating all resources at ${myschool.base.dir}/${myschool.name}/${config} " />
-        <echo message="With token '@LOG.FILE.NAME@' = '${myschool.dir}/${logs}/${web.log.file}'" />
+        <echo message="With token '@LOG.FILE.LOCATION@' = '${myschool.dir}/${logs}'" />
+    	<!--<echo message="With token '@LOG.FILE.NAME@' = '${myschool.dir}/${logs}/${web.log.file}'" />-->
         <replace dir="${myschool.base.dir}/${myschool.name}/${config}">
           <include name="**/*.*"/>
-            <replacefilter token="@LOG.FILE.NAME@" value="${myschool.dir}/${logs}/${web.log.file}"/>
+        	<replacefilter token="@LOG.FILE.LOCATION@" value="${myschool.dir}/${logs}"/>
+            <!--<replacefilter token="@LOG.FILE.NAME@" value="${myschool.dir}/${logs}/${web.log.file}"/>-->
         </replace>
     </target>
 

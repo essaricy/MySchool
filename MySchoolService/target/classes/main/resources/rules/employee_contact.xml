@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+    <field-sequence>
+        <field name="EMPLOYEE_NUMBER" mandatory="true" maxlength="10" datatype="ANY_CHARACTER" />
+        <field name="PERSONAL_MOBILE_NUMBER" mandatory="true" maxlength="16" datatype="PHONE_NUMBER" />
+        <field name="PERSONAL_EMAIL_ID" mandatory="false" maxlength="32" datatype="EMAIL_ID" />
+        <field name="EMERGENCY_CONTACT_NUMBER" mandatory="true" maxlength="16" datatype="PHONE_NUMBER" />
+        <field name="EMERGENCY_CONTACT_RELATIONSHIP" mandatory="true" maxlength="10" datatype="ANY_CHARACTER" />
+        <field name="OFFICE_DESK_PHONE_NUMBER" mandatory="false" maxlength="16" datatype="PHONE_NUMBER" />
+        <field name="OFFICE_DESK_EXTENSION" mandatory="false" maxlength="10" datatype="INTEGER" />
+        <field name="OFFICE_MOBILE_NUMBER" mandatory="false" maxlength="16" datatype="PHONE_NUMBER" />
+        <field name="OFFICE_EMAIL_ID" mandatory="false" maxlength="32" datatype="EMAIL_ID" />
+        <field name="PERMANENT_ADDRESS" mandatory="false" maxlength="512" datatype="ANY_CHARACTER" />
+        <field name="PRESENT_ADDRESS" mandatory="true" maxlength="512" datatype="ANY_CHARACTER" />
+    </field-sequence>
+</rules>

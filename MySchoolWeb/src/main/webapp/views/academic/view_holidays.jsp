@@ -48,9 +48,9 @@ $(document).ready(function() {
 
   //alert(JSON.stringify(holidaysData));
   $('#ActiveTable').activeTable({
-    title: 'Holiday',
+    title: '<spring:message code="holiday"/>',
     width: "60%",
-    caption: 'Holidays',
+    caption: '<spring:message code="holidays"/>',
     columns: [
       '<spring:message code="holiday.holidayId"/>',
       '<spring:message code="holiday.holidayName"/>',

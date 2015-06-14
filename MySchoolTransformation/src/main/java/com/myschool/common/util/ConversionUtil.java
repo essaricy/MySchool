@@ -16,6 +16,9 @@ public class ConversionUtil {
     /** The Constant APPLICATION_DATE_FORMAT. */
     private static final String APPLICATION_DATE_FORMAT = "dd/MM/yyyy";
 
+    /** The Constant APPLICATION_TIME_FORMAT. */
+    private static final String APPLICATION_TIME_FORMAT = "dd/MM/yyyy hh:mm:ss";
+
     /** The Constant APPLICATION_DATE_FORMAT_DD_MM. */
     private static final String APPLICATION_DATE_FORMAT_DD_MM = "dd/MM";
 
@@ -27,6 +30,9 @@ public class ConversionUtil {
 
     /** The Constant APPLICATION_SIMPLE_DATE_FORMAT. */
     private static final SimpleDateFormat APPLICATION_SIMPLE_DATE_FORMAT = new SimpleDateFormat(APPLICATION_DATE_FORMAT);
+
+    /** The Constant APPLICATION_SIMPLE_TIME_FORMAT. */
+    private static final SimpleDateFormat APPLICATION_SIMPLE_TIME_FORMAT = new SimpleDateFormat(APPLICATION_TIME_FORMAT);
 
     /** The Constant APPLICATION_DD_MM_SIMPLE_DATE_FORMAT. */
     private static final SimpleDateFormat APPLICATION_DD_MM_SIMPLE_DATE_FORMAT = new SimpleDateFormat(APPLICATION_DATE_FORMAT_DD_MM);
@@ -65,6 +71,29 @@ public class ConversionUtil {
      */
     public static String toApplicationDate(long timeInMillis) {
         return APPLICATION_SIMPLE_DATE_FORMAT.format(new Date(timeInMillis));
+    }
+
+    /**
+     * To application time.
+     *
+     * @param timeInMillis the time in millis
+     * @return the string
+     */
+    public static String toApplicationTime(long timeInMillis) {
+        return APPLICATION_SIMPLE_TIME_FORMAT.format(new Date(timeInMillis));
+    }
+
+    /**
+     * To application time.
+     *
+     * @param date the date
+     * @return the string
+     */
+    public static String toApplicationTime(Date date) {
+    	if (date != null) {
+    		return APPLICATION_SIMPLE_TIME_FORMAT.format(date);
+    	}
+		return null;
     }
 
     /**

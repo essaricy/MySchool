@@ -54,6 +54,10 @@ public class ProfileDataAssembler {
                 ConversionUtil.toBoolean(resultSet.getString("SMS_STUDENTS")));
         mySchoolProfile.setUseMenuIcons(
                 ConversionUtil.toBoolean(resultSet.getString("USE_MENU_ICONS")));
+        mySchoolProfile.setUseEmployeeSelfSubmit(
+                ConversionUtil.toBoolean(resultSet.getString("USE_EMPLOYEE_SELF_SUBMIT")));
+        mySchoolProfile.setUseStudentSelfSubmit(
+                ConversionUtil.toBoolean(resultSet.getString("USE_STUDENT_SELF_SUBMIT")));
         return mySchoolProfile;
     }
 

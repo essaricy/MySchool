@@ -49,7 +49,9 @@ public class ProfileDaoSql {
         builder.append("SMS_EMPLOYEES, ");
         builder.append("SMS_STUDENTS, ");
         builder.append("USE_MENU_ICONS, ");
-        builder.append("AYE_IN_PROGRESS ");
+        builder.append("AYE_IN_PROGRESS, ");
+        builder.append("USE_EMPLOYEE_SELF_SUBMIT, ");
+        builder.append("USE_STUDENT_SELF_SUBMIT ");
         builder.append("FROM ");
         builder.append("MYSCHOOL_PROFILE ");
         SELECT_MYSCHOOL_PROFILE = builder.toString();
@@ -62,7 +64,9 @@ public class ProfileDaoSql {
         builder.append("SMS_ACTIVE=?, ");
         builder.append("SMS_EMPLOYEES=?, ");
         builder.append("SMS_STUDENTS=?, ");
-        builder.append("USE_MENU_ICONS=? ");
+        builder.append("USE_MENU_ICONS=?, ");
+        builder.append("USE_EMPLOYEE_SELF_SUBMIT=?, ");
+        builder.append("USE_STUDENT_SELF_SUBMIT=? ");
         UPDATE_MYSCHOOL_PROFILE = builder.toString();
         builder.setLength(0);
 

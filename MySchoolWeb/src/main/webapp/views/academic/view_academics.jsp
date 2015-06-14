@@ -7,8 +7,8 @@
 $(document).ready(function() {
   $('#ActiveTable').activeTable({
     width: "60%",
-    caption: 'Academics',
-    title: 'Academic',
+    caption: '<spring:message code="academics"/>',
+    title: '<spring:message code="academic"/>',
     columns: [
       '<spring:message code="academic.yearName"/>',
       '<spring:message code="common.startDate"/>',
@@ -46,7 +46,7 @@ $(document).ready(function() {
       title: '<spring:message code="academic.delete" />',
       url: '<%=request.getContextPath()%>/academic/doDelete.htm',
       selectRowMessage: '<spring:message code="common.selectRow.delete"/>',
-      confirmMessage: 'Deleting an academic year will delete the associated data with it. Do you really want to continue?',
+      confirmMessage: '<spring:message code="academic.delete"/>',
       sendParams: [ {
         refTable: 'self',
         columnIndex: 0,

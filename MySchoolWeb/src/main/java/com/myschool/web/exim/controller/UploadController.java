@@ -97,7 +97,7 @@ public class UploadController {
             HttpServletResponse response) throws Exception {
         JSONObject jsonResponse = new JSONObject();
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             Object userContextObject = session.getAttribute(WebConstants.USER_CONTEXT);
             if (userContextObject instanceof UserContext) {
                 UserContext userContext = (UserContext) userContextObject;
@@ -209,7 +209,7 @@ public class UploadController {
             HttpServletResponse response) throws Exception {
         JSONArray data = null;
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             Object userContextObject = session.getAttribute(WebConstants.USER_CONTEXT);
             if (userContextObject instanceof UserContext) {
                 UserContext userContext = (UserContext) userContextObject;

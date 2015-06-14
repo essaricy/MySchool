@@ -18,12 +18,14 @@ import com.myschool.user.assembler.ModuleDataAssembler;
 import com.myschool.user.dto.UserAccessDto;
 import com.myschool.user.dto.UserContext;
 import com.myschool.web.application.constants.WebConstants;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class AuthorizationFilter.
  */
 public class AuthorizationFilter implements Filter {
 
+	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(AuthorizationFilter.class);
 
     /* (non-Javadoc)
@@ -40,36 +42,30 @@ public class AuthorizationFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
             FilterChain filterChain) throws IOException, ServletException {
 
-    	//LOGGER.debug("enter");
+    	LOGGER.debug("doFilter()");
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String requestURI = request.getRequestURI();
         String contextPath = request.getContextPath();
 
-        boolean anyExclude = Excludes.isAnyExclude(request);
-        if (!anyExclude) {
-        	HttpSession session = request.getSession();
-        	Object userContext = session.getAttribute(WebConstants.USER_CONTEXT);
-        	String slashedContext = contextPath + "/";
-        	String actualRequest = requestURI.substring(requestURI.indexOf(slashedContext) + slashedContext.length(), requestURI.length());
-        	//System.out.println("**** actualRequest " + actualRequest);
+        HttpSession session = HttpUtil.getExistingSession(request);
+        //request.setAttribute(WebConstants.MYSCHOOL_PROFILE, session.getAttribute(WebConstants.MYSCHOOL_PROFILE));
+    	Object userContext = session.getAttribute(WebConstants.USER_CONTEXT);
+    	if (userContext instanceof UserContext) {
+    		String slashedContext = contextPath + "/";
+    		String actualRequest = requestURI.substring(requestURI.indexOf(slashedContext) + slashedContext.length(), requestURI.length());
 
-        	// Uncomment the below code to restrict access to the unauthorized users.
-            /*if (pageAccessDetails == null || !pageAccessDetails.isView()) {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-            } else {
-                request.setAttribute("PAGE_ACCESS", pageAccessDetails);
-                filterChain.doFilter(request, response);
-            }*/
-            filterChain.doFilter(request, response);
-            //System.out.println("**** after do filter " + actualRequest);
-            UserAccessDto pageAccessDetails = ModuleDataAssembler.getPageAccessDetails((UserContext) userContext, actualRequest);
-            request.setAttribute("PAGE_ACCESS", pageAccessDetails);
-        } else {
-            filterChain.doFilter(request, response);
-        }
-        //LOGGER.debug("exit");
+    		// TODO Perform real authorization here
+    		UserAccessDto pageAccessDetails = ModuleDataAssembler.getPageAccessDetails((UserContext) userContext, actualRequest);
+    		LOGGER.debug(WebConstants.PAGE_ACCESS + " = " + pageAccessDetails);
+    		request.setAttribute(WebConstants.PAGE_ACCESS, pageAccessDetails);
+
+    		filterChain.doFilter(request, response);
+    		
+    	} else {
+    		filterChain.doFilter(request, response);
+    	}
     }
 
     /* (non-Javadoc)

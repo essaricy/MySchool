@@ -137,7 +137,7 @@ public class UserController {
             result.setSuccessful(userService.changePreferences(userPreference));
             result.setStatusMessage("Your preferences has been changed successfully.");
             // Update User preferences in the session object.
-            UserContext userContext = (UserContext) request.getSession().getAttribute(WebConstants.USER_CONTEXT);
+            UserContext userContext = (UserContext) HttpUtil.getExistingSession(request).getAttribute(WebConstants.USER_CONTEXT);
             if (userContext != null) {
                 userContext.setUserPreference(userPreference);
             }

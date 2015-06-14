@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
-
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class AuthenticationFilter.
@@ -23,7 +22,7 @@ import com.myschool.web.framework.controller.ViewDelegationController;
 public class AuthenticationFilter implements Filter {
 
 	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
+	//private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
 
     /** The Constant LAUNCH_LOGIN_HTM. */
     private static final String LAUNCH_LOGIN_HTM = "/launchLogin.htm";
@@ -48,12 +47,10 @@ public class AuthenticationFilter implements Filter {
         String requestURI = request.getRequestURI();
         String contextPath = request.getContextPath();
 
-        //LOGGER.debug("enter");
         boolean anyExclude = Excludes.isAnyExclude(request);
         if (!anyExclude) {
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             if (session == null) {
-                //response.sendRedirect(contextPath);
                 response.sendRedirect(contextPath + LAUNCH_LOGIN_HTM);
             } else {
                 Object userContext = session.getAttribute(WebConstants.USER_CONTEXT);
@@ -64,18 +61,12 @@ public class AuthenticationFilter implements Filter {
                     }
                     request.getRequestDispatcher(LAUNCH_LOGIN_HTM).forward(request, response);
                 } else {
-                    /*String slashedContext = contextPath + "/";
-                    String actualRequest = requestURI.substring(requestURI.indexOf(slashedContext) + slashedContext.length(), requestURI.length());
-                    // TODO Move this to authorization filter
-                    UserAccessDto pageAccessDetails = ModuleDataAssembler.getPageAccessDetails((UserContext) userContext, actualRequest);
-                    request.setAttribute("PAGE_ACCESS", pageAccessDetails);*/
                     filterChain.doFilter(request, response);
                 }
             }
         } else {
             filterChain.doFilter(request, response);
         }
-        //LOGGER.debug("exit");
     }
 
     /* (non-Javadoc)

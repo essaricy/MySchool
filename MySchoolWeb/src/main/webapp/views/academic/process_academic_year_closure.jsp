@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 <c:if test="${AcademicYearClosure != null}">
 <table width="70%" class="userFormTable" align="center" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">Academic Year Closure</caption>
+  <caption class="dataTableCaption"><spring:message code="aye.closure" /></caption>
   <tr>
     <td width="100%" align="center">
       <c:set var="MySchoolProfile" value="${AcademicYearClosure.mySchoolProfile}" />
@@ -19,70 +19,70 @@ $(document).ready(function () {
       <c:set var="ExamGrades" value="${AcademicYearClosure.examGrades}" />
 
       <c:if test="${MySchoolProfile.ayeInProgress}">
-        <font class="error">Academic Year Closure process is already in progress.</font>
+        <font class="error"><spring:message code="aye.in.progress" /></font>
       </c:if>
       <!-- MySchool Configuration -->
       <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
           <tr>
             <td colspan="2" align="left">
-              <b>Review the below configurations before initiating Academic Year Closure.</b><br/>
-              [<a href="<%=request.getContextPath()%>/profile/list.htm" class="formLink">Change Configuration</a>]
+              <b><spring:message code="aye.start.note" /></b><br/>
+              [<a href="<%=request.getContextPath()%>/profile/list.htm" class="formLink"><spring:message code="change.config" /></a>]
             </td>
           </tr>
           <!-- Email service configuration -->
           <tr>
-            <td width="50%" class="label">Use Email Service</td>
+            <td width="50%" class="label"><spring:message code="aye.use.emails" /></td>
             <td width="50%" class="value">
-            <c:if test="${MySchoolProfile.emailActive}">Yes</c:if>
-            <c:if test="${!MySchoolProfile.emailActive}">No</c:if>
+            <c:if test="${MySchoolProfile.emailActive}"><spring:message code="common.yes" /></c:if>
+            <c:if test="${!MySchoolProfile.emailActive}"><spring:message code="common.no" /></c:if>
             </td>
           </tr>
 
           <c:if test="${MySchoolProfile.emailActive}">
           <tr>
-            <td width="50%" class="label">Use Email Service for Employees</td>
+            <td width="50%" class="label"><spring:message code="aye.use.emails.employee" /></td>
             <td width="50%" class="value">
-            <c:if test="${MySchoolProfile.emailEmployees}">Yes</c:if>
-            <c:if test="${!MySchoolProfile.emailEmployees}">No</c:if>
+            <c:if test="${MySchoolProfile.emailEmployees}"><spring:message code="common.yes" /></c:if>
+            <c:if test="${!MySchoolProfile.emailEmployees}"><spring:message code="common.no" /></c:if>
             </td>
           </tr>
           </c:if>
 
           <c:if test="${MySchoolProfile.emailActive}">
           <tr>
-            <td width="50%" class="label">Use Email Service for Students</td>
+            <td width="50%" class="label"><spring:message code="aye.use.emails.student" /></td>
             <td width="50%" class="value">
-            <c:if test="${MySchoolProfile.emailStudents}">Yes</c:if>
-            <c:if test="${!MySchoolProfile.emailStudents}">No</c:if>
+            <c:if test="${MySchoolProfile.emailStudents}"><spring:message code="common.yes" /></c:if>
+            <c:if test="${!MySchoolProfile.emailStudents}"><spring:message code="common.no" /></c:if>
             </td>
           </tr>
           </c:if>
 
           <!-- SMS service configuration -->
           <tr>
-            <td width="50%" class="label">Use SMS Service</td>
+            <td width="50%" class="label"><spring:message code="aye.use.sms" /></td>
             <td width="50%" class="value">
-            <c:if test="${MySchoolProfile.smsActive}">Yes</c:if>
-            <c:if test="${!MySchoolProfile.smsActive}">No</c:if>
+            <c:if test="${MySchoolProfile.smsActive}"><spring:message code="common.yes" /></c:if>
+            <c:if test="${!MySchoolProfile.smsActive}"><spring:message code="common.no" /></c:if>
             </td>
           </tr>
 
           <c:if test="${MySchoolProfile.emailActive}">
           <tr>
-            <td width="50%" class="label">Use SMS Service for Employees</td>
+            <td width="50%" class="label"><spring:message code="aye.use.sms.employee" /></td>
             <td width="50%" class="value">
-            <c:if test="${MySchoolProfile.smsEmployees}">Yes</c:if>
-            <c:if test="${!MySchoolProfile.smsEmployees}">No</c:if>
+            <c:if test="${MySchoolProfile.smsEmployees}"><spring:message code="common.yes" /></c:if>
+            <c:if test="${!MySchoolProfile.smsEmployees}"><spring:message code="common.no" /></c:if>
             </td>
           </tr>
           </c:if>
 
           <c:if test="${MySchoolProfile.emailActive}">
           <tr>
-            <td width="50%" class="label">Use SMS Service for Students</td>
+            <td width="50%" class="label"><spring:message code="aye.use.sms.student" /></td>
             <td width="50%" class="value">
-            <c:if test="${MySchoolProfile.smsStudents}">Yes</c:if>
-            <c:if test="${!MySchoolProfile.smsStudents}">No</c:if>
+            <c:if test="${MySchoolProfile.smsStudents}"><spring:message code="common.yes" /></c:if>
+            <c:if test="${!MySchoolProfile.smsStudents}"><spring:message code="common.no" /></c:if>
             </td>
           </tr>
           </c:if>
@@ -92,9 +92,9 @@ $(document).ready(function () {
       <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5" width="100%">
           <tr>
             <td colspan="2" align="left">
-              <b>Review Academic Year information.</b><br/>
+              <b><spring:message code="aye.review" /></b><br/>
               <c:if test="${CurrentAcademic == null or NextAcademic == null}">
-                [<a href="<%=request.getContextPath()%>/academic/list.htm" class="formLink">Setup Academic Year</a>]
+                [<a href="<%=request.getContextPath()%>/academic/list.htm" class="formLink"><spring:message code="aye.setup" /></a>]
               </c:if>
             </td>
           </tr>
@@ -102,22 +102,22 @@ $(document).ready(function () {
           <c:if test="${CurrentAcademic == null}">
           <tr>
             <td colspan="2" align="left">
-              Current Academic Year information is not available. This is mandatory to initiate Academic Year Closure.<br />
+              <spring:message code="aye.no.current" /><br />
             </td>
           </tr>
           </c:if>
 
           <c:if test="${CurrentAcademic != null}">
           <tr>
-            <td width="50%" class="label">Current Academic Year Name</td>
+            <td width="50%" class="label"><spring:message code="ay.current.name" /></td>
             <td width="50%" class="value">${CurrentAcademic.academicYearName}</td>
           </tr>
           <tr>
-            <td width="50%" class="label">Current Academic Year Start Date</td>
+            <td width="50%" class="label"><spring:message code="ay.current.startDate" /></td>
             <td width="50%" class="value">${CurrentAcademic.academicYearStartDate}</td>
           </tr>
           <tr>
-            <td width="50%" class="label">Current Academic Year End Date</td>
+            <td width="50%" class="label"><spring:message code="ay.current.endDate" /></td>
             <td width="50%" class="value">${CurrentAcademic.academicYearEndDate}</td>
           </tr>
           </c:if>
@@ -126,22 +126,22 @@ $(document).ready(function () {
           <c:if test="${NextAcademic == null}">
           <tr>
             <td colspan="2" align="left">
-              Next Academic Year information is not available. This is mandatory to initiate Academic Year Closure.
+              <spring:message code="aye.no.next" />
             </td>
           </tr>
           </c:if>
 
           <c:if test="${NextAcademic != null}">
           <tr>
-            <td width="50%" class="label">Next Academic Year Name</td>
+            <td width="50%" class="label"><spring:message code="ay.next.name" /></td>
             <td width="50%" class="value">${NextAcademic.academicYearName}</td>
           </tr>
           <tr>
-            <td width="50%" class="label">Current Academic Year Start Date</td>
+            <td width="50%" class="label"><spring:message code="ay.next.startDate" /></td>
             <td width="50%" class="value">${NextAcademic.academicYearStartDate}</td>
           </tr>
           <tr>
-            <td width="50%" class="label">Current Academic Year End Date</td>
+            <td width="50%" class="label"><spring:message code="ay.next.endDate" /></td>
             <td width="50%" class="value">${NextAcademic.academicYearEndDate}</td>
           </tr>
           </c:if>
@@ -150,22 +150,22 @@ $(document).ready(function () {
       <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5" width="100%">
           <tr>
             <td colspan="2" align="left">
-              <b>Exam Grades to promote students automatically to the next class.</b><br/>
+              <b><spring:message code="aye.examGrade.note" /></b><br/>
               <c:if test="${ExamGrades == null}">
-                [<a href="<%=request.getContextPath()%>/academic/list.htm" class="formLink">Setup Exam Grades</a>]
+                [<a href="<%=request.getContextPath()%>/academic/list.htm" class="formLink"><spring:message code="aye.examGrade.setup" /></a>]
               </c:if>
             </td>
           </tr>
           <c:if test="${ExamGrades == null}">
           <tr>
             <td colspan="2" align="left">
-              Exam Grades information is not available. This is mandatory to initiate Academic Year Closure.
+              <spring:message code="aye.no.examGrade" />
             </td>
           </tr>
           </c:if>
           <c:if test="${ExamGrades != null}">
           <tr>
-            <td width="50%" class="label">Exam Grade</td>
+            <td width="50%" class="label"><spring:message code="examGrade" /></td>
             <td width="50%" class="value">
               <select id="examGrades" class="chosen-select">
                 <c:forEach var="examGrade" items="${ExamGrades}">
@@ -182,10 +182,10 @@ $(document).ready(function () {
         <tr>
           <td align="center">
             <c:if test="${canProcess}">
-              <input type="button" id="InitiateAYC" class="active" value='Initiate Academic Year Closure' />
+              <input type="button" id="InitiateAYC" class="active" value='<spring:message code="aye.start" />' />
             </c:if>
             <c:if test="${not canProcess}">
-              <input type="button" class="inactive" value='Initiate Academic Year Closure' disabled />
+              <input type="button" class="inactive" value='<spring:message code="aye.start" />' disabled />
             </c:if>
           </td>
         </tr>

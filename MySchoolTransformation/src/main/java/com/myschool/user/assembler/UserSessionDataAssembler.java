@@ -2,6 +2,7 @@ package com.myschool.user.assembler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import com.myschool.common.util.StringUtil;
@@ -25,9 +26,15 @@ public class UserSessionDataAssembler {
 		userSession.setBrowserInformation(resultSet.getString("BROWSER"));
 		userSession.setDeviceInformation(resultSet.getString("DEVICE"));
 		userSession.setIpAddress(resultSet.getString("IP_ADDRESS"));
-		userSession.setSessionEndTime(resultSet.getDate("SESSION_END_TIME"));
 		userSession.setSessionId(resultSet.getString("SESSION_ID"));
-		userSession.setSessionStartTime(resultSet.getDate("SESSION_START_TIME"));
+		Timestamp sessionStartTime = resultSet.getTimestamp("SESSION_START_TIME");
+		if (sessionStartTime != null) {
+			userSession.setSessionStartTime(new Date(sessionStartTime.getTime()));
+		}
+		Timestamp sessionEndTime = resultSet.getTimestamp("SESSION_END_TIME");
+		if (sessionEndTime != null) {
+			userSession.setSessionEndTime(new Date(sessionEndTime.getTime()));
+		}
 		Object userId = resultSet.getObject("USER_ID");
 		if (userId != null) {
 			userSession.setUserId(((Long)userId).intValue());

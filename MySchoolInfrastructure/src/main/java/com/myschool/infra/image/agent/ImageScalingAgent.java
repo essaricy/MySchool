@@ -190,6 +190,7 @@ public abstract class ImageScalingAgent extends AbstractAgent {
      */
     public File[] getOriginalImages(File imageDirectory) {
         if (imageDirectory != null) {
+        	// TODO sort by file creation time in to make it intact.
             return imageDirectory.listFiles(imageResizingFileFilter);
         }
         return null;

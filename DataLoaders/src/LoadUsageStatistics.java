@@ -38,7 +38,7 @@ public class LoadUsageStatistics {
 		DatabaseUtil.close(resultSet, statement);
 
 		Integer nextId = null;
-		String nextIdSql = "select coalesce(max(request_id), 1) as next_id from REQUEST_STATISTICS";
+		String nextIdSql = "select coalesce(max(request_id), 1) as next_id from USER_activity";
 		PreparedStatement nextIdPreparedStatement = connection.prepareStatement(nextIdSql);
 		ResultSet nextIdResultSet = nextIdPreparedStatement.executeQuery();
 		if (nextIdResultSet.next()) {
@@ -65,7 +65,7 @@ public class LoadUsageStatistics {
 				calendar.set(Calendar.MINUTE, random.nextInt(60));
 				calendar.set(Calendar.HOUR_OF_DAY, random.nextInt(24));
 
-				String insert_USAGE_STATISTICS = "insert into USAGE_STATISTICS(SESSION_ID, USER_ID, SESSION_START_TIME, SESSION_END_TIME, DEVICE, BROWSER, IP_ADDRESS) values(?,?,?,?,?,?,?)";
+				String insert_USAGE_STATISTICS = "insert into USER_SESSION(SESSION_ID, USER_ID, SESSION_START_TIME, SESSION_END_TIME, DEVICE, BROWSER, IP_ADDRESS) values(?,?,?,?,?,?,?)";
 				int index = 0;
 				PreparedStatement preparedStatement = connection
 						.prepareStatement(insert_USAGE_STATISTICS);
@@ -104,7 +104,7 @@ public class LoadUsageStatistics {
 					calendar.set(Calendar.MINUTE, random.nextInt(60));
 					calendar.set(Calendar.HOUR_OF_DAY, random.nextInt(24));
 
-					String insert_USAGE_STATISTICS = "insert into USAGE_STATISTICS(SESSION_ID, USER_ID, SESSION_START_TIME, SESSION_END_TIME, DEVICE, BROWSER, IP_ADDRESS) values(?,?,?,?,?,?,?)";
+					String insert_USAGE_STATISTICS = "insert into USER_SESSION(SESSION_ID, USER_ID, SESSION_START_TIME, SESSION_END_TIME, DEVICE, BROWSER, IP_ADDRESS) values(?,?,?,?,?,?,?)";
 					int index = 0;
 					PreparedStatement preparedStatement = connection
 							.prepareStatement(insert_USAGE_STATISTICS);
@@ -135,7 +135,7 @@ public class LoadUsageStatistics {
 					//preparedStatement.addBatch();
 					preparedStatement.executeUpdate();
 					DatabaseUtil.close(preparedStatement);
-					String insert_REQUEST_STATISTICS = "insert into REQUEST_STATISTICS(REQUEST_ID, SESSION_ID, REQUEST_URL, REQUEST_TIME, SERVED_TIME) values(?,?,?,?,?)";
+					String insert_REQUEST_STATISTICS = "insert into USER_ACTIVITY(REQUEST_ID, SESSION_ID, REQUEST_URL, REQUEST_TIME, SERVED_TIME) values(?,?,?,?,?)";
 					PreparedStatement REQUEST_STATISTICS_insert = connection
 							.prepareStatement(insert_REQUEST_STATISTICS);
 					int reqCount = 0;

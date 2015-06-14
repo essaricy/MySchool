@@ -7,6 +7,7 @@
 <html>
   <head>
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
+	<link rel="icon" type="image/gif" href="<%=request.getContextPath() %>/images/school/favicon.png" />
     <tiles:useAttribute id="css_imports" name="css_imports" classname="java.util.List" />
 	<c:set var="current_theme" value="${(USER_CONTEXT == null || USER_CONTEXT.userPreference == null || USER_CONTEXT.userPreference.userTheme == null)? 'BLUE' : USER_CONTEXT.userPreference.userTheme}" />
 

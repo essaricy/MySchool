@@ -19,6 +19,7 @@ import com.myschool.user.service.LoginService;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
+import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.student.constants.StudentViewNames;
 
 /**
@@ -48,7 +49,7 @@ public class StudentSelfController {
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         // Get the admission number from the session object.
-        HttpSession session = request.getSession();
+        HttpSession session = HttpUtil.getExistingSession(request);
         Object studentObject = session.getAttribute(WebConstants.STUDENT);
         if (studentObject != null) {
             map.put(WebConstants.STUDENT, (StudentDto)studentObject);

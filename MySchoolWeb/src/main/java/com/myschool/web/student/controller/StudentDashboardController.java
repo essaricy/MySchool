@@ -126,7 +126,7 @@ public class StudentDashboardController {
             HttpServletResponse response) throws Exception {
         ExamDto latestExam = null;
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
             if (student != null) {
                 RegisteredClassDto registeredClass = student.getRegisteredClassDto();
@@ -155,7 +155,7 @@ public class StudentDashboardController {
         ExamDto latestExam = null;
         JSONArray data = new JSONArray();
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);
             PersonalDetailsDto personalDetails = null;
             if (student != null) {
@@ -201,7 +201,7 @@ public class StudentDashboardController {
             HttpServletResponse response) throws Exception {
         JSONObject data = null;
         try {
-            HttpSession session = request.getSession();
+            HttpSession session = HttpUtil.getExistingSession(request);
             data = (JSONObject) session.getAttribute(STUDENT_EXAM_SUMMARY_LINE_CHART_DATA);
             if (data == null) {
                 StudentDto student = (StudentDto) session.getAttribute(WebConstants.STUDENT);

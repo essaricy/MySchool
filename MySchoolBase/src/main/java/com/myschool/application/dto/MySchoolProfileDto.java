@@ -34,6 +34,12 @@ public class MySchoolProfileDto implements Serializable {
     /** The use menu icons. */
     private boolean useMenuIcons;
 
+    /** The use employee self submit. */
+    private boolean useEmployeeSelfSubmit;
+
+    /** The use student self submit. */
+    private boolean useStudentSelfSubmit;
+
     /**
      * Checks if is email active.
      * 
@@ -179,27 +185,65 @@ public class MySchoolProfileDto implements Serializable {
     }
 
     /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
+     * Checks if is use employee self submit.
      *
-     * @return a <code>String</code> representation 
-     * of this object.
+     * @return true, if is use employee self submit
      */
-    public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("MySchoolProfileDto ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("emailActive = ").append(this.emailActive).append(SEPARATOR)
-            .append("smsActive = ").append(this.smsActive).append(SEPARATOR)
-            .append("emailStudents = ").append(this.emailStudents).append(SEPARATOR)
-            .append("smsStudents = ").append(this.smsStudents).append(SEPARATOR)
-            .append("emailEmployees = ").append(this.emailEmployees).append(SEPARATOR)
-            .append("smsEmployees = ").append(this.smsEmployees).append(SEPARATOR)
-            .append("ayeInProgress = ").append(this.ayeInProgress).append(SEPARATOR)
-            .append("useMenuIcons = ").append(this.useMenuIcons).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
-    }
+    public boolean isUseEmployeeSelfSubmit() {
+		return useEmployeeSelfSubmit;
+	}
+
+	/**
+	 * Sets the use employee self submit.
+	 *
+	 * @param useEmployeeSelfSubmit the new use employee self submit
+	 */
+	public void setUseEmployeeSelfSubmit(boolean useEmployeeSelfSubmit) {
+		this.useEmployeeSelfSubmit = useEmployeeSelfSubmit;
+	}
+
+	/**
+	 * Checks if is use student self submit.
+	 *
+	 * @return true, if is use student self submit
+	 */
+	public boolean isUseStudentSelfSubmit() {
+		return useStudentSelfSubmit;
+	}
+
+	/**
+	 * Sets the use student self submit.
+	 *
+	 * @param useStudentSelfSubmit the new use student self submit
+	 */
+	public void setUseStudentSelfSubmit(boolean useStudentSelfSubmit) {
+		this.useStudentSelfSubmit = useStudentSelfSubmit;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString() {
+	    final String SEPARATOR = ", ";
+	    StringBuilder retValue = new StringBuilder();
+	    retValue.append("MySchoolProfileDto ( ")
+	        .append(super.toString()).append(SEPARATOR)
+	        .append("emailActive = ").append(this.emailActive).append(SEPARATOR)
+	        .append("smsActive = ").append(this.smsActive).append(SEPARATOR)
+	        .append("emailStudents = ").append(this.emailStudents).append(SEPARATOR)
+	        .append("smsStudents = ").append(this.smsStudents).append(SEPARATOR)
+	        .append("emailEmployees = ").append(this.emailEmployees).append(SEPARATOR)
+	        .append("smsEmployees = ").append(this.smsEmployees).append(SEPARATOR)
+	        .append("ayeInProgress = ").append(this.ayeInProgress).append(SEPARATOR)
+	        .append("useMenuIcons = ").append(this.useMenuIcons).append(SEPARATOR)
+	        .append("useEmployeeSelfSubmit = ").append(this.useEmployeeSelfSubmit).append(SEPARATOR)
+	        .append("useStudentSelfSubmit = ").append(this.useStudentSelfSubmit).append(SEPARATOR)
+	        .append(" )\n");
+	    return retValue.toString();
+	}
 
 }

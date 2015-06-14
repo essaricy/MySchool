@@ -145,6 +145,8 @@ public class ProfileDaoImpl implements ProfileDao {
             preparedStatement.setString(5, ConversionUtil.toYN(mySchoolProfile.isSmsEmployees()));
             preparedStatement.setString(6, ConversionUtil.toYN(mySchoolProfile.isSmsStudents()));
             preparedStatement.setString(7, ConversionUtil.toYN(mySchoolProfile.isUseMenuIcons()));
+            preparedStatement.setString(8, ConversionUtil.toYN(mySchoolProfile.isUseEmployeeSelfSubmit()));
+            preparedStatement.setString(9, ConversionUtil.toYN(mySchoolProfile.isUseStudentSelfSubmit()));
             updated = preparedStatement.executeUpdate() > 0;
         } catch (SQLException sqlException) {
             throw new DaoException(sqlException.getMessage(), sqlException);

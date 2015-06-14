@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+	<field-sequence>
+		<field name="BRANCH_CODE" mandatory="true" maxlength="8" datatype="ANY_CHARACTER" />
+		<field name="DIVISION_CODE" mandatory="true" maxlength="8" datatype="ANY_CHARACTER" />
+		<field name="SCHOOL_NAME" mandatory="true" maxlength="80" datatype="ANY_CHARACTER" />
+		<field name="ADDRESS" mandatory="true" maxlength="128" datatype="ANY_CHARACTER" />
+		<field name="PRIMARY_PHONE_NUMBER" mandatory="true" maxlength="16" datatype="PHONE_NUMBER" />
+		<field name="SECONDARY_PHONE_NUMBER" mandatory="true" maxlength="16" datatype="PHONE_NUMBER" />
+		<field name="MOBILE_NUMBER" mandatory="true" maxlength="16" datatype="PHONE_NUMBER" />
+		<field name="FAX_NUMBER" mandatory="true" maxlength="16" datatype="PHONE_NUMBER" />
+		<field name="EMAIL_ID" mandatory="true" maxlength="32" datatype="EMAIL_ID" />
+	</field-sequence>
+</rules>

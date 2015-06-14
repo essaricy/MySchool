@@ -28,7 +28,10 @@ public enum FileExtension {
     
     /** The JPG. */
     JPG,
-    
+
+    /** The JPEG. */
+    JPEG,
+
     /** The PNG. */
     PNG;
 
@@ -48,8 +51,10 @@ public enum FileExtension {
      * @return true, if is image
      */
     public static boolean isImage(String extension) {
-        if (extension != null
-                && (extension.equalsIgnoreCase(JPG.toString()) || extension.equalsIgnoreCase(PNG.toString()))) {
+        if (extension != null&& (
+        		extension.equalsIgnoreCase(JPG.toString())
+        		|| extension.equalsIgnoreCase(JPEG.toString())
+        		|| extension.equalsIgnoreCase(PNG.toString()))) {
             return true;
         }
         return false;

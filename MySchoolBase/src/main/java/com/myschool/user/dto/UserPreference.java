@@ -2,6 +2,7 @@ package com.myschool.user.dto;
 
 import java.io.Serializable;
 
+import com.myschool.user.constants.ColorSwatch;
 import com.myschool.user.constants.UserTheme;
 
 /**
@@ -23,6 +24,9 @@ public class UserPreference implements Serializable {
 
     /** The user theme. */
     private UserTheme userTheme;
+
+    /** The color swatch. */
+    private ColorSwatch colorSwatch;
 
     /**
      * Gets the user id.
@@ -97,23 +101,42 @@ public class UserPreference implements Serializable {
     }
 
     /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
+     * Gets the color swatch.
      *
-     * @return a <code>String</code> representation 
-     * of this object.
+     * @return the color swatch
      */
-    public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("UserPreference ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("userId = ").append(this.userId).append(SEPARATOR)
-            .append("allowAds = ").append(this.allowAds).append(SEPARATOR)
-            .append("recordsPerPage = ").append(this.recordsPerPage).append(SEPARATOR)
-            .append("userTheme = ").append(this.userTheme).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
-    }
+    public ColorSwatch getColorSwatch() {
+		return colorSwatch;
+	}
+
+	/**
+	 * Sets the color swatch.
+	 *
+	 * @param colorSwatch the new color swatch
+	 */
+	public void setColorSwatch(ColorSwatch colorSwatch) {
+		this.colorSwatch = colorSwatch;
+	}
+
+	/**
+	 * Constructs a <code>String</code> with all attributes
+	 * in name = value format.
+	 *
+	 * @return a <code>String</code> representation 
+	 * of this object.
+	 */
+	public String toString() {
+	    final String SEPARATOR = ", ";
+	    StringBuilder retValue = new StringBuilder();
+	    retValue.append("UserPreference ( ")
+	        .append(super.toString()).append(SEPARATOR)
+	        .append("userId = ").append(this.userId).append(SEPARATOR)
+	        .append("allowAds = ").append(this.allowAds).append(SEPARATOR)
+	        .append("recordsPerPage = ").append(this.recordsPerPage).append(SEPARATOR)
+	        .append("userTheme = ").append(this.userTheme).append(SEPARATOR)
+	        .append("colorSwatch = ").append(this.colorSwatch).append(SEPARATOR)
+	        .append(" )\n");
+	    return retValue.toString();
+	}
 
 }

@@ -27,7 +27,25 @@ var unit=100;
 var colours = [/*"#FFDE00", "#6599FF",*/ "#FF9900", /*"#99FF00",*/ "#FFCC00", /*"#0099CC", /*"#CCFFCC",*/ "#66CCFF", "#99CCFF", /*"#99CC99",*/ "#CCCC99", "#666699"];
 
 $(document).ready(function() {
-  $('#ActiveSessionTable').dataTable({
+  $('.brick').each(function (index, value) {
+      $(this).css("background-color", "" + colours[colours.length * Math.random() << 0]);
+  });
+  var wall = new freewall("#freewall");
+  wall.reset({
+    selector: '.brick',
+    animate: true,
+    cellW: unit,
+    cellH: unit,
+    fixSize: 0,
+    onResize: function() {
+      wall.refresh();
+    }
+  });
+  wall.fitWidth();
+
+
+  $('#ActiveSessionsTable').dataTable({
+	"sAjaxSource": '<%=request.getContextPath()%>/usage/getActiveSessions.htm',
     "bPaginate": true,
     "bFilter": false,
     "bInfo": false,
@@ -38,7 +56,7 @@ $(document).ready(function() {
       { 
         "bSearchable": false,
         "bVisible": false,
-        "aTargets": [ 0 ]
+        "aTargets": [ 2, 3, 5, 7, 8, 9]
       }
     ],
   });
@@ -179,43 +197,35 @@ $(document).ready(function() {
     ],
   });
 
-  $('.brick').each(function (index, value) {
-      $(this).css("background-color", "" + colours[colours.length * Math.random() << 0]);
-  });
-  var wall = new freewall("#freewall");
-  wall.reset({
-    selector: '.brick',
-    animate: true,
-    cellW: unit,
-    cellH: unit,
-    fixSize: 0,
-    onResize: function() {
-      wall.refresh();
-    }
-  });
-  wall.fitWidth();
 });
 
 </script>
 <div id="freewall">
   <!-- Web statistics -->
-  <div class="brick size43">
+  <div class="brick size94">
     <div class="TileHeader" align="left">
       <strong>Active Sessions</strong>
     </div>
     <div class="TileContent" align="left">
-      <table id="ActiveSessionTable" cellpadding="0" cellspacing="0" width="100%" class="display" border="0">
+      <table id="ActiveSessionsTable" cellpadding="0" cellspacing="0" width="100%" class="display" border="0">
         <thead>
           <tr>
-			<th>User ID</th>
+			<th>Session ID</th>
             <th>User Type</th>
+			<th>User ID</th>
+			<th>Ref User ID</th>
 			<th>User Name</th>
+			<th>Display Name</th>
             <th>Session Start Time</th>
+			<th>IP Address</th>
+			<th>Device</th>
+            <th>Browser</th>
           </tr>
         </thead>
       </table>
     </div>
   </div>
+
   <div class="brick size53">
     <div class="TileHeader" align="left">
       <strong>Most Logins</strong>

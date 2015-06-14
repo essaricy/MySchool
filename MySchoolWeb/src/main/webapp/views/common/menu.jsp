@@ -1,3 +1,5 @@
+<%@page import="com.myschool.web.application.constants.WebConstants"%>
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
 
@@ -7,6 +9,9 @@ img.menuItemImage {
     height: 14px;
 }
 </style>
+
+<c:set var="ORGANIZATION_PROFILE" value="${sessionScope.ORGANIZATION_PROFILE}"/>
+<c:set var="MYSCHOOL_PROFILE" value="${sessionScope.MYSCHOOL_PROFILE}"/>
 
 <c:if test="${USER_CONTEXT != null && MYSCHOOL_PROFILE != null}">
     <c:if test="${USER_CONTEXT.moduleAccess != null}">

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+	<field-sequence>
+		<field name="MEDIUM_NAME" mandatory="true" maxlength="16" datatype="ANY_CHARACTER" />
+	</field-sequence>
+</rules>

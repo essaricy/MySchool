@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rules>
+    <field-sequence>
+        <field name="BRANCH_CODE" mandatory="true" maxlength="8" datatype="ANY_CHARACTER" />
+        <field name="DIVISION_CODE" mandatory="true" maxlength="8" datatype="ANY_CHARACTER" />
+        <field name="SCHOOL_NAME" mandatory="true" maxlength="80" datatype="ANY_CHARACTER" />
+        <field name="CLASS_NAME" mandatory="true" maxlength="16" datatype="ANY_CHARACTER" />
+        <field name="MEDIUM_NAME" mandatory="true" maxlength="16" datatype="ANY_CHARACTER" />
+        <field name="SECTION_NAME" mandatory="true" maxlength="32" datatype="ANY_CHARACTER" />
+    </field-sequence>
+</rules>
