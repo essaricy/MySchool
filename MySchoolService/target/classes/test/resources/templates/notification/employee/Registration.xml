@@ -1,8 +1,0 @@
-<Message NotificationEndPoint="EMPLOYEE" NotificationMode="SMS" NotificationType="REGISTRATION">
-  <ToPerson FirstName="First Name" MiddleName="Middle Name" LastName="Last Name" EmailId="abc@xyz.com" MobileNumber="XXX XXX XXXX"/>
-  <MySchool MySchoolName="demo" WebUrl="http://localhost:8080/demo"/>
-  <OrganizationProfile OrganizationName="My Organization" CurrentAcademicYear="2011-12" Address="Mysore" MailParents="true" SmsParents="true" AyeInProgress="N"/>
-  <Content class="Employee" EmployeeId="1" EmployeeNumber="1" FirstName="First Name" MiddleName="Middle Name" LastName="Last Name" DateOfBirth="1970-01-01" Qualification="Qualification" YearsOfExperience="5" Address="Address" MobileNumber="123 456 7890" EmergencyContactNumber="123 456 7890" EmailId="employee1@myschoolims.in" DateOfJoining="2013-10-10" ServiceEndDate="2023-10-10" Active="true" Gender="M">
-    <Designation DesignationId="1" Designation="Designation"/>
-  </Content>
-</Message>

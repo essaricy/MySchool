@@ -1,0 +1,10 @@
+Usage: com.myschool.sautil.xml.XmlObjectMappingGenerator [OPTIONS] 
+Valid Options are
+--help                        For Help
+--pcom.myschool.common.exception.ConfigurationException: You must specify the option --package to generate mappings.ackage                     Code base to consider to generate object and xml mappings.
+--ext-dir                     Output direc
+	at com.myschool.sautil.xml.XmlObjectMappingGenerator.validateParameters(Unknown Source)
+	at com.myschool.sautil.base.StandAloneUtility.runUtility(Unknown Source)
+	at com.myschool.sautil.base.StandAloneUtility.main(Unknown Source)
+tory to place the generated mapping file.
+

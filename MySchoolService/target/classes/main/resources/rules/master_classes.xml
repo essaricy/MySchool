@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rules>
-	<field-sequence>
-		<field name="CLASS_NAME" mandatory="true" maxlength="16" datatype="ANY_CHARACTER" />
-		<field name="PROMOTION_ORDER" mandatory="true" maxlength="3" datatype="INTEGER" />
-	</field-sequence>
-</rules>

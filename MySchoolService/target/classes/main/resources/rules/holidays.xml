@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<rules>
-    <field-sequence>
-        <field name="HOLIDAY_NAME" mandatory="true" maxlength="32" datatype="ANY_CHARACTER" />
-        <field name="START_DATE" mandatory="true" maxlength="10" datatype="DATE" />
-        <field name="END_DATE" mandatory="false" maxlength="10" datatype="DATE" />
-    </field-sequence>
-</rules>

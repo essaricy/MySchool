@@ -1,7 +1,0 @@
-<Context path="/@MYSCHOOL.NAME@/">
-  <Resource name="jdbc/@DATABASE.NAME@_DataSource" auth="Container" type="javax.sql.DataSource"
-	username="postgres" password="sql"
-	driverClassName="org.postgresql.Driver"
-	url="jdbc:postgresql://localhost/@DATABASE.NAME@"
-	maxActive="8" maxIdle="4"/>
-</Context>
