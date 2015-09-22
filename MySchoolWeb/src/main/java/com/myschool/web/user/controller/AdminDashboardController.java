@@ -15,12 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.assembler.StatisticsDataAssembler;
 import com.myschool.application.dto.DateValueDto;
+import com.myschool.application.dto.NumberNameValueDto;
 import com.myschool.application.service.IssueService;
 import com.myschool.graph.assembler.ChartDataAssembler;
 import com.myschool.graph.constant.ToDateType;
 import com.myschool.graph.dto.LineChartDto;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.service.UserService;
+import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.util.HttpUtil;
 
 /**
@@ -29,9 +31,6 @@ import com.myschool.web.framework.util.HttpUtil;
 @Controller
 @RequestMapping("admin-dashboard")
 public class AdminDashboardController {
-
-    /** The Constant CHART_DATA. */
-    private static final String CHART_DATA = "CHART_DATA";
 
     /** The Constant USAGE_BY_USER_TYPE. */
     private static final String USAGE_BY_USER_TYPE = "USAGE_BY_USER_TYPE";
@@ -43,6 +42,7 @@ public class AdminDashboardController {
     @Autowired
     private UserService userService;
 
+    /** The issue service. */
     @Autowired
     private IssueService issueService;
 
@@ -70,13 +70,15 @@ public class AdminDashboardController {
                 data = (JSONObject) session.getAttribute(keyInSession);
                 if (data == null) {
                     Map<UserType, List<DateValueDto>> loginsToDateByUserType = userService.getLoginsToDate(toDateType);
-                    LineChartDto lineChart = StatisticsDataAssembler.create(loginsToDateByUserType);
+					Map<UserType, List<NumberNameValueDto>> nameNumberValuesByUserTypeMap = 
+							StatisticsDataAssembler.getNameNumberValuesByUserTypeMap(loginsToDateByUserType);
+                    LineChartDto lineChart = StatisticsDataAssembler.create(nameNumberValuesByUserTypeMap);
                     data = ChartDataAssembler.create(lineChart);
                     session.setAttribute(keyInSession, data);
                 }
             }
         } finally {
-            HttpUtil.wrapAndWriteJson(response, CHART_DATA, data);
+            HttpUtil.wrapAndWriteJson(response, WebConstants.CHART_DATA, data);
         }
         return null;
     }
@@ -102,13 +104,15 @@ public class AdminDashboardController {
                 data = (JSONObject) session.getAttribute(keyInSession);
                 if (data == null) {
                     Map<UserType, List<DateValueDto>> issuesToDateByUserType = issueService.getIssuesToDate(toDateType);
-                    LineChartDto lineChart = StatisticsDataAssembler.create(issuesToDateByUserType);
+                    Map<UserType, List<NumberNameValueDto>> nameNumberValuesByUserTypeMap = 
+							StatisticsDataAssembler.getNameNumberValuesByUserTypeMap(issuesToDateByUserType);
+                    LineChartDto lineChart = StatisticsDataAssembler.create(nameNumberValuesByUserTypeMap);
                     data = ChartDataAssembler.create(lineChart);
                     session.setAttribute(keyInSession, data);
                 }
             }
         } finally {
-            HttpUtil.wrapAndWriteJson(response, CHART_DATA, data);
+            HttpUtil.wrapAndWriteJson(response, WebConstants.CHART_DATA, data);
         }
         return null;
     }

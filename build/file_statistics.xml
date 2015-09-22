@@ -1,108 +1,108 @@
 <project name="MySchool" default="FileStatistics" basedir="../">
-    <description>Displays file statistics by file type</description>
+	<description>Displays file statistics by file type</description>
 
-    <target name="FileStatistics">
-        <!-- Code statistics -->
-        <resourcecount property="file.count.java">
-            <fileset dir=".">
-                <include name="**/**.java" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.jsp">
-            <fileset dir=".">
-                <include name="**/**.jsp" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.tag">
-            <fileset dir=".">
-                <include name="**/**.tag" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.tld">
-            <fileset dir=".">
-                <include name="**/**.tld" />
-            </fileset>
-        </resourcecount>
-        <!-- Database scripts -->
-        <resourcecount property="file.count.sql">
-            <fileset dir=".">
-                <include name="**/**.sql" />
-            </fileset>
-        </resourcecount>
+	<target name="FileStatistics">
+		<!-- Code statistics -->
+		<resourcecount property="file.count.java">
+			<fileset dir=".">
+				<include name="**/**.java" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.jsp">
+			<fileset dir=".">
+				<include name="**/**.jsp" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.tag">
+			<fileset dir=".">
+				<include name="**/**.tag" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.tld">
+			<fileset dir=".">
+				<include name="**/**.tld" />
+			</fileset>
+		</resourcecount>
+		<!-- Database scripts -->
+		<resourcecount property="file.count.sql">
+			<fileset dir=".">
+				<include name="**/**.sql" />
+			</fileset>
+		</resourcecount>
 
-        <echo message=">>>>> Code Statistics" />
-        <echo message="Java       : ${file.count.java} " />
-        <echo message="JSP        : ${file.count.jsp} " />
-        <echo message="TAG        : ${file.count.tag} " />
-        <echo message="TLD        : ${file.count.tld} " />
-        <echo message="SQL        : ${file.count.sql} " />
+		<echo message=">>>>> Code Statistics" />
+		<echo message="Java       : ${file.count.java} " />
+		<echo message="JSP        : ${file.count.jsp} " />
+		<echo message="TAG        : ${file.count.tag} " />
+		<echo message="TLD        : ${file.count.tld} " />
+		<echo message="SQL        : ${file.count.sql} " />
 
-        <!-- Configuration statistics -->
-        <resourcecount property="file.count.properties">
-            <fileset dir=".">
-                <include name="**/**.properties" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.xml">
-            <fileset dir=".">
-                <include name="**/**.xml" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.xsl">
-            <fileset dir=".">
-                <include name="**/**.xsl" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.xsd">
-            <fileset dir=".">
-                <include name="**/**.xsd" />
-            </fileset>
-        </resourcecount>
+		<!-- Configuration statistics -->
+		<resourcecount property="file.count.properties">
+			<fileset dir=".">
+				<include name="**/**.properties" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.xml">
+			<fileset dir=".">
+				<include name="**/**.xml" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.xsl">
+			<fileset dir=".">
+				<include name="**/**.xsl" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.xsd">
+			<fileset dir=".">
+				<include name="**/**.xsd" />
+			</fileset>
+		</resourcecount>
 
-        <echo message=">>>>> Configuration Statistics" />
-        <echo message="Properties : ${file.count.properties} " />
-        <echo message="XML        : ${file.count.xml} " />
-        <echo message="XSL        : ${file.count.xsl} " />
-        <echo message="XSD        : ${file.count.xsd} " />
+		<echo message=">>>>> Configuration Statistics" />
+		<echo message="Properties : ${file.count.properties} " />
+		<echo message="XML        : ${file.count.xml} " />
+		<echo message="XSL        : ${file.count.xsl} " />
+		<echo message="XSD        : ${file.count.xsd} " />
 
-        <!-- OS Scripts-->
-        <resourcecount property="file.count.bat">
-            <fileset dir=".">
-                <include name="**/**.bat" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.sh">
-            <fileset dir=".">
-                <include name="**/**.sh" />
-            </fileset>
-        </resourcecount>
+		<!-- OS Scripts-->
+		<resourcecount property="file.count.bat">
+			<fileset dir=".">
+				<include name="**/**.bat" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.sh">
+			<fileset dir=".">
+				<include name="**/**.sh" />
+			</fileset>
+		</resourcecount>
 
-        <echo message=">>>>> Scripts Statistics" />
-        <echo message="BAT        : ${file.count.bat} " />
-        <echo message="SH         : ${file.count.sh} " />
+		<echo message=">>>>> Scripts Statistics" />
+		<echo message="BAT        : ${file.count.bat} " />
+		<echo message="SH         : ${file.count.sh} " />
 
-        <!-- Static Documents -->
-        <resourcecount property="file.count.xls">
-            <fileset dir=".">
-                <include name="**/**.xls" />
-            </fileset>
-        </resourcecount>
-        <resourcecount property="file.count.pdf">
-            <fileset dir=".">
-                <include name="**/**.pdf" />
-            </fileset>
-        </resourcecount>
+		<!-- Static Documents -->
+		<resourcecount property="file.count.xls">
+			<fileset dir=".">
+				<include name="**/**.xls" />
+			</fileset>
+		</resourcecount>
+		<resourcecount property="file.count.pdf">
+			<fileset dir=".">
+				<include name="**/**.pdf" />
+			</fileset>
+		</resourcecount>
 
-        <echo message=">>>>> Static Documents" />
-        <echo message="XLS        : ${file.count.xls} " />
-        <echo message="PDF        : ${file.count.pdf} " />
+		<echo message=">>>>> Static Documents" />
+		<echo message="XLS        : ${file.count.xls} " />
+		<echo message="PDF        : ${file.count.pdf} " />
 
-        <resourcecount property="file.count.total">
-            <fileset dir=".">
-                <include name="**/**.*" />
-            </fileset>
-        </resourcecount>
-        <echo message="#------> Total files: ${file.count.total}" />
+		<resourcecount property="file.count.total">
+			<fileset dir=".">
+				<include name="**/**.*" />
+			</fileset>
+		</resourcecount>
+		<echo message="#------> Total files: ${file.count.total}" />
 
-    </target>
+	</target>
 </project>

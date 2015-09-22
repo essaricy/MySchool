@@ -1,145 +1,178 @@
 <project name="MySchool" default="CleanBuildDeploy" basedir="../">
-    <description>Builds and deploys MySchool to server</description>
+	<description>Builds and deploys MySchool to server</description>
 
-    <taskdef resource="net/sf/antcontrib/antlib.xml" />
-    <taskdef name="unset" classname="ise.antelope.tasks.Unset"/>
+	<taskdef resource="net/sf/antcontrib/antlib.xml" />
+	<taskdef name="unset" classname="ise.antelope.tasks.Unset"/>
 	<taskdef name="math" classname="ise.antelope.tasks.MathTask"/>
 
-    <!--<taskdef resource="ise/antelope/tasks/antlib.xml" />-->
+	<!--<taskdef resource="ise/antelope/tasks/antlib.xml" />-->
+	<condition property="isWindows" value="true">
+		<os family="windows" />
+	</condition>
 
-    <property file="build/build.properties" />
-    <property file="build/server_${os.name}.properties" />
+	<condition property="isUnix" value="true">
+		<os family="unix" />
+	</condition>
 
-    <tstamp prefix="build-info">
-        <format property="current-date" pattern="d-MMMM-yyyy" locale="en" />
-        <format property="current-time" pattern="hh:mm:ss a z" locale="en" />
-    </tstamp>
+	<property file="build/build.properties" />
+	<property file="build/directory_entries_WINDOWS.properties" />
 
-    <path id="jars-classpath">
-        <fileset dir="${lib.dir}" includes="*.jar" />
-    </path>
+	<tstamp prefix="build-info">
+		<format property="current-date" pattern="d-MMMM-yyyy" locale="en" />
+		<format property="current-time" pattern="hh:mm:ss a z" locale="en" />
+	</tstamp>
 
-    <target name="CleanBuildDeploy" description="Cleaning, Building and Deploying all modules">
-    	<fail unless="myschool.name" message="You must set 'myschool.name' property to run the build"/>
-        <antcall target="Init" />
-    	<antcall target="CleanAll" />
-    	<antcall target="Build" />
-    	<antcall target="Deploy" />
-    	<antcall target="CopyLibs" />
-   		<antcall target="Clean" />
-    </target>
+	<path id="jars-classpath">
+		<fileset dir="${lib.dir}" includes="*.jar" />
+	</path>
 
-    <target name="Init">
-        <echo message="os.name ===> ${os.name}" />
-    </target>
+	<target name="CleanBuildDeploy" description="Cleaning, Building and Deploying all modules">
+		<fail unless="myschool.name" message="You must set 'myschool.name' property to run the build"/>
+		<antcall target="Init" />
+		<antcall target="CleanAll" />
+		<antcall target="Build" />
+		<antcall target="Deploy" />
+		<antcall target="CopyLibs" />
+		<antcall target="UpdateResources" />
+		<antcall target="DeployWeb" />
+		<antcall target="Clean" />
+		<antcall target="FileStatistics" />
+	</target>
 
-    <target name="Clean">
-        <antcall target="CleanCodeBases" />
-    </target>
+	<target name="Init" depends="InitWindows,InitUnix" />
+	<!--<target name="Init" depends="InitWindows,InitUnix" />-->
+	<target name="InitWindows" if="isWindows">
+		<property file="build/directory_entries_WINDOWS.properties" />
+		<echo message="Loading WINDOWS properties file. ${myschool.base.dir}" />
+	</target>
+	<target name="InitUnix" if="isUnix">
+		<echo message="Loading UNIX properties file." />
+		<property file="build/directory_entries_UNIX.properties" />
+	</target>
 
-    <target name="CleanAll">
-        <antcall target="CleanCodeBases" />
-        <antcall target="CreateTargetDirs" />
-    </target>
+	<target name="Clean">
+		<antcall target="CleanCodeBases" />
+	</target>
 
-    <target name="CleanCodeBases">
-        <ant antfile="build.xml" target="Clean" dir="${myschool.base}" />
-    	<ant antfile="build.xml" target="Clean" dir="${myschool.transformation}" />
-        <ant antfile="build.xml" target="Clean" dir="${myschool.infrastructure}" />
-        <ant antfile="build.xml" target="Clean" dir="${myschool.service}" />
-        <ant antfile="build.xml" target="Clean" dir="${myschool.web}" />
-        <ant antfile="build.xml" target="Clean" dir="${myschool.scheduler}" />
-        <ant antfile="build.xml" target="Clean" dir="${myschool.server}" />
-        <ant antfile="build.xml" target="Clean" dir="${myschool.sautil}" />
-    </target>
+	<target name="CleanAll">
+		<antcall target="CleanCodeBases" />
+		<antcall target="CreateTargetDirs" />
+	</target>
 
-    <target name="CreateTargetDirs" if="myschool.name">
-        <mkdir dir="${myschool.dir}" />
+	<target name="CleanCodeBases">
+		<ant antfile="build.xml" target="Clean" dir="${myschool.base}" />
+		<ant antfile="build.xml" target="Clean" dir="${myschool.transformation}" />
+		<ant antfile="build.xml" target="Clean" dir="${myschool.infrastructure}" />
+		<ant antfile="build.xml" target="Clean" dir="${myschool.service}" />
+		<ant antfile="build.xml" target="Clean" dir="${myschool.scheduler}" />
+		<ant antfile="build.xml" target="Clean" dir="${myschool.server}" />
+		<ant antfile="build.xml" target="Clean" dir="${myschool.sautil}" />
+		<ant antfile="build.xml" target="Clean" dir="${myschool.web}" />
+	</target>
 
-        <delete dir="${myschool.dir}/${config}"/>
-        <mkdir dir="${myschool.dir}/${config}"/>
+	<target name="CreateTargetDirs" if="myschool.name">
+		<mkdir dir="${myschool.dir}" />
 
-        <!--<delete dir="${myschool.dir}/${fileserver}"/>-->
-        <mkdir dir="${myschool.dir}/${fileserver}"/>
+		<delete dir="${myschool.dir}/${config}"/>
+		<mkdir dir="${myschool.dir}/${config}"/>
 
-        <delete dir="${myschool.dir}/${lib}"/>
-        <mkdir dir="${myschool.dir}/${lib}"/>
+		<!--<delete dir="${myschool.dir}/${fileserver}"/>-->
+		<mkdir dir="${myschool.dir}/${fileserver}"/>
 
-        <delete dir="${myschool.dir}/${scripts}"/>
-        <mkdir dir="${myschool.dir}/${scripts}"/>
+		<delete dir="${myschool.dir}/${lib}"/>
+		<mkdir dir="${myschool.dir}/${lib}"/>
 
-        <delete dir="${myschool.dir}/${templates}"/>
-        <mkdir dir="${myschool.dir}/${templates}"/>
-    </target>
+		<delete dir="${myschool.dir}/${scripts}"/>
+		<mkdir dir="${myschool.dir}/${scripts}"/>
 
-    <target name="Build">
-        <echo message="Using Java version ${ant.java.version}" />
-        <ant antfile="build.xml" target="Build" dir="${myschool.base}" />
-    	<ant antfile="build.xml" target="Build" dir="${myschool.transformation}" />
-        <ant antfile="build.xml" target="Build" dir="${myschool.infrastructure}" />
-        <ant antfile="build.xml" target="Build" dir="${myschool.service}" />
-        <ant antfile="build.xml" target="Build" dir="${myschool.web}" />
-        <ant antfile="build.xml" target="Build" dir="${myschool.scheduler}" />
-        <ant antfile="build.xml" target="Build" dir="${myschool.server}" />
-        <ant antfile="build.xml" target="Build" dir="${myschool.sautil}" />
-    </target>
+		<delete dir="${myschool.dir}/${templates}"/>
+		<mkdir dir="${myschool.dir}/${templates}"/>
+	</target>
 
-    <target name="Deploy">
-        <ant antfile="build.xml" target="Deploy" dir="${myschool.base}" />
-    	<ant antfile="build.xml" target="Deploy" dir="${myschool.transformation}" />
-        <ant antfile="build.xml" target="Deploy" dir="${myschool.infrastructure}" />
-        <ant antfile="build.xml" target="Deploy" dir="${myschool.service}" />
-        <ant antfile="build.xml" target="Deploy" dir="${myschool.web}" />
-        <ant antfile="build.xml" target="Deploy" dir="${myschool.scheduler}" />
-        <ant antfile="build.xml" target="Deploy" dir="${myschool.server}" />
-        <ant antfile="build.xml" target="Deploy" dir="${myschool.sautil}" />
-    </target>
+	<target name="Build">
+		<echo message="Using Java version ${ant.java.version}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.base}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.transformation}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.infrastructure}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.service}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.web}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.scheduler}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.server}" />
+		<ant antfile="build.xml" target="Build" dir="${myschool.sautil}" />
+	</target>
 
-    <target name="CopyLibs">
-        <copy todir="${myschool.dir}/${lib}">
-            <fileset dir="${lib}">
-                <!-- Jars for Middleware application -->
-                <include name="activemq-all-5.6.0.jar"/>
-                <include name="batik-xml-1.6.jar"/>
-                <include name="commons-codec.jar"/>
-                <include name="commons-httpclient.jar"/>
-                <include name="commons-logging-1.1.1.jar"/>
-                <include name="commons-pool-1.6.jar"/>
-                <include name="concurrent-1.3.3.jar"/>
-                <include name="dynamicreports-core-2.4.1.jar"/>
-                <include name="jasperreports-4.5.1.jar"/>
-                <include name="jcs-1.3.jar"/>
-                <include name="jettison-1.3.3.jar"/>
-                <include name="log4j.jar"/>
-                <include name="mail.jar"/>
-                <!-- Jars for Sautils application -->
-                <include name="org.springframework.beans-3.0.5.RELEASE.jar"/>
-                <include name="org.springframework.context-3.0.5.RELEASE.jar"/>
-                <include name="org.springframework.core-3.0.5.RELEASE.jar"/>
-                <include name="org.springframework.asm-3.0.5.RELEASE.jar"/>
-                <include name="org.springframework.expression-3.0.5.RELEASE.jar"/>
-                <include name="org.springframework.jdbc-3.0.5.RELEASE.jar"/>
-                <include name="poi-3.7.jar"/>
-                <include name="postgresql-9.1-901.jdbc4.jar"/>
-                <include name="quartz-2.2.0.jar"/>
-                <include name="thumbnailator-0.4.5-all.jar"/>
-                <include name="xpp3-1.1.4c.jar"/>
-                <include name="xstream-1.4.4.jar"/>
+	<target name="Deploy">
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.base}" inheritall="true" />
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.transformation}" />
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.infrastructure}" />
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.service}" />
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.scheduler}" />
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.server}" />
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.sautil}" />
+	</target>
 
-            	<!-- AOP Jars -->
-    	        <include name="aopalliance.jar" />
-    	        <include name="aspectjrt-1.6.11.jar" />
-    	        <include name="aspectjweaver-1.6.11.jar" />
-    	        <include name="org.springframework.aop-3.0.5.RELEASE.jar" />
-    	        <include name="org.springframework.context.support-3.0.5.RELEASE.jar" />
-    	        <include name="cglib-2.2.jar" />
-    	        <include name="asm-3.3.1.jar" />
-            </fileset>
-        </copy>
-    </target>
+	<target name="DeployWeb">
+		<ant antfile="build.xml" target="Deploy" dir="${myschool.web}" />
+	</target>
 
-    <target name="FileStatistics" if="print.stats">
-        <ant antfile="build/file_statistics.xml" dir="${basedir}" />
-    </target>
+	<target name="CopyLibs">
+		<copy todir="${myschool.dir}/${lib}">
+			<fileset dir="${lib}">
+				<!-- Jars for Middleware application -->
+				<include name="activemq-all-5.6.0.jar" />
+				<include name="batik-xml-1.6.jar" />
+				<include name="commons-codec.jar" />
+				<include name="commons-httpclient.jar" />
+				<include name="commons-logging-1.1.1.jar" />
+				<include name="commons-pool-1.6.jar" />
+				<include name="concurrent-1.3.3.jar"/>
+				<include name="dynamicreports-core-2.4.1.jar"/>
+				<include name="jasperreports-4.5.1.jar"/>
+				<include name="jcs-1.3.jar"/>
+				<include name="jettison-1.3.3.jar"/>
+				<include name="log4j.jar"/>
+				<include name="mail.jar"/>
+				<!-- Jars for Sautils application -->
+				<include name="org.springframework.beans-3.0.5.RELEASE.jar"/>
+				<include name="org.springframework.context-3.0.5.RELEASE.jar"/>
+				<include name="org.springframework.core-3.0.5.RELEASE.jar"/>
+				<include name="org.springframework.asm-3.0.5.RELEASE.jar"/>
+				<include name="org.springframework.expression-3.0.5.RELEASE.jar"/>
+				<include name="org.springframework.jdbc-3.0.5.RELEASE.jar"/>
+				<include name="poi-3.7.jar"/>
+				<include name="postgresql-9.1-901.jdbc4.jar"/>
+				<include name="quartz-2.2.0.jar"/>
+				<include name="thumbnailator-0.4.5-all.jar"/>
+				<include name="xpp3-1.1.4c.jar"/>
+				<include name="xstream-1.4.4.jar"/>
+
+				<!-- AOP Jars -->
+				<include name="aopalliance.jar" />
+				<include name="aspectjrt-1.6.11.jar" />
+				<include name="aspectjweaver-1.6.11.jar" />
+				<include name="org.springframework.aop-3.0.5.RELEASE.jar" />
+				<include name="org.springframework.context.support-3.0.5.RELEASE.jar" />
+				<include name="cglib-2.2.jar" />
+				<include name="asm-3.3.1.jar" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="UpdateResources">
+		<!-- Update object-xml-mapping.xml file -->
+		<echo message=">>>>>>>> Updating object-xml-mapping.xml file in the code base" />
+		<exec executable="${executable}" failonerror="true">
+			<arg value="${executable.option}"/>
+		    <arg value="${myschool.dir}/${generate_xml_object_mapping}.${executable.extension} --ext-dir ${object.xml.mapping}"/>
+		</exec>
+		<echo message="Copying updated object-xml-mapping.xml file from ${object.xml.mapping} to ${myschool.dir}/${config}/xml" />
+		<copy todir="${myschool.dir}/${config}/xml">
+            <fileset dir="${object.xml.mapping}" />
+		</copy>
+	</target>
+
+	<target name="FileStatistics" if="print.stats">
+		<ant antfile="build/file_statistics.xml" dir="${basedir}" />
+	</target>
 
 </project>

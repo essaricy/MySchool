@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -63,13 +64,14 @@ public class XmlObjectMappingGenerator extends StandAloneUtility {
      * @see com.myschool.sautil.base.StandAloneUtility#validateParameters()
      */
     public void validateParameters() throws ConfigurationException {
-        String codeBasePackage = executionProperties.getProperty(PACKAGE);
+        /*String codeBasePackage = executionProperties.getProperty(PACKAGE);
         if (StringUtil.isNullOrBlank(codeBasePackage)) {
             throw new ConfigurationException("You must specify the option " + PACKAGE + " to generate mappings.");
         }
         if (codeBasePackage.indexOf(".") != -1) {
             throw new ConfigurationException("Please specify \"/\" as package seperator instead of \".\" for the option " + PACKAGE);
-        }
+        }*/
+    	executionProperties.setProperty(PACKAGE, "com/myschool");
         String outputDirectoryName = executionProperties.getProperty(OPTION_EXT_DIR);
         if (StringUtil.isNullOrBlank(outputDirectoryName)) {
             throw new ConfigurationException("You must specify the option " + OPTION_EXT_DIR + ". The generated file will be placed in this directory.");
@@ -174,6 +176,8 @@ public class XmlObjectMappingGenerator extends StandAloneUtility {
         // write the content into xml file
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
         DOMSource source = new DOMSource(document);
         File file = new File(executionProperties.getProperty(OPTION_EXT_DIR), oxoAgent.getOxoMappingFileName());
         StreamResult result = new StreamResult(file);

@@ -55,6 +55,7 @@
           <replacefilter token="@DATABASE@" value="${database}" />
           <replacefilter token="@IMAGE@" value="${image}" />
         </replace>
+
     </target>
 
 </project>

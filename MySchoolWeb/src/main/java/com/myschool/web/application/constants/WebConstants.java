@@ -29,4 +29,7 @@ public class WebConstants {
 	/** The Constant PAGE_ACCESS. */
 	public static final String PAGE_ACCESS = "PAGE_ACCESS";
 
+	/** The Constant CHART_DATA. */
+    public static final String CHART_DATA = "CHART_DATA";
+
 }

@@ -26,21 +26,9 @@
 
 #FooterStaticLinksTable {
   width: 100%;
-  font-family: cursive;
   background-color: #212121;
   border-collapse: collapse; 
   border: 1px inset white;
-}
-#FooterStaticLinksTable tr th {
-    color: #ECBB09;
-    font-size: 0.80em;
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-    padding-top: 3px;
-}
-#FooterStaticLinksTable tr td {
-    text-align: center;
 }
 #FooterStaticLinksTable tr td a {
     color: #888;

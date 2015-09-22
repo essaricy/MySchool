@@ -75,6 +75,7 @@ public class WebUserSessionListener implements HttpSessionListener {
 	 */
 	@Override
 	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
+		// TODO refreshing page after logout is throwing exception. fix it.
 		// update session end time to the user session in the database.
 		try {
 			HttpSession session = httpSessionEvent.getSession();

@@ -79,5 +79,5 @@ var actionButtons = [];
     actionButtons[actionButtons.length] = 'notify';
 </c:if>
 
-
+var recordsPerPage = "${USER_CONTEXT.userPreference.recordsPerPage}";
 </script>

@@ -145,9 +145,4 @@ public class UserDaoSql {
         return builder.toString();
     }
 
-    /**
-     * Instantiates a new user dao sql.
-     */
-    private UserDaoSql() {}
-
 }

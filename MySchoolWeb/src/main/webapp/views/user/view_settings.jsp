@@ -110,7 +110,7 @@ jQuery(document).ready(function() {
         </div>
         <p class="title"><spring:message code="password.change"/></p>
         <div>
-          <input type="hidden" id="UserId" value="${USER_CONTEXT.login.loginId}" />
+          <input type="hidden" id="UserId" value="${USER_CONTEXT.login.id}" />
           <table cellpadding="5" cellspacing="0" align="center" width="70%" class="formDataTable" border="0">
             <tr>
               <td width="50%" class="formLabel"><spring:message code="password.current"/><label class="mandatory">*</label></td>
@@ -138,6 +138,7 @@ jQuery(document).ready(function() {
             </tr>
           </table>
         </div>
+		<!-- User preferences section -->
         <p class="title"><spring:message code="user.display.prefernces"/></p>
         <div>
           <table cellpadding="5" cellspacing="0" align="center" width="70%" class="formDataTable" border="0">
@@ -160,10 +161,14 @@ jQuery(document).ready(function() {
               <td width="50%" class="formLabel"><spring:message code="user.display.records.per.page"/></td>
               <td width="50%" align="left">
                 <select id="RecordsPerPage" class="chosen-select">
-                  <option value="10">10</option>
-                  <option value="25">25</option>
-                  <option value="50">50</option>
-                  <option value="100">100</option>
+				  <c:forTokens items="10,25,50,100" delims="," var="recordsPerPage">
+				    <c:if test="${USER_CONTEXT.userPreference.recordsPerPage == recordsPerPage}">
+					<option value="${recordsPerPage}" selected>${recordsPerPage}</option>
+					</c:if>
+				    <c:if test="${USER_CONTEXT.userPreference.recordsPerPage != recordsPerPage}">
+					<option value="${recordsPerPage}">${recordsPerPage}</option>
+					</c:if>
+                  </c:forTokens>
                 </select>
               </td>
             </tr>

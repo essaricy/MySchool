@@ -1,6 +1,5 @@
 package com.myschool.web.user.constants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserViewNames.
  */

@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.util.Date;
 
 import com.myschool.common.util.StringUtil;
+import com.myschool.user.dto.UsageCount;
 import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserSession;
 
@@ -120,4 +121,17 @@ public class UserSessionDataAssembler {
 		return userActivity;
 	}
 
+	/**
+	 * Creates the usage count.
+	 *
+	 * @param resultSet the result set
+	 * @return the usage count
+	 * @throws SQLException the sQL exception
+	 */
+	public static UsageCount createUsageCount(ResultSet resultSet) throws SQLException {
+		UsageCount usageCount = new UsageCount();
+		usageCount.setUser(UserDataAssembler.createUser(resultSet));
+		usageCount.setUserStatistics(UserDataAssembler.createUserStatistics(resultSet));
+		return usageCount;
+	}
 }

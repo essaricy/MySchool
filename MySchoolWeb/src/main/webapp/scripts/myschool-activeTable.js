@@ -25,7 +25,7 @@ var currentDataTable = null;
       captionClass: 'dataTableCaption',
       icon: null,
       columns: [],
-      dataTableSettings: { },
+      dataTableSettings: {},
       footerIconsPosition: 'right',
       buttons: [],
       buttonClass: 'iconImage',
@@ -102,6 +102,10 @@ var currentDataTable = null;
     function setDataTable() {
       var dataTableSettings = (typeof settings.dataTableSettings == 'undefined') ? defaultSettings.dataTableSettings : settings.dataTableSettings;
       var containerName = (typeof settings.containerName == 'undefined') ? defaultSettings.containerName : settings.containerName;
+      // TODO pagination is getting affected if turned on this.
+	  //var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPage;
+	  //alert(iDisplayLength);
+	  //dataTableSettings.iDisplayLength=iDisplayLength;
       enableActionButtons(containerName, false);
       oTable = $('#' + containerName + '_Inner').dataTable(dataTableSettings);
       makeSelectableTable();

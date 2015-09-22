@@ -1,1074 +1,864 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <object-xml-mappings>
-	<object-xml-mapping name="Academic"
-		type="com.myschool.academic.dto.AcademicDto">
-		<field alias="AcademicYearName" name="academicYearName" />
-		<field alias="AcademicYearStartDate" name="academicYearStartDate" />
-		<field alias="AcademicYearEndDate" name="academicYearEndDate" />
-	</object-xml-mapping>
-	<object-xml-mapping name="AcademicYearClosure"
-		type="com.myschool.academic.dto.AcademicYearClosureDto">
-		<field alias="OrganizationProfile" name="organizationProfile"
-			type="com.myschool.application.dto.OrganizationProfileDto" />
-		<field alias="MySchoolProfile" name="mySchoolProfile"
-			type="com.myschool.application.dto.MySchoolProfileDto" />
-		<field alias="CurrentAcademic" name="currentAcademic"
-			type="com.myschool.academic.dto.AcademicDto" />
-		<field alias="NextAcademic" name="nextAcademic"
-			type="com.myschool.academic.dto.AcademicDto" />
-		<field alias="ExamGrades" name="examGrades" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="AyeProcessCriteria"
-		type="com.myschool.academic.dto.AyeProcessCriteriaDto" />
-	<object-xml-mapping name="Holiday"
-		type="com.myschool.academic.dto.HolidayDto">
-		<field alias="HolidayId" name="holidayId" />
-		<field alias="HolidayName" name="holidayName" />
-		<field alias="StartDate" name="startDate" />
-		<field alias="EndDate" name="endDate" />
-	</object-xml-mapping>
-	<object-xml-mapping name="HolidaySearchCriteria"
-		type="com.myschool.academic.dto.HolidaySearchCriteria">
-		<field alias="AcademicYear" name="academicYear" />
-		<field alias="StartDate" name="startDate" />
-		<field alias="EndDate" name="endDate" />
-	</object-xml-mapping>
-	<object-xml-mapping name="CashPayment"
-		type="com.myschool.apar.dto.CashPayment" />
-	<object-xml-mapping name="ChequePayment"
-		type="com.myschool.apar.dto.ChequePayment">
-		<field alias="ChequeNumber" name="chequeNumber" />
-		<field alias="IssuingBanker" name="issuingBanker" />
-		<field alias="CheckRealizationDate" name="checkRealizationDate" />
-	</object-xml-mapping>
-	<object-xml-mapping name="CreditCardPayment"
-		type="com.myschool.apar.dto.CreditCardPayment">
-		<field alias="CardNumber" name="cardNumber" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeePay"
-		type="com.myschool.apar.dto.EmployeePay">
-		<field alias="Payment" name="payment" type="com.myschool.apar.dto.Payment" />
-		<field alias="Employee" name="employee"
-			type="com.myschool.employee.dto.EmployeeDto" />
-		<field alias="PayComponents" name="payComponents" type="java.util.List" />
-		<field alias="Attendance" name="attendance"
-			type="com.myschool.attendance.dto.AttendanceDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="FeeSummary"
-		type="com.myschool.apar.dto.FeeSummary">
-		<field alias="TotalFeeToPay" name="totalFeeToPay" />
-		<field alias="TotalFeePaid" name="totalFeePaid" />
-		<field alias="TotalRemainingFeeToPay" name="totalRemainingFeeToPay" />
-		<field alias="FeeTransactions" name="feeTransactions" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="FeeTransaction"
-		type="com.myschool.apar.dto.FeeTransaction">
-		<field alias="Particulars" name="particulars" />
-		<field alias="Ledger" name="ledger" type="com.myschool.apar.constants.Ledger" />
-		<field alias="DueDate" name="dueDate" />
-		<field alias="TransactionDate" name="transactionDate" />
-		<field alias="Amount" name="amount" />
-		<field alias="Payment" name="payment" type="com.myschool.apar.dto.Payment" />
-	</object-xml-mapping>
-	<object-xml-mapping name="PayComponent"
-		type="com.myschool.apar.dto.PayComponent">
-		<field alias="Ledger" name="ledger" type="com.myschool.apar.constants.Ledger" />
-		<field alias="ComponentName" name="componentName" />
-		<field alias="Amount" name="amount" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Payment"
-		type="com.myschool.apar.dto.Payment">
-		<field alias="AmountPaid" name="amountPaid" />
-		<field alias="PaymentDate" name="paymentDate" />
-	</object-xml-mapping>
-	<object-xml-mapping name="DateValue"
-		type="com.myschool.application.dto.DateValueDto">
-		<field alias="Date" name="date" type="java.util.Date" />
-		<field alias="Value" name="value" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Feature"
-		type="com.myschool.application.dto.FeatureDto">
-		<field alias="ImagePath" name="imagePath" />
-		<field alias="Name" name="name" />
-		<field alias="Description" name="description" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Function"
-		type="com.myschool.application.dto.FunctionDto">
-		<field alias="FunctionId" name="functionId" />
-		<field alias="FunctionName" name="functionName" />
-		<field alias="Module" name="module"
-			type="com.myschool.application.dto.ModuleDto" />
-		<field alias="IconUrl" name="iconUrl" />
-		<field alias="AccessUrl" name="accessUrl" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Issue"
-		type="com.myschool.application.dto.IssueDto">
-		<field alias="IssueId" name="issueId" />
-		<field alias="UserType" name="userType"
-			type="com.myschool.user.constants.UserType" />
-		<field alias="IssueStatus" name="issueStatus"
-			type="com.myschool.application.constants.IssueStatus" />
-		<field alias="Subject" name="subject" />
-		<field alias="Description" name="description" />
-		<field alias="ContactEmailId" name="contactEmailId" />
-		<field alias="ReportedDate" name="reportedDate" />
-		<field alias="ClosedDate" name="closedDate" />
-	</object-xml-mapping>
-	<object-xml-mapping name="IssueSearchCriteria"
-		type="com.myschool.application.dto.IssueSearchCriteriaDto">
-		<field alias="UserType" name="userType"
-			type="com.myschool.user.constants.UserType" />
-		<field alias="IssueStatus" name="issueStatus"
-			type="com.myschool.application.constants.IssueStatus" />
-		<field alias="Subject" name="subject" />
-		<field alias="Description" name="description" />
-		<field alias="ContactEmailId" name="contactEmailId" />
-		<field alias="ReportedDateMin" name="reportedDateMin" />
-		<field alias="ReportedDateMax" name="reportedDateMax" />
-		<field alias="ClosedDateMin" name="closedDateMin" />
-		<field alias="ClosedDateMax" name="closedDateMax" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Module"
-		type="com.myschool.application.dto.ModuleDto">
-		<field alias="ModuleId" name="moduleId" />
-		<field alias="AdminAccess" name="adminAccess" />
-		<field alias="EmployeeAccess" name="employeeAccess" />
-		<field alias="StudentAccess" name="studentAccess" />
-		<field alias="ModuleName" name="moduleName" />
-		<field alias="AccessUrl" name="accessUrl" />
-	</object-xml-mapping>
-	<object-xml-mapping name="MySchoolProfile"
-		type="com.myschool.application.dto.MySchoolProfileDto">
-		<field alias="EmailActive" name="emailActive" />
-		<field alias="SmsActive" name="smsActive" />
-		<field alias="EmailStudents" name="emailStudents" />
-		<field alias="SmsStudents" name="smsStudents" />
-		<field alias="EmailEmployees" name="emailEmployees" />
-		<field alias="SmsEmployees" name="smsEmployees" />
-		<field alias="AyeInProgress" name="ayeInProgress" />
-		<field alias="UseMenuIcons" name="useMenuIcons" />
-		<field alias="UseEmployeeSelfSubmit" name="useEmployeeSelfSubmit" />
-		<field alias="UseStudentSelfSubmit" name="useStudentSelfSubmit" />
-	</object-xml-mapping>
-	<object-xml-mapping name="OrganizationProfile"
-		type="com.myschool.application.dto.OrganizationProfileDto">
-		<field alias="OrganizationName" name="organizationName" />
-		<field alias="CurrentAcademicYear" name="currentAcademicYear" />
-		<field alias="Address" name="address" />
-		<field alias="PhoneNumber" name="phoneNumber" />
-		<field alias="FaxNumber" name="faxNumber" />
-		<field alias="MapUrl" name="mapUrl" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Attendance"
-		type="com.myschool.attendance.dto.AttendanceDto">
-		<field alias="AttendanceYear" name="attendanceYear" />
-	</object-xml-mapping>
-	<object-xml-mapping name="AttendanceProfile"
-		type="com.myschool.attendance.dto.AttendanceProfileDto">
-		<field alias="AttendanceProfileId" name="attendanceProfileId" />
-		<field alias="ProfileName" name="profileName" />
-		<field alias="EffectiveAcademic" name="effectiveAcademic"
-			type="com.myschool.academic.dto.AcademicDto" />
-		<field alias="YearAttendance" name="yearAttendance" type="java.util.List" />
-		<field alias="States" name="states" type="java.util.List" />
-		<field alias="Regions" name="regions" type="java.util.List" />
-		<field alias="Branches" name="branches" type="java.util.List" />
-		<field alias="Schools" name="schools" type="java.util.List" />
-		<field alias="RegisteredClasses" name="registeredClasses" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Day"
-		type="com.myschool.attendance.dto.Day">
-		<field alias="Date" name="date" />
-		<field alias="DayNumberInWeek" name="dayNumberInWeek" />
-		<field alias="DayShortName" name="dayShortName" />
-		<field alias="DayFullName" name="dayFullName" />
-	</object-xml-mapping>
-	<object-xml-mapping name="DayAttendance"
-		type="com.myschool.attendance.dto.DayAttendance">
-		<field alias="INVALID" name="INVALID" />
-		<field alias="DaysInDifference" name="daysInDifference" />
-		<field alias="Day" name="day" type="com.myschool.attendance.dto.Day" />
-		<field alias="AttendanceCode" name="attendanceCode"
-			type="com.myschool.attendance.dto.AttendanceCode" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Leave"
-		type="com.myschool.attendance.dto.LeaveDto">
-		<field alias="Type" name="type" />
-		<field alias="StartDate" name="startDate" />
-		<field alias="EndDate" name="endDate" />
-		<field alias="NumberOfDays" name="numberOfDays" />
-		<field alias="Comments" name="comments" />
-		<field alias="LeaveStatus" name="leaveStatus"
-			type="com.myschool.attendance.constants.LeaveStatus" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Month"
-		type="com.myschool.attendance.dto.Month">
-		<field alias="Number" name="number" />
-		<field alias="ShortName" name="shortName" />
-		<field alias="FullName" name="fullName" />
-		<field alias="Days" name="days" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="MonthAttendance"
-		type="com.myschool.attendance.dto.MonthAttendance">
-		<field alias="MonthAttendanceId" name="monthAttendanceId" />
-		<field alias="NumberOfGeneralHolidays" name="numberOfGeneralHolidays" />
-		<field alias="NumberOfDeclaredHolidays" name="numberOfDeclaredHolidays" />
-		<field alias="NumberOfLeaves" name="numberOfLeaves" />
-		<field alias="NumberOfHalfDays" name="numberOfHalfDays" />
-		<field alias="NumberOfPresents" name="numberOfPresents" />
-		<field alias="NumberOfAbsents" name="numberOfAbsents" />
-		<field alias="Month" name="month" type="com.myschool.attendance.dto.Month" />
-		<field alias="DayAttendances" name="dayAttendances" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ReferenceAttendance"
-		type="com.myschool.attendance.dto.ReferenceAttendanceDto">
-		<field alias="ReferenceAttendanceId" name="referenceAttendanceId" />
-		<field alias="RegisteredClass" name="registeredClass"
-			type="com.myschool.clazz.dto.RegisteredClassDto" />
-		<field alias="Year" name="year" />
-		<field alias="Month" name="month" />
-		<field alias="DayAttendances" name="dayAttendances" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="StudentAttendance"
-		type="com.myschool.attendance.dto.StudentAttendanceDto">
-		<field alias="Student" name="student"
-			type="com.myschool.student.dto.StudentDto" />
-		<field alias="Attendance" name="attendance"
-			type="com.myschool.attendance.dto.AttendanceDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Year"
-		type="com.myschool.attendance.dto.Year">
-		<field alias="Number" name="number" />
-		<field alias="Months" name="months" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="YearAttendance"
-		type="com.myschool.attendance.dto.YearAttendance">
-		<field alias="NumberOfAbsents" name="numberOfAbsents" />
-		<field alias="NumberOfPresents" name="numberOfPresents" />
-		<field alias="NumberOfGeneralHolidays" name="numberOfGeneralHolidays" />
-		<field alias="NumberOfDeclaredHolidays" name="numberOfDeclaredHolidays" />
-		<field alias="NumberOfHolidays" name="numberOfHolidays" />
-		<field alias="NumberOfLeaves" name="numberOfLeaves" />
-		<field alias="Year" name="year" type="com.myschool.attendance.dto.Year" />
-		<field alias="MonthAttendances" name="monthAttendances" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Branch"
-		type="com.myschool.branch.dto.BranchDto">
-		<field alias="BranchId" name="branchId" />
-		<field alias="BranchCode" name="branchCode" />
-		<field alias="Description" name="description" />
-		<field alias="Address" name="address" />
-		<field alias="EmailId" name="emailId" />
-		<field alias="PhoneNumber" name="phoneNumber" />
-		<field alias="MapUrl" name="mapUrl" />
-		<field alias="Region" name="region" type="com.myschool.branch.dto.RegionDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Division"
-		type="com.myschool.branch.dto.DivisionDto">
-		<field alias="DivisionId" name="divisionId" />
-		<field alias="DivisionCode" name="divisionCode" />
-		<field alias="Description" name="description" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Region"
-		type="com.myschool.branch.dto.RegionDto">
-		<field alias="RegionId" name="regionId" />
-		<field alias="RegionName" name="regionName" />
-		<field alias="State" name="state" type="com.myschool.branch.dto.StateDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="State"
-		type="com.myschool.branch.dto.StateDto">
-		<field alias="StateId" name="stateId" />
-		<field alias="StateName" name="stateName" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Class"
-		type="com.myschool.clazz.dto.ClassDto">
-		<field alias="ClassId" name="classId" />
-		<field alias="ClassName" name="className" />
-		<field alias="PromotionOrder" name="promotionOrder" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Medium"
-		type="com.myschool.clazz.dto.MediumDto">
-		<field alias="MediumId" name="mediumId" />
-		<field alias="Description" name="description" />
-	</object-xml-mapping>
-	<object-xml-mapping name="RegisteredClass"
-		type="com.myschool.clazz.dto.RegisteredClassDto">
-		<field alias="ClassId" name="classId" />
-		<field alias="Class" name="classDto" type="com.myschool.clazz.dto.ClassDto" />
-		<field alias="Medium" name="medium" type="com.myschool.clazz.dto.MediumDto" />
-		<field alias="Section" name="section" type="com.myschool.clazz.dto.SectionDto" />
-		<field alias="School" name="school" type="com.myschool.school.dto.SchoolDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="RegisteredSubject"
-		type="com.myschool.clazz.dto.RegisteredSubjectDto">
-		<field alias="SubjectId" name="subjectId" />
-		<field alias="Subject" name="subject" type="com.myschool.clazz.dto.SubjectDto" />
-		<field alias="RegisteredClass" name="registeredClass"
-			type="com.myschool.clazz.dto.RegisteredClassDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Section"
-		type="com.myschool.clazz.dto.SectionDto">
-		<field alias="SectionId" name="sectionId" />
-		<field alias="SectionName" name="sectionName" />
-	</object-xml-mapping>
-	<object-xml-mapping name="SubjectClass"
-		type="com.myschool.clazz.dto.SubjectClassDto">
-		<field alias="SubjectClassId" name="subjectClassId" />
-		<field alias="Subject" name="subject" type="com.myschool.clazz.dto.SubjectDto" />
-		<field alias="RegisteredClass" name="registeredClass"
-			type="com.myschool.clazz.dto.RegisteredClassDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Subject"
-		type="com.myschool.clazz.dto.SubjectDto">
-		<field alias="SubjectId" name="subjectId" />
-		<field alias="SubjectName" name="subjectName" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Document"
-		type="com.myschool.common.dto.DocumentDto">
-		<field alias="DocumentId" name="documentId" />
-		<field alias="Name" name="name" />
-		<field alias="Description" name="description" />
-		<field alias="ApplicabilityForEmployee" name="applicabilityForEmployee"
-			type="com.myschool.common.constants.DocumentApplicability" />
-		<field alias="ApplicabilityForStudent" name="applicabilityForStudent"
-			type="com.myschool.common.constants.DocumentApplicability" />
-	</object-xml-mapping>
-	<object-xml-mapping name="DocumentSearchCriteria"
-		type="com.myschool.common.dto.DocumentSearchCriteria">
-		<field alias="ApplicableFor" name="applicableFor"
-			type="com.myschool.user.constants.UserType" />
-		<field alias="DocumentApplicability" name="documentApplicability"
-			type="com.myschool.common.constants.DocumentApplicability" />
-	</object-xml-mapping>
-	<object-xml-mapping name="FamilyMember"
-		type="com.myschool.common.dto.FamilyMemberDto">
-		<field alias="FamilyMemberId" name="familyMemberId" />
-		<field alias="Relationship" name="relationship"
-			type="com.myschool.common.dto.Relationship" />
-		<field alias="Name" name="name" />
-		<field alias="Occupation" name="occupation" />
-		<field alias="MobileNumber" name="mobileNumber" />
-		<field alias="EmailId" name="emailId" />
-		<field alias="AvailSMS" name="availSMS" />
-		<field alias="AvailEmail" name="availEmail" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Person"
-		type="com.myschool.common.dto.Person">
-		<field alias="FirstName" name="firstName" />
-		<field alias="MiddleName" name="middleName" />
-		<field alias="LastName" name="lastName" />
-		<field alias="EmailId" name="emailId" />
-		<field alias="MobileNumber" name="mobileNumber" />
-	</object-xml-mapping>
-	<object-xml-mapping name="PersonalDetails"
-		type="com.myschool.common.dto.PersonalDetailsDto">
-		<field alias="FirstName" name="firstName" />
-		<field alias="MiddleName" name="middleName" />
-		<field alias="LastName" name="lastName" />
-		<field alias="Gender" name="gender" />
-		<field alias="DateOfBirth" name="dateOfBirth" />
-		<field alias="Religion" name="religion" />
-		<field alias="Caste" name="caste" />
-		<field alias="Nationality" name="nationality" />
-		<field alias="MotherTongue" name="motherTongue" />
-		<field alias="PermanentAddress" name="permanentAddress" />
-		<field alias="CorrespondenceAddress" name="correspondenceAddress" />
-		<field alias="MobileNumber" name="mobileNumber" />
-		<field alias="IdentificationMarks" name="identificationMarks" />
-		<field alias="BloodGroup" name="bloodGroup" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Relationship"
-		type="com.myschool.common.dto.Relationship">
-		<field alias="Code" name="code" />
-		<field alias="Name" name="name" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Result"
-		type="com.myschool.common.dto.ResultDto">
-		<field alias="SUCCESS" name="SUCCESS" />
-		<field alias="FAILURE" name="FAILURE" />
-		<field alias="Successful" name="successful" />
-		<field alias="StatusMessage" name="statusMessage" />
-		<field alias="ReferenceNumber" name="referenceNumber" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Status"
-		type="com.myschool.common.dto.StatusDto">
-		<field alias="SUCCESSFUL" name="SUCCESSFUL" />
-		<field alias="FAILED" name="FAILED" />
-		<field alias="StatusCode" name="statusCode" />
-		<field alias="StatusDescription" name="statusDescription" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Training"
-		type="com.myschool.common.dto.TrainingDto">
-		<field alias="TrainingName" name="trainingName" />
-		<field alias="Mandatory" name="mandatory" />
-		<field alias="Completed" name="completed" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Brochure"
-		type="com.myschool.download.dto.BrochureDto">
-		<field alias="BrochureName" name="brochureName" />
-		<field alias="BrochureType" name="brochureType" />
-		<field alias="LastUpdatedOn" name="lastUpdatedOn" />
-		<field alias="BrochureFile" name="brochureFile" type="java.io.File" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Designation"
-		type="com.myschool.employee.dto.DesignationDto">
-		<field alias="DesignationId" name="designationId" />
-		<field alias="Designation" name="designation" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeeContact"
-		type="com.myschool.employee.dto.EmployeeContact">
-		<field alias="PermanentAddress" name="permanentAddress" />
-		<field alias="PresentAddress" name="presentAddress" />
-		<field alias="PersonalMobileNumber" name="personalMobileNumber" />
-		<field alias="PersonalEmailId" name="personalEmailId" />
-		<field alias="EmergencyContactNumber" name="emergencyContactNumber" />
-		<field alias="EmergencyContactRelationship" name="emergencyContactRelationship"
-			type="com.myschool.common.dto.Relationship" />
-		<field alias="OfficeDeskPhoneNumber" name="officeDeskPhoneNumber" />
-		<field alias="OfficeDeskExtension" name="officeDeskExtension" />
-		<field alias="OfficeMobileNumber" name="officeMobileNumber" />
-		<field alias="OfficeEmailId" name="officeEmailId" />
-		<field alias="Employee" name="employee"
-			type="com.myschool.employee.dto.EmployeeDto" />
-		<field alias="EmailNotificationTo" name="emailNotificationTo"
-			type="com.myschool.employee.constant.EmployeeNotificationTo" />
-		<field alias="SmsNotificationTo" name="smsNotificationTo"
-			type="com.myschool.employee.constant.EmployeeNotificationTo" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeeDocument"
-		type="com.myschool.employee.dto.EmployeeDocument">
-		<field alias="EmployeeDocumentId" name="employeeDocumentId" />
-		<field alias="Document" name="document"
-			type="com.myschool.common.dto.DocumentDto" />
-		<field alias="DocumentNumber" name="documentNumber" />
-		<field alias="DocumentExpiryDate" name="documentExpiryDate" />
-		<field alias="DocumentIssuedBy" name="documentIssuedBy" />
-		<field alias="Employee" name="employee"
-			type="com.myschool.employee.dto.EmployeeDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Employee"
-		type="com.myschool.employee.dto.EmployeeDto">
-		<field alias="EmployeeId" name="employeeId" />
-		<field alias="EmployeeNumber" name="employeeNumber" />
-		<field alias="ImageName" name="imageName" />
-		<field alias="FirstName" name="firstName" />
-		<field alias="MiddleName" name="middleName" />
-		<field alias="LastName" name="lastName" />
-		<field alias="Gender" name="gender" />
-		<field alias="DateOfBirth" name="dateOfBirth" />
-		<field alias="BloodGroup" name="bloodGroup" />
-		<field alias="Nationality" name="nationality" />
-		<field alias="MaritalStatus" name="maritalStatus" />
-		<field alias="WeddingDay" name="weddingDay" />
-		<field alias="EmployedAtBranch" name="employedAtBranch"
-			type="com.myschool.branch.dto.BranchDto" />
-		<field alias="Designation" name="designation"
-			type="com.myschool.employee.dto.DesignationDto" />
-		<field alias="EmploymentStatus" name="employmentStatus"
-			type="com.myschool.employee.dto.EmploymentStatus" />
-		<field alias="EmploymentStartDate" name="employmentStartDate" />
-		<field alias="EmploymentEndDate" name="employmentEndDate" />
-		<field alias="ReportingTo" name="reportingTo"
-			type="com.myschool.employee.dto.EmployeeDto" />
-		<field alias="Remarks" name="remarks" />
-		<field alias="EmployeeContact" name="employeeContact"
-			type="com.myschool.employee.dto.EmployeeContact" />
-		<field alias="EmployeeDocuments" name="employeeDocuments" type="java.util.List" />
-		<field alias="EmployeeEducations" name="employeeEducations"
-			type="java.util.List" />
-		<field alias="EmployeeExperiences" name="employeeExperiences"
-			type="java.util.List" />
-		<field alias="EmployeePromotions" name="employeePromotions"
-			type="java.util.List" />
-		<field alias="EmployeeSubjects" name="employeeSubjects" type="java.util.List" />
-		<field alias="Verified" name="verified" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeeEducation"
-		type="com.myschool.employee.dto.EmployeeEducation">
-		<field alias="EducationId" name="educationId" />
-		<field alias="Degree" name="degree" />
-		<field alias="Specialization" name="specialization" />
-		<field alias="YearOfGraduation" name="yearOfGraduation" />
-		<field alias="Percentage" name="percentage" />
-		<field alias="College" name="college" />
-		<field alias="University" name="university" />
-		<field alias="Employee" name="employee"
-			type="com.myschool.employee.dto.EmployeeDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeeExperience"
-		type="com.myschool.employee.dto.EmployeeExperience">
-		<field alias="ExperienceId" name="experienceId" />
-		<field alias="Employer" name="employer" />
-		<field alias="JobTitle" name="jobTitle" />
-		<field alias="FromDate" name="fromDate" />
-		<field alias="ToDate" name="toDate" />
-		<field alias="ExperieceInMonth" name="experieceInMonth" />
-		<field alias="Employee" name="employee"
-			type="com.myschool.employee.dto.EmployeeDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeePromotion"
-		type="com.myschool.employee.dto.EmployeePromotion">
-		<field alias="PromotionId" name="promotionId" />
-		<field alias="PriorDesignation" name="priorDesignation"
-			type="com.myschool.employee.dto.DesignationDto" />
-		<field alias="CurrentDesignation" name="currentDesignation"
-			type="com.myschool.employee.dto.DesignationDto" />
-		<field alias="EffectiveFrom" name="effectiveFrom" />
-		<field alias="Employee" name="employee"
-			type="com.myschool.employee.dto.EmployeeDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeeSearchCriteria"
-		type="com.myschool.employee.dto.EmployeeSearchCriteriaDto">
-		<field alias="EmployeeNumber" name="employeeNumber" />
-		<field alias="EmployeeName" name="employeeName" />
-		<field alias="DesignationId" name="designationId" />
-		<field alias="ReportingToEmployeeNumber" name="reportingToEmployeeNumber" />
-		<field alias="EmployedAtBranchCode" name="employedAtBranchCode" />
-		<field alias="EmploymentStatusId" name="employmentStatusId" />
-		<field alias="Gender" name="gender" />
-		<field alias="BloodGroup" name="bloodGroup" />
-		<field alias="ExperienceInMonthsMin" name="experienceInMonthsMin" />
-		<field alias="ExperienceInMonthsMax" name="experienceInMonthsMax" />
-		<field alias="DateOfBirthMin" name="dateOfBirthMin" />
-		<field alias="DateOfBirthMax" name="dateOfBirthMax" />
-		<field alias="EmploymentStartDateMin" name="employmentStartDateMin" />
-		<field alias="EmploymentStartDateMax" name="employmentStartDateMax" />
-		<field alias="VerifiedStatus" name="verifiedStatus" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmployeeSubject"
-		type="com.myschool.employee.dto.EmployeeSubjectDto">
-		<field alias="EmployeeSubjectId" name="employeeSubjectId" />
-		<field alias="Employee" name="employee"
-			type="com.myschool.employee.dto.EmployeeDto" />
-		<field alias="RegisteredSubject" name="registeredSubject"
-			type="com.myschool.clazz.dto.RegisteredSubjectDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="EmploymentStatus"
-		type="com.myschool.employee.dto.EmploymentStatus">
-		<field alias="StatusId" name="statusId" />
-		<field alias="Description" name="description" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Exam"
-		type="com.myschool.exam.dto.ExamDto">
-		<field alias="ExamId" name="examId" />
-		<field alias="ExamName" name="examName" />
-		<field alias="ExamDate" name="examDate" />
-		<field alias="ExamCompleted" name="examCompleted" />
-		<field alias="RegisteredClass" name="registeredClass"
-			type="com.myschool.clazz.dto.RegisteredClassDto" />
-		<field alias="SubjectExams" name="subjectExams" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ExamGrade"
-		type="com.myschool.exam.dto.ExamGradeDto">
-		<field alias="ExamGradeId" name="examGradeId" />
-		<field alias="GradeName" name="gradeName" />
-		<field alias="QualifyingPercentage" name="qualifyingPercentage" />
-	</object-xml-mapping>
-	<object-xml-mapping name="StudentExam"
-		type="com.myschool.exam.dto.StudentExamDto">
-		<field alias="StudentExamId" name="studentExamId" />
-		<field alias="ObtainedMarks" name="obtainedMarks" />
-		<field alias="SubjectExam" name="subjectExam"
-			type="com.myschool.exam.dto.SubjectExamDto" />
-		<field alias="Student" name="student"
-			type="com.myschool.student.dto.StudentDto" />
-		<field alias="SubjectExamId" name="subjectExamId" />
-	</object-xml-mapping>
-	<object-xml-mapping name="StudentExamsSummary"
-		type="com.myschool.exam.dto.StudentExamsSummaryDto">
-		<field alias="Student" name="student"
-			type="com.myschool.student.dto.StudentDto" />
-		<field alias="Exams" name="exams" type="java.util.List" />
-		<field alias="SubjectExams" name="subjectExams" type="java.util.List" />
-		<field alias="StudentSubjectExamMarks" name="studentSubjectExamMarks"
-			type="java.util.Map" />
-	</object-xml-mapping>
-	<object-xml-mapping name="StudentInExam"
-		type="com.myschool.exam.dto.StudentInExamDto">
-		<field alias="Student" name="student"
-			type="com.myschool.student.dto.StudentDto" />
-		<field alias="StudentExams" name="studentExams" type="java.util.List" />
-		<field alias="TotalMarks" name="totalMarks" />
-		<field alias="Percentage" name="percentage" />
-		<field alias="Grade" name="grade" />
-	</object-xml-mapping>
-	<object-xml-mapping name="SubjectExam"
-		type="com.myschool.exam.dto.SubjectExamDto">
-		<field alias="SubjectExamId" name="subjectExamId" />
-		<field alias="Exam" name="exam" type="com.myschool.exam.dto.ExamDto" />
-		<field alias="RegisteredSubject" name="registeredSubject"
-			type="com.myschool.clazz.dto.RegisteredSubjectDto" />
-		<field alias="MaximumMarks" name="maximumMarks" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Exim"
-		type="com.myschool.exim.dto.EximDto">
-		<field alias="EximPolicy" name="eximPolicy"
-			type="com.myschool.exim.constants.EximPolicy" />
-		<field alias="Description" name="description" />
-		<field alias="CanImport" name="canImport" />
-		<field alias="CanExport" name="canExport" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ExportStatus"
-		type="com.myschool.exim.dto.ExportStatusDto">
-		<field alias="ExportedFile" name="exportedFile" type="java.io.File" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ImportRecordStatus"
-		type="com.myschool.exim.dto.ImportRecordStatusDto">
-		<field alias="STATUS_UNPROCESSED" name="STATUS_UNPROCESSED" />
-		<field alias="STATUS_ADDED" name="STATUS_ADDED" />
-		<field alias="STATUS_UPDATED" name="STATUS_UPDATED" />
-		<field alias="STATUS_DELETED" name="STATUS_DELETED" />
-		<field alias="STATUS_INVALID_DATA" name="STATUS_INVALID_DATA" />
-		<field alias="STATUS_FAILED" name="STATUS_FAILED" />
-		<field alias="ACTION_CODE_SKIP" name="ACTION_CODE_SKIP" />
-		<field alias="ImportRecord" name="importRecord" />
-		<field alias="StatusCode" name="statusCode" />
-		<field alias="StatusDescription" name="statusDescription" />
-		<field alias="Content" name="content" type="java.lang.Object" />
-		<field alias="ActionCode" name="actionCode" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ImportStatus"
-		type="com.myschool.exim.dto.ImportStatusDto">
-		<field alias="SuccessfulImports" name="successfulImports" />
-		<field alias="FailedImports" name="failedImports" />
-		<field alias="ImportRecordStatusList" name="importRecordStatusList"
-			type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UploadFileTracker"
-		type="com.myschool.exim.dto.UploadFileTrackerDto">
-		<field alias="UploadFileId" name="uploadFileId" />
-		<field alias="UploadType" name="uploadType" />
-		<field alias="FileName" name="fileName" />
-		<field alias="UploadStatus" name="uploadStatus"
-			type="com.myschool.exim.constants.UploadStatus" />
-		<field alias="UploadStartTime" name="uploadStartTime" type="java.sql.Timestamp" />
-		<field alias="UploadEndTime" name="uploadEndTime" type="java.sql.Timestamp" />
-		<field alias="ProcessedRecords" name="processedRecords" />
-		<field alias="TotalRecords" name="totalRecords" />
-		<field alias="Remarks" name="remarks" />
-		<field alias="UploadFile" name="uploadFile" type="java.io.File" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UploadRecordTracker"
-		type="com.myschool.exim.dto.UploadRecordTrackerDto">
-		<field alias="UploadRecordId" name="uploadRecordId" />
-		<field alias="RecordNumber" name="recordNumber" />
-		<field alias="RecordData" name="recordData" />
-		<field alias="UploadStatus" name="uploadStatus"
-			type="com.myschool.exim.constants.UploadStatus" />
-		<field alias="Remarks" name="remarks" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UploadTracker"
-		type="com.myschool.exim.dto.UploadTrackerDto">
-		<field alias="TrackerId" name="trackerId" />
-		<field alias="UploadStatus" name="uploadStatus"
-			type="com.myschool.exim.constants.UploadStatus" />
-		<field alias="UploadTimestamp" name="uploadTimestamp" type="java.sql.Timestamp" />
-		<field alias="ProcessedFiles" name="processedFiles" />
-		<field alias="TotalFiles" name="totalFiles" />
-		<field alias="UploadedBy" name="uploadedBy" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Axis"
-		type="com.myschool.graph.dto.AxisDto">
-		<field alias="Label" name="label" />
-		<field alias="Markers" name="markers" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="LineChart"
-		type="com.myschool.graph.dto.LineChartDto">
-		<field alias="XAxis" name="XAxis" type="com.myschool.graph.dto.AxisDto" />
-		<field alias="YAxis" name="YAxis" type="com.myschool.graph.dto.AxisDto" />
-		<field alias="SeriesNames" name="seriesNames" type="java.util.List" />
-		<field alias="LineSeries" name="lineSeries" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="MessageDetail"
-		type="com.myschool.middleware.dto.MessageDetail">
-		<field alias="MessageId" name="messageId" />
-		<field alias="XmlContent" name="xmlContent" />
-		<field alias="EmailSubject" name="emailSubject" />
-		<field alias="XslTemplateBaseName" name="xslTemplateBaseName" />
-		<field alias="MessageEvent" name="messageEvent"
-			type="com.myschool.middleware.constants.MessageEvent" />
-		<field alias="NotificationMode" name="notificationMode"
-			type="com.myschool.notification.constants.NotificationMode" />
-		<field alias="Recipient" name="recipient" />
-		<field alias="MessageTracker" name="messageTracker"
-			type="com.myschool.middleware.dto.MessageTracker" />
-	</object-xml-mapping>
-	<object-xml-mapping name="MessageTracker"
-		type="com.myschool.middleware.dto.MessageTracker">
-		<field alias="TempFileId" name="tempFileId" />
-		<field alias="InputFile" name="inputFile" type="java.io.File" />
-		<field alias="OutputFile" name="outputFile" type="java.io.File" />
-	</object-xml-mapping>
-	<object-xml-mapping name="NotificationCriteria"
-		type="com.myschool.notification.dto.NotificationCriteriaDto">
-		<field alias="EndPoint" name="endPoint" />
-		<field alias="Mode" name="mode" />
-		<field alias="Type" name="type" />
-		<field alias="Status" name="status" />
-		<field alias="RequestDateMin" name="requestDateMin" />
-		<field alias="RequestDateMax" name="requestDateMax" />
-	</object-xml-mapping>
-	<object-xml-mapping name="NotificationDetail"
-		type="com.myschool.notification.dto.NotificationDetailDto">
-		<field alias="NotificationId" name="notificationId" />
-		<field alias="NotificationDetailSendTo" name="notificationDetailSendTo" />
-		<field alias="NotificationStatus" name="notificationStatus"
-			type="com.myschool.notification.constants.NotificationStatus" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Notification"
-		type="com.myschool.notification.dto.NotificationDto">
-		<field alias="NotificationId" name="notificationId" />
-		<field alias="NotificationEndPoint" name="notificationEndPoint"
-			type="com.myschool.notification.constants.NotificationEndPoint" />
-		<field alias="NotificationMode" name="notificationMode"
-			type="com.myschool.notification.constants.NotificationMode" />
-		<field alias="NotificationType" name="notificationType"
-			type="com.myschool.notification.constants.NotificationType" />
-		<field alias="NotificationStatus" name="notificationStatus"
-			type="com.myschool.notification.constants.NotificationStatus" />
-		<field alias="NotifyingIds" name="notifyingIds" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="NotificationTemplate"
-		type="com.myschool.notification.dto.NotificationTemplateDto">
-		<field alias="NotificationEndPoint" name="notificationEndPoint"
-			type="com.myschool.notification.constants.NotificationEndPoint" />
-		<field alias="NotificationMode" name="notificationMode"
-			type="com.myschool.notification.constants.NotificationMode" />
-		<field alias="NotificationType" name="notificationType"
-			type="com.myschool.notification.constants.NotificationType" />
-		<field alias="TemplateFile" name="templateFile" type="java.io.File" />
-		<field alias="TestFile" name="testFile" type="java.io.File" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Dataset"
-		type="com.myschool.report.dto.DatasetDto">
-		<field alias="PlotValue" name="plotValue" />
-		<field alias="XValue" name="xValue" />
-		<field alias="YValue" name="yValue" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ReportCriteria"
-		type="com.myschool.report.dto.ReportCriteria">
-		<field alias="ReportKey" name="reportKey"
-			type="com.myschool.report.constants.ReportKey" />
-		<field alias="ReportName" name="reportName" />
-		<field alias="ReportCriteriaTokens" name="reportCriteriaTokens"
-			type="java.util.List" />
-		<field alias="ReportCriteriaValues" name="reportCriteriaValues"
-			type="java.util.Map" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Report"
-		type="com.myschool.report.dto.ReportDto">
-		<field alias="ReportKey" name="reportKey" />
-		<field alias="ReportName" name="reportName" />
-		<field alias="CanAdminView" name="canAdminView" />
-		<field alias="CanEmployeeView" name="canEmployeeView" />
-		<field alias="CanStudentView" name="canStudentView" />
-		<field alias="ReportCriteriaTokens" name="reportCriteriaTokens"
-			type="java.util.List" />
-		<field alias="ReportParameters" name="reportParameters" type="java.util.Hashtable" />
-	</object-xml-mapping>
-	<object-xml-mapping name="School"
-		type="com.myschool.school.dto.SchoolDto">
-		<field alias="SchoolId" name="schoolId" />
-		<field alias="SchoolName" name="schoolName" />
-		<field alias="Address" name="address" />
-		<field alias="EmailId" name="emailId" />
-		<field alias="Branch" name="branch" type="com.myschool.branch.dto.BranchDto" />
-		<field alias="PrimaryPhoneNumber" name="primaryPhoneNumber" />
-		<field alias="SecondaryPhoneNumber" name="secondaryPhoneNumber" />
-		<field alias="FaxNumber" name="faxNumber" />
-		<field alias="MobileNumber" name="mobileNumber" />
-		<field alias="MapUrl" name="mapUrl" />
-		<field alias="Division" name="division"
-			type="com.myschool.branch.dto.DivisionDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="AdmissionStatus"
-		type="com.myschool.student.dto.AdmissionStatus">
-		<field alias="StatusId" name="statusId" />
-		<field alias="Description" name="description" />
-	</object-xml-mapping>
-	<object-xml-mapping name="StudentDocument"
-		type="com.myschool.student.dto.StudentDocument">
-		<field alias="StudentDocumentId" name="studentDocumentId" />
-		<field alias="Document" name="document"
-			type="com.myschool.common.dto.DocumentDto" />
-		<field alias="DocumentNumber" name="documentNumber" />
-		<field alias="DocumentExpiryDate" name="documentExpiryDate" />
-		<field alias="DocumentIssuedBy" name="documentIssuedBy" />
-		<field alias="Student" name="student"
-			type="com.myschool.student.dto.StudentDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Student"
-		type="com.myschool.student.dto.StudentDto">
-		<field alias="StudentId" name="studentId" />
-		<field alias="AdmissionNumber" name="admissionNumber" />
-		<field alias="DateOfJoining" name="dateOfJoining" />
-		<field alias="Remarks" name="remarks" />
-		<field alias="AdmissionStatus" name="admissionStatus"
-			type="com.myschool.student.dto.AdmissionStatus" />
-		<field alias="DocumentsSubmitted" name="documentsSubmitted"
-			type="java.util.List" />
-		<field alias="AwarenessTrainings" name="awarenessTrainings"
-			type="java.util.List" />
-		<field alias="RegisteredClass" name="registeredClassDto"
-			type="com.myschool.clazz.dto.RegisteredClassDto" />
-		<field alias="PersonalDetails" name="personalDetails"
-			type="com.myschool.common.dto.PersonalDetailsDto" />
-		<field alias="FamilyMembers" name="familyMembers" type="java.util.List" />
-		<field alias="Verified" name="verified" />
-		<field alias="ImageName" name="imageName" />
-	</object-xml-mapping>
-	<object-xml-mapping name="StudentPerformace"
-		type="com.myschool.student.dto.StudentPerformaceDto">
-		<field alias="Exam" name="exam" type="com.myschool.exam.dto.ExamDto" />
-		<field alias="StudentInExam" name="studentInExam"
-			type="com.myschool.exam.dto.StudentInExamDto" />
-	</object-xml-mapping>
-	<object-xml-mapping name="StudentSearchCriteria"
-		type="com.myschool.student.dto.StudentSearchCriteriaDto">
-		<field alias="BranchId" name="branchId" />
-		<field alias="DivisionId" name="divisionId" />
-		<field alias="SchoolId" name="schoolId" />
-		<field alias="ClassId" name="classId" />
-		<field alias="MediumId" name="mediumId" />
-		<field alias="SectionId" name="sectionId" />
-		<field alias="AdmissionNumber" name="admissionNumber" />
-		<field alias="StudentName" name="studentName" />
-		<field alias="Gender" name="gender" />
-		<field alias="Religion" name="religion" />
-		<field alias="BloodGroup" name="bloodGroup" />
-		<field alias="DateOfBirthMin" name="dateOfBirthMin" />
-		<field alias="DateOfBirthMax" name="dateOfBirthMax" />
-		<field alias="DateOfJoiningMin" name="dateOfJoiningMin" />
-		<field alias="DateOfJoiningMax" name="dateOfJoiningMax" />
-		<field alias="VerifiedStatus" name="verifiedStatus" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ChangePassword"
-		type="com.myschool.user.dto.ChangePasswordDto">
-		<field alias="UserId" name="userId" />
-		<field alias="CurrentPassword" name="currentPassword" />
-		<field alias="NewPassword" name="newPassword" />
-		<field alias="ConfirmedPassword" name="confirmedPassword" />
-	</object-xml-mapping>
-	<object-xml-mapping name="FunctionAccess"
-		type="com.myschool.user.dto.FunctionAccessDto">
-		<field alias="FunctionId" name="functionId" />
-		<field alias="FunctionName" name="functionName" />
-		<field alias="View" name="view" />
-		<field alias="Create" name="create" />
-		<field alias="Update" name="update" />
-		<field alias="Delete" name="delete" />
-		<field alias="AccessUrl" name="accessUrl" />
-		<field alias="IconUrl" name="iconUrl" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Login"
-		type="com.myschool.user.dto.LoginDto">
-		<field alias="Id" name="id" />
-		<field alias="LoginId" name="loginId" />
-		<field alias="Password" name="password" />
-		<field alias="RefUserId" name="refUserId" />
-		<field alias="UserType" name="userType"
-			type="com.myschool.user.constants.UserType" />
-		<field alias="UserPreference" name="userPreference"
-			type="com.myschool.user.dto.UserPreference" />
-		<field alias="UserStatistics" name="userStatistics"
-			type="com.myschool.user.dto.UserStatistics" />
-		<field alias="ModuleAccess" name="moduleAccess" type="java.util.List" />
-		<field alias="UserDetails" name="userDetails" type="java.lang.Object" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ModuleAccess"
-		type="com.myschool.user.dto.ModuleAccessDto">
-		<field alias="ModuleId" name="moduleId" />
-		<field alias="ModuleName" name="moduleName" />
-		<field alias="FunctionAccess" name="functionAccess" type="java.util.List" />
-		<field alias="ModuleAccessible" name="moduleAccessible" />
-		<field alias="AllView" name="allView" />
-		<field alias="AllCreate" name="allCreate" />
-		<field alias="AllUpdate" name="allUpdate" />
-		<field alias="AllDelete" name="allDelete" />
-		<field alias="AdminAccess" name="adminAccess" />
-		<field alias="EmployeeAccess" name="employeeAccess" />
-		<field alias="StudentAccess" name="studentAccess" />
-		<field alias="AccessUrl" name="accessUrl" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UserAccess"
-		type="com.myschool.user.dto.UserAccessDto">
-		<field alias="Function" name="function"
-			type="com.myschool.application.dto.FunctionDto" />
-		<field alias="View" name="view" />
-		<field alias="Create" name="create" />
-		<field alias="Update" name="update" />
-		<field alias="Delete" name="delete" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UserActivity"
-		type="com.myschool.user.dto.UserActivity">
-		<field alias="Module" name="module" />
-		<field alias="RequestUrl" name="requestUrl" />
-		<field alias="RequestedTime" name="requestedTime" type="java.util.Date" />
-		<field alias="ServiceLatency" name="serviceLatency" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UserContext"
-		type="com.myschool.user.dto.UserContext">
-		<field alias="Login" name="login" type="com.myschool.user.dto.LoginDto" />
-		<field alias="UserType" name="userType"
-			type="com.myschool.user.constants.UserType" />
-		<field alias="UserPreference" name="userPreference"
-			type="com.myschool.user.dto.UserPreference" />
-		<field alias="UserStatistics" name="userStatistics"
-			type="com.myschool.user.dto.UserStatistics" />
-		<field alias="ModuleAccess" name="moduleAccess" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UserPreference"
-		type="com.myschool.user.dto.UserPreference">
-		<field alias="UserId" name="userId" />
-		<field alias="AllowAds" name="allowAds" />
-		<field alias="RecordsPerPage" name="recordsPerPage" />
-		<field alias="UserTheme" name="userTheme"
-			type="com.myschool.user.constants.UserTheme" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UserSession"
-		type="com.myschool.user.dto.UserSession">
-		<field alias="SessionId" name="sessionId" />
-		<field alias="UserId" name="userId" />
-		<field alias="SessionStartTime" name="sessionStartTime" type="java.util.Date" />
-		<field alias="SessionEndTime" name="sessionEndTime" type="java.util.Date" />
-		<field alias="IpAddress" name="ipAddress" />
-		<field alias="BrowserName" name="browserName" />
-		<field alias="BrowserVersion" name="browserVersion" />
-		<field alias="Device" name="device" />
-		<field alias="ClientOS" name="clientOS" />
-		<field alias="DeviceInformation" name="deviceInformation" />
-		<field alias="BrowserInformation" name="browserInformation" />
-		<field alias="UserActivities" name="userActivities" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UserStatistics"
-		type="com.myschool.user.dto.UserStatistics">
-		<field alias="NumberOfVisits" name="numberOfVisits" />
-		<field alias="LastVisitOn" name="lastVisitOn" />
-	</object-xml-mapping>
-	<object-xml-mapping name="UserType"
-		type="com.myschool.user.dto.UserTypeDto">
-		<field alias="UserTypeId" name="userTypeId" />
-		<field alias="Description" name="description" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Users"
-		type="com.myschool.user.dto.UsersDto">
-		<field alias="Id" name="id" />
-		<field alias="UserName" name="userName" />
-		<field alias="Password" name="password" />
-		<field alias="RefUserId" name="refUserId" />
-		<field alias="UserType" name="userType"
-			type="com.myschool.user.constants.UserType" />
-		<field alias="DisplayName" name="displayName" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Agent"
-		type="com.myschool.infra.application.dto.AgentDto">
-		<field alias="AgentId" name="agentId" />
-		<field alias="ClassName" name="className" />
-		<field alias="ConfigFile" name="configFile" type="java.io.File" />
-	</object-xml-mapping>
-	<object-xml-mapping name="AppConfig"
-		type="com.myschool.infra.application.dto.AppConfigDto">
-		<field alias="Myschool" name="myschool"
-			type="com.myschool.infra.application.dto.MySchoolDto" />
-		<field alias="AgentDtos" name="agentDtos" type="java.util.List" />
-		<field alias="Features" name="features" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Command"
-		type="com.myschool.infra.application.dto.CommandDto">
-		<field alias="CommandName" name="commandName"
-			type="com.myschool.infra.application.constants.CommandName" />
-		<field alias="CommandArguements" name="commandArguements" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ConfigurationParameter"
-		type="com.myschool.infra.application.dto.ConfigurationParameterDto">
-		<field alias="Id" name="id" />
-		<field alias="Value" name="value" />
-	</object-xml-mapping>
-	<object-xml-mapping name="MySchool"
-		type="com.myschool.infra.application.dto.MySchoolDto">
-		<field alias="MySchoolName" name="mySchoolName" />
-		<field alias="BaseDir" name="baseDir" type="java.io.File" />
-		<field alias="WebUrl" name="webUrl" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Directory"
-		type="com.myschool.infra.filesystem.dto.DirectoryDto">
-		<field alias="Name" name="name" />
-		<field alias="Path" name="path" />
-		<field alias="File" name="file" type="java.io.File" />
-		<field alias="AbsenceCode" name="absenceCode"
-			type="com.myschool.infra.filesystem.dto.AbsenceCode" />
-		<field alias="Directories" name="directories" type="java.util.List" />
-		<field alias="Files" name="files" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="File"
-		type="com.myschool.infra.filesystem.dto.FileDto">
-		<field alias="Name" name="name" />
-		<field alias="File" name="file" type="java.io.File" />
-		<field alias="AbsenceCode" name="absenceCode"
-			type="com.myschool.infra.filesystem.dto.AbsenceCode" />
-	</object-xml-mapping>
-	<object-xml-mapping name="FileSystem"
-		type="com.myschool.infra.filesystem.dto.FileSystemDto">
-		<field alias="BaseDirectory" name="baseDirectory" type="java.io.File" />
-		<field alias="Directories" name="directories" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ImageResizingOption"
-		type="com.myschool.infra.image.dto.ImageResizingOptionDto">
-		<field alias="Width" name="width" />
-		<field alias="Height" name="height" />
-		<field alias="FolderName" name="folderName" />
-	</object-xml-mapping>
-	<object-xml-mapping name="Message"
-		type="com.myschool.infra.middleware.dto.MessageDto">
-		<field alias="NotificationEndPoint" name="notificationEndPoint"
-			type="com.myschool.notification.constants.NotificationEndPoint" />
-		<field alias="NotificationMode" name="notificationMode"
-			type="com.myschool.notification.constants.NotificationMode" />
-		<field alias="NotificationType" name="notificationType"
-			type="com.myschool.notification.constants.NotificationType" />
-		<field alias="ToPerson" name="toPerson" type="com.myschool.common.dto.Person" />
-		<field alias="CopyTo" name="copyTo" type="java.util.List" />
-		<field alias="MySchool" name="mySchool"
-			type="com.myschool.infra.application.dto.MySchoolDto" />
-		<field alias="OrganizationProfile" name="organizationProfile"
-			type="com.myschool.application.dto.OrganizationProfileDto" />
-		<field alias="Content" name="content" type="java.lang.Object" />
-	</object-xml-mapping>
-	<object-xml-mapping name="MessageQueue"
-		type="com.myschool.infra.middleware.dto.MessageQueue">
-		<field alias="QueueCategory" name="queueCategory"
-			type="com.myschool.infra.middleware.constants.QueueCategory" />
-		<field alias="Description" name="description" />
-		<field alias="Output" name="output" />
-		<field alias="Fail" name="fail" />
-		<field alias="Error" name="error" />
-	</object-xml-mapping>
-	<object-xml-mapping name="MqConfiguration"
-		type="com.myschool.infra.middleware.dto.MqConfiguration">
-		<field alias="MessageQueues" name="messageQueues" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ObjectXmlField"
-		type="com.myschool.infra.oxo.dto.ObjectXmlFieldDto">
-		<field alias="Name" name="name" />
-		<field alias="Type" name="type" />
-		<field alias="Alias" name="alias" />
-	</object-xml-mapping>
-	<object-xml-mapping name="ObjectXmlMapping"
-		type="com.myschool.infra.oxo.dto.ObjectXmlMappingDto">
-		<field alias="Name" name="name" />
-		<field alias="Type" name="type" />
-		<field alias="ObjectXmlFields" name="objectXmlFields" type="java.util.List" />
-	</object-xml-mapping>
-	<object-xml-mapping name="SchedulerConfig"
-		type="com.myschool.infra.scheduler.dto.SchedulerConfigDto">
-		<field alias="Name" name="name" />
-		<field alias="ClassName" name="className" />
-		<field alias="Year" name="year" />
-		<field alias="Month" name="month" />
-		<field alias="Date" name="date" />
-		<field alias="Hour" name="hour" />
-		<field alias="Minute" name="minute" />
-		<field alias="Second" name="second" />
-		<field alias="Days" name="days" />
-	</object-xml-mapping>
+    <object-xml-mapping name="Academic" type="com.myschool.academic.dto.AcademicDto">
+        <field alias="AcademicYearName" name="academicYearName"/>
+        <field alias="AcademicYearStartDate" name="academicYearStartDate"/>
+        <field alias="AcademicYearEndDate" name="academicYearEndDate"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="AcademicYearClosure" type="com.myschool.academic.dto.AcademicYearClosureDto">
+        <field alias="OrganizationProfile" name="organizationProfile" type="com.myschool.application.dto.OrganizationProfileDto"/>
+        <field alias="MySchoolProfile" name="mySchoolProfile" type="com.myschool.application.dto.MySchoolProfileDto"/>
+        <field alias="CurrentAcademic" name="currentAcademic" type="com.myschool.academic.dto.AcademicDto"/>
+        <field alias="NextAcademic" name="nextAcademic" type="com.myschool.academic.dto.AcademicDto"/>
+        <field alias="ExamGrades" name="examGrades" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="AyeProcessCriteria" type="com.myschool.academic.dto.AyeProcessCriteriaDto"/>
+    <object-xml-mapping name="Holiday" type="com.myschool.academic.dto.HolidayDto">
+        <field alias="HolidayId" name="holidayId"/>
+        <field alias="HolidayName" name="holidayName"/>
+        <field alias="StartDate" name="startDate"/>
+        <field alias="EndDate" name="endDate"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="HolidaySearchCriteria" type="com.myschool.academic.dto.HolidaySearchCriteria">
+        <field alias="AcademicYear" name="academicYear"/>
+        <field alias="StartDate" name="startDate"/>
+        <field alias="EndDate" name="endDate"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="CashPayment" type="com.myschool.apar.dto.CashPayment"/>
+    <object-xml-mapping name="ChequePayment" type="com.myschool.apar.dto.ChequePayment">
+        <field alias="ChequeNumber" name="chequeNumber"/>
+        <field alias="IssuingBanker" name="issuingBanker"/>
+        <field alias="CheckRealizationDate" name="checkRealizationDate"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="CreditCardPayment" type="com.myschool.apar.dto.CreditCardPayment">
+        <field alias="CardNumber" name="cardNumber"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeePay" type="com.myschool.apar.dto.EmployeePay">
+        <field alias="Payment" name="payment" type="com.myschool.apar.dto.Payment"/>
+        <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
+        <field alias="PayComponents" name="payComponents" type="java.util.List"/>
+        <field alias="Attendance" name="attendance" type="com.myschool.attendance.dto.AttendanceDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="FeeSummary" type="com.myschool.apar.dto.FeeSummary">
+        <field alias="TotalFeeToPay" name="totalFeeToPay"/>
+        <field alias="TotalFeePaid" name="totalFeePaid"/>
+        <field alias="TotalRemainingFeeToPay" name="totalRemainingFeeToPay"/>
+        <field alias="FeeTransactions" name="feeTransactions" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="FeeTransaction" type="com.myschool.apar.dto.FeeTransaction">
+        <field alias="Particulars" name="particulars"/>
+        <field alias="Ledger" name="ledger" type="com.myschool.apar.constants.Ledger"/>
+        <field alias="DueDate" name="dueDate"/>
+        <field alias="TransactionDate" name="transactionDate"/>
+        <field alias="Amount" name="amount"/>
+        <field alias="Payment" name="payment" type="com.myschool.apar.dto.Payment"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="PayComponent" type="com.myschool.apar.dto.PayComponent">
+        <field alias="Ledger" name="ledger" type="com.myschool.apar.constants.Ledger"/>
+        <field alias="ComponentName" name="componentName"/>
+        <field alias="Amount" name="amount"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Payment" type="com.myschool.apar.dto.Payment">
+        <field alias="AmountPaid" name="amountPaid"/>
+        <field alias="PaymentDate" name="paymentDate"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="DateValue" type="com.myschool.application.dto.DateValueDto">
+        <field alias="Date" name="date" type="java.util.Date"/>
+        <field alias="Value" name="value"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Feature" type="com.myschool.application.dto.FeatureDto">
+        <field alias="ImagePath" name="imagePath"/>
+        <field alias="Name" name="name"/>
+        <field alias="Description" name="description"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Function" type="com.myschool.application.dto.FunctionDto">
+        <field alias="FunctionId" name="functionId"/>
+        <field alias="FunctionName" name="functionName"/>
+        <field alias="Module" name="module" type="com.myschool.application.dto.ModuleDto"/>
+        <field alias="IconUrl" name="iconUrl"/>
+        <field alias="AccessUrl" name="accessUrl"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Issue" type="com.myschool.application.dto.IssueDto">
+        <field alias="IssueId" name="issueId"/>
+        <field alias="UserType" name="userType" type="com.myschool.user.constants.UserType"/>
+        <field alias="IssueStatus" name="issueStatus" type="com.myschool.application.constants.IssueStatus"/>
+        <field alias="Subject" name="subject"/>
+        <field alias="Description" name="description"/>
+        <field alias="ContactEmailId" name="contactEmailId"/>
+        <field alias="ReportedDate" name="reportedDate"/>
+        <field alias="ClosedDate" name="closedDate"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="IssueSearchCriteria" type="com.myschool.application.dto.IssueSearchCriteriaDto">
+        <field alias="UserType" name="userType" type="com.myschool.user.constants.UserType"/>
+        <field alias="IssueStatus" name="issueStatus" type="com.myschool.application.constants.IssueStatus"/>
+        <field alias="Subject" name="subject"/>
+        <field alias="Description" name="description"/>
+        <field alias="ContactEmailId" name="contactEmailId"/>
+        <field alias="ReportedDateMin" name="reportedDateMin"/>
+        <field alias="ReportedDateMax" name="reportedDateMax"/>
+        <field alias="ClosedDateMin" name="closedDateMin"/>
+        <field alias="ClosedDateMax" name="closedDateMax"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Module" type="com.myschool.application.dto.ModuleDto">
+        <field alias="ModuleId" name="moduleId"/>
+        <field alias="AdminAccess" name="adminAccess"/>
+        <field alias="EmployeeAccess" name="employeeAccess"/>
+        <field alias="StudentAccess" name="studentAccess"/>
+        <field alias="ModuleName" name="moduleName"/>
+        <field alias="AccessUrl" name="accessUrl"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="MySchoolProfile" type="com.myschool.application.dto.MySchoolProfileDto">
+        <field alias="EmailActive" name="emailActive"/>
+        <field alias="SmsActive" name="smsActive"/>
+        <field alias="EmailStudents" name="emailStudents"/>
+        <field alias="SmsStudents" name="smsStudents"/>
+        <field alias="EmailEmployees" name="emailEmployees"/>
+        <field alias="SmsEmployees" name="smsEmployees"/>
+        <field alias="AyeInProgress" name="ayeInProgress"/>
+        <field alias="UseMenuIcons" name="useMenuIcons"/>
+        <field alias="UseEmployeeSelfSubmit" name="useEmployeeSelfSubmit"/>
+        <field alias="UseStudentSelfSubmit" name="useStudentSelfSubmit"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="NumberNameValue" type="com.myschool.application.dto.NumberNameValueDto">
+        <field alias="Number" name="number"/>
+        <field alias="Name" name="name"/>
+        <field alias="Value" name="value"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="OrganizationProfile" type="com.myschool.application.dto.OrganizationProfileDto">
+        <field alias="OrganizationName" name="organizationName"/>
+        <field alias="CurrentAcademicYear" name="currentAcademicYear"/>
+        <field alias="Address" name="address"/>
+        <field alias="PhoneNumber" name="phoneNumber"/>
+        <field alias="FaxNumber" name="faxNumber"/>
+        <field alias="MapUrl" name="mapUrl"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Attendance" type="com.myschool.attendance.dto.AttendanceDto">
+        <field alias="AttendanceYear" name="attendanceYear"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="AttendanceProfile" type="com.myschool.attendance.dto.AttendanceProfileDto">
+        <field alias="AttendanceProfileId" name="attendanceProfileId"/>
+        <field alias="ProfileName" name="profileName"/>
+        <field alias="EffectiveAcademic" name="effectiveAcademic" type="com.myschool.academic.dto.AcademicDto"/>
+        <field alias="YearAttendance" name="yearAttendance" type="java.util.List"/>
+        <field alias="States" name="states" type="java.util.List"/>
+        <field alias="Regions" name="regions" type="java.util.List"/>
+        <field alias="Branches" name="branches" type="java.util.List"/>
+        <field alias="Schools" name="schools" type="java.util.List"/>
+        <field alias="RegisteredClasses" name="registeredClasses" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Day" type="com.myschool.attendance.dto.Day">
+        <field alias="Date" name="date"/>
+        <field alias="DayNumberInWeek" name="dayNumberInWeek"/>
+        <field alias="DayShortName" name="dayShortName"/>
+        <field alias="DayFullName" name="dayFullName"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="DayAttendance" type="com.myschool.attendance.dto.DayAttendance">
+        <field alias="INVALID" name="INVALID"/>
+        <field alias="DaysInDifference" name="daysInDifference"/>
+        <field alias="Day" name="day" type="com.myschool.attendance.dto.Day"/>
+        <field alias="AttendanceCode" name="attendanceCode" type="com.myschool.attendance.dto.AttendanceCode"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Leave" type="com.myschool.attendance.dto.LeaveDto">
+        <field alias="Type" name="type"/>
+        <field alias="StartDate" name="startDate"/>
+        <field alias="EndDate" name="endDate"/>
+        <field alias="NumberOfDays" name="numberOfDays"/>
+        <field alias="Comments" name="comments"/>
+        <field alias="LeaveStatus" name="leaveStatus" type="com.myschool.attendance.constants.LeaveStatus"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Month" type="com.myschool.attendance.dto.Month">
+        <field alias="Number" name="number"/>
+        <field alias="ShortName" name="shortName"/>
+        <field alias="FullName" name="fullName"/>
+        <field alias="Days" name="days" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="MonthAttendance" type="com.myschool.attendance.dto.MonthAttendance">
+        <field alias="MonthAttendanceId" name="monthAttendanceId"/>
+        <field alias="NumberOfGeneralHolidays" name="numberOfGeneralHolidays"/>
+        <field alias="NumberOfDeclaredHolidays" name="numberOfDeclaredHolidays"/>
+        <field alias="NumberOfLeaves" name="numberOfLeaves"/>
+        <field alias="NumberOfHalfDays" name="numberOfHalfDays"/>
+        <field alias="NumberOfPresents" name="numberOfPresents"/>
+        <field alias="NumberOfAbsents" name="numberOfAbsents"/>
+        <field alias="Month" name="month" type="com.myschool.attendance.dto.Month"/>
+        <field alias="DayAttendances" name="dayAttendances" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ReferenceAttendance" type="com.myschool.attendance.dto.ReferenceAttendanceDto">
+        <field alias="ReferenceAttendanceId" name="referenceAttendanceId"/>
+        <field alias="RegisteredClass" name="registeredClass" type="com.myschool.clazz.dto.RegisteredClassDto"/>
+        <field alias="Year" name="year"/>
+        <field alias="Month" name="month"/>
+        <field alias="DayAttendances" name="dayAttendances" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="StudentAttendance" type="com.myschool.attendance.dto.StudentAttendanceDto">
+        <field alias="Student" name="student" type="com.myschool.student.dto.StudentDto"/>
+        <field alias="Attendance" name="attendance" type="com.myschool.attendance.dto.AttendanceDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Year" type="com.myschool.attendance.dto.Year">
+        <field alias="Number" name="number"/>
+        <field alias="Months" name="months" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="YearAttendance" type="com.myschool.attendance.dto.YearAttendance">
+        <field alias="NumberOfAbsents" name="numberOfAbsents"/>
+        <field alias="NumberOfPresents" name="numberOfPresents"/>
+        <field alias="NumberOfGeneralHolidays" name="numberOfGeneralHolidays"/>
+        <field alias="NumberOfDeclaredHolidays" name="numberOfDeclaredHolidays"/>
+        <field alias="NumberOfHolidays" name="numberOfHolidays"/>
+        <field alias="NumberOfLeaves" name="numberOfLeaves"/>
+        <field alias="Year" name="year" type="com.myschool.attendance.dto.Year"/>
+        <field alias="MonthAttendances" name="monthAttendances" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Branch" type="com.myschool.branch.dto.BranchDto">
+        <field alias="BranchId" name="branchId"/>
+        <field alias="BranchCode" name="branchCode"/>
+        <field alias="Description" name="description"/>
+        <field alias="Address" name="address"/>
+        <field alias="EmailId" name="emailId"/>
+        <field alias="PhoneNumber" name="phoneNumber"/>
+        <field alias="MapUrl" name="mapUrl"/>
+        <field alias="Region" name="region" type="com.myschool.branch.dto.RegionDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Division" type="com.myschool.branch.dto.DivisionDto">
+        <field alias="DivisionId" name="divisionId"/>
+        <field alias="DivisionCode" name="divisionCode"/>
+        <field alias="Description" name="description"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Region" type="com.myschool.branch.dto.RegionDto">
+        <field alias="RegionId" name="regionId"/>
+        <field alias="RegionName" name="regionName"/>
+        <field alias="State" name="state" type="com.myschool.branch.dto.StateDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="State" type="com.myschool.branch.dto.StateDto">
+        <field alias="StateId" name="stateId"/>
+        <field alias="StateName" name="stateName"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Class" type="com.myschool.clazz.dto.ClassDto">
+        <field alias="ClassId" name="classId"/>
+        <field alias="ClassName" name="className"/>
+        <field alias="PromotionOrder" name="promotionOrder"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Medium" type="com.myschool.clazz.dto.MediumDto">
+        <field alias="MediumId" name="mediumId"/>
+        <field alias="Description" name="description"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="RegisteredClass" type="com.myschool.clazz.dto.RegisteredClassDto">
+        <field alias="ClassId" name="classId"/>
+        <field alias="Class" name="classDto" type="com.myschool.clazz.dto.ClassDto"/>
+        <field alias="Medium" name="medium" type="com.myschool.clazz.dto.MediumDto"/>
+        <field alias="Section" name="section" type="com.myschool.clazz.dto.SectionDto"/>
+        <field alias="School" name="school" type="com.myschool.school.dto.SchoolDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="RegisteredSubject" type="com.myschool.clazz.dto.RegisteredSubjectDto">
+        <field alias="SubjectId" name="subjectId"/>
+        <field alias="Subject" name="subject" type="com.myschool.clazz.dto.SubjectDto"/>
+        <field alias="RegisteredClass" name="registeredClass" type="com.myschool.clazz.dto.RegisteredClassDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Section" type="com.myschool.clazz.dto.SectionDto">
+        <field alias="SectionId" name="sectionId"/>
+        <field alias="SectionName" name="sectionName"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="SubjectClass" type="com.myschool.clazz.dto.SubjectClassDto">
+        <field alias="SubjectClassId" name="subjectClassId"/>
+        <field alias="Subject" name="subject" type="com.myschool.clazz.dto.SubjectDto"/>
+        <field alias="RegisteredClass" name="registeredClass" type="com.myschool.clazz.dto.RegisteredClassDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Subject" type="com.myschool.clazz.dto.SubjectDto">
+        <field alias="SubjectId" name="subjectId"/>
+        <field alias="SubjectName" name="subjectName"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Document" type="com.myschool.common.dto.DocumentDto">
+        <field alias="DocumentId" name="documentId"/>
+        <field alias="Name" name="name"/>
+        <field alias="Description" name="description"/>
+        <field alias="ApplicabilityForEmployee" name="applicabilityForEmployee" type="com.myschool.common.constants.DocumentApplicability"/>
+        <field alias="ApplicabilityForStudent" name="applicabilityForStudent" type="com.myschool.common.constants.DocumentApplicability"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="DocumentSearchCriteria" type="com.myschool.common.dto.DocumentSearchCriteria">
+        <field alias="ApplicableFor" name="applicableFor" type="com.myschool.user.constants.UserType"/>
+        <field alias="DocumentApplicability" name="documentApplicability" type="com.myschool.common.constants.DocumentApplicability"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="FamilyMember" type="com.myschool.common.dto.FamilyMemberDto">
+        <field alias="FamilyMemberId" name="familyMemberId"/>
+        <field alias="Relationship" name="relationship" type="com.myschool.common.dto.Relationship"/>
+        <field alias="Name" name="name"/>
+        <field alias="Occupation" name="occupation"/>
+        <field alias="MobileNumber" name="mobileNumber"/>
+        <field alias="EmailId" name="emailId"/>
+        <field alias="AvailSMS" name="availSMS"/>
+        <field alias="AvailEmail" name="availEmail"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Person" type="com.myschool.common.dto.Person">
+        <field alias="FirstName" name="firstName"/>
+        <field alias="MiddleName" name="middleName"/>
+        <field alias="LastName" name="lastName"/>
+        <field alias="EmailId" name="emailId"/>
+        <field alias="MobileNumber" name="mobileNumber"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="PersonalDetails" type="com.myschool.common.dto.PersonalDetailsDto">
+        <field alias="FirstName" name="firstName"/>
+        <field alias="MiddleName" name="middleName"/>
+        <field alias="LastName" name="lastName"/>
+        <field alias="Gender" name="gender"/>
+        <field alias="DateOfBirth" name="dateOfBirth"/>
+        <field alias="Religion" name="religion"/>
+        <field alias="Caste" name="caste"/>
+        <field alias="Nationality" name="nationality"/>
+        <field alias="MotherTongue" name="motherTongue"/>
+        <field alias="PermanentAddress" name="permanentAddress"/>
+        <field alias="CorrespondenceAddress" name="correspondenceAddress"/>
+        <field alias="MobileNumber" name="mobileNumber"/>
+        <field alias="IdentificationMarks" name="identificationMarks"/>
+        <field alias="BloodGroup" name="bloodGroup"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Relationship" type="com.myschool.common.dto.Relationship">
+        <field alias="Code" name="code"/>
+        <field alias="Name" name="name"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Result" type="com.myschool.common.dto.ResultDto">
+        <field alias="SUCCESS" name="SUCCESS"/>
+        <field alias="FAILURE" name="FAILURE"/>
+        <field alias="Successful" name="successful"/>
+        <field alias="StatusMessage" name="statusMessage"/>
+        <field alias="ReferenceNumber" name="referenceNumber"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Status" type="com.myschool.common.dto.StatusDto">
+        <field alias="SUCCESSFUL" name="SUCCESSFUL"/>
+        <field alias="FAILED" name="FAILED"/>
+        <field alias="StatusCode" name="statusCode"/>
+        <field alias="StatusDescription" name="statusDescription"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Training" type="com.myschool.common.dto.TrainingDto">
+        <field alias="TrainingName" name="trainingName"/>
+        <field alias="Mandatory" name="mandatory"/>
+        <field alias="Completed" name="completed"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Brochure" type="com.myschool.download.dto.BrochureDto">
+        <field alias="BrochureName" name="brochureName"/>
+        <field alias="BrochureType" name="brochureType"/>
+        <field alias="LastUpdatedOn" name="lastUpdatedOn"/>
+        <field alias="BrochureFile" name="brochureFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Designation" type="com.myschool.employee.dto.DesignationDto">
+        <field alias="DesignationId" name="designationId"/>
+        <field alias="Designation" name="designation"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeeContact" type="com.myschool.employee.dto.EmployeeContact">
+        <field alias="PermanentAddress" name="permanentAddress"/>
+        <field alias="PresentAddress" name="presentAddress"/>
+        <field alias="PersonalMobileNumber" name="personalMobileNumber"/>
+        <field alias="PersonalEmailId" name="personalEmailId"/>
+        <field alias="EmergencyContactNumber" name="emergencyContactNumber"/>
+        <field alias="EmergencyContactRelationship" name="emergencyContactRelationship" type="com.myschool.common.dto.Relationship"/>
+        <field alias="OfficeDeskPhoneNumber" name="officeDeskPhoneNumber"/>
+        <field alias="OfficeDeskExtension" name="officeDeskExtension"/>
+        <field alias="OfficeMobileNumber" name="officeMobileNumber"/>
+        <field alias="OfficeEmailId" name="officeEmailId"/>
+        <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
+        <field alias="EmailNotificationTo" name="emailNotificationTo" type="com.myschool.employee.constant.EmployeeNotificationTo"/>
+        <field alias="SmsNotificationTo" name="smsNotificationTo" type="com.myschool.employee.constant.EmployeeNotificationTo"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeeDocument" type="com.myschool.employee.dto.EmployeeDocument">
+        <field alias="EmployeeDocumentId" name="employeeDocumentId"/>
+        <field alias="Document" name="document" type="com.myschool.common.dto.DocumentDto"/>
+        <field alias="DocumentNumber" name="documentNumber"/>
+        <field alias="DocumentExpiryDate" name="documentExpiryDate"/>
+        <field alias="DocumentIssuedBy" name="documentIssuedBy"/>
+        <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Employee" type="com.myschool.employee.dto.EmployeeDto">
+        <field alias="EmployeeId" name="employeeId"/>
+        <field alias="EmployeeNumber" name="employeeNumber"/>
+        <field alias="ImageName" name="imageName"/>
+        <field alias="FirstName" name="firstName"/>
+        <field alias="MiddleName" name="middleName"/>
+        <field alias="LastName" name="lastName"/>
+        <field alias="Gender" name="gender"/>
+        <field alias="DateOfBirth" name="dateOfBirth"/>
+        <field alias="BloodGroup" name="bloodGroup"/>
+        <field alias="Nationality" name="nationality"/>
+        <field alias="MaritalStatus" name="maritalStatus"/>
+        <field alias="WeddingDay" name="weddingDay"/>
+        <field alias="EmployedAtBranch" name="employedAtBranch" type="com.myschool.branch.dto.BranchDto"/>
+        <field alias="Designation" name="designation" type="com.myschool.employee.dto.DesignationDto"/>
+        <field alias="EmploymentStatus" name="employmentStatus" type="com.myschool.employee.dto.EmploymentStatus"/>
+        <field alias="EmploymentStartDate" name="employmentStartDate"/>
+        <field alias="EmploymentEndDate" name="employmentEndDate"/>
+        <field alias="ReportingTo" name="reportingTo" type="com.myschool.employee.dto.EmployeeDto"/>
+        <field alias="Remarks" name="remarks"/>
+        <field alias="EmployeeContact" name="employeeContact" type="com.myschool.employee.dto.EmployeeContact"/>
+        <field alias="EmployeeDocuments" name="employeeDocuments" type="java.util.List"/>
+        <field alias="EmployeeEducations" name="employeeEducations" type="java.util.List"/>
+        <field alias="EmployeeExperiences" name="employeeExperiences" type="java.util.List"/>
+        <field alias="EmployeePromotions" name="employeePromotions" type="java.util.List"/>
+        <field alias="EmployeeSubjects" name="employeeSubjects" type="java.util.List"/>
+        <field alias="Verified" name="verified"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeeEducation" type="com.myschool.employee.dto.EmployeeEducation">
+        <field alias="EducationId" name="educationId"/>
+        <field alias="Degree" name="degree"/>
+        <field alias="Specialization" name="specialization"/>
+        <field alias="YearOfGraduation" name="yearOfGraduation"/>
+        <field alias="Percentage" name="percentage"/>
+        <field alias="College" name="college"/>
+        <field alias="University" name="university"/>
+        <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeeExperience" type="com.myschool.employee.dto.EmployeeExperience">
+        <field alias="ExperienceId" name="experienceId"/>
+        <field alias="Employer" name="employer"/>
+        <field alias="JobTitle" name="jobTitle"/>
+        <field alias="FromDate" name="fromDate"/>
+        <field alias="ToDate" name="toDate"/>
+        <field alias="ExperieceInMonth" name="experieceInMonth"/>
+        <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeePromotion" type="com.myschool.employee.dto.EmployeePromotion">
+        <field alias="PromotionId" name="promotionId"/>
+        <field alias="PriorDesignation" name="priorDesignation" type="com.myschool.employee.dto.DesignationDto"/>
+        <field alias="CurrentDesignation" name="currentDesignation" type="com.myschool.employee.dto.DesignationDto"/>
+        <field alias="EffectiveFrom" name="effectiveFrom"/>
+        <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeeSearchCriteria" type="com.myschool.employee.dto.EmployeeSearchCriteriaDto">
+        <field alias="EmployeeNumber" name="employeeNumber"/>
+        <field alias="EmployeeName" name="employeeName"/>
+        <field alias="DesignationId" name="designationId"/>
+        <field alias="ReportingToEmployeeNumber" name="reportingToEmployeeNumber"/>
+        <field alias="EmployedAtBranchCode" name="employedAtBranchCode"/>
+        <field alias="EmploymentStatusId" name="employmentStatusId"/>
+        <field alias="Gender" name="gender"/>
+        <field alias="BloodGroup" name="bloodGroup"/>
+        <field alias="ExperienceInMonthsMin" name="experienceInMonthsMin"/>
+        <field alias="ExperienceInMonthsMax" name="experienceInMonthsMax"/>
+        <field alias="DateOfBirthMin" name="dateOfBirthMin"/>
+        <field alias="DateOfBirthMax" name="dateOfBirthMax"/>
+        <field alias="EmploymentStartDateMin" name="employmentStartDateMin"/>
+        <field alias="EmploymentStartDateMax" name="employmentStartDateMax"/>
+        <field alias="VerifiedStatus" name="verifiedStatus"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmployeeSubject" type="com.myschool.employee.dto.EmployeeSubjectDto">
+        <field alias="EmployeeSubjectId" name="employeeSubjectId"/>
+        <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
+        <field alias="RegisteredSubject" name="registeredSubject" type="com.myschool.clazz.dto.RegisteredSubjectDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="EmploymentStatus" type="com.myschool.employee.dto.EmploymentStatus">
+        <field alias="StatusId" name="statusId"/>
+        <field alias="Description" name="description"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Exam" type="com.myschool.exam.dto.ExamDto">
+        <field alias="ExamId" name="examId"/>
+        <field alias="ExamName" name="examName"/>
+        <field alias="ExamDate" name="examDate"/>
+        <field alias="ExamCompleted" name="examCompleted"/>
+        <field alias="RegisteredClass" name="registeredClass" type="com.myschool.clazz.dto.RegisteredClassDto"/>
+        <field alias="SubjectExams" name="subjectExams" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ExamGrade" type="com.myschool.exam.dto.ExamGradeDto">
+        <field alias="ExamGradeId" name="examGradeId"/>
+        <field alias="GradeName" name="gradeName"/>
+        <field alias="QualifyingPercentage" name="qualifyingPercentage"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="StudentExam" type="com.myschool.exam.dto.StudentExamDto">
+        <field alias="StudentExamId" name="studentExamId"/>
+        <field alias="ObtainedMarks" name="obtainedMarks"/>
+        <field alias="SubjectExam" name="subjectExam" type="com.myschool.exam.dto.SubjectExamDto"/>
+        <field alias="Student" name="student" type="com.myschool.student.dto.StudentDto"/>
+        <field alias="SubjectExamId" name="subjectExamId"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="StudentExamsSummary" type="com.myschool.exam.dto.StudentExamsSummaryDto">
+        <field alias="Student" name="student" type="com.myschool.student.dto.StudentDto"/>
+        <field alias="Exams" name="exams" type="java.util.List"/>
+        <field alias="SubjectExams" name="subjectExams" type="java.util.List"/>
+        <field alias="StudentSubjectExamMarks" name="studentSubjectExamMarks" type="java.util.Map"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="StudentInExam" type="com.myschool.exam.dto.StudentInExamDto">
+        <field alias="Student" name="student" type="com.myschool.student.dto.StudentDto"/>
+        <field alias="StudentExams" name="studentExams" type="java.util.List"/>
+        <field alias="TotalMarks" name="totalMarks"/>
+        <field alias="Percentage" name="percentage"/>
+        <field alias="Grade" name="grade"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="SubjectExam" type="com.myschool.exam.dto.SubjectExamDto">
+        <field alias="SubjectExamId" name="subjectExamId"/>
+        <field alias="Exam" name="exam" type="com.myschool.exam.dto.ExamDto"/>
+        <field alias="RegisteredSubject" name="registeredSubject" type="com.myschool.clazz.dto.RegisteredSubjectDto"/>
+        <field alias="MaximumMarks" name="maximumMarks"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Exim" type="com.myschool.exim.dto.EximDto">
+        <field alias="EximPolicy" name="eximPolicy" type="com.myschool.exim.constants.EximPolicy"/>
+        <field alias="Description" name="description"/>
+        <field alias="CanImport" name="canImport"/>
+        <field alias="CanExport" name="canExport"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ExportStatus" type="com.myschool.exim.dto.ExportStatusDto">
+        <field alias="ExportedFile" name="exportedFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ImportRecordStatus" type="com.myschool.exim.dto.ImportRecordStatusDto">
+        <field alias="STATUS_UNPROCESSED" name="STATUS_UNPROCESSED"/>
+        <field alias="STATUS_ADDED" name="STATUS_ADDED"/>
+        <field alias="STATUS_UPDATED" name="STATUS_UPDATED"/>
+        <field alias="STATUS_DELETED" name="STATUS_DELETED"/>
+        <field alias="STATUS_INVALID_DATA" name="STATUS_INVALID_DATA"/>
+        <field alias="STATUS_FAILED" name="STATUS_FAILED"/>
+        <field alias="ACTION_CODE_SKIP" name="ACTION_CODE_SKIP"/>
+        <field alias="ImportRecord" name="importRecord"/>
+        <field alias="StatusCode" name="statusCode"/>
+        <field alias="StatusDescription" name="statusDescription"/>
+        <field alias="Content" name="content" type="java.lang.Object"/>
+        <field alias="ActionCode" name="actionCode"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ImportStatus" type="com.myschool.exim.dto.ImportStatusDto">
+        <field alias="SuccessfulImports" name="successfulImports"/>
+        <field alias="FailedImports" name="failedImports"/>
+        <field alias="ImportRecordStatusList" name="importRecordStatusList" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UploadFileTracker" type="com.myschool.exim.dto.UploadFileTrackerDto">
+        <field alias="UploadFileId" name="uploadFileId"/>
+        <field alias="UploadType" name="uploadType"/>
+        <field alias="FileName" name="fileName"/>
+        <field alias="UploadStatus" name="uploadStatus" type="com.myschool.exim.constants.UploadStatus"/>
+        <field alias="UploadStartTime" name="uploadStartTime" type="java.sql.Timestamp"/>
+        <field alias="UploadEndTime" name="uploadEndTime" type="java.sql.Timestamp"/>
+        <field alias="ProcessedRecords" name="processedRecords"/>
+        <field alias="TotalRecords" name="totalRecords"/>
+        <field alias="Remarks" name="remarks"/>
+        <field alias="UploadFile" name="uploadFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UploadRecordTracker" type="com.myschool.exim.dto.UploadRecordTrackerDto">
+        <field alias="UploadRecordId" name="uploadRecordId"/>
+        <field alias="RecordNumber" name="recordNumber"/>
+        <field alias="RecordData" name="recordData"/>
+        <field alias="UploadStatus" name="uploadStatus" type="com.myschool.exim.constants.UploadStatus"/>
+        <field alias="Remarks" name="remarks"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UploadTracker" type="com.myschool.exim.dto.UploadTrackerDto">
+        <field alias="TrackerId" name="trackerId"/>
+        <field alias="UploadStatus" name="uploadStatus" type="com.myschool.exim.constants.UploadStatus"/>
+        <field alias="UploadTimestamp" name="uploadTimestamp" type="java.sql.Timestamp"/>
+        <field alias="ProcessedFiles" name="processedFiles"/>
+        <field alias="TotalFiles" name="totalFiles"/>
+        <field alias="UploadedBy" name="uploadedBy"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Axis" type="com.myschool.graph.dto.AxisDto">
+        <field alias="Label" name="label"/>
+        <field alias="Markers" name="markers" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="LineChart" type="com.myschool.graph.dto.LineChartDto">
+        <field alias="XAxis" name="XAxis" type="com.myschool.graph.dto.AxisDto"/>
+        <field alias="YAxis" name="YAxis" type="com.myschool.graph.dto.AxisDto"/>
+        <field alias="SeriesNames" name="seriesNames" type="java.util.List"/>
+        <field alias="LineSeries" name="lineSeries" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="MessageDetail" type="com.myschool.middleware.dto.MessageDetail">
+        <field alias="MessageId" name="messageId"/>
+        <field alias="XmlContent" name="xmlContent"/>
+        <field alias="EmailSubject" name="emailSubject"/>
+        <field alias="XslTemplateBaseName" name="xslTemplateBaseName"/>
+        <field alias="MessageEvent" name="messageEvent" type="com.myschool.middleware.constants.MessageEvent"/>
+        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
+        <field alias="Recipient" name="recipient"/>
+        <field alias="MessageTracker" name="messageTracker" type="com.myschool.middleware.dto.MessageTracker"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="MessageTracker" type="com.myschool.middleware.dto.MessageTracker">
+        <field alias="TempFileId" name="tempFileId"/>
+        <field alias="InputFile" name="inputFile" type="java.io.File"/>
+        <field alias="OutputFile" name="outputFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="NotificationCriteria" type="com.myschool.notification.dto.NotificationCriteriaDto">
+        <field alias="EndPoint" name="endPoint"/>
+        <field alias="Mode" name="mode"/>
+        <field alias="Type" name="type"/>
+        <field alias="Status" name="status"/>
+        <field alias="RequestDateMin" name="requestDateMin"/>
+        <field alias="RequestDateMax" name="requestDateMax"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="NotificationDetail" type="com.myschool.notification.dto.NotificationDetailDto">
+        <field alias="NotificationId" name="notificationId"/>
+        <field alias="NotificationDetailSendTo" name="notificationDetailSendTo"/>
+        <field alias="NotificationStatus" name="notificationStatus" type="com.myschool.notification.constants.NotificationStatus"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Notification" type="com.myschool.notification.dto.NotificationDto">
+        <field alias="NotificationId" name="notificationId"/>
+        <field alias="NotificationEndPoint" name="notificationEndPoint" type="com.myschool.notification.constants.NotificationEndPoint"/>
+        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
+        <field alias="NotificationType" name="notificationType" type="com.myschool.notification.constants.NotificationType"/>
+        <field alias="NotificationStatus" name="notificationStatus" type="com.myschool.notification.constants.NotificationStatus"/>
+        <field alias="NotifyingIds" name="notifyingIds" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="NotificationTemplate" type="com.myschool.notification.dto.NotificationTemplateDto">
+        <field alias="NotificationEndPoint" name="notificationEndPoint" type="com.myschool.notification.constants.NotificationEndPoint"/>
+        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
+        <field alias="NotificationType" name="notificationType" type="com.myschool.notification.constants.NotificationType"/>
+        <field alias="TemplateFile" name="templateFile" type="java.io.File"/>
+        <field alias="TestFile" name="testFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Dataset" type="com.myschool.report.dto.DatasetDto">
+        <field alias="PlotValue" name="plotValue"/>
+        <field alias="XValue" name="xValue"/>
+        <field alias="YValue" name="yValue"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ReportCriteria" type="com.myschool.report.dto.ReportCriteria">
+        <field alias="ReportKey" name="reportKey" type="com.myschool.report.constants.ReportKey"/>
+        <field alias="ReportName" name="reportName"/>
+        <field alias="ReportCriteriaTokens" name="reportCriteriaTokens" type="java.util.List"/>
+        <field alias="ReportCriteriaValues" name="reportCriteriaValues" type="java.util.Map"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Report" type="com.myschool.report.dto.ReportDto">
+        <field alias="ReportKey" name="reportKey"/>
+        <field alias="ReportName" name="reportName"/>
+        <field alias="CanAdminView" name="canAdminView"/>
+        <field alias="CanEmployeeView" name="canEmployeeView"/>
+        <field alias="CanStudentView" name="canStudentView"/>
+        <field alias="ReportCriteriaTokens" name="reportCriteriaTokens" type="java.util.List"/>
+        <field alias="ReportParameters" name="reportParameters" type="java.util.Hashtable"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="School" type="com.myschool.school.dto.SchoolDto">
+        <field alias="SchoolId" name="schoolId"/>
+        <field alias="SchoolName" name="schoolName"/>
+        <field alias="Address" name="address"/>
+        <field alias="EmailId" name="emailId"/>
+        <field alias="Branch" name="branch" type="com.myschool.branch.dto.BranchDto"/>
+        <field alias="PrimaryPhoneNumber" name="primaryPhoneNumber"/>
+        <field alias="SecondaryPhoneNumber" name="secondaryPhoneNumber"/>
+        <field alias="FaxNumber" name="faxNumber"/>
+        <field alias="MobileNumber" name="mobileNumber"/>
+        <field alias="MapUrl" name="mapUrl"/>
+        <field alias="Division" name="division" type="com.myschool.branch.dto.DivisionDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="AdmissionStatus" type="com.myschool.student.dto.AdmissionStatus">
+        <field alias="StatusId" name="statusId"/>
+        <field alias="Description" name="description"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="StudentDocument" type="com.myschool.student.dto.StudentDocument">
+        <field alias="StudentDocumentId" name="studentDocumentId"/>
+        <field alias="Document" name="document" type="com.myschool.common.dto.DocumentDto"/>
+        <field alias="DocumentNumber" name="documentNumber"/>
+        <field alias="DocumentExpiryDate" name="documentExpiryDate"/>
+        <field alias="DocumentIssuedBy" name="documentIssuedBy"/>
+        <field alias="Student" name="student" type="com.myschool.student.dto.StudentDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Student" type="com.myschool.student.dto.StudentDto">
+        <field alias="StudentId" name="studentId"/>
+        <field alias="AdmissionNumber" name="admissionNumber"/>
+        <field alias="DateOfJoining" name="dateOfJoining"/>
+        <field alias="Remarks" name="remarks"/>
+        <field alias="AdmissionStatus" name="admissionStatus" type="com.myschool.student.dto.AdmissionStatus"/>
+        <field alias="DocumentsSubmitted" name="documentsSubmitted" type="java.util.List"/>
+        <field alias="AwarenessTrainings" name="awarenessTrainings" type="java.util.List"/>
+        <field alias="RegisteredClass" name="registeredClassDto" type="com.myschool.clazz.dto.RegisteredClassDto"/>
+        <field alias="PersonalDetails" name="personalDetails" type="com.myschool.common.dto.PersonalDetailsDto"/>
+        <field alias="FamilyMembers" name="familyMembers" type="java.util.List"/>
+        <field alias="Verified" name="verified"/>
+        <field alias="ImageName" name="imageName"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="StudentPerformace" type="com.myschool.student.dto.StudentPerformaceDto">
+        <field alias="Exam" name="exam" type="com.myschool.exam.dto.ExamDto"/>
+        <field alias="StudentInExam" name="studentInExam" type="com.myschool.exam.dto.StudentInExamDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="StudentSearchCriteria" type="com.myschool.student.dto.StudentSearchCriteriaDto">
+        <field alias="BranchId" name="branchId"/>
+        <field alias="DivisionId" name="divisionId"/>
+        <field alias="SchoolId" name="schoolId"/>
+        <field alias="ClassId" name="classId"/>
+        <field alias="MediumId" name="mediumId"/>
+        <field alias="SectionId" name="sectionId"/>
+        <field alias="AdmissionNumber" name="admissionNumber"/>
+        <field alias="StudentName" name="studentName"/>
+        <field alias="Gender" name="gender"/>
+        <field alias="Religion" name="religion"/>
+        <field alias="BloodGroup" name="bloodGroup"/>
+        <field alias="DateOfBirthMin" name="dateOfBirthMin"/>
+        <field alias="DateOfBirthMax" name="dateOfBirthMax"/>
+        <field alias="DateOfJoiningMin" name="dateOfJoiningMin"/>
+        <field alias="DateOfJoiningMax" name="dateOfJoiningMax"/>
+        <field alias="VerifiedStatus" name="verifiedStatus"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ChangePassword" type="com.myschool.user.dto.ChangePasswordDto">
+        <field alias="UserId" name="userId"/>
+        <field alias="CurrentPassword" name="currentPassword"/>
+        <field alias="NewPassword" name="newPassword"/>
+        <field alias="ConfirmedPassword" name="confirmedPassword"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="FunctionAccess" type="com.myschool.user.dto.FunctionAccessDto">
+        <field alias="FunctionId" name="functionId"/>
+        <field alias="FunctionName" name="functionName"/>
+        <field alias="View" name="view"/>
+        <field alias="Create" name="create"/>
+        <field alias="Update" name="update"/>
+        <field alias="Delete" name="delete"/>
+        <field alias="AccessUrl" name="accessUrl"/>
+        <field alias="IconUrl" name="iconUrl"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Login" type="com.myschool.user.dto.LoginDto">
+        <field alias="Id" name="id"/>
+        <field alias="LoginId" name="loginId"/>
+        <field alias="Password" name="password"/>
+        <field alias="RefUserId" name="refUserId"/>
+        <field alias="UserType" name="userType" type="com.myschool.user.constants.UserType"/>
+        <field alias="UserPreference" name="userPreference" type="com.myschool.user.dto.UserPreference"/>
+        <field alias="UserStatistics" name="userStatistics" type="com.myschool.user.dto.UserStatistics"/>
+        <field alias="ModuleAccess" name="moduleAccess" type="java.util.List"/>
+        <field alias="UserDetails" name="userDetails" type="java.lang.Object"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ModuleAccess" type="com.myschool.user.dto.ModuleAccessDto">
+        <field alias="ModuleId" name="moduleId"/>
+        <field alias="ModuleName" name="moduleName"/>
+        <field alias="FunctionAccess" name="functionAccess" type="java.util.List"/>
+        <field alias="ModuleAccessible" name="moduleAccessible"/>
+        <field alias="AllView" name="allView"/>
+        <field alias="AllCreate" name="allCreate"/>
+        <field alias="AllUpdate" name="allUpdate"/>
+        <field alias="AllDelete" name="allDelete"/>
+        <field alias="AdminAccess" name="adminAccess"/>
+        <field alias="EmployeeAccess" name="employeeAccess"/>
+        <field alias="StudentAccess" name="studentAccess"/>
+        <field alias="AccessUrl" name="accessUrl"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UsageCount" type="com.myschool.user.dto.UsageCount">
+        <field alias="User" name="user" type="com.myschool.user.dto.UsersDto"/>
+        <field alias="UserStatistics" name="userStatistics" type="com.myschool.user.dto.UserStatistics"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UserAccess" type="com.myschool.user.dto.UserAccessDto">
+        <field alias="Function" name="function" type="com.myschool.application.dto.FunctionDto"/>
+        <field alias="View" name="view"/>
+        <field alias="Create" name="create"/>
+        <field alias="Update" name="update"/>
+        <field alias="Delete" name="delete"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UserActivity" type="com.myschool.user.dto.UserActivity">
+        <field alias="Module" name="module"/>
+        <field alias="RequestUrl" name="requestUrl"/>
+        <field alias="RequestedTime" name="requestedTime" type="java.util.Date"/>
+        <field alias="ServiceLatency" name="serviceLatency"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UserContext" type="com.myschool.user.dto.UserContext">
+        <field alias="Login" name="login" type="com.myschool.user.dto.LoginDto"/>
+        <field alias="UserType" name="userType" type="com.myschool.user.constants.UserType"/>
+        <field alias="UserPreference" name="userPreference" type="com.myschool.user.dto.UserPreference"/>
+        <field alias="UserStatistics" name="userStatistics" type="com.myschool.user.dto.UserStatistics"/>
+        <field alias="ModuleAccess" name="moduleAccess" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UserPreference" type="com.myschool.user.dto.UserPreference">
+        <field alias="UserId" name="userId"/>
+        <field alias="AllowAds" name="allowAds"/>
+        <field alias="RecordsPerPage" name="recordsPerPage"/>
+        <field alias="UserTheme" name="userTheme" type="com.myschool.user.constants.UserTheme"/>
+        <field alias="ColorSwatch" name="colorSwatch" type="com.myschool.user.constants.ColorSwatch"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UserSession" type="com.myschool.user.dto.UserSession">
+        <field alias="SessionId" name="sessionId"/>
+        <field alias="UserId" name="userId"/>
+        <field alias="SessionStartTime" name="sessionStartTime" type="java.util.Date"/>
+        <field alias="SessionEndTime" name="sessionEndTime" type="java.util.Date"/>
+        <field alias="IpAddress" name="ipAddress"/>
+        <field alias="BrowserName" name="browserName"/>
+        <field alias="BrowserVersion" name="browserVersion"/>
+        <field alias="Device" name="device"/>
+        <field alias="ClientOS" name="clientOS"/>
+        <field alias="DeviceInformation" name="deviceInformation"/>
+        <field alias="BrowserInformation" name="browserInformation"/>
+        <field alias="UserActivities" name="userActivities" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UserStatistics" type="com.myschool.user.dto.UserStatistics">
+        <field alias="NumberOfVisits" name="numberOfVisits"/>
+        <field alias="LastVisitOn" name="lastVisitOn"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="UserType" type="com.myschool.user.dto.UserTypeDto">
+        <field alias="UserTypeId" name="userTypeId"/>
+        <field alias="Description" name="description"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Users" type="com.myschool.user.dto.UsersDto">
+        <field alias="Id" name="id"/>
+        <field alias="UserName" name="userName"/>
+        <field alias="Password" name="password"/>
+        <field alias="RefUserId" name="refUserId"/>
+        <field alias="UserType" name="userType" type="com.myschool.user.constants.UserType"/>
+        <field alias="DisplayName" name="displayName"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Agent" type="com.myschool.infra.application.dto.AgentDto">
+        <field alias="AgentId" name="agentId"/>
+        <field alias="ClassName" name="className"/>
+        <field alias="ConfigFile" name="configFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="AppConfig" type="com.myschool.infra.application.dto.AppConfigDto">
+        <field alias="Myschool" name="myschool" type="com.myschool.infra.application.dto.MySchoolDto"/>
+        <field alias="AgentDtos" name="agentDtos" type="java.util.List"/>
+        <field alias="Features" name="features" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Command" type="com.myschool.infra.application.dto.CommandDto">
+        <field alias="CommandName" name="commandName" type="com.myschool.infra.application.constants.CommandName"/>
+        <field alias="CommandArguements" name="commandArguements" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ConfigurationParameter" type="com.myschool.infra.application.dto.ConfigurationParameterDto">
+        <field alias="Id" name="id"/>
+        <field alias="Value" name="value"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="MySchool" type="com.myschool.infra.application.dto.MySchoolDto">
+        <field alias="MySchoolName" name="mySchoolName"/>
+        <field alias="BaseDir" name="baseDir" type="java.io.File"/>
+        <field alias="WebUrl" name="webUrl"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Directory" type="com.myschool.infra.filesystem.dto.DirectoryDto">
+        <field alias="Name" name="name"/>
+        <field alias="Path" name="path"/>
+        <field alias="File" name="file" type="java.io.File"/>
+        <field alias="AbsenceCode" name="absenceCode" type="com.myschool.infra.filesystem.dto.AbsenceCode"/>
+        <field alias="Directories" name="directories" type="java.util.List"/>
+        <field alias="Files" name="files" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="File" type="com.myschool.infra.filesystem.dto.FileDto">
+        <field alias="Name" name="name"/>
+        <field alias="File" name="file" type="java.io.File"/>
+        <field alias="AbsenceCode" name="absenceCode" type="com.myschool.infra.filesystem.dto.AbsenceCode"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="FileSystem" type="com.myschool.infra.filesystem.dto.FileSystemDto">
+        <field alias="BaseDirectory" name="baseDirectory" type="java.io.File"/>
+        <field alias="Directories" name="directories" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ImageResizingOption" type="com.myschool.infra.image.dto.ImageResizingOptionDto">
+        <field alias="Width" name="width"/>
+        <field alias="Height" name="height"/>
+        <field alias="FolderName" name="folderName"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Message" type="com.myschool.infra.middleware.dto.MessageDto">
+        <field alias="NotificationEndPoint" name="notificationEndPoint" type="com.myschool.notification.constants.NotificationEndPoint"/>
+        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
+        <field alias="NotificationType" name="notificationType" type="com.myschool.notification.constants.NotificationType"/>
+        <field alias="ToPerson" name="toPerson" type="com.myschool.common.dto.Person"/>
+        <field alias="CopyTo" name="copyTo" type="java.util.List"/>
+        <field alias="MySchool" name="mySchool" type="com.myschool.infra.application.dto.MySchoolDto"/>
+        <field alias="OrganizationProfile" name="organizationProfile" type="com.myschool.application.dto.OrganizationProfileDto"/>
+        <field alias="Content" name="content" type="java.lang.Object"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="MessageQueue" type="com.myschool.infra.middleware.dto.MessageQueue">
+        <field alias="QueueCategory" name="queueCategory" type="com.myschool.infra.middleware.constants.QueueCategory"/>
+        <field alias="Description" name="description"/>
+        <field alias="Output" name="output"/>
+        <field alias="Fail" name="fail"/>
+        <field alias="Error" name="error"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="MqConfiguration" type="com.myschool.infra.middleware.dto.MqConfiguration">
+        <field alias="MessageQueues" name="messageQueues" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ObjectXmlField" type="com.myschool.infra.oxo.dto.ObjectXmlFieldDto">
+        <field alias="Name" name="name"/>
+        <field alias="Type" name="type"/>
+        <field alias="Alias" name="alias"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ObjectXmlMapping" type="com.myschool.infra.oxo.dto.ObjectXmlMappingDto">
+        <field alias="Name" name="name"/>
+        <field alias="Type" name="type"/>
+        <field alias="ObjectXmlFields" name="objectXmlFields" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="SchedulerConfig" type="com.myschool.infra.scheduler.dto.SchedulerConfigDto">
+        <field alias="Name" name="name"/>
+        <field alias="ClassName" name="className"/>
+        <field alias="Year" name="year"/>
+        <field alias="Month" name="month"/>
+        <field alias="Date" name="date"/>
+        <field alias="Hour" name="hour"/>
+        <field alias="Minute" name="minute"/>
+        <field alias="Second" name="second"/>
+        <field alias="Days" name="days"/>
+    </object-xml-mapping>
 </object-xml-mappings>
