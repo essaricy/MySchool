@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.download.dto.BrochureDto;
 import com.myschool.download.service.BrochureService;
+import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.web.application.constants.DownloadViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
@@ -85,11 +86,14 @@ public class DownloadController {
     public ModelAndView getBrochure(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         String brochureFileName = request.getParameter("brochureFileName");
+        System.out.println("brochureFileName " + brochureFileName);
         BrochureDto brochure = brochureService.getBrochure(brochureFileName);
         if (brochure != null) {
-            File file = brochure.getBrochureFile();
-            if (file != null) {
-               HttpUtil.writeToResponse(response, file);
+            File brochureFile = brochure.getBrochureFile();
+            System.out.println("brochureFile " + brochureFile);
+            if (brochureFile != null) {
+            	System.out.println("Add as attachment");
+            	HttpUtil.addAttachment(response, brochureFile, MimeTypes.APPLICATION_PDF, false);
             } 
         }
         return null;

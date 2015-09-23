@@ -1,7 +1,6 @@
 package com.myschool.web.framework.listener;
 
-import java.util.Date;
-import java.util.List;
+import java.text.MessageFormat;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -15,10 +14,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.application.dto.OrganizationProfileDto;
 import com.myschool.application.service.ProfileService;
-import com.myschool.common.exception.ServiceException;
-import com.myschool.user.dto.UserActivity;
-import com.myschool.user.dto.UserSession;
-import com.myschool.user.service.UserService;
+import com.myschool.user.constants.UserActivityConstant;
 import com.myschool.web.application.constants.WebConstants;
 
 /**
@@ -37,8 +33,6 @@ public class WebUserSessionListener implements HttpSessionListener {
 	/** The Constant LOGGER. */
 	private static final Logger LOGGER = Logger.getLogger(WebUserSessionListener.class);
 
-	/** The user service. */
-	private UserService userService;
 
 	/** The profile service. */
 	private ProfileService profileService;
@@ -57,16 +51,16 @@ public class WebUserSessionListener implements HttpSessionListener {
 		try {
 			HttpSession session = httpSessionEvent.getSession();
 			String sessionId = session.getId();
-			initialize(session.getServletContext());
-			LOGGER.debug("Session Created: " + sessionId);
+			LOGGER.info(MessageFormat.format(UserActivityConstant.USER_SESSION_CREATED, sessionId));
 
+			// Add the necessary attributes to the session
+			initialize(session.getServletContext());
 			OrganizationProfileDto organizationProfile = profileService.getOrganizationProfile();
 	        MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
 			session.setAttribute(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
 	        session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-	        LOGGER.debug("Added ORGANIZATION_PROFILE and MYSCHOOL_PROFILE to session: " + sessionId);
 		} catch (Exception exception) {
-			LOGGER.error("Unable to create user session. " + exception.getMessage(), exception);
+			LOGGER.fatal("Unable to create user session " + exception.getMessage(), exception);
 		}
 	}
 
@@ -75,47 +69,9 @@ public class WebUserSessionListener implements HttpSessionListener {
 	 */
 	@Override
 	public void sessionDestroyed(HttpSessionEvent httpSessionEvent) {
-		// TODO refreshing page after logout is throwing exception. fix it.
-		// update session end time to the user session in the database.
-		try {
-			HttpSession session = httpSessionEvent.getSession();
-			String sessionId = session.getId();
-			UserSession userSession = (UserSession) session.getAttribute(WebConstants.USER_SESSION);
-			if (userSession != null) {
-				// The session can be destroyed when a user ends the session or container ends the session.
-				// User ends the session when he logs out from the application.
-				// Container ends the session when the session is idle for maxInactiveInterval.
-				// So, instead of updating session end time to the current time, update it to the timestamp of last request.
-				List<UserActivity> userActivities = userSession.getUserActivities();
-				if (userActivities == null || userActivities.isEmpty()) {
-					userSession.setSessionEndTime(new Date(session.getLastAccessedTime()));
-				} else {
-					UserActivity userActivity = userActivities.get(0);
-					if (userActivity == null || userActivity.getRequestedTime() == null) {
-						userSession.setSessionEndTime(new Date(session.getLastAccessedTime()));
-					} else {
-						userSession.setSessionEndTime(userActivity.getRequestedTime());
-					}
-				}
-				// update all the user activities to the database.
-				initialize(session.getServletContext());
-				if (userService == null) {
-					throw new ServiceException("Cannot initialize userService object.");
-				}
-				boolean update = userService.update(userSession);
-				if (!update) {
-					throw new ServiceException("Unable to update user session. UserSession=" + userSession);
-				}
-				update = userService.createUserActivities(userSession.getSessionId(), userActivities);
-				if (!update) {
-					throw new ServiceException("Unable to update user activities. UserSession=" + userSession);
-				}
-				LOGGER.debug("User session and activities have been updated successfully for session " + sessionId);
-			}
-			LOGGER.debug("Session Destroyed: " + sessionId);
-		} catch (ServiceException serviceException) {
-			LOGGER.error("Unable to update WebUserActivityLog. " + serviceException.getMessage(), serviceException);
-		}
+		HttpSession session = httpSessionEvent.getSession();
+		String sessionId = session.getId();
+		LOGGER.info(MessageFormat.format(UserActivityConstant.USER_SESSION_DESTROYED, sessionId));
 	}
 
 	/**
@@ -125,16 +81,13 @@ public class WebUserSessionListener implements HttpSessionListener {
 	 */
 	public void initialize(ServletContext servletContext) {
 		try {
-			if (userService == null) {
-				userService = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).getBean(UserService.class);
-			}
 			if (profileService == null) {
 				profileService = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).getBean(ProfileService.class);
 			}
 		} catch (BeansException beansException) {
-			LOGGER.error("Unable to lookup bean from web application context. " + beansException.getMessage(), beansException);
+			LOGGER.fatal("Unable to lookup bean from web application context. " + beansException.getMessage(), beansException);
 		} catch (IllegalStateException illegalStateException) {
-			LOGGER.error("Unable to lookup bean from web application context. " + illegalStateException.getMessage(), illegalStateException);
+			LOGGER.fatal("Unable to lookup bean from web application context. " + illegalStateException.getMessage(), illegalStateException);
 		}
 	}
 

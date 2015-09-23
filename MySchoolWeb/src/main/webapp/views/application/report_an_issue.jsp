@@ -61,9 +61,9 @@ $(document).ready( function () {
     </td>
     <td width="60%" class="value">
       <select id="UserType" class="chosen-select">
-        <c:forEach var="UserType" items="${UserTypes}">
-          <c:if test="${UserType != UserType.ADMIN}">
-            <option value="${UserType.userTypeValue}">${UserType}</option>
+        <c:forEach var="userType" items="${UserTypes}">
+          <c:if test="${userType != UserType.ADMIN}">
+            <option value="${userType.userTypeValue}">${userType}</option>
           </c:if>
         </c:forEach>
       </select>

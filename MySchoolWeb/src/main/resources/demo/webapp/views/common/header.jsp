@@ -102,6 +102,11 @@ $(document).ajaxStart($.blockUI(
 	  var modelDialog = openDialog('<%=request.getContextPath()%>/views/common/credits.jsp', 'About Product', $(document).width()-20, $(document).height()-10);
   });
 });
+<c:if test="${USER_CONTEXT != null && USER_CONTEXT.userPreference != null}">
+  var recordsPerPage = ${USER_CONTEXT.userPreference.recordsPerPage};
+</c:if>
+var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPage;
+
 </script>
 <div id="goup"></div>
 <table cellpadding="0" cellspacing="0" class="headerTable" border="0">

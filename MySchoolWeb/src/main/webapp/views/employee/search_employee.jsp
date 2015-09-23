@@ -16,6 +16,7 @@ $(document).ready(function() {
     "bAutoWidth": false,
     "bRetrieve": true,
     "bDestroy": true,
+	"iDisplayLength": iDisplayLength,
     "sAjaxSource": '<%=request.getContextPath()%>/dummy/jsonList.htm?sid=' + new Date().getTime(),
     "aoColumnDefs": [ {
       "bSearchable": false,

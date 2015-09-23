@@ -1,5 +1,6 @@
 package com.myschool.web.user.controller;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,15 +16,16 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.service.ImageService;
 import com.myschool.application.service.ProfileService;
+import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.Encryptor;
 import com.myschool.common.util.MessageUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.service.StudentService;
+import com.myschool.user.constants.UserActivityConstant;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.LoginDto;
 import com.myschool.user.dto.UserContext;
-import com.myschool.user.dto.UserSession;
 import com.myschool.user.service.LoginService;
 import com.myschool.user.service.UserService;
 import com.myschool.user.util.ContextUtil;
@@ -85,13 +87,6 @@ public class LoginController {
         if (errorKey != null) {
             map.put(ViewDelegationController.ERROR_KEY, errorKey);
         }
-        //HttpSession session = HttpUtil.getExistingSession(request);
-        //OrganizationProfileDto organizationProfile = profileService.getOrganizationProfile();
-        //MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
-        //session.setAttribute(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
-        //session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-        //map.put(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-        //map.put(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
         return ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.LOGIN, map);
     }
 
@@ -105,66 +100,57 @@ public class LoginController {
      */
     @RequestMapping(value="login")
     public ModelAndView login(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
+            HttpServletResponse response) {
 
         Map<String, Object> map = new HashMap<String, Object>();
         ModelAndView modelAndView = null;
         UserContext context = null;
 
-        String loginId;
+        String loginId = null;
         String password;
-        try {
-            loginId = request.getParameter("loginId");
-            password = request.getParameter("password");
-
-            LoginDto login = new LoginDto();
-            login.setLoginId(loginId);
-            login.setPassword(Encryptor.getInstance().encrypt(password));
-            LoginDto loginDetails = loginService.login(login);
-
-            LOGGER.debug("loginDetails " + loginDetails);
-            HttpSession session = HttpUtil.getExistingSession(request);
-            UserType userType = loginDetails.getUserType();
-            LOGGER.debug("userType ===============> " + userType);
-            context = ContextUtil.createUserContext(loginDetails);
-            LOGGER.debug("context ===============> " + context);
-            if (userType == UserType.STUDENT) {
-                StudentDto student = (StudentDto) loginDetails.getUserDetails();
-                session.setAttribute(WebConstants.STUDENT, student);
-                map.put(WebConstants.STUDENT, student);
-            } else if (userType == UserType.EMPLOYEE) {
-                EmployeeDto employee = (EmployeeDto) loginDetails.getUserDetails();
-                session.setAttribute(WebConstants.EMPLOYEE, employee);
-                map.put(WebConstants.EMPLOYEE, employee);
-            }
-
-            try {
-				// Update session with the user id that is logged in here. Update to database.
-            	if (loginDetails != null) {
-            		UserSession userSession = (UserSession) session.getAttribute(WebConstants.USER_SESSION);
-            		LOGGER.debug("userSession " + userSession);
-            		if (userSession != null) {
-            			userSession.setUserId(loginDetails.getId());
-            			userService.update(userSession);
-            		}
-            	}
-			} catch (Exception exception) {
-				LOGGER.error(exception.getMessage(), exception);
-				exception.printStackTrace();
+        String sessionId = null;
+		try {
+			HttpSession session = HttpUtil.getExistingSession(request);
+			sessionId = session.getId();
+			loginId = request.getParameter("loginId");
+			password = request.getParameter("password");
+			LOGGER.info(sessionId + " trying to use Login ID " + loginId);
+			
+			LoginDto login = new LoginDto();
+			login.setLoginId(loginId);
+			login.setPassword(Encryptor.getInstance().encrypt(password));
+			LoginDto loginDetails = loginService.login(login);
+			if (loginDetails == null) {
+				LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_NOT_IN_SYSTEM, sessionId, loginId));
+				map.put("features", imageService.getFeatures());
+	            map.put(ViewDelegationController.ERROR_KEY, "User does not exist in the system");
+	            modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.LOGIN, map);
+			} else {
+				UserType userType = loginDetails.getUserType();
+				LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_SUCCESS, sessionId, loginId, userType));
+				context = ContextUtil.createUserContext(loginDetails);
+				if (userType == UserType.STUDENT) {
+					StudentDto student = (StudentDto) loginDetails.getUserDetails();
+					session.setAttribute(WebConstants.STUDENT, student);
+					map.put(WebConstants.STUDENT, student);
+				} else if (userType == UserType.EMPLOYEE) {
+					EmployeeDto employee = (EmployeeDto) loginDetails.getUserDetails();
+					session.setAttribute(WebConstants.EMPLOYEE, employee);
+					map.put(WebConstants.EMPLOYEE, employee);
+				}
+				session.setAttribute(WebConstants.USER_CONTEXT, context);
+	        	map.put(WebConstants.USER_CONTEXT, context);
+	        	// Return to dash board screen
+	            modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.DASH_BOARD, map);
 			}
-
-            //MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
-            session.setAttribute(WebConstants.USER_CONTEXT, context);
-            //session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-            map.put(WebConstants.USER_CONTEXT, context);
-            //map.put(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-            modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.DASH_BOARD, map);
-        } catch (Exception exception) {
-            map.put("features", imageService.getFeatures());
-            map.put(ViewDelegationController.ERROR_KEY, exception.getMessage());
+		} catch (ServiceException serviceException) {
+			String message = serviceException.getMessage();
+			LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_FAILED, sessionId, loginId, message));
+			map.put("features", imageService.getFeatures());
+            map.put(ViewDelegationController.ERROR_KEY, message);
             modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.LOGIN, map);
-        }
-        return modelAndView;
+		}
+		return modelAndView;
     }
 
     /**
@@ -178,11 +164,19 @@ public class LoginController {
     @RequestMapping(value="logout")
     public ModelAndView logout(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+    	String loginId = null;
+    	String sessionId = null;
         HttpSession session = HttpUtil.getExistingSession(request);
         if (session != null) {
+        	sessionId = session.getId();
+        	UserContext userContext = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
+        	if (userContext != null) {
+        		loginId = userContext.getLogin().getLoginId();
+        	}
         	session.removeAttribute(WebConstants.USER_CONTEXT);
             session.invalidate();
         }
+        LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGOUT_SUCCESS, sessionId, loginId));
         request.setAttribute(ViewDelegationController.ERROR_KEY, messageUtil.getMessage("logout.done"));
         return launchLogin(request, response);
     }
