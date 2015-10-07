@@ -238,7 +238,7 @@ INSERT INTO wavefire.FUNCTION (FUNCTION_ID, FUNCTION_NAME, REF_MODULE_ID, ACCESS
     (SELECT MODULE_ID FROM wavefire.REF_MODULE WHERE MODULE_NAME = 'Notice Board'), 'noticeBoard/upcomingExams.htm', 'clipboard_sign.png');
 INSERT INTO wavefire.FUNCTION (FUNCTION_ID, FUNCTION_NAME, REF_MODULE_ID, ACCESS_URL, ICON_URL) VALUES (
     (SELECT COALESCE(MAX(FUNCTION_ID)+1, 1) FROM wavefire.FUNCTION), 'View Gallery',
-    (SELECT MODULE_ID FROM wavefire.REF_MODULE WHERE MODULE_NAME = 'Notice Board'), 'noticeBoard/gallery.htm', 'slides.png');
+    (SELECT MODULE_ID FROM wavefire.REF_MODULE WHERE MODULE_NAME = 'Notice Board'), 'gallery/launchGallery.htm', 'slides.png');
 
 -- DOWNLOAD Functions
 INSERT INTO wavefire.FUNCTION (FUNCTION_ID, FUNCTION_NAME, REF_MODULE_ID, ACCESS_URL, ICON_URL) VALUES (

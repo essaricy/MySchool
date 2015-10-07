@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.myschool.common.constants.MySchoolConstant;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
@@ -405,6 +406,86 @@ public class StudentDaoImpl implements StudentDao {
             }
         }
         return students;
+    }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.student.dao.StudentDao#getNextAdmissionNumber(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String getNextAdmissionNumber(String admissionNumber, String type) throws DaoException {
+		String query = null;
+        String nextAdmissionNumber = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            if (type.equals(MySchoolConstant.VERIFIED)) {
+            	query = StudentDaoSql.SELECT_NEXT_VERIFIED_ADMISSION_NUMBER;
+            } else {
+            	query = StudentDaoSql.SELECT_NEXT_UNVERIFIED_ADMISSION_NUMBER;
+            }
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, admissionNumber);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	nextAdmissionNumber = resultSet.getString("ADMISSION_NUMBER");
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(),
+                    connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return nextAdmissionNumber;
+    }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.student.dao.StudentDao#getPreviousAdmissionNumber(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String getPreviousAdmissionNumber(String admissionNumber, String type) throws DaoException {
+		String query = null;
+        String previousAdmissionNumber = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            if (type.equals(MySchoolConstant.VERIFIED)) {
+            	query = StudentDaoSql.SELECT_PREVIOUS_VERIFIED_ADMISSION_NUMBER;
+            } else {
+            	query = StudentDaoSql.SELECT_PREVIOUS_UNVERIFIED_ADMISSION_NUMBER;
+            }
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, admissionNumber);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	previousAdmissionNumber = resultSet.getString("ADMISSION_NUMBER");
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(),
+                    connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return previousAdmissionNumber;
     }
 
 }

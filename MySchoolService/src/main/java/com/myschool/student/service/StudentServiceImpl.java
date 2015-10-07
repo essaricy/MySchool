@@ -97,6 +97,32 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /* (non-Javadoc)
+     * @see com.myschool.student.service.StudentService#getNext(java.lang.String, java.lang.String)
+     */
+    @Override
+    public StudentDto getNext(String admissionNumber, String type) throws ServiceException {
+        try {
+            return studentManager.getNext(admissionNumber, type);
+       } catch (DataException dataException) {
+           throw new ServiceException(dataException.getMessage(),
+                   dataException);
+       }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.student.service.StudentService#getPrevious(java.lang.String, java.lang.String)
+     */
+    @Override
+    public StudentDto getPrevious(String admissionNumber, String type) throws ServiceException {
+        try {
+            return studentManager.getPrevious(admissionNumber, type);
+       } catch (DataException dataException) {
+           throw new ServiceException(dataException.getMessage(),
+                   dataException);
+       }
+    }
+
+    /* (non-Javadoc)
      * @see com.myschool.service.interfaces.StudentService#updateStudentImage(java.lang.String, java.lang.String)
      */
     @Override

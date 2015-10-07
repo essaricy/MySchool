@@ -144,7 +144,7 @@ public class UploadController {
                 throw new InsufficientInputException("There is no data to upload.");
             }
             // Create a temp file to transfer multipart contents.
-            File imageTempFile = tempFileSystem.createTempFile(originalFilename);
+            File imageTempFile = tempFileSystem.createNewTempFile(originalFilename);
             multipartFile.transferTo(imageTempFile);
             imageTempFile = uploadService.createTempImage(module.trim(), imageTempFile);
             if (imageTempFile == null) {
@@ -418,4 +418,5 @@ public class UploadController {
         }
         return null;
     }
+
 }

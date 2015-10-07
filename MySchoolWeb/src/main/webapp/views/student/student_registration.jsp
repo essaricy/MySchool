@@ -21,25 +21,37 @@ jQuery(document).ready(function() {
   $(this).myAccordion({id: 'StudentAccordion'});
   $("#StudentAccordion").accordion( "option", "active", 0);
 
-  var destinationUrl = null;
-    if ($('#SEARCH_MODE').val() == 'VERIFIED') {
-      destinationUrl = '<%=request.getContextPath()%>/student/launchVerifiedStudentsSearch.htm';
-    } else if ($('#SEARCH_MODE').val() == 'UNVERIFIED') {
-      destinationUrl = '<%=request.getContextPath()%>/student/launchUnverifiedStudentsSearch.htm';
+  var searchUrl = null;
+  if ($('#SEARCH_MODE').val() == 'VERIFIED') {
+    searchUrl = '<%=request.getContextPath()%>/student/launchVerifiedStudentsSearch.htm';
+  } else if ($('#SEARCH_MODE').val() == 'UNVERIFIED') {
+    searchUrl = '<%=request.getContextPath()%>/student/launchUnverifiedStudentsSearch.htm';
   }
 
   $('#add').click(function () {
-    document.forms[0].action = '<%=request.getContextPath()%>/student/launch.htm';
+    document.forms[0].action='<%=request.getContextPath()%>/student/launch.htm';
     document.forms[0].submit();
   });
 
   $('#search').click(function () {
-    document.forms[0].action = destinationUrl;
+    document.forms[0].action=searchUrl;
+    document.forms[0].submit();
+  });
+
+  $('#previous').click(function () {
+    document.forms[0].action='<%=request.getContextPath()%>/student/getPreviousStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#SEARCH_MODE').val();;
+    document.forms[0].submit();
+  });
+
+  $('#next').click(function () {
+    document.forms[0].action='<%=request.getContextPath()%>/student/getNextStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#SEARCH_MODE').val();;
     document.forms[0].submit();
   });
 
   if ($('#StudentId').val() == '0') {
       $('#add').hide();
+	  $('#previous').hide();
+	  $('#next').hide();
       $('#uploadImage').attr('title', 'Add Picture');
       $('#print').hide();
   } else {
@@ -50,6 +62,8 @@ jQuery(document).ready(function() {
   }
   $('#add').tooltipster();
   $('#search').tooltipster();
+  $('#next').tooltipster();
+  $('#previous').tooltipster();
   $('#uploadImage').tooltipster();
   $('#save').tooltipster();
   $('#save_verify').tooltipster();
@@ -197,6 +211,18 @@ jQuery(document).ready(function() {
   <c:set var="StudentFamilyMembers" value="${Student.familyMembers}" />
 </c:if>
 
+<c:if test="${Student == null}">
+  <input type="hidden" id="Verified" value="NO" />
+</c:if>
+<c:if test="${Student != null}">
+  <c:if test="${Student.verified}">
+    <input type="hidden" id="Verified" value="YES" />
+  </c:if>
+  <c:if test="${ ! Student.verified}">
+    <input type="hidden" id="Verified" value="NO" />
+  </c:if>
+</c:if>
+
 <table cellpadding="2" width="90%" align="center" cellspacing="0" border="0">
   <caption class="dataTableCaption">
     Student Registration
@@ -205,21 +231,10 @@ jQuery(document).ready(function() {
   <tr>
     <td colspan="2" align="right" valign="top" style="padding-top: 8px;">
       <input type="hidden" id="ImageReferenceNumber" value="" />
-      <c:if test="${Student == null}">
-        <input type="hidden" id="Verified" value="NO" />
-      </c:if>
-      <c:if test="${Student != null}">
-        <c:if test="${Student.verified}">
-          <input type="hidden" id="Verified" value="YES" />
-        </c:if>
-        <c:if test="${ ! Student.verified}">
-          <input type="hidden" id="Verified" value="NO" />
-        </c:if>
-      </c:if>
-
       <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Create Student" />
       <img id="search" src="<%=request.getContextPath()%>/images/icons/magnifier.png" class="iconImage" title="Search Students" />
-      |
+	  <img id="previous" src="<%=request.getContextPath()%>/images/icons/back.png" class="iconImage" title="Previous Student" />
+	  <img id="next" src="<%=request.getContextPath()%>/images/icons/forward.png" class="iconImage" title="Next Student" />
       <img id="uploadImage" src="<%=request.getContextPath()%>/images/icons/picture_edit.png" class="iconImage" title="" />
       <img id="save" src="<%=request.getContextPath()%>/images/icons/save.png" class="iconImage" title="Save Student" />
       <img id="save_verify" src="<%=request.getContextPath()%>/images/icons/save_accept.png" class="iconImage" title="Save & Verify Student" />

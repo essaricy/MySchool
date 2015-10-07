@@ -524,7 +524,8 @@ var currentDataTable = null;
         if (anSelected == null) {
           info_ac(selectRowMessage);
         } else {
-          modelDialog = openReportDialog(getUrl(url, sendParams), title, width, height);
+          //modelDialog = openReportDialog(getUrl(url, sendParams), title, width, height);
+		  modelDialog = openDialog(getUrl(url, sendParams), title, width, height);
         }
       });
     }

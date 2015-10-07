@@ -17,6 +17,8 @@ public class Excludes {
         // screens that login does not require
         "/noticeBoard", "/findus", "/download", "/portal",
         "/announcement",
+        // Gallery related excludes
+        "/gallery/launchGallery.htm", "/gallery/jsonListGalleries.htm", "/gallery/jsonGalleryDetail.htm", "/gallery/getLatestGallery.htm",
         // Issue related excludes
         "/issue/launchIssue.htm", "/issue/doCreate.htm",
         // Portal excludes

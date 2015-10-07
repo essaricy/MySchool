@@ -97,4 +97,8 @@
         <put-attribute name="body" value="/views/application/slideshow.jsp" />
     </definition>
 
+	<definition name="manage_gallery_model" extends="model_layout">
+        <put-attribute name="body" value="/views/application/manage_gallery.jsp" />
+    </definition>
+
 </tiles-definitions>

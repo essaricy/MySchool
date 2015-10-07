@@ -58,14 +58,6 @@ public interface EmployeeDao {
     EmployeeDto get(int employeeId) throws DaoException;
 
     /**
-     * Gets the last employee number.
-     *
-     * @return the next employee number
-     * @throws DaoException the dao exception
-     */
-    String getLastEmployeeNumber() throws DaoException;
-
-    /**
      * Gets the all.
      *
      * @param employeeSearchCriteriaDto the employee search criteria dto
@@ -73,4 +65,33 @@ public interface EmployeeDao {
      * @throws DaoException the dao exception
      */
     List<EmployeeDto> getAll(EmployeeSearchCriteriaDto employeeSearchCriteriaDto) throws DaoException;
+
+    /**
+     * Gets the last employee number.
+     *
+     * @return the last employee number
+     * @throws DaoException the dao exception
+     */
+    String getLastEmployeeNumber() throws DaoException;
+
+    /**
+     * Gets the next employee number.
+     *
+     * @param employeeNumber the employee number
+     * @param type the type
+     * @return the next employee number
+     * @throws DaoException the dao exception
+     */
+    String getNextEmployeeNumber(String employeeNumber, String type) throws DaoException;
+
+	/**
+	 * Gets the previous employee number.
+	 *
+	 * @param employeeNumber the employee number
+	 * @param type the type
+	 * @return the previous employee number
+	 * @throws DaoException the dao exception
+	 */
+	String getPreviousEmployeeNumber(String employeeNumber, String type) throws DaoException;
+
 }

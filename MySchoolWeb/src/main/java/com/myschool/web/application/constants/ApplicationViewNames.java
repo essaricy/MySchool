@@ -14,9 +14,6 @@ public class ApplicationViewNames {
     /** The Constant LOCATE_US. */
     public static final String VIEW_LOCATE_US = "view_locate_us";
 
-    /** The Constant VIEW_GALLERY. */
-    public static final String VIEW_GALLERY = "view_gallery";
-
     /** The Constant MANAGE_PROFILE. */
     public static final String MANAGE_PROFILE = "manage_profile";
 
@@ -70,5 +67,11 @@ public class ApplicationViewNames {
 
     /** The Constant UPDATE_ISSUE. */
     public static final String UPDATE_ISSUE = "update_issue";
+
+    /** The Constant VIEW_GALLERY. */
+    public static final String VIEW_GALLERY = "view_gallery";
+
+    /** The Constant MANAGE_GALLERY. */
+    public static final String MANAGE_GALLERY = "manage_gallery";
 
 }

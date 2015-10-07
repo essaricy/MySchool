@@ -1,6 +1,7 @@
 package com.myschool.web.application.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myschool.application.dto.GalleryDetailDto;
+import com.myschool.application.service.GalleryService;
 import com.myschool.application.service.ImageService;
 import com.myschool.common.util.StringUtil;
 import com.myschool.infra.image.constants.ImageSize;
@@ -31,6 +34,10 @@ public class ImageController {
     @Autowired
     private ImageService imageService;
 
+    /** The gallery service. */
+    @Autowired
+    private GalleryService galleryService;
+
     /**
      * Slideshow.
      * 
@@ -46,11 +53,19 @@ public class ImageController {
         Map<String, Object> map = new HashMap<String, Object>();
         String galleryName = request.getParameter("GalleryName");
         if (!StringUtil.isNullOrBlank(galleryName)) {
-            galleryItemNames = imageService.getGalleryItemNames(galleryName);
+            GalleryDetailDto galleryDetail = galleryService.get(galleryName);
+            if (galleryDetail != null) {
+            	map.put("GalleryName", galleryName);
+            	List<GalleryDetailDto> galleryItems = galleryDetail.getGalleryItems();
+            	if (galleryItems != null && !galleryItems.isEmpty()) {
+            		galleryItemNames = new ArrayList<String>();
+            		for (GalleryDetailDto galleryItem : galleryItems) {
+            			galleryItemNames.add(galleryItem.getGalleryName());
+					}
+            	}
+            	map.put("GalleryItemNames", galleryItemNames);
+            }
         }
-        map.put("GalleryName", galleryName);
-        map.put("GalleryItemNames", galleryItemNames);
-
         String selectedItem = request.getParameter("Selection");
         if (StringUtil.isNullOrBlank(selectedItem)) {
             map.put("Selection", 0);
@@ -95,7 +110,7 @@ public class ImageController {
                 if (contentId.contains("?")) {
                     contentId= contentId.substring(0, contentId.indexOf("?"));
                 }
-                file = imageService.getGalleryItem(contentId, ImageSize.getImageType(imageSize));
+                file = galleryService.getGalleryItemFile(contentId, ImageSize.getImageType(imageSize));
             }
             if (file == null) {
                 file = imageService.getNoImage();

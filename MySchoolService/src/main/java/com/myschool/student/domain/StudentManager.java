@@ -12,6 +12,7 @@ import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.clazz.dao.ClassDao;
 import com.myschool.clazz.dao.RegisteredClassDao;
 import com.myschool.clazz.dto.RegisteredClassDto;
+import com.myschool.common.constants.MySchoolConstant;
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
@@ -78,6 +79,7 @@ public class StudentManager {
     @Autowired
     private ClassDao classDao;
 
+    /** The registered class dao. */
     @Autowired
     private RegisteredClassDao registeredClassDao;
 
@@ -119,6 +121,62 @@ public class StudentManager {
             if (student != null) {
                 student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
                 student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return student;
+    }
+
+    /**
+     * Gets the next.
+     *
+     * @param admissionNumber the admission number
+     * @param type the type
+     * @return the next
+     * @throws DataException the data exception
+     */
+    public StudentDto getNext(String admissionNumber, String type) throws DataException {
+        StudentDto student = null;
+        try {
+        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
+        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	}
+            String nextAdmissionNumber = studentDao.getNextAdmissionNumber(admissionNumber, type);
+            if (nextAdmissionNumber != null) {
+            	student = studentDao.get(nextAdmissionNumber);
+            	if (student != null) {
+            		student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
+            		student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
+            	}
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return student;
+    }
+
+    /**
+     * Gets the previous.
+     *
+     * @param admissionNumber the admission number
+     * @param type the type
+     * @return the previous
+     * @throws DataException the data exception
+     */
+    public StudentDto getPrevious(String admissionNumber, String type) throws DataException {
+    	StudentDto student = null;
+        try {
+        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
+        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	}
+            String previousAdmissionNumber = studentDao.getPreviousAdmissionNumber(admissionNumber, type);
+            if (previousAdmissionNumber != null) {
+            	student = studentDao.get(previousAdmissionNumber);
+            	if (student != null) {
+            		student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
+            		student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
+            	}
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);

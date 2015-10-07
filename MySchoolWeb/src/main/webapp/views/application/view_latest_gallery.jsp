@@ -10,48 +10,45 @@ $(document).ready(function() {
   $('#galleria').addClass(refSize);
 
   $.ajax({
-    url: "<%=request.getContextPath()%>/noticeBoard/getLatestGalleryName.htm",
+    url: "<%=request.getContextPath()%>/gallery/getLatestGallery.htm",
     data: {
       sid: new Date().getTime()
     },
     dataType: 'json',
     context: document.body,
     success: function(result) {
-      if (result == null || result.GalleryName == null || result.GalleryName == 'undefined') {
+      if (result == null || result.Gallery == null || result.Gallery == 'undefined') {
+        $('#GalleryName').text('Latest Gallery');
+        $('#Latest_Gallery_More').hide();
+        var errorMessage = $('<span class="mandatory">');
+        errorMessage.append('Watch out this space for galleries.');
+        $('#galleria').append(errorMessage);
+      } else {
+        var galleryName = result.Gallery.GalleryName;
+        var galleryItems = result.Gallery.GalleryItems;
+        if (galleryItems == null || galleryItems == 'undefined' || galleryItems.length == 0) {
           $('#GalleryName').text('Latest Gallery');
           $('#Latest_Gallery_More').hide();
           var errorMessage = $('<span class="mandatory">');
           errorMessage.append('Watch out this space for galleries.');
           $('#galleria').append(errorMessage);
-      } else {
-        var galleryName = result.GalleryName;
-        $('#GalleryName').text('Latest Gallery [' + galleryName + ']');
-        $.ajax({
-          url: "<%=request.getContextPath()%>/noticeBoard/jsonGalleryItemNames.htm",
-          data: {
-            GalleryName: galleryName,
-            sid: new Date().getTime()
-          },
-          dataType: 'json',
-          success: function(galleryItemNames) {
-            if (galleryItemNames != null) {
-              $.each(galleryItemNames.GalleryItemNames, function(index, value) {
-                var image = $('<img>');
-                image.attr('src', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=THUMBNAIL&contentId=' + galleryName + '/' + value);
-                var link = $('<a>');
-                link.attr('href', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=ORIGINAL&&contentId=' + galleryName + '/' + value);
-                link.append(image);
-
-                $('#galleria').append(link);
-                $('#galleria').width($(''+refSize).width()-10);
-                $('#galleria').height($(''+refSize).height()-34);
-                Galleria.loadTheme('<%=request.getContextPath()%>/widgets/galleria/themes/classic/galleria.classic.min.js');
-                // Initialize Galleria
-                Galleria.run('#galleria', {autoplay: true});
-             });
-            }
-          }
-        });
+        } else {
+		  $('#GalleryName').text('Latest Gallery [' + galleryName + ']');
+          $.each(galleryItems, function(index, galleryItem) {
+			var galleryItemName = galleryItem.GalleryName;
+           	var image = $('<img>');
+           	image.attr('src', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=THUMBNAIL&contentId=' + galleryName + '/' + galleryItemName);
+           	var link = $('<a>');
+           	link.attr('href', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=ORIGINAL&&contentId=' + galleryName + '/' + galleryItemName);
+           	link.append(image);
+           	$('#galleria').append(link);
+           	$('#galleria').width($(''+refSize).width()-10);
+           	$('#galleria').height($(''+refSize).height()-34);
+           	Galleria.loadTheme('<%=request.getContextPath()%>/widgets/galleria/themes/classic/galleria.classic.min.js');
+           	// Initialize Galleria
+           	Galleria.run('#galleria', {autoplay: true});
+       	  });
+        }
       }
     }
   });
@@ -59,7 +56,7 @@ $(document).ready(function() {
 </script>
 <div class="TileHeader" align="left">
   <strong id="GalleryName"></strong>
-  <a href="<%=request.getContextPath()%>/noticeBoard/gallery.htm"><img src="<%=request.getContextPath()%>/images/icons/more.png" title="Findout more..." style="cursor: pointer;"/></a>
+  <a href="<%=request.getContextPath()%>/gallery/launchGallery.htm"><img src="<%=request.getContextPath()%>/images/icons/more.png" title="Findout more..." style="cursor: pointer;"/></a>
 </div>
 <div class="TileContent" align="left">
   <div id="galleria"></div>

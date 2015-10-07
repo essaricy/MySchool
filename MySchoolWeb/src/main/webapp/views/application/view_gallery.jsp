@@ -15,12 +15,18 @@
   box-shadow: 5px 5px 5px #888;
   cursor: pointer;
 }
+.ImageCheckBox {
+  position:relative; right:5px; bottom:3px;
+}
 </style>
 
 <script type="text/javascript" charset="utf-8">
+var pin='<img src="<%=request.getContextPath()%>/images/icons/red_pin.png" class="iconImage" />';
 $(document).ready(function() {
   $('#ExpandAll').tooltipster();
   $('#CollapseAll').tooltipster();
+  $('#ManageGallery').tooltipster();
+  $('#NoGalleriesNote').hide();
 
   $('#ExpandAll').click(function() {
     $("#GalleryOutlook h3.expand").find('a').each(function() {
@@ -38,84 +44,68 @@ $(document).ready(function() {
     });
   });
 
+  $('#ManageGallery').click(function() {
+      var url='<%=request.getContextPath()%>/gallery/launchManageGallery.htm';
+      var title='Manage Galary';
+      var width=$(window).width()-100;
+      var height=$(window).height()-100;
+      openDialog(url, title, width, height);
+  });
+
   $.ajax({
-    url: "<%=request.getContextPath()%>/noticeBoard/jsonGalleryNames.htm",
+    url: "<%=request.getContextPath()%>/gallery/jsonListGalleries.htm",
     data: {
       sid: new Date().getTime()
     },
     dataType: 'json',
     context: document.body,
     success: function(result) {
-    if (result == null || result.GalleryNames == null || result.GalleryNames == 'undefined') {
-      $('#GalleryContainer').append('<p style="color:red;">Watch out this space for galleries.</p>');
-    } else {
-      $.each(result.GalleryNames, function(index, value) {
-        var galleryHeading = $('<h3 class="expand">');
-        galleryHeading.text(value);
-        var galleryThumbsContainer = $('<div class="collapse">');
-        showGalleryItems(value, galleryThumbsContainer, galleryHeading);
-        $('#GalleryOutlook').append(galleryHeading);
-        $('#GalleryOutlook').append(galleryThumbsContainer);
-      });
-      $("#GalleryOutlook h3.expand").toggler();
-      $("#GalleryOutlook h3.expand").each(function() {
-        $(this).click();
+      if (result == null || result.Galleries == null || result.Galleries == 'undefined' || result.Galleries.length == 0) {
+        $('#NoGalleriesNote').show();
+      } else {
+        $.each(result.Galleries, function(index, gallery) {
+          var galleryName = gallery.GalleryName;
+		  var pinned = gallery.Pinned;
+          var galleryHeading = $('<h3 class="expand">');
+          galleryHeading.text(galleryName);
+
+          var galleryThumbsContainer = $('<div class="collapse">');
+          showGalleryItems(galleryName, gallery.GalleryItems, galleryThumbsContainer, galleryHeading);
+
+          $('#GalleryOutlook').append(galleryHeading);
+          $('#GalleryOutlook').append(galleryThumbsContainer);
+          $(galleryHeading).toggler();
+          $(galleryHeading).click();
+		  if (pinned=='Y') {
+			  galleryHeading.find('a').append(" (" + gallery.GalleryItems.length + ")").append(pin);
+		  } else {
+			  galleryHeading.find('a').append(" (" + gallery.GalleryItems.length + ")");
+		  }
+        });
+      }
+    }
+  });
+
+  function showGalleryItems(galleryName, galleryItems, galleryThumbsContainer, galleryHeading) {
+    if (galleryItems != null && galleryItems.length != 0) {
+      $.each(galleryItems, function(index, galleryItem) {
+        var imageContainer = $('<span>');
+        imageContainer.attr('class', 'ImageContainer');
+
+        var galleryItemName = galleryItem.GalleryName;
+        var image = $('<img>');
+        image.attr('class', 'GallerySmallImage');
+        image.attr('src', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=PASSPORT&contentId=' + galleryName + '/' + galleryItemName);
+        image.click(function() {
+          openDialog('<%=request.getContextPath()%>/image/slideshow.htm?GalleryName=' + galleryName + '&Selection=' + (index++) + '&sid=' + new Date().getTime(), 'Slide Show of [ ' + galleryName + ' ]', $(window).width()-20, $(window).height()-20);
+        });
+        imageContainer.append(image);
+        imageContainer.fadeIn(3000);
+        galleryThumbsContainer.append(imageContainer);
       });
     }
-  }
-});
+ }
 
-function markAsLatest(galleryName) {
-  $.ajax({
-    url: "<%=request.getContextPath()%>/noticeBoard/markAsLatest.htm",
-      data: {
-        GalleryName: galleryName,
-        sid: new Date().getTime()
-      },
-      dataType: 'json',
-      context: document.body,
-      success: function(result) {
-        parseWholepageResponse(result, false);
-      }
-    });
-  }
-
-  function showGalleryItems(galleryName, galleryThumbsContainer, galleryHeading) {
-    $.ajax({
-      url: "<%=request.getContextPath()%>/noticeBoard/jsonGalleryItemNames.htm",
-      data: {
-        GalleryName: galleryName,
-        sid: new Date().getTime()
-      },
-      dataType: 'json',
-      context: document.body,
-      success: function(result) {
-        var count=0;
-        <c:if test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
-            var link = $('<a href="#" class="formLink">Mark This As Latest</a>');
-            link.click(function () {
-              markAsLatest(galleryName);
-            });
-            galleryThumbsContainer.append(link);
-            galleryThumbsContainer.append('<br/>');
-        </c:if>
-
-        $.each(result.GalleryItemNames, function(index, value) {
-          var image = $('<img>');
-          image.attr('class', 'GallerySmallImage');
-          image.attr('src', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=PASSPORT&contentId=' + galleryName + '/' + value);
-          image.click(function() {
-            openDialog('<%=request.getContextPath()%>/image/slideshow.htm?GalleryName=' + galleryName + /* '&GalleryItemNames='+ JSON.stringify(result.GalleryItemNames) + */ '&Selection=' + (index++) + '&sid=' + new Date().getTime(),
-            'Slide Show of [ ' + galleryName + ' ]', $(window).width()-20, $(window).height()-20);
-          });
-          galleryThumbsContainer.append(image);
-          count++;
-        });
-        //alert(count);
-        galleryHeading.find('a').append(" (" + count + ")");
-      }
-    });
-  }
   $(document).social({
     title: '${ORGANIZATION_PROFILE.organizationName} - Director'
   });
@@ -126,12 +116,20 @@ function markAsLatest(galleryName) {
 <p/>
 <div id="GalleryWrapper" class="expand-collapse-wrapper">
   <div class="dataTableCaption" style="text-align: center;">
-  Gallery
-  <img id="ExpandAll" src="<%=request.getContextPath()%>/images/icons/triangle_down.png" style="float: right;" class="iconImage" title="Expand All" />
-  <img id="CollapseAll" src="<%=request.getContextPath()%>/images/icons/triangle_up.png" style="float: right;" class="iconImage" title="Collapse All" />
+    Gallery
+    <img id="ExpandAll" src="<%=request.getContextPath()%>/images/icons/triangle_down.png" style="float: right;" class="iconImage" title="Expand All" />
+    <img id="CollapseAll" src="<%=request.getContextPath()%>/images/icons/triangle_up.png" style="float: right;" class="iconImage" title="Collapse All" />
+    <c:if test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
+    <img id="ManageGallery" src="<%=request.getContextPath()%>/images/icons/slides.png" style="float: right;" class="iconImage" title="Manage Gallery" />
+    </c:if>
   </div>
+
   <div id="GalleryOutlookContainer" class="expand-collapse-content">  
     <div id="GalleryOutlook" class="expand-collapse">
     </div>
+  </div>
+  <div id="NoGalleriesNote" class="error" style="padding-left: 5x; font-style:italic;">
+    <p>There are no galleries present at this time.</p>
+    <p>Keep checking this space for galleries.</p>
   </div>
 </div>

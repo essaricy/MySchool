@@ -12,7 +12,7 @@ import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
  */
 public class EmployeeDaoSql {
 
-    /** The SELECT_ALL. */
+	/** The SELECT_ALL. */
     public static String SELECT_ALL;
 
     /** The SELECT_BY_EMPLOYEE_NUMBER. */
@@ -20,9 +20,6 @@ public class EmployeeDaoSql {
 
     /** The SELECT_BY_EMPLOYEE_ID. */
     public static String SELECT_BY_EMPLOYEE_ID;
-
-    /** The SELECT_LAST_EMPLOYEE. */
-    public static String SELECT_LAST_EMPLOYEE;
 
     /** The INSERT. */
     public static String INSERT;
@@ -32,6 +29,24 @@ public class EmployeeDaoSql {
 
     /** The DELETE_BY_NUMBER. */
     public static String DELETE_BY_NUMBER;
+
+    /** The SELECT_ALL_EMPLOYEE_NUMBERS. */
+    private static String SELECT_ALL_EMPLOYEE_NUMBERS;
+    
+    /** The SELECT_LAST_EMPLOYEE. */
+    public static String SELECT_LAST_EMPLOYEE;
+    
+    /** The Constant SELECT_NEXT_VERIFIED_EMPLOYEE_NUMBER. */
+    public static final String SELECT_NEXT_VERIFIED_EMPLOYEE_NUMBER;
+    
+    /** The Constant SELECT_NEXT_UNVERIFIED_EMPLOYEE_NUMBER. */
+    public static final String SELECT_NEXT_UNVERIFIED_EMPLOYEE_NUMBER;
+    
+    /** The Constant SELECT_PREVIOUS_VERIFIED_EMPLOYEE_NUMBER. */
+    public static final String SELECT_PREVIOUS_VERIFIED_EMPLOYEE_NUMBER;
+    
+    /** The Constant SELECT_PREVIOUS_UNVERIFIED_EMPLOYEE_NUMBER. */
+    public static final String SELECT_PREVIOUS_UNVERIFIED_EMPLOYEE_NUMBER;
 
     static {
         StringBuffer buffer = new StringBuffer();
@@ -137,18 +152,57 @@ public class EmployeeDaoSql {
         UPDATE = buffer.toString();
         buffer.setLength(0);
 
-        buffer.append("SELECT EMPLOYEE_NUMBER ");
-        buffer.append("FROM EMPLOYEE ");
-        buffer.append("WHERE EMPLOYEE_ID = (SELECT MAX(EMPLOYEE_ID) FROM EMPLOYEE)");
-        SELECT_LAST_EMPLOYEE = buffer.toString();
-        buffer.setLength(0);
-
         buffer.append("DELETE FROM EMPLOYEE WHERE EMPLOYEE_NUMBER=?");
         DELETE_BY_NUMBER = buffer.toString();
         buffer.setLength(0);
 
-    }
+        buffer.append("SELECT ");
+        buffer.append("EMPLOYEE_NUMBER ");
+        buffer.append("FROM EMPLOYEE ");
+        SELECT_ALL_EMPLOYEE_NUMBERS = buffer.toString();
+        buffer.setLength(0);
 
+        buffer.append(SELECT_ALL_EMPLOYEE_NUMBERS);
+        buffer.append("WHERE EMPLOYEE_ID = (SELECT MAX(EMPLOYEE_ID) FROM EMPLOYEE)");
+        SELECT_LAST_EMPLOYEE = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_EMPLOYEE_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("EMPLOYEE_ID > (SELECT EMPLOYEE_ID FROM EMPLOYEE WHERE EMPLOYEE_NUMBER=?) ");
+        buffer.append("AND VERIFIED='N' ");
+        buffer.append("ORDER BY EMPLOYEE_ID ");
+        buffer.append("LIMIT 1");
+        SELECT_NEXT_UNVERIFIED_EMPLOYEE_NUMBER = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_EMPLOYEE_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("EMPLOYEE_ID > (SELECT EMPLOYEE_ID FROM EMPLOYEE WHERE EMPLOYEE_NUMBER=?) ");
+        buffer.append("AND VERIFIED='Y' ");
+        buffer.append("ORDER BY EMPLOYEE_ID ");
+        buffer.append("LIMIT 1");
+        SELECT_NEXT_VERIFIED_EMPLOYEE_NUMBER = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_EMPLOYEE_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("EMPLOYEE_ID < (SELECT EMPLOYEE_ID FROM EMPLOYEE WHERE EMPLOYEE_NUMBER=?) ");
+        buffer.append("AND VERIFIED='N' ");
+        buffer.append("ORDER BY EMPLOYEE_ID DESC ");
+        buffer.append("LIMIT 1");
+        SELECT_PREVIOUS_UNVERIFIED_EMPLOYEE_NUMBER = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_EMPLOYEE_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("EMPLOYEE_ID < (SELECT EMPLOYEE_ID FROM EMPLOYEE WHERE EMPLOYEE_NUMBER=?) ");
+        buffer.append("AND VERIFIED='Y' ");
+        buffer.append("ORDER BY EMPLOYEE_ID DESC ");
+        buffer.append("LIMIT 1");
+        SELECT_PREVIOUS_VERIFIED_EMPLOYEE_NUMBER = buffer.toString();
+        buffer.setLength(0);
+    }
 
     /**
      * Gets the employee search query.

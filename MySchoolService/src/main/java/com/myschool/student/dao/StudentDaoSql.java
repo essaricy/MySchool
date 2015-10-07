@@ -33,8 +33,23 @@ public class StudentDaoSql {
     /** The Constant TERMINATE_STUDENT. */
     public static final String TERMINATE_STUDENT;
 
+    /** The SELECT_ALL_ADMISSION_NUMBERS. */
+    private static String SELECT_ALL_ADMISSION_NUMBERS;
+
     /** The Constant SELECT_LAST_ADMISSION_NUMBER. */
     public static final String SELECT_LAST_ADMISSION_NUMBER;
+
+    /** The SELECT_NEXT_UNVERIFIED_ADMISSION_NUMBER. */
+    public static String SELECT_NEXT_UNVERIFIED_ADMISSION_NUMBER;
+
+    /** The SELECT_NEXT_VERIFIED_ADMISSION_NUMBER. */
+    public static String SELECT_NEXT_VERIFIED_ADMISSION_NUMBER;
+
+    /** The SELECT_PREVIOUS_UNVERIFIED_ADMISSION_NUMBER. */
+    public static String SELECT_PREVIOUS_UNVERIFIED_ADMISSION_NUMBER;
+
+    /** The SELECT_PREVIOUS_VERIFIED_ADMISSION_NUMBER. */
+    public static String SELECT_PREVIOUS_VERIFIED_ADMISSION_NUMBER;
 
     static {
         StringBuffer buffer = new StringBuffer();
@@ -170,8 +185,51 @@ public class StudentDaoSql {
         TERMINATE_STUDENT = buffer.toString();
         buffer.setLength(0);
 
-        buffer.append("SELECT ADMISSION_NUMBER FROM STUDENT WHERE STUDENT_ID = (SELECT MAX(STUDENT_ID) FROM STUDENT)");
+        buffer.append("SELECT ");
+        buffer.append("ADMISSION_NUMBER ");
+        buffer.append("FROM STUDENT ");
+        SELECT_ALL_ADMISSION_NUMBERS = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_ADMISSION_NUMBERS);
+        buffer.append("WHERE STUDENT_ID = (SELECT MAX(STUDENT_ID) FROM STUDENT)");
         SELECT_LAST_ADMISSION_NUMBER = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_ADMISSION_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("STUDENT_ID > (SELECT STUDENT_ID FROM STUDENT WHERE ADMISSION_NUMBER=?) ");
+        buffer.append("AND VERIFIED='N' ");
+        buffer.append("ORDER BY STUDENT_ID ");
+        buffer.append("LIMIT 1");
+        SELECT_NEXT_UNVERIFIED_ADMISSION_NUMBER = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_ADMISSION_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("STUDENT_ID > (SELECT STUDENT_ID FROM STUDENT WHERE ADMISSION_NUMBER=?) ");
+        buffer.append("AND VERIFIED='Y' ");
+        buffer.append("ORDER BY STUDENT_ID ");
+        buffer.append("LIMIT 1");
+        SELECT_NEXT_VERIFIED_ADMISSION_NUMBER = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_ADMISSION_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("STUDENT_ID < (SELECT STUDENT_ID FROM STUDENT WHERE ADMISSION_NUMBER=?) ");
+        buffer.append("AND VERIFIED='N' ");
+        buffer.append("ORDER BY STUDENT_ID DESC ");
+        buffer.append("LIMIT 1");
+        SELECT_PREVIOUS_UNVERIFIED_ADMISSION_NUMBER = buffer.toString();
+        buffer.setLength(0);
+
+        buffer.append(SELECT_ALL_ADMISSION_NUMBERS);
+        buffer.append("WHERE ");
+        buffer.append("STUDENT_ID < (SELECT STUDENT_ID FROM STUDENT WHERE ADMISSION_NUMBER=?) ");
+        buffer.append("AND VERIFIED='Y' ");
+        buffer.append("ORDER BY STUDENT_ID DESC ");
+        buffer.append("LIMIT 1");
+        SELECT_PREVIOUS_VERIFIED_ADMISSION_NUMBER = buffer.toString();
         buffer.setLength(0);
     }
 

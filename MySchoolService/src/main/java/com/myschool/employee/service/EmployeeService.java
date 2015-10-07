@@ -39,13 +39,6 @@ public interface EmployeeService extends Servicable<EmployeeDto> {
      */
     boolean delete(String employeeNumber) throws ServiceException;
 
-    /**
-     * Gets the last employee number.
-     *
-     * @return the next employee number
-     * @throws ServiceException the service exception
-     */
-    String getLastEmployeeNumber() throws ServiceException;
 
     /**
      * Gets the all.
@@ -55,5 +48,33 @@ public interface EmployeeService extends Servicable<EmployeeDto> {
      * @throws ServiceException the service exception
      */
     List<EmployeeDto> getAll(EmployeeSearchCriteriaDto employeeSearchCriteriaDto) throws ServiceException;
+
+    /**
+     * Gets the last employee number.
+     *
+     * @return the last employee number
+     * @throws ServiceException the service exception
+     */
+    String getLastEmployeeNumber() throws ServiceException;
+
+    /**
+     * Gets the next.
+     *
+     * @param employeeNumber the employee number
+     * @param type the type
+     * @return the next
+     * @throws ServiceException the service exception
+     */
+    EmployeeDto getNext(String employeeNumber, String type) throws ServiceException;
+
+	/**
+	 * Gets the previous.
+	 *
+	 * @param employeeNumber the employee number
+	 * @param type the type
+	 * @return the previous
+	 * @throws ServiceException the service exception
+	 */
+	EmployeeDto getPrevious(String employeeNumber, String type) throws ServiceException;
 
 }

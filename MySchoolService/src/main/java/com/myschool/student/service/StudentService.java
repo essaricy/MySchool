@@ -23,6 +23,26 @@ public interface StudentService extends Servicable<StudentDto> {
     StudentDto get(String admissionNumber) throws ServiceException;
 
     /**
+     * Gets the next.
+     *
+     * @param admissionNumber the admission number
+     * @param type the type
+     * @return the next
+     * @throws ServiceException the service exception
+     */
+    StudentDto getNext(String admissionNumber, String type) throws ServiceException;
+
+    /**
+     * Gets the previous.
+     *
+     * @param admissionNumber the admission number
+     * @param type the type
+     * @return the previous
+     * @throws ServiceException the service exception
+     */
+    StudentDto getPrevious(String admissionNumber, String type) throws ServiceException;
+
+    /**
      * Gets the student.
      *
      * @param studentId the student id

@@ -89,7 +89,7 @@ $(document).ajaxStart($.blockUI(
     })
   ).ajaxStop($.unblockUI);
 */
-    // Display menu if user has logged in.
+  // Display menu if user has logged in.
   <c:if test="${USER_CONTEXT != null}">
   ddmegamenu.docinit({
     menuid:'solidmenu',

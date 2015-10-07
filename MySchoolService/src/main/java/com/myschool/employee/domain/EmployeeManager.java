@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.application.domain.ProfileManager;
 import com.myschool.application.dto.MySchoolProfileDto;
+import com.myschool.common.constants.MySchoolConstant;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.FileSystemException;
@@ -132,6 +133,60 @@ public class EmployeeManager {
             employee = employeeDao.get(employeeNumber);
             if (employee != null) {
                 employee.setEmployeeContact(employeeContactDao.get(employee.getEmployeeId()));
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return employee;
+    }
+
+	/**
+	 * Gets the next.
+	 *
+	 * @param employeeNumber the employee number
+	 * @param type the type
+	 * @return the next
+	 * @throws DataException the data exception
+	 */
+	public EmployeeDto getNext(String employeeNumber, String type) throws DataException {
+		EmployeeDto employee = null;
+        try {
+        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
+        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	}
+            String nextEmployeeNumber = employeeDao.getNextEmployeeNumber(employeeNumber, type);
+            if (nextEmployeeNumber != null) {
+            	employee = employeeDao.get(nextEmployeeNumber);
+            	if (employee != null) {
+            		employee.setEmployeeContact(employeeContactDao.get(employee.getEmployeeId()));
+            	}
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return employee;
+    }
+
+	/**
+	 * Gets the previous.
+	 *
+	 * @param employeeNumber the employee number
+	 * @param type the type
+	 * @return the previous
+	 * @throws DataException the data exception
+	 */
+	public EmployeeDto getPrevious(String employeeNumber, String type) throws DataException {
+		EmployeeDto employee = null;
+        try {
+        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
+        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	}
+            String previousEmployeeNumber = employeeDao.getPreviousEmployeeNumber(employeeNumber, type);
+            if (previousEmployeeNumber != null) {
+            	employee = employeeDao.get(previousEmployeeNumber);
+            	if (employee != null) {
+            		employee.setEmployeeContact(employeeContactDao.get(employee.getEmployeeId()));
+            	}
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);

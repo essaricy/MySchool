@@ -39,7 +39,8 @@
 		<antcall target="FileStatistics" />
 	</target>
 
-	<target name="Init" depends="InitWindows,InitUnix" />
+	<target name="Init" depends="InitWindows,InitUnix"/>
+
 	<!--<target name="Init" depends="InitWindows,InitUnix" />-->
 	<target name="InitWindows" if="isWindows">
 		<property file="build/directory_entries_WINDOWS.properties" />

@@ -22,6 +22,7 @@ import com.myschool.clazz.dto.ClassDto;
 import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.SectionDto;
+import com.myschool.common.constants.MySchoolConstant;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
@@ -44,15 +45,6 @@ import com.myschool.web.student.constants.StudentViewNames;
 @Controller
 @RequestMapping("student")
 public class StudentController {
-
-    /** The Constant UNVERIFIED. */
-    private static final String UNVERIFIED = "UNVERIFIED";
-
-    /** The Constant VERIFIED. */
-    private static final String VERIFIED = "VERIFIED";
-
-    /** The Constant SEARCH_MODE. */
-    private static final String SEARCH_MODE = "SEARCH_MODE";
 
     /** The student service. */
     @Autowired
@@ -82,7 +74,7 @@ public class StudentController {
     public ModelAndView launchVerifiedStudentsSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(SEARCH_MODE, VERIFIED);
+        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.VERIFIED);
         map.put("TITLE", "Search Students");
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.SEARCH_STUDENT, map);
@@ -100,7 +92,7 @@ public class StudentController {
     public ModelAndView launchUnverifiedStudentsSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(SEARCH_MODE, UNVERIFIED);
+        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.UNVERIFIED);
         map.put("TITLE", "Search Students (Portal)");
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.SEARCH_STUDENT, map);
@@ -122,7 +114,7 @@ public class StudentController {
         if (!StringUtil.isNullOrBlank(admissionNumber)) {
             map.put("Student", studentService.get(admissionNumber));
         }
-        map.put(SEARCH_MODE, request.getParameter(SEARCH_MODE));
+        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.STUDENT_REGISTRATION, map);
     }
@@ -207,6 +199,60 @@ public class StudentController {
     }
 
     /**
+     * Gets the next student.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the next student
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="getNextStudent")
+    public ModelAndView getNextStudent(HttpServletRequest request,
+            HttpServletResponse response) throws Exception  {
+    	StudentDto nextStudent = null;
+    	Map<String, Object> map = new HashMap<String, Object>();
+        String admissionNumber = request.getParameter("AdmissionNumber");
+        String type = request.getParameter("Type");
+        if (!StringUtil.isNullOrBlank(admissionNumber) && !StringUtil.isNullOrBlank(type)) {
+        	nextStudent = studentService.getNext(admissionNumber, type);
+        }
+        if (nextStudent == null) {
+        	nextStudent = studentService.get(admissionNumber);
+        }
+        map.put("Student", nextStudent);
+        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        return ViewDelegationController.delegateWholePageView(
+                request, StudentViewNames.STUDENT_REGISTRATION, map);
+    }
+
+    /**
+     * Gets the previous student.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the previous student
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="getPreviousStudent")
+    public ModelAndView getPreviousStudent(HttpServletRequest request,
+            HttpServletResponse response) throws Exception  {
+    	StudentDto nextStudent = null;
+    	Map<String, Object> map = new HashMap<String, Object>();
+        String admissionNumber = request.getParameter("AdmissionNumber");
+        String type = request.getParameter("Type");
+        if (!StringUtil.isNullOrBlank(admissionNumber) && !StringUtil.isNullOrBlank(type)) {
+        	nextStudent = studentService.getPrevious(admissionNumber, type);
+        }
+        if (nextStudent == null) {
+        	nextStudent = studentService.get(admissionNumber);
+        }
+        map.put("Student", nextStudent);
+        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        return ViewDelegationController.delegateWholePageView(
+                request, StudentViewNames.STUDENT_REGISTRATION, map);
+    }
+
+    /**
      * Register student.
      * 
      * @param request the request
@@ -253,7 +299,8 @@ public class StudentController {
     }
 
     /**
-     * 
+     * Search students.
+     *
      * @param request the request
      * @param response the response
      * @param verifiedStatus the verified status

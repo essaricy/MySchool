@@ -29,7 +29,9 @@ public class FileUtil {
     public static String getExtension(String fileName) {
         String extension = null;
         if (fileName != null) {
-            extension = fileName.substring(fileName.lastIndexOf(FILE_EXTENSION_SEPARATOR) + 1, fileName.length());
+        	if (fileName.indexOf(FILE_EXTENSION_SEPARATOR) > 1) {
+        		extension = fileName.substring(fileName.lastIndexOf(FILE_EXTENSION_SEPARATOR) + 1, fileName.length());
+        	}
         }
         return extension;
     }
@@ -541,5 +543,20 @@ public class FileUtil {
         }
         return latestFile;
     }
+
+	/**
+	 * Rename.
+	 *
+	 * @param oldFile the old file
+	 * @param newFileName the new file name
+	 * @return true, if successful
+	 */
+	public static boolean rename(File oldFile, String newFileName) {
+		if (oldFile != null && newFileName != null) {
+			File newFile = new File(oldFile.getParent(), newFileName);
+			return oldFile.renameTo(newFile);
+		}
+		return false;
+	}
 
 }

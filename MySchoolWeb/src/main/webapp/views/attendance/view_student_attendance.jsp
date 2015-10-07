@@ -72,7 +72,7 @@ $(document).ready(function() {
       <td><div id="MontlyAttendanceCalendar"></div></td>
     </tr>
     <tr>
-      <td align="right"><a href="<%=request.getContextPath()%>/noticeBoard/gallery.htm" class="formLink">View Complete Attendance</a></td>
+      <td align="right"><a href="<%=request.getContextPath()%>/gallery/launchGallery.htm" class="formLink">View Complete Attendance</a></td>
     </tr>
   </tbody>
 </table>

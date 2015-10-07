@@ -64,7 +64,7 @@ public abstract class ImageScalingAgent extends AbstractAgent {
      */
     @Override
     public void validate() throws AgentException {
-        // No validation planned for thie agent.
+        // No validation planned for this agent.
     }
 
     /**
@@ -92,6 +92,58 @@ public abstract class ImageScalingAgent extends AbstractAgent {
     }
 
     /**
+     * Removes the resize images.
+     *
+     * @param file the file
+     * @throws FileSystemException the file system exception
+     */
+    public void removeResizeImages(File file) throws FileSystemException {
+        removeThumbnailImage(file);
+        removePassportSizeImage(file);
+    }
+
+    /**
+     * Removes the thumbnail image.
+     *
+     * @param file the file
+     */
+    private void removeThumbnailImage(File file) {
+    	removeImage(file, ImageSize.THUMBNAIL);
+	}
+
+	/**
+	 * Removes the passport size image.
+	 *
+	 * @param file the file
+	 */
+	private void removePassportSizeImage(File file) {
+		removeImage(file, ImageSize.PASSPORT);
+	}
+
+	/**
+	 * Removes the image.
+	 *
+	 * @param file the file
+	 * @param imageResizeType the image resize type
+	 */
+	private void removeImage(File file, ImageSize imageResizeType) {
+        File resizedFile = null;
+        File parentDirectory = null;
+        File imageResizeDirectory = null;
+
+        parentDirectory = file.getParentFile();
+        if (imageResizeType == ImageSize.THUMBNAIL) {
+        	imageResizeDirectory = new File(parentDirectory, thumbnailImageResizingOption.getFolderName());
+        } else if (imageResizeType == ImageSize.PASSPORT) {
+        	imageResizeDirectory = new File(parentDirectory, passportImageResizingOption.getFolderName());
+        }
+        resizedFile = new File(imageResizeDirectory, file.getName());
+        if (resizedFile.exists() && resizedFile.canWrite()) {
+        	resizedFile.delete();
+        }
+	}
+
+	/**
      * Creates the thumbnail image.
      * 
      * @param file the file
@@ -190,7 +242,6 @@ public abstract class ImageScalingAgent extends AbstractAgent {
      */
     public File[] getOriginalImages(File imageDirectory) {
         if (imageDirectory != null) {
-        	// TODO sort by file creation time in to make it intact.
             return imageDirectory.listFiles(imageResizingFileFilter);
         }
         return null;

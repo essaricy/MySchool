@@ -12,7 +12,6 @@ import com.myschool.common.exception.FileSystemException;
 import com.myschool.infra.application.Agents;
 import com.myschool.infra.application.ApplicationLoader;
 import com.myschool.infra.cache.agent.InMemoryCacheAgent;
-import com.myschool.infra.filesystem.agent.GalleryFileSystem;
 import com.myschool.infra.filesystem.agent.ImageFileSystem;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.infra.image.constants.ImageSize;
@@ -36,10 +35,6 @@ public class ImageManager {
     /** The image file system. */
     @Autowired
     private ImageFileSystem imageFileSystem;
-
-    /** The gallery file system. */
-    @Autowired
-    private GalleryFileSystem galleryFileSystem;
 
     /** The temp file system. */
     @Autowired
@@ -190,79 +185,6 @@ public class ImageManager {
             throw new DataException(fileSystemException.getMessage(), fileSystemException);
         }
         return employeeImage;
-    }
-
-    /**
-     * Gets the gallery names.
-     * 
-     * @return the gallery names
-     * @throws DataException the data exception
-     */
-    public List<String> getGalleryNames() throws DataException {
-        try {
-            return galleryFileSystem.getGalleryNames();
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-    }
-
-    /**
-     * Gets the gallery item names.
-     * 
-     * @param galleryName the gallery name
-     * @return the gallery item names
-     * @throws DataException the data exception
-     */
-    public List<String> getGalleryItemNames(String galleryName) throws DataException {
-        try {
-            return galleryFileSystem.getGalleryItemNames(galleryName);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-    }
-
-    /**
-     * Gets the latest gallery name.
-     * 
-     * @return the latest gallery name
-     * @throws DataException the data exception
-     */
-    public String getLatestGalleryName() throws DataException {
-        try {
-            return galleryFileSystem.getLatestGalleryName();
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-    }
-
-    /**
-     * Gets the gallery item.
-     * 
-     * @param galleryName the gallery name
-     * @param imageSize the image size
-     * @return the gallery item
-     * @throws DataException the data exception
-     */
-    public File getGalleryItem(String galleryName, ImageSize imageSize) throws DataException {
-        try {
-            return galleryFileSystem.getGalleryItem(galleryName, imageSize);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-    }
-
-    /**
-     * Mark as latest.
-     * 
-     * @param galleryName the gallery name
-     * @throws DataException the data exception
-     */
-    public void markAsLatest(String galleryName) throws DataException {
-        try {
-            galleryFileSystem.updateTimestamp(galleryName);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
     }
 
 }

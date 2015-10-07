@@ -85,13 +85,6 @@ public interface StudentDao {
      */
     boolean terminateAdmission(String admissionNumber) throws DaoException;
 
-    /**
-     * Gets the last admission number.
-     *
-     * @return the last admission number
-     * @throws DaoException the dao exception
-     */
-    String getLastAdmissionNumber() throws DaoException;
 
     /**
      * Search.
@@ -102,5 +95,32 @@ public interface StudentDao {
      */
     List<StudentDto> search(StudentSearchCriteriaDto studentSearchCriteriaDto) throws DaoException;
 
+    /**
+     * Gets the last admission number.
+     *
+     * @return the last admission number
+     * @throws DaoException the dao exception
+     */
+    String getLastAdmissionNumber() throws DaoException;
+
+    /**
+     * Gets the next admission number.
+     *
+     * @param admissionNumber the admission number
+     * @param type the type
+     * @return the next admission number
+     * @throws DaoException the dao exception
+     */
+    String getNextAdmissionNumber(String admissionNumber, String type) throws DaoException;
+
+	/**
+	 * Gets the previous admission number.
+	 *
+	 * @param admissionNumber the admission number
+	 * @param type the type
+	 * @return the previous admission number
+	 * @throws DaoException the dao exception
+	 */
+	String getPreviousAdmissionNumber(String admissionNumber, String type) throws DaoException;
 
 }

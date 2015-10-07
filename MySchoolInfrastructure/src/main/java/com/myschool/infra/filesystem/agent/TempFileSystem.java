@@ -78,15 +78,26 @@ public class TempFileSystem extends AbstractSubFileSystem {
     }
 
     /**
+     * Creates the new temp file.
+     *
+     * @param fileName the file name
+     * @return the file
+     * @throws FileSystemException the file system exception
+     */
+    public File createNewTempFile(String fileName) throws FileSystemException {
+        String tempFileName = SecureRandomGenerator.getNextString(SecureRandomGenerator.SIZE_64) + "." + FileUtil.getExtension(fileName);
+        return FileUtil.createFile(getDirectory(), tempFileName);
+    }
+
+    /**
      * Creates the temp file.
-     * 
+     *
      * @param fileName the file name
      * @return the file
      * @throws FileSystemException the file system exception
      */
     public File createTempFile(String fileName) throws FileSystemException {
-        String tempFileName = SecureRandomGenerator.getNextString(SecureRandomGenerator.SIZE_64) + "." + FileUtil.getExtension(fileName);
-        return FileUtil.createFile(getDirectory(), tempFileName);
+        return FileUtil.createFile(getDirectory(), fileName);
     }
 
     /**

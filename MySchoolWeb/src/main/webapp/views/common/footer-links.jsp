@@ -66,7 +66,7 @@
 	<td class="Heading" width="140px">Whats New?</td>
 	<td align="left" width="140px"><a href="<%=request.getContextPath()%>/download/brochures.htm">Download Brochures</a></td>
 	<td align="left" width="140px"><a href="<%=request.getContextPath()%>/noticeBoard/list.htm">View Notice Board</a></td>
-	<td align="left" width="140px"><a href="<%=request.getContextPath()%>/noticeBoard/gallery.htm">View Gallery</a></td>
+	<td align="left" width="140px"><a href="<%=request.getContextPath()%>/gallery/launchGallery.htm">View Gallery</a></td>
 	<td>&nbsp;</td>
   </tr>
 </table>

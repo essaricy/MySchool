@@ -128,7 +128,6 @@ $(document).ready(function() {
         },
         async: false,
         success: function(respnose) {
-              alert('respnose');
           uploadTrackerId = respnose.uploadTrackerId;
         }
       });

@@ -113,6 +113,21 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /* (non-Javadoc)
+     * @see com.myschool.employee.service.EmployeeService#getAll(com.myschool.student.dto.EmployeeSearchCriteriaDto)
+     */
+    @Override
+    public List<EmployeeDto> getAll(
+            EmployeeSearchCriteriaDto employeeSearchCriteriaDto)
+            throws ServiceException {
+        try {
+            return employeeManager.getAll(employeeSearchCriteriaDto);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+    /* (non-Javadoc)
      * @see com.myschool.employee.service.EmployeeService#getNextEmployeeNumber()
      */
     @Override
@@ -126,18 +141,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.employee.service.EmployeeService#getAll(com.myschool.student.dto.EmployeeSearchCriteriaDto)
+     * @see com.myschool.employee.service.EmployeeService#getNext(java.lang.String, java.lang.String)
      */
     @Override
-    public List<EmployeeDto> getAll(
-            EmployeeSearchCriteriaDto employeeSearchCriteriaDto)
-            throws ServiceException {
+	public EmployeeDto getNext(String employeeNumber, String type) throws ServiceException {
         try {
-            return employeeManager.getAll(employeeSearchCriteriaDto);
-        } catch (DataException dataException) {
-            throw new ServiceException(dataException.getMessage(),
-                    dataException);
-        }
+            return employeeManager.getNext(employeeNumber, type);
+       } catch (DataException dataException) {
+           throw new ServiceException(dataException.getMessage(),
+                   dataException);
+       }
+    }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.employee.service.EmployeeService#getPrevious(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public EmployeeDto getPrevious(String employeeNumber, String type) throws ServiceException {
+        try {
+            return employeeManager.getPrevious(employeeNumber, type);
+       } catch (DataException dataException) {
+           throw new ServiceException(dataException.getMessage(),
+                   dataException);
+       }
     }
 
 }

@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.myschool.common.constants.MySchoolConstant;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.util.ConversionUtil;
@@ -244,7 +245,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.employee.dao.EmployeeDao#getAll(com.myschool.student.dto.EmployeeSearchCriteriaDto)
+     * @see com.myschool.employee.dao.EmployeeDao#getAll(com.myschool.employee.dto.EmployeeSearchCriteriaDto)
      */
     @Override
     public List<EmployeeDto> getAll(
@@ -310,6 +311,86 @@ public class EmployeeDaoImpl implements EmployeeDao {
                         connectionException);
             }
         }
+    }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.employee.dao.EmployeeDao#getNextEmployeeNumber(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String getNextEmployeeNumber(String employeeNumber, String type) throws DaoException {
+		String query = null;
+        String nextEmployeeNumber = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            if (type.equals(MySchoolConstant.VERIFIED)) {
+            	query = EmployeeDaoSql.SELECT_NEXT_VERIFIED_EMPLOYEE_NUMBER;
+            } else {
+            	query = EmployeeDaoSql.SELECT_NEXT_UNVERIFIED_EMPLOYEE_NUMBER;
+            }
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, employeeNumber);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	nextEmployeeNumber = resultSet.getString("EMPLOYEE_NUMBER");
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(),
+                    connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return nextEmployeeNumber;
+    }
+
+	/* (non-Javadoc)
+	 * @see com.myschool.employee.dao.EmployeeDao#getPreviousEmployeeNumber(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public String getPreviousEmployeeNumber(String employeeNumber, String type) throws DaoException {
+		String query = null;
+        String previousEmployeeNumber = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            if (type.equals(MySchoolConstant.VERIFIED)) {
+            	query = EmployeeDaoSql.SELECT_PREVIOUS_VERIFIED_EMPLOYEE_NUMBER;
+            } else {
+            	query = EmployeeDaoSql.SELECT_PREVIOUS_UNVERIFIED_EMPLOYEE_NUMBER;
+            }
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, employeeNumber);
+            resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+            	previousEmployeeNumber = resultSet.getString("EMPLOYEE_NUMBER");
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(),
+                    connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return previousEmployeeNumber;
     }
 
 }

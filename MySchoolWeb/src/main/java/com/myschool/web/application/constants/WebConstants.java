@@ -32,4 +32,7 @@ public class WebConstants {
 	/** The Constant CHART_DATA. */
     public static final String CHART_DATA = "CHART_DATA";
 
+    /** The Constant SEARCH_MODE. */
+    public static final String SEARCH_MODE = "SEARCH_MODE";
+
 }

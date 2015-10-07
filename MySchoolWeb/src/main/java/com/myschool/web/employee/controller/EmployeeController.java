@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.constants.ApplicationConstants;
 import com.myschool.application.service.DocumentService;
+import com.myschool.common.constants.MySchoolConstant;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
@@ -37,15 +38,6 @@ import com.myschool.web.framework.util.HttpUtil;
 @Controller
 @RequestMapping("employee")
 public class EmployeeController {
-
-    /** The Constant UNVERIFIED. */
-    private static final String UNVERIFIED = "UNVERIFIED";
-
-    /** The Constant VERIFIED. */
-    private static final String VERIFIED = "VERIFIED";
-
-    /** The Constant SEARCH_MODE. */
-    private static final String SEARCH_MODE = "SEARCH_MODE";
 
     /** The document service. */
     @Autowired
@@ -71,7 +63,7 @@ public class EmployeeController {
     public ModelAndView launchVerifiedEmployeesSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(SEARCH_MODE, VERIFIED);
+        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.VERIFIED);
         map.put("TITLE", "Search Employees");
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.SEARCH_EMPLOYEE, map);
@@ -89,7 +81,7 @@ public class EmployeeController {
     public ModelAndView launchUnverifiedEmployeesSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(SEARCH_MODE, UNVERIFIED);
+        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.UNVERIFIED);
         map.put("TITLE", "Search Employees (Portal)");
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.SEARCH_EMPLOYEE, map);
@@ -141,7 +133,7 @@ public class EmployeeController {
         if (!StringUtil.isNullOrBlank(employeeNumber)) {
             map.put("Employee", employeeService.get(employeeNumber));
         }
-        map.put(SEARCH_MODE, request.getParameter(SEARCH_MODE));
+        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.EMPLOYEE_REGISTRATION, map);
     }
@@ -192,6 +184,60 @@ public class EmployeeController {
             HttpUtil.writeJson(response, result);
         }
         return null;
+    }
+
+    /**
+     * Gets the next employee.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the next employee
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="getNextEmployee")
+    public ModelAndView getNextEmployee(HttpServletRequest request,
+            HttpServletResponse response) throws Exception  {
+    	EmployeeDto nextEmployee = null;
+    	Map<String, Object> map = new HashMap<String, Object>();
+        String employeeNumber = request.getParameter("EmployeeNumber");
+        String type = request.getParameter("Type");
+        if (!StringUtil.isNullOrBlank(employeeNumber) && !StringUtil.isNullOrBlank(type)) {
+        	nextEmployee = employeeService.getNext(employeeNumber, type);
+        }
+        if (nextEmployee == null) {
+        	nextEmployee = employeeService.get(employeeNumber);
+        }
+        map.put("Employee", nextEmployee);
+        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        return ViewDelegationController.delegateWholePageView(
+                request, EmployeeViewNames.EMPLOYEE_REGISTRATION, map);
+    }
+
+    /**
+     * Gets the previous employee.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the previous employee
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="getPreviousEmployee")
+    public ModelAndView getPreviousEmployee(HttpServletRequest request,
+            HttpServletResponse response) throws Exception  {
+    	EmployeeDto nextEmployee = null;
+    	Map<String, Object> map = new HashMap<String, Object>();
+        String employeeNumber = request.getParameter("EmployeeNumber");
+        String type = request.getParameter("Type");
+        if (!StringUtil.isNullOrBlank(employeeNumber) && !StringUtil.isNullOrBlank(type)) {
+        	nextEmployee = employeeService.getPrevious(employeeNumber, type);
+        }
+        if (nextEmployee == null) {
+        	nextEmployee = employeeService.get(employeeNumber);
+        }
+        map.put("Employee", nextEmployee);
+        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        return ViewDelegationController.delegateWholePageView(
+                request, EmployeeViewNames.EMPLOYEE_REGISTRATION, map);
     }
 
     /**

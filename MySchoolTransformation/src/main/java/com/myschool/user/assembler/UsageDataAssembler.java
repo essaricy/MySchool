@@ -39,22 +39,28 @@ public class UsageDataAssembler {
 	public static List<NumberNameValueDto> fill(List<NumberNameValueDto> inNumberNameValues, int type) {
 		Calendar calendar = Calendar.getInstance();
 		int startValue = 0;
-		int endValue = calendar.getActualMaximum(type);
+		int endValue = 0;
 		String[] names = null;
 		List<NumberNameValueDto> outNumberNameValues = new ArrayList<NumberNameValueDto>();
 		if (type == Calendar.MONTH) {
 			names = DateFormatSymbols.getInstance().getShortMonths();
 			startValue = 1;
+			endValue = calendar.getActualMaximum(type) + 2;
 		} else if (type == Calendar.DAY_OF_YEAR) {
 			startValue = 1;
+			endValue = calendar.getActualMaximum(type);
 		} else if (type == Calendar.DAY_OF_WEEK) {
 			names = DateFormatSymbols.getInstance().getShortWeekdays();
-			startValue = 1;
+			startValue = 2;
+			endValue = calendar.getActualMaximum(type) + 2;
 		} else if (type == Calendar.HOUR_OF_DAY) {
 			startValue = 0;
+			endValue = calendar.getActualMaximum(type) + 1;
+		} else if (type == Calendar.DAY_OF_MONTH) {
+			startValue = 1;
+			endValue = calendar.getActualMaximum(type) + 1;
 		}
-		System.out.println("startValue " + startValue + ", endValue= " + endValue);
-		for (int loopCount = startValue; loopCount <= endValue; loopCount++) {
+		for (int loopCount = startValue; loopCount < endValue; loopCount++) {
 			double value = 0;
 			NumberNameValueDto nameNumberValue = new NumberNameValueDto();
 			NumberNameValueDto gotNameNumberValuec = get(inNumberNameValues, loopCount);
