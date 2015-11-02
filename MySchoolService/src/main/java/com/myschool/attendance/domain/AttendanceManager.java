@@ -1,6 +1,5 @@
 package com.myschool.attendance.domain;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -9,16 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.academic.dao.HolidayDao;
 import com.myschool.attendance.dao.AttendanceDao;
-import com.myschool.attendance.dto.AttendanceCriteria;
-import com.myschool.attendance.dto.AttendanceDto;
-import com.myschool.attendance.dto.DayAttendance;
-import com.myschool.attendance.dto.MonthAttendance;
-import com.myschool.attendance.dto.ReferenceAttendanceDto;
-import com.myschool.attendance.dto.StudentAttendanceDto;
+import com.myschool.attendance.dto.AttendanceCodeDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.student.dao.StudentDao;
-import com.myschool.student.dto.StudentDto;
 
 /**
  * The Class AttendanceManager.
@@ -47,12 +40,12 @@ public class AttendanceManager {
      * @param attendanceCriteria the attendance criteria
      * @return the reference attendance
      * @throws DataException the data exception
-     */
-    public MonthAttendance getReferenceAttendance(
+     *//*
+    public AttendanceMonth getReferenceAttendance(
             AttendanceCriteria attendanceCriteria) throws DataException {
 
-        MonthAttendance monthAttendance = null;
-        /*//ReferenceAttendanceDto referenceAttendance = null;
+        AttendanceMonth monthAttendance = null;
+        //ReferenceAttendanceDto referenceAttendance = null;
 
         try {
             int month = attendanceCriteria.getMonth();
@@ -71,18 +64,18 @@ public class AttendanceManager {
             throw new DataException(daoException.getMessage(), daoException);
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
-        }*/
+        }
         return monthAttendance;
     }
 
-    /**
+    *//**
      * Gets the student attendances.
      *
      * @param classId the class id
      * @param attendanceCriteria the attendance criteria
      * @return the student attendances
      * @throws DataException the data exception
-     */
+     *//*
     public List<StudentAttendanceDto> getStudentAttendances(int classId,
             AttendanceCriteria attendanceCriteria) throws DataException {
 
@@ -102,11 +95,11 @@ public class AttendanceManager {
                 for (StudentDto student : students) {
                     if (student != null) {
                         attendance = attendanceDao.getStudentAttendance(student.getStudentId(), year, month);
-                        /*if (attendance == null) {
+                        if (attendance == null) {
                             attendance = AttendanceAssembler.getMonthAttendance(DateUtil.getNewCalendarIgnoreHours(), holidays, month, year);
                         } else {
                             AttendanceAssembler.updateHolidays((MonthAttendance) attendance, holidays, month, year);
-                        }*/
+                        }
                         studentAttendance = new StudentAttendanceDto();
                         studentAttendance.setStudent(student);
                         studentAttendance.setAttendance(attendance);
@@ -116,20 +109,20 @@ public class AttendanceManager {
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
-        }/* catch (ValidationException validationException) {
+        } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
-        }*/
+        }
         return studentAttendances;
     }
 
-    /**
+    *//**
      * Update.
      *
      * @param referenceAttendance the reference attendance
      * @param studentsAttendance the students attendance
      * @return true, if successful
      * @throws DataException the data exception
-     */
+     *//*
     public boolean update(ReferenceAttendanceDto referenceAttendance,
             List<StudentAttendanceDto> studentsAttendance) throws DataException {
         // Implementation in progress
@@ -141,10 +134,10 @@ public class AttendanceManager {
                 int month = referenceAttendance.getMonth();
                 int year = referenceAttendance.getYear();
                 int classId = referenceAttendance.getRegisteredClass().getClassId();
-                List<DayAttendance> dayAttendances = referenceAttendance.getDayAttendances();
+                List<AttendanceDay> dayAttendances = referenceAttendance.getDayAttendances();
                 if (dayAttendances != null) {
-                    for (DayAttendance dayAttendance : dayAttendances) {
-                        if (dayAttendance != null/* && dayAttendance.isPresent()*/) {
+                    for (AttendanceDay dayAttendance : dayAttendances) {
+                        if (dayAttendance != null && dayAttendance.isPresent()) {
                             refAttendanceFound = true;
                             break;
                         }
@@ -172,7 +165,7 @@ public class AttendanceManager {
                                 if (studentAttendance != null) {
                                     boolean studentAttendanceUpdated = false;
                                     int studentId = studentAttendance.getStudent().getStudentId();
-                                    MonthAttendance existingStudentAttendance = (MonthAttendance) attendanceDao.getStudentAttendance(studentId, year, month);
+                                    AttendanceMonth existingStudentAttendance = (AttendanceMonth) attendanceDao.getStudentAttendance(studentId, year, month);
                                     if (existingStudentAttendance == null) {
                                         // The student attendance is not created for this month. Create a new record.
                                         int studentAttendanceId = attendanceDao.createStudentAttendance(referenceAttendance, studentAttendance);
@@ -199,6 +192,27 @@ public class AttendanceManager {
             throw new DataException(daoException.getMessage(), daoException);
         }
         return updated;
+    }*/
+
+    public List<AttendanceCodeDto> getAttendanceCodes(String type) throws DataException {
+        List<AttendanceCodeDto> attendanceCodeDtos;
+        try {
+            attendanceCodeDtos = null;
+            if (type == null) {
+                attendanceCodeDtos = attendanceDao.getAttendanceCodes();
+            } else {
+                if (type.equals("REFERRED")) {
+                    attendanceCodeDtos = attendanceDao.getReferredAttendanceCodes();
+                } else if (type.equals("ASSIGNED")) {
+                    attendanceCodeDtos = attendanceDao.getAssignedAttendanceCodes();
+                } else {
+                    throw new DataException("Invalid attendance code type: " + type);
+                }
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return attendanceCodeDtos;
     }
 
 }

@@ -12,6 +12,7 @@ import com.myschool.application.assembler.RelationshipDataAssembler;
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.util.ConversionUtil;
+import com.myschool.common.util.JsonUtil;
 
 /**
  * The Class StudentFamilyDataAssembler.
@@ -72,17 +73,17 @@ public class StudentFamilyDataAssembler {
         FamilyMemberDto familyMember = null;
         if (familyMemberData != null) {
             familyMember = new FamilyMemberDto();
-            familyMember.setFamilyMemberId(Integer.parseInt(familyMemberData.getString("FamilyMemberId")));
+            familyMember.setFamilyMemberId(JsonUtil.getInt(familyMemberData, "FamilyMemberId"));
             Relationship relationship = new Relationship();
-            relationship.setCode(familyMemberData.getString("RelationshipCode"));
-            relationship.setName(familyMemberData.getString("RelationshipName"));
+            relationship.setCode(JsonUtil.getString(familyMemberData, "RelationshipCode"));
+            relationship.setName(JsonUtil.getString(familyMemberData, "RelationshipName"));
             familyMember.setRelationship(relationship);
-            familyMember.setName(familyMemberData.getString("FamilyMemberName"));
-            familyMember.setOccupation(familyMemberData.getString("Occupation"));
-            familyMember.setMobileNumber(familyMemberData.getString("MobileNumber"));
-            familyMember.setEmailId(familyMemberData.getString("EmailID"));
-            familyMember.setAvailSMS(ConversionUtil.toBoolean(familyMemberData.getString("AvailSMS")));
-            familyMember.setAvailEmail(ConversionUtil.toBoolean(familyMemberData.getString("AvailEmail")));
+            familyMember.setName(JsonUtil.getString(familyMemberData, "FamilyMemberName"));
+            familyMember.setOccupation(JsonUtil.getString(familyMemberData, "Occupation"));
+            familyMember.setMobileNumber(JsonUtil.getString(familyMemberData, "MobileNumber"));
+            familyMember.setEmailId(JsonUtil.getString(familyMemberData, "EmailID"));
+            familyMember.setAvailSMS(ConversionUtil.toBoolean(JsonUtil.getString(familyMemberData, "AvailSMS")));
+            familyMember.setAvailEmail(ConversionUtil.toBoolean(JsonUtil.getString(familyMemberData, "AvailEmail")));
         }
         return familyMember;
     }

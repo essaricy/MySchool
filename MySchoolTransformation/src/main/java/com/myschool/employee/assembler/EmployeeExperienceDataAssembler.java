@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.StringUtil;
+import com.myschool.common.util.JsonUtil;
 import com.myschool.employee.dto.EmployeeExperience;
 
 /**
@@ -48,15 +48,12 @@ public class EmployeeExperienceDataAssembler {
         if (employeeExperienceData != null) {
             employeeExperience = new EmployeeExperience();
 
-            String employeeExperienceId = employeeExperienceData.getString("EmployeeExperienceId");
-            if (!StringUtil.isNullOrBlank(employeeExperienceId)) {
-                employeeExperience.setExperienceId(Integer.parseInt(employeeExperienceId));
-            }
-            employeeExperience.setEmployer(employeeExperienceData.getString("Employer"));
-            employeeExperience.setJobTitle(employeeExperienceData.getString("JobTitle"));
-            //employeeExperience.setExperieceInMonth(employeeExperienceData.getString("experieceInMonth"));
-            employeeExperience.setFromDate(employeeExperienceData.getString("FromDate"));
-            employeeExperience.setToDate(employeeExperienceData.getString("ToDate"));
+            employeeExperience.setExperienceId(JsonUtil.getInt(employeeExperienceData, "EmployeeExperienceId"));
+            employeeExperience.setEmployer(JsonUtil.getString(employeeExperienceData, "Employer"));
+            employeeExperience.setJobTitle(JsonUtil.getString(employeeExperienceData, "JobTitle"));
+            //employeeExperience.setExperieceInMonth(JsonUtil.getString(employeeExperienceData, "experieceInMonth"));
+            employeeExperience.setFromDate(JsonUtil.getString(employeeExperienceData, "FromDate"));
+            employeeExperience.setToDate(JsonUtil.getString(employeeExperienceData, "ToDate"));
         }
         return employeeExperience;
     }

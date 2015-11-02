@@ -2,14 +2,31 @@ package com.myschool.attendance.dao;
 
 import java.util.List;
 
+import com.myschool.attendance.dto.AttendanceMonth;
 import com.myschool.attendance.dto.AttendanceProfileDto;
-import com.myschool.attendance.dto.MonthAttendance;
 import com.myschool.common.exception.DaoException;
 
 /**
  * The Interface AttendanceProfileDao.
  */
 public interface AttendanceProfileDao {
+
+    /**
+     * Gets the all.
+     * 
+     * @return the all
+     * @throws DaoException the dao exception
+     */
+    List<AttendanceProfileDto> getAll() throws DaoException;
+
+    /**
+     * Gets the all.
+     * 
+     * @param academicYearName the academic year name
+     * @return the all
+     * @throws DaoException the dao exception
+     */
+    List<AttendanceProfileDto> getAll(String academicYearName) throws DaoException;
 
     /**
      * Gets the.
@@ -21,12 +38,22 @@ public interface AttendanceProfileDao {
     AttendanceProfileDto get(int attendanceProfileId) throws DaoException;
 
     /**
-     * Gets the all.
+     * Gets the.
      * 
-     * @return the all
+     * @param attendanceProfileName the attendance profile name
+     * @return the attendance profile dto
      * @throws DaoException the dao exception
      */
-    List<AttendanceProfileDto> getAll() throws DaoException;
+    AttendanceProfileDto get(String attendanceProfileName) throws DaoException;
+
+    /**
+     * Gets the attendance months.
+     * 
+     * @param attendanceProfileId the attendance profile id
+     * @return the attendance months
+     * @throws DaoException the dao exception
+     */
+    List<AttendanceMonth> getAttendanceMonths(int attendanceProfileId) throws DaoException;
 
     /**
      * Creates the.
@@ -38,13 +65,22 @@ public interface AttendanceProfileDao {
     int create(AttendanceProfileDto attendanceProfile) throws DaoException;
 
     /**
-     * Delete.
+     * Creates the.
      * 
      * @param attendanceProfileId the attendance profile id
-     * @return true, if successful
+     * @param yearAttendance the year attendance
      * @throws DaoException the dao exception
      */
-    boolean delete(int attendanceProfileId) throws DaoException;
+    void create(int attendanceProfileId, List<AttendanceMonth> yearAttendance) throws DaoException;
+
+    /**
+     * Creates the.
+     * 
+     * @param attendanceProfileId the attendance profile id
+     * @param monthAttendance the month attendance
+     * @throws DaoException the dao exception
+     */
+    void create(int attendanceProfileId, AttendanceMonth monthAttendance) throws DaoException;
 
     /**
      * Update.
@@ -57,50 +93,21 @@ public interface AttendanceProfileDao {
     boolean update(int attendanceProfileId, AttendanceProfileDto attendanceProfile) throws DaoException;
 
     /**
-     * Gets the profile attendance.
-     * 
-     * @param attendanceProfileId the attendance profile id
-     * @return the profile attendance
-     * @throws DaoException the dao exception
-     */
-    List<MonthAttendance> getProfileAttendance(int attendanceProfileId) throws DaoException;
-
-    /**
-     * Creates the.
-     * 
-     * @param attendanceProfileId the attendance profile id
-     * @param yearAttendance the year attendance
-     * @throws DaoException the dao exception
-     */
-    void create(int attendanceProfileId, List<MonthAttendance> yearAttendance) throws DaoException;
-
-    /**
-     * Creates the.
-     * 
-     * @param attendanceProfileId the attendance profile id
-     * @param monthAttendance the month attendance
-     * @throws DaoException the dao exception
-     */
-    void create(int attendanceProfileId, MonthAttendance monthAttendance) throws DaoException;
-
-    /**
      * Update.
      * 
      * @param attendanceMonthId the attendance month id
      * @param monthAttendance the month attendance
      * @throws DaoException the dao exception
      */
-    void update(int attendanceMonthId, MonthAttendance monthAttendance) throws DaoException;
+    void update(int attendanceMonthId, AttendanceMonth monthAttendance) throws DaoException;
 
     /**
-     * Gets the.
+     * Delete.
      * 
-     * @param profileName the profile name
-     * @return the attendance profile dto
+     * @param attendanceProfileId the attendance profile id
+     * @return true, if successful
      * @throws DaoException the dao exception
      */
-    AttendanceProfileDto get(String profileName) throws DaoException;
-
-    List<AttendanceProfileDto> getAllExcluding(AttendanceProfileDto attendanceProfile) throws DaoException;
+    boolean delete(int attendanceProfileId) throws DaoException;
 
 }

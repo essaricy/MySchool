@@ -1,5 +1,6 @@
 package com.myschool.common.util;
 
+import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -27,6 +28,9 @@ public class DateUtil {
     
     /** The Constant DAY_FULL_NAME_FORMAT. */
     public static final SimpleDateFormat DAY_FULL_NAME_FORMAT = new SimpleDateFormat("EEEEEEEEEE");
+
+    /** The Constant MONTH_NAMES. */
+    public static final String[] MONTH_NAMES = new DateFormatSymbols().getMonths();
 
     /**
      * Check date overlap.
@@ -347,6 +351,19 @@ public class DateUtil {
             }
         }
         return daysDiff;
+    }
+
+    /**
+     * Gets the month name.
+     * 
+     * @param monthNumber the month number
+     * @return the month name
+     */
+    public static String getMonthName(int monthNumber) {
+        if (monthNumber > 0 && monthNumber < MONTH_NAMES.length) {
+            return MONTH_NAMES[monthNumber-1];
+        }
+        return null;
     }
 
 }

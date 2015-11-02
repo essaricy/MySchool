@@ -42,7 +42,7 @@ $(document).ready(function() {
     if (schoolId != 0) {
       $(this).lazySelect({
         id: "Class_Lookup_RegisteredClass",
-        url: '<%=request.getContextPath()%>/class/jsonListBySchool.htm?schoolId=' + schoolId + '&sid=' + new Date().getTime(),
+        url: '<%=request.getContextPath()%>/class/jsonListRegistered.htm?SchoolId=' + schoolId + '&sid=' + new Date().getTime(),
         valueIndices: [2, 4, 6],
         valueDelimiter: ' ~ ',
         changeCallback: registeredClassChange,

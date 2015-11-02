@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.myschool.application.assembler.DocumentDataAssembler;
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.util.ConversionUtil;
+import com.myschool.common.util.JsonUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmployeeDocument;
 
@@ -48,16 +49,13 @@ public class EmployeeDocumentDataAssembler {
         if (employeeDocumentData != null) {
             employeeDocument = new EmployeeDocument();
 
-            String employeeDocumentId = employeeDocumentData.getString("EmployeeDocumentId");
-            if (!StringUtil.isNullOrBlank(employeeDocumentId)) {
-                employeeDocument.setEmployeeDocumentId(Integer.parseInt(employeeDocumentId));
-            }
+            employeeDocument.setEmployeeDocumentId(JsonUtil.getInt(employeeDocumentData, "EmployeeDocumentId"));
             DocumentDto document = new DocumentDto();
-            document.setDocumentId(Integer.parseInt(employeeDocumentData.getString("DocumentId")));
+            document.setDocumentId(JsonUtil.getInt(employeeDocumentData, "DocumentId"));
             employeeDocument.setDocument(document);
-            employeeDocument.setDocumentNumber(employeeDocumentData.getString("DocumentNumber"));
-            employeeDocument.setDocumentExpiryDate(employeeDocumentData.getString("DocumentExpiryDate"));
-            employeeDocument.setDocumentIssuedBy(employeeDocumentData.getString("DocumentIssuedBy"));
+            employeeDocument.setDocumentNumber(JsonUtil.getString(employeeDocumentData, "DocumentNumber"));
+            employeeDocument.setDocumentExpiryDate(JsonUtil.getString(employeeDocumentData, "DocumentExpiryDate"));
+            employeeDocument.setDocumentIssuedBy(JsonUtil.getString(employeeDocumentData, "DocumentIssuedBy"));
         }
         return employeeDocument;
     }

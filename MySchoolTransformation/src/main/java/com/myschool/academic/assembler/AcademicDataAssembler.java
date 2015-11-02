@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.myschool.academic.dto.AcademicDto;
 import com.myschool.common.util.ConversionUtil;
+import com.myschool.common.util.JsonUtil;
 
 /**
  * The Class AcademicDataAssembler.
@@ -67,6 +68,23 @@ public class AcademicDataAssembler {
             jsonObject.put("AcademicYearEndDate", academic.getAcademicYearEndDate());
         }
         return jsonObject;
+    }
+
+    /**
+     * Creates the.
+     * 
+     * @param jsonObject the json object
+     * @return the academic dto
+     */
+    public static AcademicDto create(JSONObject jsonObject) {
+        AcademicDto academic = null;
+        if (jsonObject != null) {
+            academic = new AcademicDto();
+            academic.setAcademicYearName(JsonUtil.getString(jsonObject, "AcademicYearName"));
+            academic.setAcademicYearStartDate(JsonUtil.getString(jsonObject, "AcademicYearStartDate"));
+            academic.setAcademicYearEndDate(JsonUtil.getString(jsonObject, "AcademicYearEndDate"));
+        }
+        return academic;
     }
 
 }

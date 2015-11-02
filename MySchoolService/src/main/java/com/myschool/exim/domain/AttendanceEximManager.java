@@ -1,35 +1,12 @@
 package com.myschool.exim.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
 
-import com.myschool.attendance.dto.Day;
-import com.myschool.attendance.dto.DayAttendance;
-import com.myschool.attendance.dto.Month;
-import com.myschool.attendance.dto.MonthAttendance;
-import com.myschool.attendance.dto.ReferenceAttendanceDto;
-import com.myschool.attendance.dto.StudentAttendanceDto;
-import com.myschool.attendance.fields.ReferenceAttendanceFieldNames;
-import com.myschool.attendance.fields.StudentAttendanceFieldNames;
-import com.myschool.attendance.validator.DayValidator;
-import com.myschool.attendance.validator.MonthValidator;
-import com.myschool.branch.dto.BranchDto;
-import com.myschool.branch.dto.DivisionDto;
-import com.myschool.clazz.dto.ClassDto;
-import com.myschool.clazz.dto.MediumDto;
-import com.myschool.clazz.dto.RegisteredClassDto;
-import com.myschool.clazz.dto.SectionDto;
 import com.myschool.common.dto.Rule;
-import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exim.constants.EximPolicy;
 import com.myschool.exim.dto.ImportRecordStatusDto;
-import com.myschool.school.dto.SchoolDto;
-import com.myschool.student.dto.StudentDto;
 
 /**
  * The Class AttendanceEximManager.
@@ -37,11 +14,28 @@ import com.myschool.student.dto.StudentDto;
 @Component
 public class AttendanceEximManager extends AbstractEximManager {
 
-    /** The month validator. */
+    /** The month validator. *//*
     private MonthValidator monthValidator = new MonthValidator();
 
-    /** The day validator. */
-    private DayValidator dayValidator = new DayValidator();
+    *//** The day validator. *//*
+    private DayValidator dayValidator = new DayValidator();*/
+
+    @Override
+    protected Object updateContent(EximPolicy eximPolicy, Object content, Rule rule,
+            String fieldValue) throws DataException, ValidationException {
+        return null;
+    }
+
+    @Override
+    protected ImportRecordStatusDto validateRecord(EximPolicy eximPolicy,
+            Object content) {
+        return null;
+    }
+
+    @Override
+    protected void processRecord(EximPolicy eximPolicy, ImportRecordStatusDto importRecordStatus) {
+        
+    }
 
     /*
      * (non-Javadoc)
@@ -50,7 +44,7 @@ public class AttendanceEximManager extends AbstractEximManager {
      * com.myschool.exim.domain.AbstractEximManager#updateContent(com.myschool
      * .exim.constants.EximPolicy, java.lang.Object,
      * com.myschool.common.dto.Rule, java.lang.String)
-     */
+     
     @Override
     protected Object updateContent(EximPolicy eximPolicy, Object content, Rule rule,
             String fieldValue) throws DataException, ValidationException {
@@ -68,9 +62,9 @@ public class AttendanceEximManager extends AbstractEximManager {
         return content;
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.exim.domain.AbstractEximManager#validateRecord(com.myschool.exim.constants.EximPolicy, java.lang.Object)
-     */
+     
     @Override
     protected ImportRecordStatusDto validateRecord(EximPolicy eximPolicy,
             Object content) {
@@ -92,9 +86,9 @@ public class AttendanceEximManager extends AbstractEximManager {
         return importRecordStatus;
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.exim.domain.AbstractEximManager#processRecord(com.myschool.exim.constants.EximPolicy, com.myschool.exim.dto.ImportRecordStatusDto)
-     */
+     
     @Override
     protected void processRecord(EximPolicy eximPolicy, ImportRecordStatusDto importRecordStatus) {
         try {
@@ -109,7 +103,7 @@ public class AttendanceEximManager extends AbstractEximManager {
         }
     }
 
-    /**
+    *//**
      * Update reference attendance.
      *
      * @param referenceAttendance the reference attendance
@@ -118,7 +112,7 @@ public class AttendanceEximManager extends AbstractEximManager {
      * @return the reference attendance dto
      * @throws DataException the data exception
      * @throws ValidationException the validation exception
-     */
+     *//*
     private ReferenceAttendanceDto updateReferenceAttendance(ReferenceAttendanceDto referenceAttendance,
             Rule rule, String fieldValue) throws DataException, ValidationException {
         String fieldName = rule.getFieldName();
@@ -129,9 +123,9 @@ public class AttendanceEximManager extends AbstractEximManager {
             registeredClass = new RegisteredClassDto();
         }
 
-        List<DayAttendance> dayAttendances = referenceAttendance.getDayAttendances();
+        List<AttendanceDay> dayAttendances = referenceAttendance.getDayAttendances();
         if (dayAttendances == null) {
-            dayAttendances = new ArrayList<DayAttendance>();
+            dayAttendances = new ArrayList<AttendanceDay>();
         }
 
         SchoolDto school = registeredClass.getSchool();
@@ -172,7 +166,7 @@ public class AttendanceEximManager extends AbstractEximManager {
                     + ReferenceAttendanceFieldNames.DAY_PREFIX.length()));
             dayValidator.validateDate(dateNumber);
             //boolean present = ConversionUtil.toBoolean(DataTypeValidator.validate(fieldValue, dataType, fieldName));
-            DayAttendance dayAttendance = new DayAttendance();
+            AttendanceDay dayAttendance = new AttendanceDay();
             Day day = new Day();
             day.setDate(dateNumber);
             dayAttendance.setDay(day);
@@ -186,7 +180,7 @@ public class AttendanceEximManager extends AbstractEximManager {
         return referenceAttendance;
     }
 
-    /**
+    *//**
      * Update student attendance.
      *
      * @param studentAttendance the student attendance
@@ -195,14 +189,14 @@ public class AttendanceEximManager extends AbstractEximManager {
      * @return the object
      * @throws DataException the data exception
      * @throws ValidationException the validation exception
-     */
+     *//*
     private Object updateStudentAttendance(StudentAttendanceDto studentAttendance,
             Rule rule, String fieldValue) throws DataException, ValidationException {
 
         String fieldName = rule.getFieldName();
         String dataType = rule.getDataType();
 
-        MonthAttendance monthAttendance = (MonthAttendance) studentAttendance.getAttendance();
+        AttendanceMonth monthAttendance = (AttendanceMonth) studentAttendance.getAttendance();
         StudentDto student = studentAttendance.getStudent();
 
         if (student == null) {
@@ -210,11 +204,11 @@ public class AttendanceEximManager extends AbstractEximManager {
         }
 
         if (monthAttendance == null) {
-            monthAttendance = new MonthAttendance();
+            monthAttendance = new AttendanceMonth();
         }
-        List<DayAttendance> dayAttendances = monthAttendance.getDayAttendances();
+        List<AttendanceDay> dayAttendances = monthAttendance.getDayAttendances();
         if (dayAttendances == null) {
-            dayAttendances = new ArrayList<DayAttendance>();
+            dayAttendances = new ArrayList<AttendanceDay>();
         }
 
         if (fieldName.equals(StudentAttendanceFieldNames.YEAR)) {
@@ -233,7 +227,7 @@ public class AttendanceEximManager extends AbstractEximManager {
                     + StudentAttendanceFieldNames.DAY_PREFIX.length()));
             dayValidator.validateDate(dateNumber);
             //boolean present = ConversionUtil.toBoolean(DataTypeValidator.validate(fieldValue, dataType, fieldName));
-            DayAttendance dayAttendance = new DayAttendance();
+            AttendanceDay dayAttendance = new AttendanceDay();
             Day day = new Day();
             day.setDate(dateNumber);
             dayAttendance.setDay(day);
@@ -246,12 +240,12 @@ public class AttendanceEximManager extends AbstractEximManager {
         return studentAttendance;
     }
 
-    /**
+    *//**
      * Handle reference attendance data.
      *
      * @param importRecordStatus the import record status
      * @throws DaoException the dao exception
-     */
+     *//*
     private void handleReferenceAttendanceData(
             ImportRecordStatusDto importRecordStatus) throws DaoException {
         ReferenceAttendanceDto referenceAttendance = (ReferenceAttendanceDto) importRecordStatus.getContent();
@@ -279,12 +273,12 @@ public class AttendanceEximManager extends AbstractEximManager {
         }
     }
 
-    /**
+    *//**
      * Handle student attendance data.
      *
      * @param importRecordStatus the import record status
      * @throws DaoException the dao exception
-     */
+     *//*
     private void handleStudentAttendanceData(
             ImportRecordStatusDto importRecordStatus) throws DaoException {
         
@@ -294,7 +288,7 @@ public class AttendanceEximManager extends AbstractEximManager {
         String admissionNumber = student.getAdmissionNumber();
         RegisteredClassDto registeredClassDto = student.getRegisteredClassDto();
         int classId = registeredClassDto.getClassId();
-        MonthAttendance monthAttendance = (MonthAttendance) studentAttendance.getAttendance();
+        AttendanceMonth monthAttendance = (AttendanceMonth) studentAttendance.getAttendance();
         int year = monthAttendance.getAttendanceYear();
         int month = monthAttendance.getMonth().getNumber();
 
@@ -303,7 +297,7 @@ public class AttendanceEximManager extends AbstractEximManager {
             importRecordStatus.setStatusCode(ImportRecordStatusDto.STATUS_FAILED);
             importRecordStatus.setStatusDescription("Reference attendance must be added before you add student attendance for the year " + year + " and month " + month);
         } else {
-            MonthAttendance existingStudentAttendance = (MonthAttendance) attendanceDao.getStudentAttendance(studentId, year, month);
+            AttendanceMonth existingStudentAttendance = (AttendanceMonth) attendanceDao.getStudentAttendance(studentId, year, month);
             if (existingStudentAttendance == null) {
                 if (attendanceDao.createStudentAttendance(existingReferenceAttendance, studentAttendance) > 0) {
                     importRecordStatus.setStatusCode(ImportRecordStatusDto.STATUS_ADDED);
@@ -323,6 +317,6 @@ public class AttendanceEximManager extends AbstractEximManager {
                 }
             }
         }
-    }
+    }*/
 
 }

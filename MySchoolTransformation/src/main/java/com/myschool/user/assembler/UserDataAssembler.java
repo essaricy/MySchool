@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.common.util.ConversionUtil;
+import com.myschool.common.util.JsonUtil;
 import com.myschool.common.util.PasswordUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.student.dto.StudentDto;
@@ -135,10 +136,10 @@ public class UserDataAssembler {
      */
     public static ChangePasswordDto createChangePassword(JSONObject jsonObject) {
         ChangePasswordDto changePassword = new ChangePasswordDto();
-        changePassword.setConfirmedPassword(jsonObject.getString("ConfirmedPassword"));
-        changePassword.setCurrentPassword(jsonObject.getString("CurrentPassword"));
-        changePassword.setNewPassword(jsonObject.getString("NewPassword"));
-        changePassword.setUserId(jsonObject.getInt("UserId"));
+        changePassword.setConfirmedPassword(JsonUtil.getString(jsonObject, "ConfirmedPassword"));
+        changePassword.setCurrentPassword(JsonUtil.getString(jsonObject, "CurrentPassword"));
+        changePassword.setNewPassword(JsonUtil.getString(jsonObject, "NewPassword"));
+        changePassword.setUserId(JsonUtil.getInt(jsonObject, "UserId"));
         return changePassword;
     }
 
@@ -150,10 +151,10 @@ public class UserDataAssembler {
      */
     public static UserPreference createUserPreference(JSONObject jsonObject) {
         UserPreference userPreference = new UserPreference();
-        userPreference.setUserTheme(UserTheme.get(jsonObject.getString("ThemeName")));
-        userPreference.setRecordsPerPage(jsonObject.getInt("RecordsPerPage"));
-        userPreference.setAllowAds(ConversionUtil.toBoolean(jsonObject.getString("AllowAds")));
-        userPreference.setUserId(jsonObject.getInt("UserId"));
+        userPreference.setUserTheme(UserTheme.get(JsonUtil.getString(jsonObject, "ThemeName")));
+        userPreference.setRecordsPerPage(JsonUtil.getInt(jsonObject, "RecordsPerPage"));
+        userPreference.setAllowAds(ConversionUtil.toBoolean(JsonUtil.getString(jsonObject, "AllowAds")));
+        userPreference.setUserId(JsonUtil.getInt(jsonObject, "UserId"));
         return userPreference;
     }
 

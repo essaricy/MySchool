@@ -3,7 +3,6 @@ package com.myschool.apar.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.myschool.attendance.dto.AttendanceDto;
 import com.myschool.employee.dto.EmployeeDto;
 
 /**
@@ -22,9 +21,6 @@ public class EmployeePay implements Serializable {
 
     /** The pay components. */
     private List<PayComponent> payComponents;
-
-    /** The attendance. */
-    private AttendanceDto attendance;
 
     /**
      * Gets the payment.
@@ -81,24 +77,6 @@ public class EmployeePay implements Serializable {
     }
 
     /**
-     * Gets the attendance.
-     * 
-     * @return the attendance
-     */
-    public AttendanceDto getAttendance() {
-        return attendance;
-    }
-
-    /**
-     * Sets the attendance.
-     * 
-     * @param attendance the new attendance
-     */
-    public void setAttendance(AttendanceDto attendance) {
-        this.attendance = attendance;
-    }
-
-    /**
      * Constructs a <code>String</code> with all attributes
      * in name = value format.
      *
@@ -113,7 +91,6 @@ public class EmployeePay implements Serializable {
             .append("payment = ").append(this.payment).append(SEPARATOR)
             .append("employee = ").append(this.employee).append(SEPARATOR)
             .append("payComponents = ").append(this.payComponents).append(SEPARATOR)
-            .append("attendance = ").append(this.attendance).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();
     }

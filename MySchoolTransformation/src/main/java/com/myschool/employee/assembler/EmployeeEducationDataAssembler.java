@@ -8,7 +8,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.myschool.common.util.StringUtil;
+import com.myschool.common.util.JsonUtil;
 import com.myschool.employee.dto.EmployeeEducation;
 
 /**
@@ -46,22 +46,13 @@ public class EmployeeEducationDataAssembler {
         if (employeeEducationData != null) {
             employeeEducation = new EmployeeEducation();
 
-            String employeeEducationId = employeeEducationData.getString("EmployeeEducationId");
-            if (!StringUtil.isNullOrBlank(employeeEducationId)) {
-                employeeEducation.setEducationId(Integer.parseInt(employeeEducationId));
-            }
-            employeeEducation.setDegree(employeeEducationData.getString("Degree"));
-            employeeEducation.setSpecialization(employeeEducationData.getString("Specialization"));
-            employeeEducation.setCollege(employeeEducationData.getString("College"));
-            employeeEducation.setUniversity(employeeEducationData.getString("University"));
-            String yearOfGraduation = employeeEducationData.getString("YearOfGraduation");
-            if (StringUtil.isNumber(yearOfGraduation)) {
-                employeeEducation.setYearOfGraduation(Integer.parseInt(yearOfGraduation));
-            }
-            String percentage = employeeEducationData.getString("Percentage");
-            if (StringUtil.isNumber(percentage)) {
-                employeeEducation.setPercentage(Integer.parseInt(percentage));
-            }
+            employeeEducation.setEducationId(JsonUtil.getInt(employeeEducationData, "EmployeeEducationId"));
+            employeeEducation.setDegree(JsonUtil.getString(employeeEducationData, "Degree"));
+            employeeEducation.setSpecialization(JsonUtil.getString(employeeEducationData, "Specialization"));
+            employeeEducation.setCollege(JsonUtil.getString(employeeEducationData, "College"));
+            employeeEducation.setUniversity(JsonUtil.getString(employeeEducationData, "University"));
+            employeeEducation.setYearOfGraduation(JsonUtil.getInt(employeeEducationData, "YearOfGraduation"));
+            employeeEducation.setPercentage(JsonUtil.getInt(employeeEducationData, "Percentage"));
         }
         return employeeEducation;
     }

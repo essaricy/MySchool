@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.branch.dto.BranchDto;
+import com.myschool.branch.dto.DivisionDto;
+import com.myschool.branch.dto.RegionDto;
+import com.myschool.branch.dto.StateDto;
 import com.myschool.branch.service.BranchService;
 import com.myschool.clazz.dto.ClassDto;
 import com.myschool.clazz.dto.MediumDto;
@@ -46,6 +49,7 @@ public class ClassController {
     @Autowired
     private ClassService classService;
 
+    /** The registered class service. */
     @Autowired
     private RegisteredClassService registeredClassService;
 
@@ -290,44 +294,76 @@ public class ClassController {
     }
 
     /**
-     * Json list by school.
-     *
+     * Json list registered classes.
+     * 
      * @param request the request
      * @param response the response
      * @return the model and view
      * @throws Exception the exception
      */
-    @RequestMapping(value="jsonListBySchool")
-    public ModelAndView jsonListBySchool(HttpServletRequest request,
+    @RequestMapping(value="jsonListRegistered")
+    public ModelAndView jsonListRegisteredClasses(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-
+        boolean getAll = true;
         JSONArray data = new JSONArray();
+        List<RegisteredClassDto> registeredClasses = null;
         try {
-            String schoolId = request.getParameter("schoolId");
+            String schoolId = request.getParameter("SchoolId");
             if (schoolId != null && !StringUtil.isEmpty(schoolId)) {
-                List<RegisteredClassDto> registeredClassDtos = registeredClassService.getBySchool(Integer.parseInt(schoolId));
-                if (registeredClassDtos != null) {
-                    for(RegisteredClassDto registeredClassDto : registeredClassDtos) {
-                        JSONArray row = new JSONArray();
-                        ClassDto classDto = registeredClassDto.getClassDto();
-                        MediumDto medium = registeredClassDto.getMedium();
-                        SectionDto section = registeredClassDto.getSection();
-                        SchoolDto school = registeredClassDto.getSchool();
-                        BranchDto branch = school.getBranch();
-                        
-                        row.put(registeredClassDto.getClassId());
-                        row.put(classDto.getClassId());
-                        row.put(classDto.getClassName());
-                        row.put(medium.getMediumId());
-                        row.put(medium.getDescription());
-                        row.put(section.getSectionId());
-                        row.put(section.getSectionName());
-                        row.put(school.getSchoolId());
-                        row.put(school.getSchoolName());
-                        row.put(branch.getBranchId());
-                        row.put(branch.getBranchCode());
-                        data.put(row);
+                registeredClasses = registeredClassService.getBySchool(Integer.parseInt(schoolId));
+                getAll = false;
+            }
+            if (getAll) {
+                registeredClasses = registeredClassService.getAll();
+            }
+            if (registeredClasses != null) {
+                for(RegisteredClassDto registeredClassDto : registeredClasses) {
+                    JSONArray row = new JSONArray();
+                    ClassDto classDto = registeredClassDto.getClassDto();
+                    MediumDto medium = registeredClassDto.getMedium();
+                    SectionDto section = registeredClassDto.getSection();
+                    SchoolDto school = registeredClassDto.getSchool();
+                    BranchDto branch = school.getBranch();
+                    DivisionDto division = school.getDivision();
+                    RegionDto region = branch.getRegion();
+
+                    row.put(registeredClassDto.getClassId()); // 0
+                    row.put(classDto.getClassId());  // 1
+                    row.put(classDto.getClassName()); // 2
+                    row.put(medium.getMediumId()); // 3
+                    row.put(medium.getDescription()); // 
+                    row.put(section.getSectionId());
+                    row.put(section.getSectionName());
+                    row.put(school.getSchoolId());
+                    row.put(school.getSchoolName());
+                    row.put(branch.getBranchId()); // 10
+                    row.put(branch.getBranchCode());
+                    if (region == null) {
+                        row.put(0);
+                        row.put("");
+                        row.put(0);
+                        row.put(""); //15
+                    } else {
+                        row.put(region.getRegionId());
+                        row.put(region.getRegionName());
+
+                        StateDto state = region.getState();
+                        if (state == null) {
+                            row.put(0);
+                            row.put(""); // 15
+                        } else {
+                            row.put(state.getStateId());
+                            row.put(state.getStateName()); //15
+                        }
                     }
+                    if (division == null) {
+                        row.put(0);
+                        row.put("");
+                    } else {
+                        row.put(division.getDivisionId());
+                        row.put(division.getDivisionCode());
+                    }
+                    data.put(row);
                 }
             }
         } finally {
@@ -475,9 +511,8 @@ public class ClassController {
 
     /**
      * Validate and get registered class.
-     *
+     * 
      * @param request the request
-     * @param validateSchoolId the validate school id
      * @return the registered class dto
      * @throws DataException the data exception
      */

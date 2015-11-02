@@ -2,8 +2,10 @@ package com.myschool.school.assembler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.branch.assembler.BranchDataAssembler;
@@ -121,6 +123,23 @@ public class SchoolDataAssembler {
             school.setDivision(DivisionDataAssembler.create(reportCriteriaValues));
         }
         return school;
+    }
+
+    /**
+     * Creates the.
+     * 
+     * @param schools the schools
+     * @return the jSON array
+     */
+    public static JSONArray create(List<SchoolDto> schools) {
+        JSONArray schoolsData = null;
+        if (schools != null) {
+            schoolsData = new JSONArray();
+            for (SchoolDto school : schools) {
+                schoolsData.put(create(school));
+            }
+        }
+        return schoolsData;
     }
 
 }

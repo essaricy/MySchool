@@ -8,6 +8,7 @@ import java.util.Map;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.myschool.academic.dto.AcademicDto;
 import com.myschool.academic.dto.HolidayDto;
 import com.myschool.academic.dto.HolidaySearchCriteria;
 import com.myschool.common.util.ConversionUtil;
@@ -91,6 +92,23 @@ public class HolidayDataAssembler {
             jsonHoliday.put("EndDate", holiday.getEndDate());
         }
         return jsonHoliday;
+    }
+
+    /**
+     * Creates the search criteria.
+     * 
+     * @param academic the academic
+     * @return the holiday search criteria
+     */
+    public static HolidaySearchCriteria createSearchCriteria(AcademicDto academic) {
+        HolidaySearchCriteria holidaySearchCriteria = null;
+        if (academic != null) {
+            holidaySearchCriteria = new HolidaySearchCriteria();
+            holidaySearchCriteria.setAcademicYear(academic.getAcademicYearName());
+            holidaySearchCriteria.setStartDate(academic.getAcademicYearStartDate());
+            holidaySearchCriteria.setEndDate(academic.getAcademicYearEndDate());
+        }
+        return holidaySearchCriteria;
     }
 
 }

@@ -21,24 +21,89 @@ public class AttendanceProfileServiceImpl implements AttendanceProfileService {
     private AttendanceProfileManager attendanceProfileManager;
 
     /* (non-Javadoc)
-     * @see com.myschool.application.service.Servicable#create(java.lang.Object)
-     */
-    @Override
-    public boolean create(AttendanceProfileDto attendanceProfile) throws ServiceException {
-        try {
-            return attendanceProfileManager.create(attendanceProfile);
-       } catch (DataException dataException) {
-           throw new ServiceException(dataException.getMessage(), dataException);
-       }
-    }
-
-    /* (non-Javadoc)
      * @see com.myschool.application.service.Servicable#getAll()
      */
     @Override
     public List<AttendanceProfileDto> getAll() throws ServiceException {
         try {
             return attendanceProfileManager.getAll();
+       } catch (DataException dataException) {
+           throw new ServiceException(dataException.getMessage(), dataException);
+       }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.attendance.service.AttendanceProfileService#getAll(java.lang.String)
+     */
+    @Override
+    public List<AttendanceProfileDto> getAll(String academicYearName) throws ServiceException {
+        try {
+            return attendanceProfileManager.getAll(academicYearName);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.application.service.Servicable#get(int)
+     */
+    @Override
+    public AttendanceProfileDto get(int attendanceProfileId) throws ServiceException {
+        try {
+            return attendanceProfileManager.get(attendanceProfileId);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.attendance.service.AttendanceProfileService#getInDetail(int)
+     */
+    @Override
+    public AttendanceProfileDto getInDetail(int attendanceProfileId) throws ServiceException {
+        try {
+            return attendanceProfileManager.getInDetail(attendanceProfileId);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.attendance.service.AttendanceProfileService#getBlank(java.lang.String)
+     */
+    @Override
+    public AttendanceProfileDto getBlank(String academicYearName)
+            throws ServiceException {
+        try {
+            return attendanceProfileManager.getBlank(academicYearName);
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.attendance.service.AttendanceProfileService#getBlank()
+     */
+    public AttendanceProfileDto getBlank() throws ServiceException {
+        try {
+            return attendanceProfileManager.getBlank();
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.application.service.Servicable#create(java.lang.Object)
+     */
+    @Override
+    public boolean create(AttendanceProfileDto attendanceProfile) throws ServiceException {
+        try {
+            return attendanceProfileManager.create(attendanceProfile);
        } catch (DataException dataException) {
            throw new ServiceException(dataException.getMessage(), dataException);
        }
@@ -69,33 +134,5 @@ public class AttendanceProfileServiceImpl implements AttendanceProfileService {
                    dataException);
        }
     }
-
-    /* (non-Javadoc)
-     * @see com.myschool.application.service.Servicable#get(int)
-     */
-    @Override
-    public AttendanceProfileDto get(int attendanceProfileId)
-            throws ServiceException {
-        try {
-            return attendanceProfileManager.get(attendanceProfileId);
-       } catch (DataException dataException) {
-           throw new ServiceException(dataException.getMessage(),
-                   dataException);
-       }
-    }
-
-    /* (non-Javadoc)
-     * @see com.myschool.attendance.service.AttendanceProfileService#get(int, java.lang.String)
-     */
-    @Override
-    public AttendanceProfileDto get(int attendanceProfileId,
-            String academicYearName) throws ServiceException {
-        try {
-            return attendanceProfileManager.get(attendanceProfileId, academicYearName);
-       } catch (DataException dataException) {
-           throw new ServiceException(dataException.getMessage(), dataException);
-       }
-    }
-
 
 }

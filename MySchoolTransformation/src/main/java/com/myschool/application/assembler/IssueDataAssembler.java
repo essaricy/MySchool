@@ -95,15 +95,15 @@ public class IssueDataAssembler {
         if (issueSearchCriteriaData != null) {
             issueSearchCriteria = new IssueSearchCriteriaDto();
 
-            issueSearchCriteria.setUserType(UserType.getByValue(JsonUtil.getIntValue(issueSearchCriteriaData, "UserTypeID")));
-            issueSearchCriteria.setIssueStatus(IssueStatus.get(JsonUtil.getIntValue(issueSearchCriteriaData, "StatusID")));
+            issueSearchCriteria.setUserType(UserType.getByValue(JsonUtil.getInt(issueSearchCriteriaData, "UserTypeID")));
+            issueSearchCriteria.setIssueStatus(IssueStatus.get(JsonUtil.getInt(issueSearchCriteriaData, "StatusID")));
 
-            issueSearchCriteria.setReportedDateMin(JsonUtil.getStringValue(issueSearchCriteriaData, "ReportedDateMin"));
-            issueSearchCriteria.setReportedDateMax(JsonUtil.getStringValue(issueSearchCriteriaData, "ReportedDateMax"));
-            issueSearchCriteria.setClosedDateMin(JsonUtil.getStringValue(issueSearchCriteriaData, "ClosedDateMin"));
-            issueSearchCriteria.setClosedDateMax(JsonUtil.getStringValue(issueSearchCriteriaData, "ClosedDateMax"));
-            issueSearchCriteria.setSubject(JsonUtil.getStringValue(issueSearchCriteriaData, "Subject"));
-            issueSearchCriteria.setDescription(JsonUtil.getStringValue(issueSearchCriteriaData, "Description"));
+            issueSearchCriteria.setReportedDateMin(JsonUtil.getString(issueSearchCriteriaData, "ReportedDateMin"));
+            issueSearchCriteria.setReportedDateMax(JsonUtil.getString(issueSearchCriteriaData, "ReportedDateMax"));
+            issueSearchCriteria.setClosedDateMin(JsonUtil.getString(issueSearchCriteriaData, "ClosedDateMin"));
+            issueSearchCriteria.setClosedDateMax(JsonUtil.getString(issueSearchCriteriaData, "ClosedDateMax"));
+            issueSearchCriteria.setSubject(JsonUtil.getString(issueSearchCriteriaData, "Subject"));
+            issueSearchCriteria.setDescription(JsonUtil.getString(issueSearchCriteriaData, "Description"));
         }
         return issueSearchCriteria;
     }
@@ -116,13 +116,13 @@ public class IssueDataAssembler {
      */
     public static IssueDto create(JSONObject issueData) {
         IssueDto issue = new IssueDto();
-        issue.setUserType(UserType.getByValue(JsonUtil.getIntValue(issueData, "UserTypeID")));
+        issue.setUserType(UserType.getByValue(JsonUtil.getInt(issueData, "UserTypeID")));
         //issue.setIssueStatus(IssueStatus.get(JsonUtil.getIntValue(issueData, "StatusID")));
 
-        issue.setReportedDate(JsonUtil.getStringValue(issueData, "ReportedDate"));
-        issue.setClosedDate(JsonUtil.getStringValue(issueData, "ClosedDate"));
-        issue.setSubject(JsonUtil.getStringValue(issueData, "Subject"));
-        issue.setDescription(JsonUtil.getStringValue(issueData, "Description"));
+        issue.setReportedDate(JsonUtil.getString(issueData, "ReportedDate"));
+        issue.setClosedDate(JsonUtil.getString(issueData, "ClosedDate"));
+        issue.setSubject(JsonUtil.getString(issueData, "Subject"));
+        issue.setDescription(JsonUtil.getString(issueData, "Description"));
         return issue;
     }
 }

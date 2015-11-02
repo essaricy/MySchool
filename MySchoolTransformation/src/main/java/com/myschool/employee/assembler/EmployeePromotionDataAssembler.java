@@ -9,7 +9,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.StringUtil;
+import com.myschool.common.util.JsonUtil;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeePromotion;
 
@@ -55,17 +55,14 @@ public class EmployeePromotionDataAssembler {
         if (employeePromotionData != null) {
             employeePromotion = new EmployeePromotion();
 
-            String employeePromotionId = employeePromotionData.getString("EmployeePromotionId");
-            if (!StringUtil.isNullOrBlank(employeePromotionId)) {
-                employeePromotion.setPromotionId(Integer.parseInt(employeePromotionId));
-            }
+            employeePromotion.setPromotionId(JsonUtil.getInt(employeePromotionData, "EmployeePromotionId"));
             DesignationDto priorDesignation = new DesignationDto();
-            priorDesignation.setDesignationId(Integer.parseInt(employeePromotionData.getString("PriorDesignationId")));
+            priorDesignation.setDesignationId(JsonUtil.getInt(employeePromotionData, "PriorDesignationId"));
             employeePromotion.setPriorDesignation(priorDesignation);
             DesignationDto currentDesignation = new DesignationDto();
-            currentDesignation.setDesignationId(Integer.parseInt(employeePromotionData.getString("CurrentDesignationId")));
+            currentDesignation.setDesignationId(JsonUtil.getInt(employeePromotionData, "CurrentDesignationId"));
             employeePromotion.setCurrentDesignation(currentDesignation);
-            employeePromotion.setEffectiveFrom(employeePromotionData.getString("EffectiveFrom"));
+            employeePromotion.setEffectiveFrom(JsonUtil.getString(employeePromotionData, "EffectiveFrom"));
         }
         return employeePromotion;
     }

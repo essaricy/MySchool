@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.myschool.attendance.dto.AttendanceDto;
-import com.myschool.attendance.dto.MonthAttendance;
-import com.myschool.attendance.dto.ReferenceAttendanceDto;
-import com.myschool.attendance.dto.StudentAttendanceDto;
+import com.myschool.attendance.assembler.AttendanceDataAssembler;
+import com.myschool.attendance.dto.AttendanceCodeDto;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
 import com.myschool.infra.database.agent.DatabaseAgent;
@@ -28,7 +28,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
 
     /* (non-Javadoc)
      * @see com.myschool.attendance.dao.AttendanceDao#getReferenceAttendance(int, int, int)
-     */
+     
     @Override
     public ReferenceAttendanceDto getReferenceAttendance(int classId, int year,
             int month) throws DaoException {
@@ -54,10 +54,10 @@ public class AttendanceDaoImpl implements AttendanceDao {
         } catch (ConnectionException connectionException) {
             throw new DaoException(connectionException.getMessage(),
                     connectionException);
-        }/* catch (ValidationException validationException) {
+        } catch (ValidationException validationException) {
             throw new DaoException(validationException.getMessage(),
                     validationException);
-        }*/ finally {
+        } finally {
             try {
                 databaseAgent.releaseResources(connection, preparedStatement, resultSet);
             } catch (ConnectionException connectionException) {
@@ -68,9 +68,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return referenceAttendance;
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.attendance.dao.AttendanceDao#createReferenceAttendance(com.myschool.attendance.dto.ReferenceAttendanceDto)
-     */
+     
     @Override
     public int createReferenceAttendance(ReferenceAttendanceDto referenceAttendance) throws DaoException {
         int nextId = 0;
@@ -103,9 +103,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return nextId;
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.attendance.dao.AttendanceDao#updateReferenceAttendance(int, com.myschool.attendance.dto.ReferenceAttendanceDto)
-     */
+     
     @Override
     public boolean updateReferenceAttendance(int referenceAttendanceId,
             ReferenceAttendanceDto referenceAttendance) throws DaoException {
@@ -135,9 +135,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return updated;
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.attendance.dao.AttendanceDao#getStudentAttendance(int, int, int)
-     */
+     
     @Override
     public AttendanceDto getStudentAttendance(int studentId, int year, int month)
             throws DaoException {
@@ -145,7 +145,7 @@ public class AttendanceDaoImpl implements AttendanceDao {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
-        MonthAttendance monthAttendance = null;
+        AttendanceMonth monthAttendance = null;
 
         try {
             connection = databaseAgent.getConnection();
@@ -163,10 +163,10 @@ public class AttendanceDaoImpl implements AttendanceDao {
         } catch (ConnectionException connectionException) {
             throw new DaoException(connectionException.getMessage(),
                     connectionException);
-        } /*catch (ValidationException validationException) {
+        } catch (ValidationException validationException) {
             throw new DaoException(validationException.getMessage(),
                     validationException);
-        }*/ finally {
+        } finally {
             try {
                 databaseAgent.releaseResources(connection, preparedStatement, resultSet);
             } catch (ConnectionException connectionException) {
@@ -177,9 +177,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return monthAttendance;
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.attendance.dao.AttendanceDao#createStudentAttendance(com.myschool.attendance.dto.ReferenceAttendanceDto, com.myschool.attendance.dto.StudentAttendanceDto)
-     */
+     
     @Override
     public int createStudentAttendance(
             ReferenceAttendanceDto referenceAttendance,
@@ -214,9 +214,9 @@ public class AttendanceDaoImpl implements AttendanceDao {
         return nextId;
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.attendance.dao.AttendanceDao#updateStudentAttendance(int, com.myschool.attendance.dto.ReferenceAttendanceDto, com.myschool.attendance.dto.StudentAttendanceDto)
-     */
+     
     @Override
     public boolean updateStudentAttendance(int monthAttendanceId,
             ReferenceAttendanceDto referenceAttendance,
@@ -246,6 +246,112 @@ public class AttendanceDaoImpl implements AttendanceDao {
             }
         }
         return updated;
+    }*/
+
+    ///////////////////////////////////////////////////////////////////////////////////////////////
+    @Override
+    public List<AttendanceCodeDto> getAttendanceCodes() throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<AttendanceCodeDto> attendanceCodeDtos = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            preparedStatement = connection.prepareStatement(AttendanceCodeDaoSql.SELECT_ALL);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                if (attendanceCodeDtos == null) {
+                    attendanceCodeDtos = new ArrayList<AttendanceCodeDto>();
+                }
+                attendanceCodeDtos.add(AttendanceDataAssembler.create(resultSet));
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(), connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return attendanceCodeDtos;
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.attendance.dao.AttendanceDao#getReferredAttendanceCodes()
+     */
+    @Override
+    public List<AttendanceCodeDto> getReferredAttendanceCodes() throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<AttendanceCodeDto> attendanceCodeDtos = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            preparedStatement = connection.prepareStatement(AttendanceCodeDaoSql.SELECT_USE_IN_REFERENCE);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                if (attendanceCodeDtos == null) {
+                    attendanceCodeDtos = new ArrayList<AttendanceCodeDto>();
+                }
+                attendanceCodeDtos.add(AttendanceDataAssembler.create(resultSet));
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(), connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return attendanceCodeDtos;
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.attendance.dao.AttendanceDao#getAssignedAttendanceCodes()
+     */
+    @Override
+    public List<AttendanceCodeDto> getAssignedAttendanceCodes() throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<AttendanceCodeDto> attendanceCodeDtos = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            preparedStatement = connection.prepareStatement(AttendanceCodeDaoSql.SELECT_USE_IN_ASSIGNMENT);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                if (attendanceCodeDtos == null) {
+                    attendanceCodeDtos = new ArrayList<AttendanceCodeDto>();
+                }
+                attendanceCodeDtos.add(AttendanceDataAssembler.create(resultSet));
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(), connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return attendanceCodeDtos;
     }
 
 }

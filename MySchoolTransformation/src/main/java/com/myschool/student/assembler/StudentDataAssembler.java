@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.clazz.assembler.ClassDataAssembler;
@@ -89,25 +88,24 @@ public class StudentDataAssembler {
         StudentDto student = null;
         if (studentData != null) {
             student = new StudentDto();
-            JSONObject personalDetailJsonObject = studentData.getJSONObject("PersonalDetails");
-            JSONArray familyMembersDetailObject = studentData.getJSONArray("FamilyMemberDetails");
-            JSONObject admissionDataJsonObject = studentData.getJSONObject("AdmissionDetails");
-            JSONArray documentDetailsJsonArray = studentData.getJSONArray("DocumentDetails");
 
-            student.setImageName(StringUtil.getValue(studentData.getString("ImageName")));
-            student.setStudentId(Integer.parseInt(StringUtil.getValue(studentData.getString("StudentId"))));
+            student.setImageName(StringUtil.getValue(JsonUtil.getString(studentData, "ImageName")));
+            student.setStudentId(Integer.parseInt(StringUtil.getValue(JsonUtil.getString(studentData, "StudentId"))));
+            student.setVerified(ConversionUtil.toBoolean(JsonUtil.getString(studentData, "Verified")));
             // Admission Details
-            student.setAdmissionNumber(admissionDataJsonObject.getString("AdmissionNumber"));
-            student.setRegisteredClassDto(getRegisteredClassDetails(admissionDataJsonObject));
-            AdmissionStatus admissionStatus = new AdmissionStatus();
-            admissionStatus.setStatusId(admissionDataJsonObject.getInt("AdmissionStatusId"));
-            student.setAdmissionStatus(admissionStatus);
-            student.setDateOfJoining(admissionDataJsonObject.getString("DateOfJoining"));
-            student.setRemarks(admissionDataJsonObject.getString("Remarks"));
-            student.setVerified(ConversionUtil.toBoolean(studentData.getString("Verified")));
-            student.setPersonalDetails(getPersonalDetails(personalDetailJsonObject));
-            student.setFamilyMembers(StudentFamilyDataAssembler.create(familyMembersDetailObject));
-            student.setDocumentsSubmitted(StudentDocumentDataAssembler.create(documentDetailsJsonArray));
+            JSONObject admissionDataJsonObject = JsonUtil.getObject(studentData, "AdmissionDetails");
+            if (admissionDataJsonObject != null) {
+                student.setAdmissionNumber(JsonUtil.getString(admissionDataJsonObject, "AdmissionNumber"));
+                student.setRegisteredClassDto(getRegisteredClassDetails(admissionDataJsonObject));
+                AdmissionStatus admissionStatus = new AdmissionStatus();
+                admissionStatus.setStatusId(JsonUtil.getInt(admissionDataJsonObject, "AdmissionStatusId"));
+                student.setAdmissionStatus(admissionStatus);
+                student.setDateOfJoining(JsonUtil.getString(admissionDataJsonObject, "DateOfJoining"));
+                student.setRemarks(JsonUtil.getString(admissionDataJsonObject, "Remarks"));
+            }
+            student.setPersonalDetails(getPersonalDetails(JsonUtil.getObject(studentData, "PersonalDetails")));
+            student.setFamilyMembers(StudentFamilyDataAssembler.create(JsonUtil.getArray(studentData, "FamilyMemberDetails")));
+            student.setDocumentsSubmitted(StudentDocumentDataAssembler.create(JsonUtil.getArray(studentData, "DocumentDetails")));
         }
         return student;
     }
@@ -139,20 +137,20 @@ public class StudentDataAssembler {
         PersonalDetailsDto personalDetailsDto = null;
         if (personalDetailJsonObject != null) {
             personalDetailsDto = new PersonalDetailsDto();
-            personalDetailsDto.setFirstName(personalDetailJsonObject.getString("FirstName"));
-            personalDetailsDto.setMiddleName(personalDetailJsonObject.getString("MiddleName"));
-            personalDetailsDto.setLastName(personalDetailJsonObject.getString("LastName"));
-            personalDetailsDto.setGender(personalDetailJsonObject.getString("Gender"));
-            personalDetailsDto.setDateOfBirth(personalDetailJsonObject.getString("DateOfBirth"));
-            personalDetailsDto.setReligion(personalDetailJsonObject.getString("Religion"));
-            personalDetailsDto.setCaste(personalDetailJsonObject.getString("Caste"));
-            personalDetailsDto.setNationality(personalDetailJsonObject.getString("Nationality"));
-            personalDetailsDto.setMotherTongue(personalDetailJsonObject.getString("MotherTongue"));
-            personalDetailsDto.setMobileNumber(personalDetailJsonObject.getString("MobileNumber"));
-            personalDetailsDto.setBloodGroup(personalDetailJsonObject.getString("BloodGroup"));
-            personalDetailsDto.setCorrespondenceAddress(personalDetailJsonObject.getString("CorrespondenceAddress"));
-            personalDetailsDto.setPermanentAddress(personalDetailJsonObject.getString("PermanentAddress"));
-            personalDetailsDto.setIdentificationMarks(personalDetailJsonObject.getString("IdentificationMarks"));
+            personalDetailsDto.setFirstName(JsonUtil.getString(personalDetailJsonObject, "FirstName"));
+            personalDetailsDto.setMiddleName(JsonUtil.getString(personalDetailJsonObject, "MiddleName"));
+            personalDetailsDto.setLastName(JsonUtil.getString(personalDetailJsonObject, "LastName"));
+            personalDetailsDto.setGender(JsonUtil.getString(personalDetailJsonObject, "Gender"));
+            personalDetailsDto.setDateOfBirth(JsonUtil.getString(personalDetailJsonObject, "DateOfBirth"));
+            personalDetailsDto.setReligion(JsonUtil.getString(personalDetailJsonObject, "Religion"));
+            personalDetailsDto.setCaste(JsonUtil.getString(personalDetailJsonObject, "Caste"));
+            personalDetailsDto.setNationality(JsonUtil.getString(personalDetailJsonObject, "Nationality"));
+            personalDetailsDto.setMotherTongue(JsonUtil.getString(personalDetailJsonObject, "MotherTongue"));
+            personalDetailsDto.setMobileNumber(JsonUtil.getString(personalDetailJsonObject, "MobileNumber"));
+            personalDetailsDto.setBloodGroup(JsonUtil.getString(personalDetailJsonObject, "BloodGroup"));
+            personalDetailsDto.setCorrespondenceAddress(JsonUtil.getString(personalDetailJsonObject, "CorrespondenceAddress"));
+            personalDetailsDto.setPermanentAddress(JsonUtil.getString(personalDetailJsonObject, "PermanentAddress"));
+            personalDetailsDto.setIdentificationMarks(JsonUtil.getString(personalDetailJsonObject, "IdentificationMarks"));
         }
         return personalDetailsDto;
     }
@@ -168,23 +166,23 @@ public class StudentDataAssembler {
         if (studentSearchCriteria != null) {
             studentSearchCriteriaDto = new StudentSearchCriteriaDto();
 
-            String searchType = studentSearchCriteria.getString("SearchType");
-            studentSearchCriteriaDto.setBranchId(JsonUtil.getIntValue(studentSearchCriteria, "Branch"));
-            studentSearchCriteriaDto.setDivisionId(JsonUtil.getIntValue(studentSearchCriteria, "Division"));
-            studentSearchCriteriaDto.setSchoolId(JsonUtil.getIntValue(studentSearchCriteria, "School"));
-            studentSearchCriteriaDto.setClassId(JsonUtil.getIntValue(studentSearchCriteria, "Class"));
-            studentSearchCriteriaDto.setMediumId(JsonUtil.getIntValue(studentSearchCriteria, "Medium"));
-            studentSearchCriteriaDto.setSectionId(JsonUtil.getIntValue(studentSearchCriteria, "Section"));
-            studentSearchCriteriaDto.setAdmissionNumber(JsonUtil.getStringValue(studentSearchCriteria, "AdmissionNumber"));
-            studentSearchCriteriaDto.setStudentName(JsonUtil.getStringValue(studentSearchCriteria, "StudentName"));
+            String searchType = JsonUtil.getString(studentSearchCriteria, "SearchType");
+            studentSearchCriteriaDto.setBranchId(JsonUtil.getInt(studentSearchCriteria, "Branch"));
+            studentSearchCriteriaDto.setDivisionId(JsonUtil.getInt(studentSearchCriteria, "Division"));
+            studentSearchCriteriaDto.setSchoolId(JsonUtil.getInt(studentSearchCriteria, "School"));
+            studentSearchCriteriaDto.setClassId(JsonUtil.getInt(studentSearchCriteria, "Class"));
+            studentSearchCriteriaDto.setMediumId(JsonUtil.getInt(studentSearchCriteria, "Medium"));
+            studentSearchCriteriaDto.setSectionId(JsonUtil.getInt(studentSearchCriteria, "Section"));
+            studentSearchCriteriaDto.setAdmissionNumber(JsonUtil.getString(studentSearchCriteria, "AdmissionNumber"));
+            studentSearchCriteriaDto.setStudentName(JsonUtil.getString(studentSearchCriteria, "StudentName"));
 
             if (searchType.equalsIgnoreCase("ADVANCED")) {
-                studentSearchCriteriaDto.setGender(JsonUtil.getStringValue(studentSearchCriteria, "Gender"));
-                studentSearchCriteriaDto.setBloodGroup(JsonUtil.getStringValue(studentSearchCriteria, "BloodGroup"));
-                studentSearchCriteriaDto.setDateOfBirthMin(JsonUtil.getStringValue(studentSearchCriteria, "DateOfBirthMin"));
-                studentSearchCriteriaDto.setDateOfBirthMax(JsonUtil.getStringValue(studentSearchCriteria, "DateOfBirthMax"));
-                studentSearchCriteriaDto.setDateOfJoiningMin(JsonUtil.getStringValue(studentSearchCriteria, "DateOfJoiningMin"));
-                studentSearchCriteriaDto.setDateOfJoiningMax(JsonUtil.getStringValue(studentSearchCriteria, "DateOfJoiningMax"));
+                studentSearchCriteriaDto.setGender(JsonUtil.getString(studentSearchCriteria, "Gender"));
+                studentSearchCriteriaDto.setBloodGroup(JsonUtil.getString(studentSearchCriteria, "BloodGroup"));
+                studentSearchCriteriaDto.setDateOfBirthMin(JsonUtil.getString(studentSearchCriteria, "DateOfBirthMin"));
+                studentSearchCriteriaDto.setDateOfBirthMax(JsonUtil.getString(studentSearchCriteria, "DateOfBirthMax"));
+                studentSearchCriteriaDto.setDateOfJoiningMin(JsonUtil.getString(studentSearchCriteria, "DateOfJoiningMin"));
+                studentSearchCriteriaDto.setDateOfJoiningMax(JsonUtil.getString(studentSearchCriteria, "DateOfJoiningMax"));
             }
         }
         return studentSearchCriteriaDto;

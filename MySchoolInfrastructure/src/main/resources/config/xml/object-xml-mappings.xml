@@ -37,7 +37,6 @@
         <field alias="Payment" name="payment" type="com.myschool.apar.dto.Payment"/>
         <field alias="Employee" name="employee" type="com.myschool.employee.dto.EmployeeDto"/>
         <field alias="PayComponents" name="payComponents" type="java.util.List"/>
-        <field alias="Attendance" name="attendance" type="com.myschool.attendance.dto.AttendanceDto"/>
     </object-xml-mapping>
     <object-xml-mapping name="FeeSummary" type="com.myschool.apar.dto.FeeSummary">
         <field alias="TotalFeeToPay" name="totalFeeToPay"/>
@@ -132,31 +131,35 @@
         <field alias="FaxNumber" name="faxNumber"/>
         <field alias="MapUrl" name="mapUrl"/>
     </object-xml-mapping>
-    <object-xml-mapping name="Attendance" type="com.myschool.attendance.dto.AttendanceDto">
-        <field alias="AttendanceYear" name="attendanceYear"/>
+    <object-xml-mapping name="AttendanceCode" type="com.myschool.attendance.dto.AttendanceCodeDto">
+        <field alias="Code" name="code"/>
+        <field alias="ShortDescription" name="shortDescription"/>
+        <field alias="LongDescription" name="longDescription"/>
+        <field alias="UseInReference" name="useInReference"/>
+        <field alias="UseInAssignment" name="useInAssignment"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="AttendanceDay" type="com.myschool.attendance.dto.AttendanceDay">
+        <field alias="Date" name="date"/>
+        <field alias="DayName" name="dayName"/>
+        <field alias="DayNumberInWeek" name="dayNumberInWeek"/>
+        <field alias="Reference" name="reference" type="com.myschool.attendance.dto.AttendanceCode"/>
+        <field alias="Assigned" name="assigned" type="com.myschool.attendance.dto.AttendanceCode"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="AttendanceMonth" type="com.myschool.attendance.dto.AttendanceMonth">
+        <field alias="AttendanceMonthId" name="attendanceMonthId"/>
+        <field alias="Year" name="year"/>
+        <field alias="MonthNumber" name="monthNumber"/>
+        <field alias="MonthName" name="monthName"/>
+        <field alias="Locked" name="locked"/>
+        <field alias="AttendanceDays" name="attendanceDays" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="AttendanceProfile" type="com.myschool.attendance.dto.AttendanceProfileDto">
-        <field alias="AttendanceProfileId" name="attendanceProfileId"/>
+        <field alias="ProfileId" name="profileId"/>
         <field alias="ProfileName" name="profileName"/>
         <field alias="EffectiveAcademic" name="effectiveAcademic" type="com.myschool.academic.dto.AcademicDto"/>
-        <field alias="YearAttendance" name="yearAttendance" type="java.util.List"/>
-        <field alias="States" name="states" type="java.util.List"/>
-        <field alias="Regions" name="regions" type="java.util.List"/>
-        <field alias="Branches" name="branches" type="java.util.List"/>
-        <field alias="Schools" name="schools" type="java.util.List"/>
-        <field alias="RegisteredClasses" name="registeredClasses" type="java.util.List"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="Day" type="com.myschool.attendance.dto.Day">
-        <field alias="Date" name="date"/>
-        <field alias="DayNumberInWeek" name="dayNumberInWeek"/>
-        <field alias="DayShortName" name="dayShortName"/>
-        <field alias="DayFullName" name="dayFullName"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="DayAttendance" type="com.myschool.attendance.dto.DayAttendance">
-        <field alias="INVALID" name="INVALID"/>
-        <field alias="DaysInDifference" name="daysInDifference"/>
-        <field alias="Day" name="day" type="com.myschool.attendance.dto.Day"/>
-        <field alias="AttendanceCode" name="attendanceCode" type="com.myschool.attendance.dto.AttendanceCode"/>
+        <field alias="AttendanceMonths" name="attendanceMonths" type="java.util.List"/>
+        <field alias="AssignedSchools" name="assignedSchools" type="java.util.List"/>
+        <field alias="AssignedClasses" name="assignedClasses" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="Leave" type="com.myschool.attendance.dto.LeaveDto">
         <field alias="Type" name="type"/>
@@ -165,48 +168,6 @@
         <field alias="NumberOfDays" name="numberOfDays"/>
         <field alias="Comments" name="comments"/>
         <field alias="LeaveStatus" name="leaveStatus" type="com.myschool.attendance.constants.LeaveStatus"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="Month" type="com.myschool.attendance.dto.Month">
-        <field alias="Number" name="number"/>
-        <field alias="ShortName" name="shortName"/>
-        <field alias="FullName" name="fullName"/>
-        <field alias="Days" name="days" type="java.util.List"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="MonthAttendance" type="com.myschool.attendance.dto.MonthAttendance">
-        <field alias="MonthAttendanceId" name="monthAttendanceId"/>
-        <field alias="NumberOfGeneralHolidays" name="numberOfGeneralHolidays"/>
-        <field alias="NumberOfDeclaredHolidays" name="numberOfDeclaredHolidays"/>
-        <field alias="NumberOfLeaves" name="numberOfLeaves"/>
-        <field alias="NumberOfHalfDays" name="numberOfHalfDays"/>
-        <field alias="NumberOfPresents" name="numberOfPresents"/>
-        <field alias="NumberOfAbsents" name="numberOfAbsents"/>
-        <field alias="Month" name="month" type="com.myschool.attendance.dto.Month"/>
-        <field alias="DayAttendances" name="dayAttendances" type="java.util.List"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="ReferenceAttendance" type="com.myschool.attendance.dto.ReferenceAttendanceDto">
-        <field alias="ReferenceAttendanceId" name="referenceAttendanceId"/>
-        <field alias="RegisteredClass" name="registeredClass" type="com.myschool.clazz.dto.RegisteredClassDto"/>
-        <field alias="Year" name="year"/>
-        <field alias="Month" name="month"/>
-        <field alias="DayAttendances" name="dayAttendances" type="java.util.List"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="StudentAttendance" type="com.myschool.attendance.dto.StudentAttendanceDto">
-        <field alias="Student" name="student" type="com.myschool.student.dto.StudentDto"/>
-        <field alias="Attendance" name="attendance" type="com.myschool.attendance.dto.AttendanceDto"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="Year" type="com.myschool.attendance.dto.Year">
-        <field alias="Number" name="number"/>
-        <field alias="Months" name="months" type="java.util.List"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="YearAttendance" type="com.myschool.attendance.dto.YearAttendance">
-        <field alias="NumberOfAbsents" name="numberOfAbsents"/>
-        <field alias="NumberOfPresents" name="numberOfPresents"/>
-        <field alias="NumberOfGeneralHolidays" name="numberOfGeneralHolidays"/>
-        <field alias="NumberOfDeclaredHolidays" name="numberOfDeclaredHolidays"/>
-        <field alias="NumberOfHolidays" name="numberOfHolidays"/>
-        <field alias="NumberOfLeaves" name="numberOfLeaves"/>
-        <field alias="Year" name="year" type="com.myschool.attendance.dto.Year"/>
-        <field alias="MonthAttendances" name="monthAttendances" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="Branch" type="com.myschool.branch.dto.BranchDto">
         <field alias="BranchId" name="branchId"/>

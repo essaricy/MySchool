@@ -2,7 +2,9 @@ package com.myschool.clazz.assembler;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.clazz.dto.RegisteredClassDto;
@@ -47,6 +49,23 @@ public class RegisteredClassDataAssembler {
         registeredClass.setSchool(SchoolDataAssembler.create(resultSet, true));
         registeredClass.setSection(SectionDataAssembler.create(resultSet, true));
         return registeredClass;
+    }
+
+    /**
+     * Creates the.
+     * 
+     * @param schools the schools
+     * @return the jSON array
+     */
+    public static JSONArray create(List<RegisteredClassDto> schools) {
+        JSONArray classesData = null;
+        if (schools != null) {
+            classesData = new JSONArray();
+            for (RegisteredClassDto clazz : schools) {
+                classesData.put(create(clazz));
+            }
+        }
+        return classesData;
     }
 
 }

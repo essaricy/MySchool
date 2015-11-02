@@ -1,35 +1,29 @@
 package com.myschool.attendance.domain;
 
-import java.util.Date;
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.myschool.academic.assembler.HolidayDataAssembler;
 import com.myschool.academic.domain.AcademicManager;
 import com.myschool.academic.domain.HolidayManager;
 import com.myschool.academic.dto.AcademicDto;
 import com.myschool.academic.dto.HolidayDto;
-import com.myschool.academic.dto.HolidaySearchCriteria;
-import com.myschool.attendance.assembler.AttendanceDataAssembler;
+import com.myschool.attendance.assembler.AttendanceProfileDataAssembler;
+import com.myschool.attendance.constants.AttendanceConstant;
 import com.myschool.attendance.dao.AttendanceAssignmentsDao;
 import com.myschool.attendance.dao.AttendanceProfileDao;
+import com.myschool.attendance.dto.AttendanceMonth;
 import com.myschool.attendance.dto.AttendanceProfileDto;
-import com.myschool.attendance.dto.MonthAttendance;
 import com.myschool.attendance.validator.AttendanceProfileValidator;
-import com.myschool.branch.domain.BranchManager;
-import com.myschool.branch.domain.RegionManager;
-import com.myschool.branch.domain.StateManager;
-import com.myschool.branch.dto.BranchDto;
-import com.myschool.branch.dto.RegionDto;
-import com.myschool.branch.dto.StateDto;
 import com.myschool.clazz.domain.RegisteredClassManager;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.school.domain.SchoolManager;
 import com.myschool.school.dto.SchoolDto;
 
@@ -38,9 +32,6 @@ import com.myschool.school.dto.SchoolDto;
  */
 @Component
 public class AttendanceProfileManager {
-
-    /** The Constant ACADEMIC_YEAR_DOES_NOT_EXIST. */
-    private static final String ACADEMIC_YEAR_DOES_NOT_EXIST = "Academic Year does not exist.";
 
     /** The attendance profile dao. */
     @Autowired
@@ -58,21 +49,6 @@ public class AttendanceProfileManager {
     @Autowired
     private HolidayManager holidayManager;
 
-    /** The attendance profile validator. */
-    @Autowired
-    private AttendanceProfileValidator attendanceProfileValidator;
-
-    @Autowired
-    private StateManager stateManager;
-
-    /** The region manager. */
-    @Autowired
-    private RegionManager regionManager;
-
-    /** The branch manager. */
-    @Autowired
-    private BranchManager branchManager;
-
     /** The school manager. */
     @Autowired
     private SchoolManager schoolManager;
@@ -80,6 +56,106 @@ public class AttendanceProfileManager {
     /** The registered class manager. */
     @Autowired
     private RegisteredClassManager registeredClassManager;
+
+    /** The attendance profile validator. */
+    @Autowired
+    private AttendanceProfileValidator attendanceProfileValidator;
+
+    /**
+     * Gets the all.
+     * 
+     * @return the all
+     * @throws DataException the data exception
+     */
+    public List<AttendanceProfileDto> getAll() throws DataException {
+        List<AttendanceProfileDto> attendanceProfiles = null;
+        try {
+            System.out.println("AttendanceProfileManager getAll()");
+            attendanceProfiles = attendanceProfileDao.getAll();
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return attendanceProfiles;
+    }
+
+    /**
+     * Gets the all.
+     * 
+     * @param academicYearName the academic year name
+     * @return the all
+     * @throws DataException the data exception
+     */
+    public List<AttendanceProfileDto> getAll(String academicYearName) throws DataException {
+        List<AttendanceProfileDto> attendanceProfiles;
+        try {
+            attendanceProfiles = null;
+            System.out.println("AttendanceProfileManager get(" + academicYearName + ")");
+            if (academicYearName == null) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
+            }
+            AcademicDto academic = academicManager.get(academicYearName);
+            if (academic == null) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
+            }
+            attendanceProfiles = attendanceProfileDao.getAll(academicYearName);
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return attendanceProfiles;
+    }
+
+    /**
+     * Gets the all in detail.
+     * 
+     * @return the all in detail
+     * @throws DataException the data exception
+     */
+    public List<AttendanceProfileDto> getAllInDetail() throws DataException {
+        List<AttendanceProfileDto> attendanceProfiles = null;
+        try {
+            System.out.println("AttendanceProfileManager getAllInDetail()");
+            attendanceProfiles = attendanceProfileDao.getAll();
+            if (attendanceProfiles != null && !attendanceProfiles.isEmpty()) {
+                for (AttendanceProfileDto attendanceProfile : attendanceProfiles) {
+                    setProfileAssociatedData(attendanceProfile);
+                }
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return attendanceProfiles;
+    }
+
+    /**
+     * Gets the all in detail.
+     * 
+     * @param academicYearName the academic year name
+     * @return the all in detail
+     * @throws DataException the data exception
+     */
+    public List<AttendanceProfileDto> getAllInDetail(String academicYearName) throws DataException {
+        List<AttendanceProfileDto> attendanceProfiles;
+        try {
+            attendanceProfiles = null;
+            System.out.println("AttendanceProfileManager getAllInDetail(" + academicYearName + ")");
+            if (academicYearName == null) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
+            }
+            AcademicDto academic = academicManager.get(academicYearName);
+            if (academic == null) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
+            }
+            attendanceProfiles = attendanceProfileDao.getAll(academicYearName);
+            if (attendanceProfiles != null && !attendanceProfiles.isEmpty()) {
+                for (AttendanceProfileDto attendanceProfile : attendanceProfiles) {
+                    setProfileAssociatedData(attendanceProfile);
+                }
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return attendanceProfiles;
+    }
 
     /**
      * Gets the.
@@ -91,10 +167,14 @@ public class AttendanceProfileManager {
     public AttendanceProfileDto get(int attendanceProfileId) throws DataException {
         AttendanceProfileDto attendanceProfile = null;
         try {
+            System.out.println("AttendanceProfileManager get(" + attendanceProfileId + ")");
             if (attendanceProfileId == 0) {
-                throw new DataException("Invalid attendance profile ID.");
+                throw new DataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
             attendanceProfile = attendanceProfileDao.get(attendanceProfileId);
+            if (attendanceProfile == null) {
+                throw new DataException(AttendanceConstant.ERROR_NO_PROFILE);
+            }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
         }
@@ -102,31 +182,24 @@ public class AttendanceProfileManager {
     }
 
     /**
-     * Gets the.
+     * Gets the in detail.
      * 
      * @param attendanceProfileId the attendance profile id
-     * @param academicYearName the academic year name
-     * @return the attendance profile dto
+     * @return the in detail
      * @throws DataException the data exception
      */
-    public AttendanceProfileDto get(int attendanceProfileId,
-            String academicYearName) throws DataException {
+    public AttendanceProfileDto getInDetail(int attendanceProfileId) throws DataException {
         AttendanceProfileDto attendanceProfile = null;
         try {
-            if (attendanceProfileId != 0) {
-                attendanceProfile = attendanceProfileDao.get(attendanceProfileId);
+            System.out.println("AttendanceProfileManager get(" + attendanceProfileId + ")");
+            if (attendanceProfileId == 0) {
+                throw new DataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
-            List<MonthAttendance> yearAttendance = getProfileAttendance(attendanceProfile, academicYearName);
+            attendanceProfile = attendanceProfileDao.get(attendanceProfileId);
             if (attendanceProfile == null) {
-                attendanceProfile = new AttendanceProfileDto();
-            } else {
-                attendanceProfile.setStates(attendanceAssignmentsDao.getAssignedStates(attendanceProfileId));
-                attendanceProfile.setRegions(attendanceAssignmentsDao.getAssignedRegions(attendanceProfileId));
-                attendanceProfile.setBranches(attendanceAssignmentsDao.getAssignedBranches(attendanceProfileId));
-                attendanceProfile.setSchools(attendanceAssignmentsDao.getAssignedSchools(attendanceProfileId));
-                attendanceProfile.setRegisteredClasses(attendanceAssignmentsDao.getAssignedClasses(attendanceProfileId));
+                throw new DataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
-            attendanceProfile.setYearAttendance(yearAttendance);
+            setProfileAssociatedData(attendanceProfile);
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
         }
@@ -134,121 +207,83 @@ public class AttendanceProfileManager {
     }
 
     /**
-     * Gets the profile attendance.
+     * Gets the blank.
      * 
-     * @param attendanceProfile the attendance profile
-     * @param academicYearName the academic year name
-     * @return the profile attendance
-     * @throws DataException the data exception
-     * @throws DaoException the dao exception
-     */
-    private List<MonthAttendance> getProfileAttendance(AttendanceProfileDto attendanceProfile,
-            String academicYearName) throws DataException, DaoException {
-        List<MonthAttendance> yearAttendance = null;
-
-        if (attendanceProfile == null) {
-            AcademicDto academic = academicManager.get(academicYearName);
-            if (academic == null) {
-                throw new DataException(ACADEMIC_YEAR_DOES_NOT_EXIST);
-            } else {
-                // prepare attendance
-                yearAttendance = getYearAttendance(academic, null);
-            }
-        } else {
-            // get the profile attendances from the database
-            // fill empties only
-            int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
-            AcademicDto effectiveAcademic = attendanceProfile.getEffectiveAcademic();
-            yearAttendance = attendanceProfileDao.getProfileAttendance(attendanceProfileId);
-            // If there are no attendances found then fill it with empty attendances.
-            if (yearAttendance == null) {
-                // There is no attendance profile. prepare attendance
-                AcademicDto academic = academicManager.get(effectiveAcademic.getAcademicYearName());
-                if (academic == null) {
-                    throw new DataException(ACADEMIC_YEAR_DOES_NOT_EXIST);
-                } else {
-                    yearAttendance = getYearAttendance(academic, null);
-                }
-            } else {
-                attendanceProfile.setYearAttendance(yearAttendance);
-                yearAttendance = getYearAttendance(effectiveAcademic, yearAttendance);
-            }
-        }
-        return yearAttendance;
-    }
-
-    /**
-     * Gets the year attendance.
-     * 
-     * @param academic the academic
-     * @param yearAttendance the year attendance
-     * @return the year attendance
+     * @return the blank
      * @throws DataException the data exception
      */
-    private List<MonthAttendance> getYearAttendance(AcademicDto academic,
-            List<MonthAttendance> yearAttendance) throws DataException {
-        String academicYearStartDateVal = academic.getAcademicYearStartDate();
-        String academicYearEndDateVal = academic.getAcademicYearEndDate();
-        Date academicYearStartDate = ConversionUtil.fromApplicationDate(academicYearStartDateVal);
-        Date academicYearEndDate = ConversionUtil.fromApplicationDate(academicYearEndDateVal);
-        HolidaySearchCriteria holidaySearchCriteria = new HolidaySearchCriteria();
-        holidaySearchCriteria.setAcademicYear(academic.getAcademicYearName());
-        holidaySearchCriteria.setStartDate(academicYearStartDateVal);
-        holidaySearchCriteria.setEndDate(academicYearEndDateVal);
-        // get holidays
-        List<HolidayDto> holidays = holidayManager.getAll(holidaySearchCriteria);
-        return AttendanceDataAssembler.getYearAttendance(academicYearStartDate, academicYearEndDate, holidays, yearAttendance);
-    }
-
-    /**
-     * Gets the all.
-     * 
-     * @return the all
-     * @throws DataException the data exception
-     */
-    public List<AttendanceProfileDto> getAll() throws DataException {
-        List<AttendanceProfileDto> attendanceProfiles = null;
+    public AttendanceProfileDto getBlank() throws DataException {
+        AttendanceProfileDto attendanceProfile = null;
         try {
-            attendanceProfiles = attendanceProfileDao.getAll();
+            System.out.println("AttendanceProfileManager getBlank()");
+            AcademicDto academic = academicManager.getCurrentAcademic();
+            if (academic == null) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, "null"));
+            }
+            attendanceProfile = new AttendanceProfileDto();
+            attendanceProfile.setEffectiveAcademic(academic);
+            setProfileAssociatedData(attendanceProfile);
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
         }
-        return attendanceProfiles;
+        return attendanceProfile;
+    }
+
+    /**
+     * Gets the blank.
+     * 
+     * @param academicYearName the academic year name
+     * @return the blank
+     * @throws DataException the data exception
+     */
+    public AttendanceProfileDto getBlank(String academicYearName) throws DataException {
+        AttendanceProfileDto attendanceProfile = null;
+        try {
+            System.out.println("AttendanceProfileManager getBlank(" + academicYearName + ")");
+            if (academicYearName == null) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
+            }
+            AcademicDto academic = academicManager.get(academicYearName);
+            if (academic == null) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
+            }
+            attendanceProfile = new AttendanceProfileDto();
+            attendanceProfile.setEffectiveAcademic(academic);
+            setProfileAssociatedData(attendanceProfile);
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return attendanceProfile;
     }
 
     /**
      * Creates the.
      * 
      * @param attendanceProfile the attendance profile
-     * @return the int
+     * @return true, if successful
      * @throws DataException the data exception
      */
     public boolean create(AttendanceProfileDto attendanceProfile) throws DataException {
         int attendanceProfileId = 0;
         try {
-            System.out.println("create()");
+            System.out.println("create(" + attendanceProfile + ")");
             // Validate attendance profile
             attendanceProfileValidator.validate(attendanceProfile);
-            attendanceProfileId = attendanceProfile.getAttendanceProfileId();
-
-            /*if (attendanceProfileId != 0) {
-                throw new DataException("Attendance Profile must not be specified when creating a new.");
-            }*/
+            attendanceProfileId = attendanceProfile.getProfileId();
             String profileName = attendanceProfile.getProfileName();
             AttendanceProfileDto existingProfile = attendanceProfileDao.get(profileName);
-            System.out.println("existingProfile " + existingProfile);
             if (existingProfile != null) {
                 throw new DataException("Attendance Profile (" + profileName + ") already exists.");
             }
             attendanceProfileId = attendanceProfileDao.create(attendanceProfile);
+            System.out.println("attendanceProfileId " + attendanceProfileId);
             if (attendanceProfileId == 0) {
                 throw new DataException("Unable to create Attendance Profile now.");
             }
-            //attendanceProfile.setActive(false);
             // Create attendance profile associated data.
-            attendanceProfileDao.create(attendanceProfileId, attendanceProfile.getYearAttendance());
-            attendanceProfile.setAttendanceProfileId(attendanceProfileId);
-            assignProfilesTo(attendanceProfile);
+            attendanceProfileDao.create(attendanceProfileId, attendanceProfile.getAttendanceMonths());
+            attendanceAssignmentsDao.create(attendanceProfileId, attendanceProfile.getAssignedSchools());
+            attendanceAssignmentsDao.create(attendanceProfileId, attendanceProfile.getAssignedClasses());
         } catch (ValidationException validationException) {
             if (attendanceProfileId != 0) {
                 delete(attendanceProfileId);
@@ -258,7 +293,8 @@ public class AttendanceProfileManager {
             if (attendanceProfileId != 0) {
                 delete(attendanceProfileId);
             }
-            throw new DataException("Unable to create Attendance Profile now. Please try again.");
+            //throw new DataException("Unable to create Attendance Profile now. Please try again.");
+            throw new DataException(daoException.getMessage(), daoException);
         }
         return attendanceProfileId>0;
     }
@@ -279,121 +315,42 @@ public class AttendanceProfileManager {
             System.out.println("update(" + attendanceProfileId + ")");
             // Validate attendance profile
             attendanceProfileValidator.validate(attendanceProfile);
-            attendanceProfileId = attendanceProfile.getAttendanceProfileId();
+            attendanceProfileId = attendanceProfile.getProfileId();
             profileName = attendanceProfile.getProfileName();
 
             AttendanceProfileDto existingAttendanceProfile = attendanceProfileDao.get(attendanceProfileId);
             if (existingAttendanceProfile == null) {
-                throw new DataException("Attendance Profile (" + profileName + ") does not exist.");
+                throw new DataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
             profileName = attendanceProfile.getProfileName();
             AttendanceProfileDto existingProfile = attendanceProfileDao.get(profileName);
-            if (existingProfile != null && existingProfile.getAttendanceProfileId() != attendanceProfileId) {
-                throw new DataException("Attendance Profile (" + profileName + ") already exists.");
+            if (existingProfile != null && existingProfile.getProfileId() != attendanceProfileId) {
+                throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_PROFILE_EXISTS, profileName));
             }
-            attendanceProfileValidator.validateAssignmentConflicts(attendanceProfile);
-            attendanceProfileId = existingAttendanceProfile.getAttendanceProfileId();
-            attendanceProfileDao.update(existingAttendanceProfile.getAttendanceProfileId(), attendanceProfile);
+            attendanceProfileId = existingAttendanceProfile.getProfileId();
+            attendanceProfileDao.update(existingAttendanceProfile.getProfileId(), attendanceProfile);
 
             // Update attendance profile data.
-            List<MonthAttendance> yearAttendance = attendanceProfile.getYearAttendance();
-            if (yearAttendance != null && !yearAttendance.isEmpty()) {
-                for (MonthAttendance monthAttendance : yearAttendance) {
-                    int monthAttendanceId = monthAttendance.getMonthAttendanceId();
+            List<AttendanceMonth> attendanceMonths = attendanceProfile.getAttendanceMonths();
+            if (attendanceMonths != null && !attendanceMonths.isEmpty()) {
+                for (AttendanceMonth attendanceMonth : attendanceMonths) {
+                    int monthAttendanceId = attendanceMonth.getAttendanceMonthId();
                     if (monthAttendanceId == 0) {
-                        attendanceProfileDao.create(attendanceProfileId, monthAttendance);
+                        attendanceProfileDao.create(attendanceProfileId, attendanceMonth);
                     } else {
-                        attendanceProfileDao.update(monthAttendanceId, monthAttendance);
+                        attendanceProfileDao.update(monthAttendanceId, attendanceMonth);
                     }
                 }
             }
-            System.out.println("Deleting all the previous assignments.");
-            // delete all the previous assignments
-            attendanceAssignmentsDao.delete(attendanceProfileId, StateDto.class);
-            attendanceAssignmentsDao.delete(attendanceProfileId, RegionDto.class);
-            attendanceAssignmentsDao.delete(attendanceProfileId, BranchDto.class);
+            // delete all the previous assignments and assign again
             attendanceAssignmentsDao.delete(attendanceProfileId, SchoolDto.class);
             attendanceAssignmentsDao.delete(attendanceProfileId, RegisteredClassDto.class);
-
-            assignProfilesTo(attendanceProfile);
+            attendanceAssignmentsDao.create(attendanceProfileId, attendanceProfile.getAssignedSchools());
+            attendanceAssignmentsDao.create(attendanceProfileId, attendanceProfile.getAssignedClasses());
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
         } catch (DaoException daoException) {
             throw new DataException("Unable to update Attendance Profile now. Please try again.");
-        }
-        return true;
-    }
-
-    /**
-     * Assign profiles to.
-     * 
-     * @param attendanceProfile the attendance profile
-     * @throws DaoException the dao exception
-     * @throws DataException the data exception
-     */
-    private void assignProfilesTo(AttendanceProfileDto attendanceProfile)
-            throws DaoException, DataException {
-        int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
-
-        List<StateDto> assignToStates = attendanceProfile.getStates();
-        System.out.println("Assigned States -----> " + assignToStates);
-        attendanceAssignmentsDao.create(attendanceProfileId, assignToStates);
-        if (!isAssignedToAll(assignToStates, stateManager.getAll())) {
-            List<RegionDto> assignToRegions = attendanceProfile.getRegions();
-            System.out.println("Assigned Regions -----> " + assignToRegions);
-            attendanceAssignmentsDao.create(attendanceProfileId, assignToRegions);
-            // if all regions are not selected then create branches
-            if (!isAssignedToAll(assignToRegions, regionManager.getAll())) {
-                List<BranchDto> assignToBranches = attendanceProfile.getBranches();
-                System.out.println("Assigned Branches -----> " + assignToRegions);
-                attendanceAssignmentsDao.create(attendanceProfileId, assignToBranches);
-                // if all branches are not selected then create schools
-                if (!isAssignedToAll(assignToBranches, branchManager.getAll())) {
-                    List<SchoolDto> assignToSchools = attendanceProfile.getSchools();
-                    System.out.println("Assigned Schools -----> " + assignToSchools);
-                    attendanceAssignmentsDao.create(attendanceProfileId, assignToSchools);
-                    // if all schools are not selected then create classes
-                    if (!isAssignedToAll(assignToSchools, schoolManager.getAll())) {
-                        List<RegisteredClassDto> assignToRegisteredClasses = attendanceProfile.getRegisteredClasses();
-                        System.out.println("Assigned Classes -----> " + assignToRegisteredClasses);
-                        attendanceAssignmentsDao.create(attendanceProfileId, assignToRegisteredClasses);
-                    }
-                }
-            }
-        }
-    }
-
-    private boolean isAssignedToAll(List<? extends Object> assignTo, List<? extends Object> all) {
-        int id1=0,id2=0;
-        if (assignTo != null && all != null) {
-            for (Object allObject : all) {
-                boolean present = false;
-                for (Object assignToObject : assignTo) {
-                    if (allObject instanceof StateDto && assignToObject instanceof StateDto) {
-                        id1 = ((StateDto) allObject).getStateId();
-                        id2 = ((StateDto) assignToObject).getStateId();
-                    } else if (allObject instanceof RegionDto && assignToObject instanceof RegionDto) {
-                        id1 = ((RegionDto) allObject).getRegionId();
-                        id2 = ((RegionDto) assignToObject).getRegionId();
-                    } else if (allObject instanceof BranchDto && assignToObject instanceof BranchDto) {
-                        id1 = ((BranchDto) allObject).getBranchId();
-                        id2 = ((BranchDto) assignToObject).getBranchId();
-                    } else if (allObject instanceof SchoolDto && assignToObject instanceof SchoolDto) {
-                        id1 = ((SchoolDto) allObject).getSchoolId();
-                        id2 = ((SchoolDto) assignToObject).getSchoolId();
-                    } else if (allObject instanceof RegisteredClassDto && assignToObject instanceof RegisteredClassDto) {
-                        id1 = ((RegisteredClassDto) allObject).getClassId();
-                        id2 = ((RegisteredClassDto) assignToObject).getClassId();
-                    }
-                    if (id1 == id2) {
-                        present = true;
-                        break;
-                    }
-                }
-                if (!present) {
-                    return false;
-                }
-            }
         }
         return true;
     }
@@ -408,14 +365,46 @@ public class AttendanceProfileManager {
     public boolean delete(int attendanceProfileId) throws DataException {
         boolean deleted = false;
         try {
+            System.out.println("delete(" + attendanceProfileId  + ")");
             if (attendanceProfileId <= 0) {
-                throw new InvalidDataException("Invalid Attendance Profile ID.");
+                throw new InvalidDataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
             deleted = attendanceProfileDao.delete(attendanceProfileId);
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
         }
         return deleted;
+    }
+
+    /**
+     * Sets the profile associated data.
+     * 
+     * @param attendanceProfile the new profile associated data
+     * @throws DataException the data exception
+     * @throws DaoException the dao exception
+     */
+    private void setProfileAssociatedData(AttendanceProfileDto attendanceProfile) throws DataException, DaoException {
+        System.out.println("setProfileAssociatedData()");
+        List<AttendanceMonth> attendanceMonths = null;
+        if (attendanceProfile != null) {
+            AcademicDto academic = attendanceProfile.getEffectiveAcademic();
+            System.out.println("academic=" + academic);
+            if (academic != null) {
+                int profileId = attendanceProfile.getProfileId();
+                System.out.println("profileId=" + profileId);
+                List<HolidayDto> holidays = holidayManager.getAll(HolidayDataAssembler.createSearchCriteria(academic));
+                if (profileId == 0) {
+                    attendanceMonths = AttendanceProfileDataAssembler.align(academic, holidays, null);
+                } else {
+                    attendanceMonths = AttendanceProfileDataAssembler.align(academic, holidays, attendanceProfileDao.getAttendanceMonths(profileId));
+                    attendanceProfile.setAssignedSchools(
+                            attendanceAssignmentsDao.getAssignedSchools(profileId));
+                    attendanceProfile.setAssignedClasses(
+                            attendanceAssignmentsDao.getAssignedClasses(profileId));
+                }
+                attendanceProfile.setAttendanceMonths(attendanceMonths);
+            }
+        }
     }
 
 }

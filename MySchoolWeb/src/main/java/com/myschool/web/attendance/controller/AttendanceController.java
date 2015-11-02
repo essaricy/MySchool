@@ -17,10 +17,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.academic.dto.AcademicDto;
 import com.myschool.attendance.assembler.AttendanceDataAssembler;
 import com.myschool.attendance.assembler.AttendanceProfileDataAssembler;
+import com.myschool.attendance.constants.AttendanceConstant;
+import com.myschool.attendance.dto.AttendanceCodeDto;
 import com.myschool.attendance.dto.AttendanceProfileDto;
 import com.myschool.attendance.service.AttendanceProfileService;
+import com.myschool.attendance.service.AttendanceService;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.web.attendance.constants.AttendanceViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
@@ -32,6 +34,10 @@ import com.myschool.web.framework.util.HttpUtil;
 @Controller
 @RequestMapping(value="attendance")
 public class AttendanceController {
+
+    /** The attendance service. */
+    @Autowired
+    private AttendanceService attendanceService;
 
     /** The attendance profile service. */
     @Autowired
@@ -62,13 +68,14 @@ public class AttendanceController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        System.out.println("jsonList()");
         JSONArray data = new JSONArray();
         try {
             List<AttendanceProfileDto> attendanceProfiles = attendanceProfileService.getAll();
             if (attendanceProfiles != null) {
                 for (AttendanceProfileDto attendanceProfile : attendanceProfiles) {
                     JSONArray row = new JSONArray();
-                    row.put(attendanceProfile.getAttendanceProfileId());
+                    row.put(attendanceProfile.getProfileId());
                     row.put(attendanceProfile.getProfileName());
                     AcademicDto academic = attendanceProfile.getEffectiveAcademic();
                     if (academic == null) {
@@ -76,7 +83,6 @@ public class AttendanceController {
                     } else {
                         row.put(academic.getAcademicYearName());
                     }
-                    //row.put(attendanceProfile.isActive());
                     data.put(row);
                 }
             }
@@ -98,16 +104,41 @@ public class AttendanceController {
     public ModelAndView launch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        String attendanceProfileIdVal = request.getParameter("AttendanceProfileId");
+        String attendanceProfileIdVal = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE_ID);
+        System.out.println("launch(" + attendanceProfileIdVal + ")");
         if (!StringUtil.isNullOrBlank(attendanceProfileIdVal)) {
             AttendanceProfileDto attendanceProfile = attendanceProfileService.get(Integer.parseInt(attendanceProfileIdVal));
-            map.put("AttendanceProfile", attendanceProfile);
+            map.put(AttendanceConstant.ATTENDANCE_PROFILE, attendanceProfile);
         }
         return ViewDelegationController.delegateModelPageView(request, AttendanceViewNames.MAINTAIN_ATTENDANCE_PROFILE, map);
     }
 
     /**
-     * Json get profile attendance.
+     * Json list attendance codes.
+     * 
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="jsonListAttendanceCodes")
+    public ModelAndView jsonListAttendanceCodes(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        JSONObject jsonResponse = new JSONObject();
+        try {
+            String type = request.getParameter("Type");
+            System.out.println("jsonListAttendanceCodes type=" + type);
+            List<AttendanceCodeDto> attendanceCodes = attendanceService.getAttendanceCodes(type);
+            JSONArray jsonArray = AttendanceDataAssembler.create(attendanceCodes);
+            jsonResponse.put(AttendanceConstant.ATTENDANCE_CODES, jsonArray);
+        } finally {
+            HttpUtil.writeJson(response, jsonResponse);
+        }
+        return null;
+    }
+
+    /**
+     * Json get attendance profile.
      * 
      * @param request the request
      * @param response the response
@@ -118,18 +149,108 @@ public class AttendanceController {
     public ModelAndView jsonGetAttendanceProfile(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONObject jsonResponse = new JSONObject();
+        AttendanceProfileDto attendanceProfile = null;
         try {
-            String attendanceProfileIdVal = request.getParameter("AttendanceProfileId");
-            String academicYearNameVal = request.getParameter("AcademicYearName");
-            System.out.println(">>>>>>>>>>>>> jsonGetAttendanceProfile(" + attendanceProfileIdVal + ", " + academicYearNameVal + ")");
-            
+            String attendanceProfileIdVal = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE_ID);
+            String academicYearNameVal = request.getParameter(AttendanceConstant.ACADEMIC_YEAR_NAME);
+            System.out.println("jsonGetAttendanceProfile(" + attendanceProfileIdVal + ", " + academicYearNameVal + ")");
             if (!StringUtil.isNullOrBlank(attendanceProfileIdVal)) {
-                AttendanceProfileDto attendanceProfile = attendanceProfileService.get(Integer.parseInt(attendanceProfileIdVal), academicYearNameVal);
-                jsonResponse.put("AttendanceProfile", AttendanceDataAssembler.create(attendanceProfile));
-                AttendanceProfileDataAssembler.debugAttendanceProfile(attendanceProfile);
+                attendanceProfile = attendanceProfileService.getInDetail(Integer.parseInt(attendanceProfileIdVal));
+            } else if (!StringUtil.isNullOrBlank(academicYearNameVal)) {
+                attendanceProfile = attendanceProfileService.getBlank(academicYearNameVal);
+            } else {
+                attendanceProfile = attendanceProfileService.getBlank();
             }
+            jsonResponse.put(AttendanceConstant.ATTENDANCE_PROFILE, AttendanceProfileDataAssembler.create(attendanceProfile));
         } finally {
             HttpUtil.writeJson(response, jsonResponse);
+        }
+        return null;
+    }
+
+    /**
+     * Do create.
+     * 
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="doCreate")
+    public ModelAndView doCreate(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ResultDto result = new ResultDto();
+        try {
+            String attendanceProfileData = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE);
+            System.out.println("doCreate() " + attendanceProfileData);
+            if (!StringUtil.isNullOrBlank(attendanceProfileData)) {
+                AttendanceProfileDto attendanceProfile = AttendanceProfileDataAssembler.create(attendanceProfileData);
+                result.setSuccessful(attendanceProfileService.create(attendanceProfile));
+                result.setStatusMessage("Attendance Profile has been created succesfully.");
+            }
+        } catch (Exception exception) {
+            result.setStatusMessage(exception.getMessage());
+        } finally {
+            HttpUtil.writeAsJson(response, result);
+        }
+        return null;
+    }
+
+    /**
+     * Do update.
+     * 
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="doUpdate")
+    public ModelAndView doUpdate(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        ResultDto result = new ResultDto();
+        try {
+            String attendanceProfileData = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE);
+            System.out.println("doUpdate() " + attendanceProfileData);
+            if (!StringUtil.isNullOrBlank(attendanceProfileData)) {
+                AttendanceProfileDto attendanceProfile = AttendanceProfileDataAssembler.create(attendanceProfileData);
+                if (attendanceProfile != null) {
+                    int profileId = attendanceProfile.getProfileId();
+                    result.setSuccessful(attendanceProfileService.update(profileId, attendanceProfile));
+                    result.setStatusMessage("Attendance Profile has been updated succesfully.");
+                }
+            }
+        } catch (Exception exception) {
+            result.setStatusMessage(exception.getMessage());
+        } finally {
+            HttpUtil.writeAsJson(response, result);
+        }
+        return null;
+    }
+
+    /**
+     * Do delete.
+     * 
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
+    @RequestMapping(value="doDelete")
+    public ModelAndView doDelete(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        ResultDto result = new ResultDto();
+        try {
+            String attendanceProfileId = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE_ID);
+            System.out.println("doDelete() " + attendanceProfileId);
+            if (!StringUtil.isNullOrBlank(attendanceProfileId)) {
+                result.setSuccessful(attendanceProfileService.delete(Integer.parseInt(attendanceProfileId)));
+                result.setStatusMessage("Attendance Profile has been deleted succesfully.");
+            }
+        } catch (Exception exception) {
+            result.setStatusMessage(exception.getMessage());
+        } finally {
+            HttpUtil.writeAsJson(response, result);
         }
         return null;
     }
@@ -140,7 +261,7 @@ public class AttendanceController {
      * @param request the request
      * @param response the response
      * @return the model and view
-     */
+     *//*
     @RequestMapping(value="jsonSaveAttendanceProfile")
     public ModelAndView jsonSaveAttendanceProfile(HttpServletRequest request,
             HttpServletResponse response) {
@@ -155,7 +276,7 @@ public class AttendanceController {
                 attendanceProfile = AttendanceDataAssembler.create(attendanceProfileData);
                 AttendanceProfileDataAssembler.debugAttendanceProfile(attendanceProfile);
                 if (attendanceProfile != null) {
-                    int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
+                    int attendanceProfileId = attendanceProfile.getProfileId();
                     String profileName = attendanceProfile.getProfileName();
                     if (attendanceProfileId == 0) {
                         // Create a new attendance profile
@@ -181,34 +302,7 @@ public class AttendanceController {
             }
         }
         return null;
-    }
-
-    /**
-     * Do delete.
-     * 
-     * @param request the request
-     * @param response the response
-     * @return the model and view
-     * @throws Exception the exception
-     */
-    @RequestMapping(value="doDelete")
-    public ModelAndView doDelete(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-
-        ResultDto result = new ResultDto();
-        try {
-            String attendanceProfileId = request.getParameter("AttendanceProfileId");
-            if (!StringUtil.isNullOrBlank(attendanceProfileId)) {
-                result.setSuccessful(attendanceProfileService.delete(Integer.parseInt(attendanceProfileId)));
-                result.setStatusMessage("Attendance Profile has been deleted succesfully.");
-            }
-        } catch (ServiceException serviceException) {
-            result.setStatusMessage(serviceException.getMessage());
-        } finally {
-            HttpUtil.writeAsJson(response, result);
-        }
-        return null;
-    }
+    }*/
 
     /**
      * Student attendance.

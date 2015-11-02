@@ -14,7 +14,7 @@ $(document).ready(function() {
         sendParams: [ {
             refTable: 'self',
             columnIndex: 0,
-            paramName: 'schoolId'
+            paramName: 'SchoolId'
         } ],
         columns: [
             '<spring:message code="class.id"/>',
@@ -27,7 +27,7 @@ $(document).ready(function() {
         ],
         dataTableSettings: {
             "bPaginate": true,
-            "sAjaxSource": '<%=request.getContextPath()%>/class/jsonListBySchool.htm',
+            "sAjaxSource": '<%=request.getContextPath()%>/class/jsonListRegistered.htm',
             "aoColumnDefs": [ {
                 "bSearchable": false,
                 "bVisible": false,

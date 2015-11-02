@@ -3,9 +3,9 @@ package com.myschool.attendance.dto;
 import java.io.Serializable;
 
 /**
- * The Class Day.
+ * The Class AttendanceDay.
  */
-public class Day implements Serializable {
+public class AttendanceDay implements Serializable {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
@@ -13,18 +13,21 @@ public class Day implements Serializable {
     /** The date. */
     private int date;
 
+    /** The day name. */
+    private String dayName;
+
     /** The day number in week. */
     private int dayNumberInWeek;
 
-    /** The day short name. */
-    private String dayShortName;
+    /** The reference. */
+    private AttendanceCode reference;
 
-    /** The day full name. */
-    private String dayFullName;
+    /** The assigned. */
+    private AttendanceCode assigned;
 
     /**
      * Gets the date.
-     *
+     * 
      * @return the date
      */
     public int getDate() {
@@ -33,11 +36,29 @@ public class Day implements Serializable {
 
     /**
      * Sets the date.
-     *
+     * 
      * @param date the new date
      */
     public void setDate(int date) {
         this.date = date;
+    }
+
+    /**
+     * Gets the day name.
+     * 
+     * @return the day name
+     */
+    public String getDayName() {
+        return dayName;
+    }
+
+    /**
+     * Sets the day name.
+     * 
+     * @param dayName the new day name
+     */
+    public void setDayName(String dayName) {
+        this.dayName = dayName;
     }
 
     /**
@@ -59,39 +80,39 @@ public class Day implements Serializable {
     }
 
     /**
-     * Gets the day short name.
-     *
-     * @return the day short name
+     * Gets the reference.
+     * 
+     * @return the reference
      */
-    public String getDayShortName() {
-        return dayShortName;
+    public AttendanceCode getReference() {
+        return reference;
     }
 
     /**
-     * Sets the day short name.
-     *
-     * @param dayShortName the new day short name
+     * Sets the reference.
+     * 
+     * @param reference the new reference
      */
-    public void setDayShortName(String dayShortName) {
-        this.dayShortName = dayShortName;
+    public void setReference(AttendanceCode reference) {
+        this.reference = reference;
     }
 
     /**
-     * Gets the day full name.
-     *
-     * @return the day full name
+     * Gets the assigned.
+     * 
+     * @return the assigned
      */
-    public String getDayFullName() {
-        return dayFullName;
+    public AttendanceCode getAssigned() {
+        return assigned;
     }
 
     /**
-     * Sets the day full name.
-     *
-     * @param dayFullName the new day full name
+     * Sets the assigned.
+     * 
+     * @param assigned the new assigned
      */
-    public void setDayFullName(String dayFullName) {
-        this.dayFullName = dayFullName;
+    public void setAssigned(AttendanceCode assigned) {
+        this.assigned = assigned;
     }
 
     /**
@@ -104,12 +125,13 @@ public class Day implements Serializable {
     public String toString() {
         final String SEPARATOR = ", ";
         StringBuilder retValue = new StringBuilder();
-        retValue.append("Day ( ")
+        retValue.append("AttendanceDay ( ")
             .append(super.toString()).append(SEPARATOR)
             .append("date = ").append(this.date).append(SEPARATOR)
+            .append("dayName = ").append(this.dayName).append(SEPARATOR)
             .append("dayNumberInWeek = ").append(this.dayNumberInWeek).append(SEPARATOR)
-            .append("dayShortName = ").append(this.dayShortName).append(SEPARATOR)
-            .append("dayFullName = ").append(this.dayFullName).append(SEPARATOR)
+            .append("reference = ").append(this.reference).append(SEPARATOR)
+            .append("assigned = ").append(this.assigned).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();
     }

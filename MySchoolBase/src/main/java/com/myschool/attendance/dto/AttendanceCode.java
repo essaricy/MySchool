@@ -5,29 +5,38 @@ package com.myschool.attendance.dto;
  */
 public enum AttendanceCode {
 
+    /** The WORKING_DAY. */
+    WORKING_DAY("WF"),
+
+    /** The WORKING_HALFDAY. */
+    WORKING_HALFDAY("WH"),
+
+    /** The NONWORKING_DAY. */
+    NONWORKING_DAY("NF"),
+
+    /** The STATUTORY_HOLIDAY. */
+    STATUTORY_HOLIDAY("SF"),
+
+    /** The AN_IMPROMPTU. */
+    AN_IMPROMPTU("IF"),
+
+    /** The LEAVE. */
+    LEAVE("LF"),
+
+    /** The HALFDAY_LEAVE. */
+    HALFDAY_LEAVE("LH"),
+
     /** The ABSENT. */
-    ABSENT("A"),
+    ABSENT("AF"),
 
-    /** The DECLARED_HOLIDAY. */
-    DECLARED_HOLIDAY("D"),
-
-    /** The GENERAL_HOLIDAY. */
-    GENERAL_HOLIDAY("G"),
-
-    /** The HALF_DAY_LEAVE. */
-    HALF_DAY_LEAVE("H"),
-
-    /** The ON_LEAVE. */
-    ON_LEAVE("L"),
+    /** The HALFDAY_ABSENT. */
+    HALFDAY_ABSENT("AH"),
 
     /** The PRESENT. */
-    PRESENT("P"),
+    PRESENT("PF"),
 
-    /** The UNASSIGNED. */
-    UNASSIGNED("U"),
-
-    /** The UNACCOUNTED. */
-    UNACCOUNTED(null);
+    /** The HALFDAY_PRESENT. */
+    HALFDAY_PRESENT("PH");
 
     /** The code. */
     private String code;
@@ -64,7 +73,7 @@ public enum AttendanceCode {
                 }
             }
         }
-        return UNACCOUNTED;
+        return null;
     }
 
     /**

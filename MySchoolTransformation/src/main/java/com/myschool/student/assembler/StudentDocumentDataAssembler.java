@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.myschool.application.assembler.DocumentDataAssembler;
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.util.ConversionUtil;
+import com.myschool.common.util.JsonUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.student.dto.StudentDocument;
 
@@ -47,17 +48,13 @@ public class StudentDocumentDataAssembler {
         StudentDocument studentDocument = null;
         if (studentDocumentData != null) {
             studentDocument = new StudentDocument();
-
-            String studentDocumentId = studentDocumentData.getString("StudentDocumentId");
-            if (!StringUtil.isNullOrBlank(studentDocumentId)) {
-                studentDocument.setStudentDocumentId(Integer.parseInt(studentDocumentId));
-            }
+            studentDocument.setStudentDocumentId(JsonUtil.getInt(studentDocumentData, "StudentDocumentId"));
             DocumentDto document = new DocumentDto();
-            document.setDocumentId(Integer.parseInt(studentDocumentData.getString("DocumentId")));
+            document.setDocumentId(JsonUtil.getInt(studentDocumentData, "DocumentId"));
             studentDocument.setDocument(document);
-            studentDocument.setDocumentNumber(studentDocumentData.getString("DocumentNumber"));
-            studentDocument.setDocumentExpiryDate(studentDocumentData.getString("DocumentExpiryDate"));
-            studentDocument.setDocumentIssuedBy(studentDocumentData.getString("DocumentIssuedBy"));
+            studentDocument.setDocumentNumber(JsonUtil.getString(studentDocumentData, "DocumentNumber"));
+            studentDocument.setDocumentExpiryDate(JsonUtil.getString(studentDocumentData, "DocumentExpiryDate"));
+            studentDocument.setDocumentIssuedBy(JsonUtil.getString(studentDocumentData, "DocumentIssuedBy"));
         }
         return studentDocument;
     }

@@ -13,13 +13,7 @@ import com.myschool.apar.dto.FeeTransaction;
 import com.myschool.apar.dto.PayComponent;
 import com.myschool.apar.dto.Payment;
 import com.myschool.attendance.constants.LeaveStatus;
-import com.myschool.attendance.dto.AttendanceCode;
-import com.myschool.attendance.dto.AttendanceDto;
-import com.myschool.attendance.dto.DayAttendance;
 import com.myschool.attendance.dto.LeaveDto;
-import com.myschool.attendance.dto.MonthAttendance;
-import com.myschool.attendance.dto.StudentAttendanceDto;
-import com.myschool.attendance.dto.YearAttendance;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
 import com.myschool.branch.dto.RegionDto;
@@ -114,16 +108,16 @@ public class NotificationTestDataFactory {
      */
     private static Object getEmployeeInformation(
             NotificationType notificationType) throws ValidationException {
-        Object object;
-        if (notificationType == NotificationType.MONTHLY_ATTENDANCE_REPORT) {
+        Object object = null;
+        if (notificationType == NotificationType.MONTHLY_ATTENDANCE_REPORT) {/*
             AttendanceDto attendance = null;//getMonthlyAttendance();
-            if (attendance instanceof MonthAttendance) {
-                MonthAttendance monthAttendance = (MonthAttendance) attendance;
-                List<DayAttendance> dayAttendances = monthAttendance.getDayAttendances();
+            if (attendance instanceof AttendanceMonth) {
+                AttendanceMonth monthAttendance = (AttendanceMonth) attendance;
+                List<AttendanceDay> dayAttendances = monthAttendance.getDayAttendances();
 
                 if (dayAttendances != null && !dayAttendances.isEmpty()) {
                     for (int index = 0; index < dayAttendances.size(); index++) {
-                        DayAttendance dayAttendance = dayAttendances.get(index);
+                        AttendanceDay dayAttendance = dayAttendances.get(index);
                         if (dayAttendance != null) {
                             AttendanceCode attendanceCode = dayAttendance.getAttendanceCode();
                             if (attendanceCode != AttendanceCode.GENERAL_HOLIDAY
@@ -132,29 +126,29 @@ public class NotificationTestDataFactory {
                                 dayAttendance.setAttendanceCode(AttendanceCode.PRESENT);
                             }
                         }
-                        /*if (dayAttendance != null
+                        if (dayAttendance != null
                                 && !dayAttendance.isDeclaredHoliday()
                                 && !dayAttendance.isGeneralHoliday()
                                 //&& !dayAttendance.isHoliday()
                                 && dayAttendance.getDay().getDate()%2 == 0) {
                             dayAttendance.setPresent(true);
-                        }*/
+                        }
                     }
                 }
                 //AttendanceAssembler.updateAttendanceCounts(dayAttendances, monthAttendance);
             }
             object = new Object[] {getEmployee(), attendance};
-        } else if (notificationType == NotificationType.YEARLY_ATTENDANCE_REPORT) {
+        */} else if (notificationType == NotificationType.YEARLY_ATTENDANCE_REPORT) {/*
             AttendanceDto attendance = null;//getYearlyAttendance();
-            if (attendance instanceof YearAttendance) {
-                YearAttendance yearAttendance = (YearAttendance) attendance;
-                List<MonthAttendance> monthAttendances = yearAttendance.getMonthAttendances();
+            if (attendance instanceof AttendanceYear) {
+                AttendanceYear yearAttendance = (AttendanceYear) attendance;
+                List<AttendanceMonth> monthAttendances = yearAttendance.getMonthAttendances();
                 if (monthAttendances != null && !monthAttendances.isEmpty()) {
-                    for (MonthAttendance monthAttendance : monthAttendances) {
-                        List<DayAttendance> dayAttendances = monthAttendance.getDayAttendances();
+                    for (AttendanceMonth monthAttendance : monthAttendances) {
+                        List<AttendanceDay> dayAttendances = monthAttendance.getDayAttendances();
                         if (dayAttendances != null && !dayAttendances.isEmpty()) {
                             for (int index = 0; index < dayAttendances.size(); index++) {
-                                DayAttendance dayAttendance = dayAttendances.get(index);
+                                AttendanceDay dayAttendance = dayAttendances.get(index);
                                 if (dayAttendance != null) {
                                     AttendanceCode attendanceCode = dayAttendance.getAttendanceCode();
                                     if (attendanceCode != AttendanceCode.GENERAL_HOLIDAY
@@ -163,13 +157,13 @@ public class NotificationTestDataFactory {
                                         dayAttendance.setAttendanceCode(AttendanceCode.PRESENT);
                                     }
                                 }
-                                /*if (dayAttendance != null
+                                if (dayAttendance != null
                                         && !dayAttendance.isDeclaredHoliday()
                                         && !dayAttendance.isGeneralHoliday()
                                         //&& !dayAttendance.isHoliday()
                                         && dayAttendance.getDay().getDate()%2 == 0) {
                                     dayAttendance.setPresent(true);
-                                }*/
+                                }
                             }
                         }
                         //AttendanceAssembler.updateAttendanceCounts(dayAttendances, monthAttendance);
@@ -178,7 +172,7 @@ public class NotificationTestDataFactory {
                 //AttendanceAssembler.updateAttendanceCounts(monthAttendances, yearAttendance);
             }
             object = new Object[] {getEmployee(), attendance};
-        } else if (notificationType == NotificationType.LEAVE_NOTIFICATION) {
+        */} else if (notificationType == NotificationType.LEAVE_NOTIFICATION) {
             object = new Object[] {getEmployee(), getLeave()};
         } else if (notificationType == NotificationType.PAYSLIP) {
             object = new Object[] {getEmployeePay()};
@@ -282,18 +276,18 @@ public class NotificationTestDataFactory {
      */
     private static Object getStudentInformation(
             NotificationType notificationType) throws ValidationException {
-        Object object;
-        if (notificationType == NotificationType.MONTHLY_ATTENDANCE_REPORT) {
+        Object object = null;
+        if (notificationType == NotificationType.MONTHLY_ATTENDANCE_REPORT) {/*
             StudentAttendanceDto studentAttendanceDto = new StudentAttendanceDto();
             studentAttendanceDto.setStudent(getStudent());
             AttendanceDto attendance = null;//getMonthlyAttendance();
-            if (attendance instanceof MonthAttendance) {
-                MonthAttendance monthAttendance = (MonthAttendance) attendance;
-                List<DayAttendance> dayAttendances = monthAttendance.getDayAttendances();
+            if (attendance instanceof AttendanceMonth) {
+                AttendanceMonth monthAttendance = (AttendanceMonth) attendance;
+                List<AttendanceDay> dayAttendances = monthAttendance.getDayAttendances();
 
                 if (dayAttendances != null && !dayAttendances.isEmpty()) {
                     for (int index = 0; index < dayAttendances.size(); index++) {
-                        DayAttendance dayAttendance = dayAttendances.get(index);
+                        AttendanceDay dayAttendance = dayAttendances.get(index);
                         if (dayAttendance != null) {
                             AttendanceCode attendanceCode = dayAttendance.getAttendanceCode();
                             if (attendanceCode != AttendanceCode.GENERAL_HOLIDAY
@@ -302,32 +296,32 @@ public class NotificationTestDataFactory {
                                 dayAttendance.setAttendanceCode(AttendanceCode.PRESENT);
                             }
                         }
-                        /*if (dayAttendance != null
+                        if (dayAttendance != null
                                 && !dayAttendance.isDeclaredHoliday()
                                 && !dayAttendance.isGeneralHoliday()
                                 //&& !dayAttendance.isHoliday()
                                 && dayAttendance.getDay().getDate()%2 == 0) {
                             dayAttendance.setPresent(true);
-                        }*/
+                        }
                     }
                 }
                 //AttendanceAssembler.updateAttendanceCounts(dayAttendances, monthAttendance);
             }
             studentAttendanceDto.setAttendance(attendance);
             object = studentAttendanceDto;
-        } else if (notificationType == NotificationType.YEARLY_ATTENDANCE_REPORT) {
+        */} else if (notificationType == NotificationType.YEARLY_ATTENDANCE_REPORT) {/*
             StudentAttendanceDto studentAttendanceDto = new StudentAttendanceDto();
             studentAttendanceDto.setStudent(getStudent());
             AttendanceDto attendance = null;//getYearlyAttendance();
-            if (attendance instanceof YearAttendance) {
-                YearAttendance yearAttendance = (YearAttendance) attendance;
-                List<MonthAttendance> monthAttendances = yearAttendance.getMonthAttendances();
+            if (attendance instanceof AttendanceYear) {
+                AttendanceYear yearAttendance = (AttendanceYear) attendance;
+                List<AttendanceMonth> monthAttendances = yearAttendance.getMonthAttendances();
                 if (monthAttendances != null && !monthAttendances.isEmpty()) {
-                    for (MonthAttendance monthAttendance : monthAttendances) {
-                        List<DayAttendance> dayAttendances = monthAttendance.getDayAttendances();
+                    for (AttendanceMonth monthAttendance : monthAttendances) {
+                        List<AttendanceDay> dayAttendances = monthAttendance.getDayAttendances();
                         if (dayAttendances != null && !dayAttendances.isEmpty()) {
                             for (int index = 0; index < dayAttendances.size(); index++) {
-                                DayAttendance dayAttendance = dayAttendances.get(index);
+                                AttendanceDay dayAttendance = dayAttendances.get(index);
                                 if (dayAttendance != null) {
                                     AttendanceCode attendanceCode = dayAttendance.getAttendanceCode();
                                     if (attendanceCode != AttendanceCode.GENERAL_HOLIDAY
@@ -336,13 +330,13 @@ public class NotificationTestDataFactory {
                                         dayAttendance.setAttendanceCode(AttendanceCode.PRESENT);
                                     }
                                 }
-                                /*if (dayAttendance != null
+                                if (dayAttendance != null
                                         && !dayAttendance.isDeclaredHoliday()
                                         && !dayAttendance.isGeneralHoliday()
                                         //&& !dayAttendance.isHoliday()
                                         && dayAttendance.getDay().getDate()%2 == 0) {
                                     dayAttendance.setPresent(true);
-                                }*/
+                                }
                             }
                         }
                         //AttendanceAssembler.updateAttendanceCounts(dayAttendances, monthAttendance);
@@ -352,7 +346,7 @@ public class NotificationTestDataFactory {
             }
             studentAttendanceDto.setAttendance(attendance);
             object = studentAttendanceDto;
-        } else if (notificationType == NotificationType.EXAM_RESULT) {
+        */} else if (notificationType == NotificationType.EXAM_RESULT) {
             StudentDto student = getStudent();
             StudentInExamDto studentInExam = new StudentInExamDto();
             studentInExam.setGrade("A+");

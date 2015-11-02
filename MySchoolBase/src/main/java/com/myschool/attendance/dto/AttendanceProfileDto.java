@@ -4,9 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.myschool.academic.dto.AcademicDto;
-import com.myschool.branch.dto.BranchDto;
-import com.myschool.branch.dto.RegionDto;
-import com.myschool.branch.dto.StateDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.school.dto.SchoolDto;
 
@@ -18,8 +15,8 @@ public class AttendanceProfileDto implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The attendance profile id. */
-    private int attendanceProfileId;
+    /** The profile id. */
+    private int profileId;
 
     /** The profile name. */
     private String profileName;
@@ -27,61 +24,31 @@ public class AttendanceProfileDto implements Serializable {
     /** The effective academic. */
     private AcademicDto effectiveAcademic;
 
-    /** The active. *//*
-    private boolean active;*/
+    /** The attendance months. */
+    private List<AttendanceMonth> attendanceMonths;
 
-    /** The year attendance. */
-    private List<MonthAttendance> yearAttendance;
+    /** The assigned schools. */
+    private List<SchoolDto> assignedSchools;
 
-    /** The states. */
-    private List<StateDto> states;
-
-    /** The regions. */
-    private List<RegionDto> regions;
-
-    /** The branches. */
-    private List<BranchDto> branches;
-
-    /** The schools. */
-    private List<SchoolDto> schools;
-
-    /** The registered classes. */
-    private List<RegisteredClassDto> registeredClasses;
+    /** The assigned classes. */
+    private List<RegisteredClassDto> assignedClasses;
 
     /**
-     * Checks if is active.
+     * Gets the profile id.
      * 
-     * @return true, if is active
-     *//*
-    public boolean isActive() {
-        return active;
-    }
-
-    *//**
-     * Sets the active.
-     * 
-     * @param active the new active
-     *//*
-    public void setActive(boolean active) {
-        this.active = active;
-    }*/
-
-    /**
-     * Gets the attendance profile id.
-     * 
-     * @return the attendance profile id
+     * @return the profile id
      */
-    public int getAttendanceProfileId() {
-        return attendanceProfileId;
+    public int getProfileId() {
+        return profileId;
     }
 
     /**
-     * Sets the attendance profile id.
+     * Sets the profile id.
      * 
-     * @param attendanceProfileId the new attendance profile id
+     * @param profileId the new profile id
      */
-    public void setAttendanceProfileId(int attendanceProfileId) {
-        this.attendanceProfileId = attendanceProfileId;
+    public void setProfileId(int profileId) {
+        this.profileId = profileId;
     }
 
     /**
@@ -121,111 +88,57 @@ public class AttendanceProfileDto implements Serializable {
     }
 
     /**
-     * Gets the year attendance.
+     * Gets the attendance months.
      * 
-     * @return the year attendance
+     * @return the attendance months
      */
-    public List<MonthAttendance> getYearAttendance() {
-        return yearAttendance;
+    public List<AttendanceMonth> getAttendanceMonths() {
+        return attendanceMonths;
     }
 
     /**
-     * Sets the year attendance.
+     * Sets the attendance months.
      * 
-     * @param yearAttendance the new year attendance
+     * @param attendanceMonths the new attendance months
      */
-    public void setYearAttendance(List<MonthAttendance> yearAttendance) {
-        this.yearAttendance = yearAttendance;
+    public void setAttendanceMonths(List<AttendanceMonth> attendanceMonths) {
+        this.attendanceMonths = attendanceMonths;
     }
 
     /**
-     * Gets the states.
+     * Gets the assigned schools.
      * 
-     * @return the states
+     * @return the assigned schools
      */
-    public List<StateDto> getStates() {
-        return states;
+    public List<SchoolDto> getAssignedSchools() {
+        return assignedSchools;
     }
 
     /**
-     * Sets the states.
+     * Sets the assigned schools.
      * 
-     * @param states the new states
+     * @param assignedSchools the new assigned schools
      */
-    public void setStates(List<StateDto> states) {
-        this.states = states;
+    public void setAssignedSchools(List<SchoolDto> assignedSchools) {
+        this.assignedSchools = assignedSchools;
     }
 
     /**
-     * Gets the regions.
+     * Gets the assigned classes.
      * 
-     * @return the regions
+     * @return the assigned classes
      */
-    public List<RegionDto> getRegions() {
-        return regions;
+    public List<RegisteredClassDto> getAssignedClasses() {
+        return assignedClasses;
     }
 
     /**
-     * Sets the regions.
+     * Sets the assigned classes.
      * 
-     * @param regions the new regions
+     * @param assignedClasses the new assigned classes
      */
-    public void setRegions(List<RegionDto> regions) {
-        this.regions = regions;
-    }
-
-    /**
-     * Gets the branches.
-     * 
-     * @return the branches
-     */
-    public List<BranchDto> getBranches() {
-        return branches;
-    }
-
-    /**
-     * Sets the branches.
-     * 
-     * @param branches the new branches
-     */
-    public void setBranches(List<BranchDto> branches) {
-        this.branches = branches;
-    }
-
-    /**
-     * Gets the schools.
-     * 
-     * @return the schools
-     */
-    public List<SchoolDto> getSchools() {
-        return schools;
-    }
-
-    /**
-     * Sets the schools.
-     * 
-     * @param schools the new schools
-     */
-    public void setSchools(List<SchoolDto> schools) {
-        this.schools = schools;
-    }
-
-    /**
-     * Gets the registered classes.
-     * 
-     * @return the registered classes
-     */
-    public List<RegisteredClassDto> getRegisteredClasses() {
-        return registeredClasses;
-    }
-
-    /**
-     * Sets the registered classes.
-     * 
-     * @param registeredClasses the new registered classes
-     */
-    public void setRegisteredClasses(List<RegisteredClassDto> registeredClasses) {
-        this.registeredClasses = registeredClasses;
+    public void setAssignedClasses(List<RegisteredClassDto> assignedClasses) {
+        this.assignedClasses = assignedClasses;
     }
 
     /**
@@ -240,16 +153,12 @@ public class AttendanceProfileDto implements Serializable {
         StringBuilder retValue = new StringBuilder();
         retValue.append("AttendanceProfileDto ( ")
             .append(super.toString()).append(SEPARATOR)
-            .append("attendanceProfileId = ").append(this.attendanceProfileId).append(SEPARATOR)
+            .append("profileId = ").append(this.profileId).append(SEPARATOR)
             .append("profileName = ").append(this.profileName).append(SEPARATOR)
             .append("effectiveAcademic = ").append(this.effectiveAcademic).append(SEPARATOR)
-            //.append("active = ").append(this.active).append(SEPARATOR)
-            .append("yearAttendance = ").append(this.yearAttendance).append(SEPARATOR)
-            .append("states = ").append(this.states).append(SEPARATOR)
-            .append("regions = ").append(this.regions).append(SEPARATOR)
-            .append("branches = ").append(this.branches).append(SEPARATOR)
-            .append("schools = ").append(this.schools).append(SEPARATOR)
-            .append("registeredClasses = ").append(this.registeredClasses).append(SEPARATOR)
+            .append("attendanceMonths = ").append(this.attendanceMonths).append(SEPARATOR)
+            .append("assignedSchools = ").append(this.assignedSchools).append(SEPARATOR)
+            .append("assignedClasses = ").append(this.assignedClasses).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();
     }

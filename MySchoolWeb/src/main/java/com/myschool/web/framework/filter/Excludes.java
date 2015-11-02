@@ -33,8 +33,8 @@ public class Excludes {
         "/branch/jsonList.htm",
         // Class related excludes
         "/class/lookupClass.htm",
+        "class/jsonListRegistered.htm",
         "/school/jsonList.htm",
-        "/jsonListBySchool.htm",
         "/registeredSubject/jsonList.htm",
         // designation related excludes
         "/designation/jsonList.htm",
@@ -54,7 +54,6 @@ public class Excludes {
         // Upload image excludes
         "/upload/uploadImage.htm",
         /*
-        "/class/jsonListBySchool.htm",
         // Student related excludes
         "/student/launchParent.htm", "/student/validateFamilyMember.htm", "/student/launchSibling.htm",*/
         // Issue related excludes

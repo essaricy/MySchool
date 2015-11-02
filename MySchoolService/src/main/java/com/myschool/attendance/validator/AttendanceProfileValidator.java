@@ -10,21 +10,25 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.academic.dao.AcademicDao;
 import com.myschool.academic.dto.AcademicDto;
+import com.myschool.attendance.assembler.AttendanceProfileDataAssembler;
 import com.myschool.attendance.dao.AttendanceAssignmentsDao;
+import com.myschool.attendance.dao.AttendanceDao;
 import com.myschool.attendance.dao.AttendanceProfileDao;
+import com.myschool.attendance.domain.AttendanceProfileManager;
 import com.myschool.attendance.dto.AttendanceCode;
+import com.myschool.attendance.dto.AttendanceCodeDto;
+import com.myschool.attendance.dto.AttendanceDay;
+import com.myschool.attendance.dto.AttendanceMonth;
 import com.myschool.attendance.dto.AttendanceProfileDto;
-import com.myschool.attendance.dto.Day;
-import com.myschool.attendance.dto.DayAttendance;
-import com.myschool.attendance.dto.Month;
-import com.myschool.attendance.dto.MonthAttendance;
-import com.myschool.branch.dao.BranchDao;
-import com.myschool.branch.dao.RegionDao;
 import com.myschool.branch.dto.BranchDto;
-import com.myschool.branch.dto.RegionDto;
+import com.myschool.branch.dto.DivisionDto;
 import com.myschool.clazz.dao.RegisteredClassDao;
+import com.myschool.clazz.dto.ClassDto;
+import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
+import com.myschool.clazz.dto.SectionDto;
 import com.myschool.common.exception.DaoException;
+import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.util.ConversionUtil;
@@ -40,38 +44,33 @@ import com.myschool.school.dto.SchoolDto;
 @Component
 public class AttendanceProfileValidator extends AbstractValidator<AttendanceProfileDto> {
 
-    /** The Constant PROFILES_CONFICT_ASSIGNEMNTS. */
-    private static final String PROFILES_CONFICT_ASSIGNEMNTS = "PROFILES CONFLICT: Profile ({0}) assignments conflicts with another profile ({1}). Conflicts {2}.";
-
-    /** The Constant PROFILE_ERROR_DEPENDANCY. */
-    private static final String PROFILE_ERROR_DEPENDANCY = "PROFILE ERROR: Cannot assign a profile to a {0} without assiging to a {1}.";
-
-    /** The Constant PROFILE_ERROR_MISSING_MONTHS. */
-    private static final String PROFILE_ERROR_MISMATCH_MONTHS = "PROFILE ERROR: There are {0} months in the academic year and profile attendance has {1} months.";
-
-    /** The Constant PROFILE_ERROR_MISSING_DAYS. */
-    private static final String PROFILE_ERROR_MISSING_DAYS = "PROFILE ERROR: Missing/Excess attendance days for month {0}.";
-
-    /** The Constant PROFILE_ERROR_INVALID_ATTENDANCE_CODE. */
-    private static final String PROFILE_ERROR_INVALID_ATTENDANCE_CODE = "PROFILE ERROR: Invalid attendance code ({0}) for Day {1} of {2}";
-
-    /** The Constant PROFILE_ERROR_INVALID_ATTENDANCE_CODE_SUGGEST. */
-    private static final String PROFILE_ERROR_INVALID_ATTENDANCE_CODE_SUGGEST = "PROFILE ERROR: Invalid attendance code ({0}) for Day {1} of {2}. {3}";
-
-    /** The Constant PROFILE_ERROR_MISSING. */
-    private static final String PROFILE_ERROR_MISSING = "PROFILE ERROR: {0} does not exist.";
+    /** The Constant ERROR_DOESNT_EXIST. */
+    private static final String ERROR_DOESNT_EXIST = "PROFILE ERROR: {0} does not exist";
+    
+    /** The Constant ERROR_MONTHS_MISMATCH. */
+    private static final String ERROR_MONTHS_MISMATCH = "PROFILE ERROR: There are {0} months in the academic year and profile attendance has {1} months";
+    
+    /** The Constant ERROR_DAYS_MISMATCH. */
+    private static final String ERROR_DAYS_MISMATCH = "PROFILE ERROR: Number of attendance days does not match with the number of days in month {0}";
+    
+    /** The Constant ERROR_INVALID_CODE. */
+    private static final String ERROR_INVALID_CODE = "PROFILE ERROR: Invalid attendance code ({0}) for Day {1} of {2}";
+    
+    /** The Constant ERROR_DAY_OUTOF_AY. */
+    private static final String ERROR_DAY_OUTOF_AY = "PROFILE ERROR: Day {0} of {1} is not in academic year and cant assign attendance code";
+    
+    /** The Constant ERROR_INVALID_DATE. */
+    private static final String ERROR_INVALID_DATE = "PROFILE ERROR: Invalid date {0} of {1} and cant assign attendance code";
+    
+    /** The Constant ERROR_SCHOOL_DOESNT_EXIST. */
+    private static final String ERROR_SCHOOL_DOESNT_EXIST = "PROFILE ERROR: Assigned School does not exist";
+    
+    /** The Constant ERROR_CLASS_DOESNT_EXIST. */
+    private static final String ERROR_CLASS_DOESNT_EXIST = "PROFILE ERROR: Assigned Class does not exist";
 
     /** The academic dao. */
     @Autowired
     private AcademicDao academicDao;
-
-    /** The region dao. */
-    @Autowired
-    private RegionDao regionDao;
-
-    /** The branch dao. */
-    @Autowired
-    private BranchDao branchDao;
 
     /** The school dao. */
     @Autowired
@@ -81,6 +80,10 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
     @Autowired
     private RegisteredClassDao registeredClassDao;
 
+    /** The attendance dao. */
+    @Autowired
+    private AttendanceDao attendanceDao;
+
     /** The attendance profile dao. */
     @Autowired
     private AttendanceProfileDao attendanceProfileDao;
@@ -89,38 +92,43 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
     @Autowired
     private AttendanceAssignmentsDao attendanceAssignmentsDao;
 
+    /** The attendance profile manager. */
+    @Autowired
+    private AttendanceProfileManager attendanceProfileManager;
+
     /**
      * Do validate.
      * 
      * @param attendanceProfile the attendance profile
-     * @param strict the strict
      * @throws ValidationException the validation exception
      */
     public void doValidate(AttendanceProfileDto attendanceProfile) throws ValidationException {
         try {
             System.out.println("validate()");
             if (attendanceProfile == null) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Attendance Profile"));
+                throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Attendance Profile"));
             }
-            /*int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
-            if (attendanceProfileId == 0) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Attendance Profile"));
-            }*/
+            // Profile name is mandatory
             String profileName = attendanceProfile.getProfileName();
+            System.out.println("profileName " + profileName);
             validate(profileName, "Attendance Profile Name", DataTypeValidator.ANY_CHARACTER, true);
+            // Current academic must be setup
             AcademicDto currentAcademic = academicDao.getCurrentAcademic();
             if (currentAcademic == null) {
                 throw new ValidationException("Current Academic is not setup.");
             }
+            // Effective academic must be given
             AcademicDto effectiveAcademic = attendanceProfile.getEffectiveAcademic();
+            System.out.println("effectiveAcademic " + effectiveAcademic);
             if (effectiveAcademic == null) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Effective Academic"));
+                throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Effective Academic"));
             }
             String academicYearName = effectiveAcademic.getAcademicYearName();
             validate(academicYearName, "Effective Academic", DataTypeValidator.ANY_CHARACTER, true);
+            // Effective academic must exist
             effectiveAcademic = academicDao.get(academicYearName);
             if (effectiveAcademic == null) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Academic Year (" + academicYearName + ")"));
+                throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Academic Year (" + academicYearName + ")"));
             }
             attendanceProfile.setEffectiveAcademic(effectiveAcademic);
             String effectiveAcademicYearStartDateValue = effectiveAcademic.getAcademicYearStartDate();
@@ -131,18 +139,61 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             Date currentAcademicYearStartDate = ConversionUtil.fromApplicationDateToStorageDate(currentAcademic.getAcademicYearStartDate());
             //Date currentAcademicEndStartDate = ConversionUtil.fromApplicationDateToStorageDate(currentAcademic.getAcademicYearEndDate());
 
+            // Do not allow creating attendance profiles for the past academic year
             if (effectiveAcademicYearEndDate.before(currentAcademicYearStartDate)) {
                 throw new ValidationException("Academic profiles with past academics cannot be created.");
             }
-
-            validateYearAttendance(attendanceProfile.getYearAttendance(), effectiveAcademicYearStartDate, effectiveAcademicYearEndDate);
+            // Validate each day of the attendance days
+            validateAttendanceMonths(attendanceProfile.getAttendanceMonths(), effectiveAcademicYearStartDate, effectiveAcademicYearEndDate);
             validateAssignments(attendanceProfile);
-            validateAssignmentConflicts(attendanceProfile);
         } catch (DaoException daoException) {
             throw new ValidationException(daoException.getMessage(), daoException);
-        } catch (InvalidDataException invalidDataException) {
-            throw new ValidationException(invalidDataException.getMessage(), invalidDataException);
+        } catch (DataException dataException) {
+            throw new ValidationException(dataException.getMessage(), dataException);
         }
+    }
+
+    /**
+     * Validate assignments.
+     * 
+     * @param attendanceProfile the attendance profile
+     * @throws ValidationException the validation exception
+     * @throws DaoException the dao exception
+     * @throws DataException the data exception
+     */
+    private void validateAssignments(AttendanceProfileDto attendanceProfile)
+            throws ValidationException, DaoException, DataException {
+        List<SchoolDto> schools = attendanceProfile.getAssignedSchools();
+        List<RegisteredClassDto> registeredClasses = attendanceProfile.getAssignedClasses();
+        System.out.println("validateAssignments() ");
+        if ((schools == null || schools.isEmpty()) && (registeredClasses == null || registeredClasses.isEmpty())) {
+            throw new ValidationException("Profile must be assigned to at least one School/Class");
+        }
+        if (schools != null && !schools.isEmpty()) {
+            for (SchoolDto school : schools) {
+                //System.out.println("school.getSchoolId() " + school.getSchoolId());
+                if (school == null || school.getSchoolId() == 0) {
+                    throw new ValidationException(ERROR_SCHOOL_DOESNT_EXIST);
+                }
+                SchoolDto existingSchool = schoolDao.get(school.getSchoolId());
+                if (existingSchool == null) {
+                    throw new ValidationException(ERROR_SCHOOL_DOESNT_EXIST);
+                }
+            }
+        }
+        if (registeredClasses != null && !registeredClasses.isEmpty()) {
+            for (RegisteredClassDto registeredClass : registeredClasses) {
+                //System.out.println("registeredClass.getClassId() " + registeredClass.getClassId());
+                if (registeredClass == null || registeredClass.getClassId() == 0) {
+                    throw new ValidationException(ERROR_CLASS_DOESNT_EXIST);
+                }
+                RegisteredClassDto existingClass = registeredClassDao.get(registeredClass.getClassId());
+                if (existingClass == null) {
+                    throw new ValidationException(ERROR_CLASS_DOESNT_EXIST);
+                }
+            }
+        }
+        validateAssignmentConflicts(attendanceProfile);
     }
 
     /**
@@ -150,107 +201,69 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
      * 
      * @param attendanceProfile the attendance profile
      * @throws ValidationException the validation exception
-     * @throws DaoException the dao exception
+     * @throws DataException the data exception
      */
     public void validateAssignmentConflicts(
             AttendanceProfileDto attendanceProfile) throws ValidationException,
-            DaoException {
-        System.out.println("validateAssignmentConflicts()");
-        //int attendanceProfileId = attendanceProfile.getAttendanceProfileId();
-        String profileName = attendanceProfile.getProfileName();
+            DataException {
+        System.out.println(">>>>>>>>>>>>>>>> validateAssignmentConflicts()");
+        int attendanceProfileId = attendanceProfile.getProfileId();
         AcademicDto effectiveAcademic = attendanceProfile.getEffectiveAcademic();
-        //String academicYearName = effectiveAcademic.getAcademicYearName();
+        List<SchoolDto> assignedSchools = attendanceProfile.getAssignedSchools();
+        List<RegisteredClassDto> assignedClasses = attendanceProfile.getAssignedClasses();
+        String academicYearName = effectiveAcademic.getAcademicYearName();
 
-        // Check if it conflicts with other academic profiles assignment.
-        List<AttendanceProfileDto> allAttendanceProfiles = attendanceProfileDao.getAllExcluding(attendanceProfile);
-        if (allAttendanceProfiles != null) {
-            int profileForAYear = allAttendanceProfiles.size();
-            System.out.println("There are " + profileForAYear + " profiles to compare for academic " + effectiveAcademic.getAcademicYearName());
-            for (int index=0; index<allAttendanceProfiles.size(); index++) {
-                AttendanceProfileDto existingAttendanceProfile = allAttendanceProfiles.get(index);
-                int existingAttendanceProfileId = existingAttendanceProfile.getAttendanceProfileId();
-                existingAttendanceProfile.setStates(attendanceAssignmentsDao.getAssignedStates(existingAttendanceProfileId));
-                existingAttendanceProfile.setRegions(attendanceAssignmentsDao.getAssignedRegions(existingAttendanceProfileId));
-                existingAttendanceProfile.setBranches(attendanceAssignmentsDao.getAssignedBranches(existingAttendanceProfileId));
-                existingAttendanceProfile.setSchools(attendanceAssignmentsDao.getAssignedSchools(existingAttendanceProfileId));
-                existingAttendanceProfile.setRegisteredClasses(attendanceAssignmentsDao.getAssignedClasses(existingAttendanceProfileId));
+        System.out.println("academicYearName " + academicYearName);
+        System.out.println("Current attendanceProfileId= " + attendanceProfileId);
+        // retrieve only this academic year's attendance profiles to compare
+        List<AttendanceProfileDto> allAttendanceProfiles = attendanceProfileManager.getAllInDetail(academicYearName);
+        if (allAttendanceProfiles != null && !allAttendanceProfiles.isEmpty()) {
+            int profilesForAnYear = allAttendanceProfiles.size();
+            System.out.println("There are " + profilesForAnYear + " profiles to compare for academic " + effectiveAcademic.getAcademicYearName());
+
+            // Check if it conflicts with other academic profiles school assignment.
+            for (AttendanceProfileDto existingAttendanceProfile : allAttendanceProfiles) {
+                int existingAttendanceProfileId = existingAttendanceProfile.getProfileId();
+                System.out.println("existingAttendanceProfileId " + existingAttendanceProfileId);
+                if (existingAttendanceProfileId != attendanceProfileId) {
+                    checkSchoolConflict(assignedSchools, existingAttendanceProfile);
+                }
             }
+            // Check if it conflicts with other academic profiles class assignment.
+            for (AttendanceProfileDto existingAttendanceProfile : allAttendanceProfiles) {
+                int existingAttendanceProfileId = existingAttendanceProfile.getProfileId();
+                System.out.println("existingAttendanceProfileId " + existingAttendanceProfileId);
+                if (existingAttendanceProfileId != attendanceProfileId) {
+                    checkClassConflict(assignedClasses, existingAttendanceProfile);
+                }
+            }
+        }
+    }
 
-            System.out.println("Filtered out self, other academics, past academics, inactive attendance profiles. left " + allAttendanceProfiles.size());
-            // If still there are some profile to compare then compare.
-            if (!allAttendanceProfiles.isEmpty()) {
-                System.out.println("There are some other profiles to validate.");
-                /*List<RegionDto> assignedRegions = attendanceAssignmentsDao.getAssignedRegions(attendanceProfileId);
-                List<BranchDto> assignedBranches = attendanceAssignmentsDao.getAssignedBranches(attendanceProfileId);
-                List<SchoolDto> assignedSchools = attendanceAssignmentsDao.getAssignedSchools(attendanceProfileId);
-                List<RegisteredClassDto> assignedClasses = attendanceAssignmentsDao.getAssignedClasses(attendanceProfileId);*/
-                List<RegionDto> assignedRegions = attendanceProfile.getRegions();
-                List<BranchDto> assignedBranches = attendanceProfile.getBranches();
-                List<SchoolDto> assignedSchools = attendanceProfile.getSchools();
-                List<RegisteredClassDto> assignedClasses = attendanceProfile.getRegisteredClasses();
+    private void checkSchoolConflict(List<SchoolDto> assignedSchools,
+            AttendanceProfileDto existingAttendanceProfile) throws ValidationException {
+        System.out.println("checkSchoolConflict()");
+        String existingProfileName = existingAttendanceProfile.getProfileName();
+        List<SchoolDto> existingAssignedSchools = existingAttendanceProfile.getAssignedSchools();
 
-                boolean assignedNoRegions = (assignedRegions == null || assignedRegions.isEmpty());
-                /*boolean assignedNoBranches = assignedBranches == null || assignedBranches.isEmpty();
-                boolean assignedNoSchools = assignedSchools == null || assignedSchools.isEmpty();
-                boolean assignedNoClasses = assignedClasses == null || assignedClasses.isEmpty();*/
-
-                List<RegionDto> allRegions = regionDao.getAll();
-                List<BranchDto> allBranches = branchDao.getAll();
-                List<SchoolDto> allSchools = schoolDao.getAll();
-                List<RegisteredClassDto> allRegisteredClasses = registeredClassDao.getAll();
-
-                for (AttendanceProfileDto existingAttendanceProfile : allAttendanceProfiles) {
-                    String existingProfileName = existingAttendanceProfile.getProfileName();
-                    System.out.println("existingProfileName " + existingProfileName);
-                    List<RegionDto> assignedRegionsInOther = existingAttendanceProfile.getRegions();
-                    List<BranchDto> assignedBranchesInOther = existingAttendanceProfile.getBranches();
-                    List<SchoolDto> assignedSchoolsInOther = existingAttendanceProfile.getSchools();
-                    List<RegisteredClassDto> assignedClassesInOther = existingAttendanceProfile.getRegisteredClasses();
-
-                    /*boolean existingNoRegions = assignedRegionsInOther == null || assignedRegionsInOther.isEmpty();
-                    boolean existingNoBranches = assignedBranchesInOther == null || assignedBranchesInOther.isEmpty();
-                    boolean existingNoSchools = assignedSchoolsInOther == null || assignedSchoolsInOther.isEmpty();
-                    boolean existingNoClasses = assignedClassesInOther == null || assignedClassesInOther.isEmpty();*/
-
-                    System.out.println("assignedNoRegions " + assignedNoRegions);
-
-                    if (!assignedNoRegions) {
-                    } else {
-                        // Check if any of the assigned region is used in any of the assigned regions of the other assigned regions
-                        boolean sameAssignmentExists = sameAssignmentExists(assignedRegions,
-                                assignedRegionsInOther, allRegions);
-                        System.out.println("REGION sameAssignmentExists?" + sameAssignmentExists);
-                        if (sameAssignmentExists) {
-                            // regions conflict.
-                            throw new ValidationException(MessageFormat.format(
-                                    PROFILES_CONFICT_ASSIGNEMNTS, profileName, existingProfileName, "REGION"));
-                        } else {
-                            sameAssignmentExists = sameAssignmentExists(assignedBranches, assignedBranchesInOther,
-                                    allBranches);
-                            System.out.println("REGION->BRANCH sameAssignmentExists?" + sameAssignmentExists);
-                            if (sameAssignmentExists) {
-                                // branches conflict.
-                                throw new ValidationException(MessageFormat.format(
-                                        PROFILES_CONFICT_ASSIGNEMNTS, profileName, existingProfileName, "REGION->BRANCH"));
-                            } else {
-                                sameAssignmentExists = sameAssignmentExists(assignedSchools,
-                                        assignedSchoolsInOther, allSchools);
-                                System.out.println("REGION->BRANCH->SCHOOL sameAssignmentExists?" + sameAssignmentExists);
-                                if (sameAssignmentExists) {
-                                    // schools conflict.
-                                    throw new ValidationException(MessageFormat.format(
-                                            PROFILES_CONFICT_ASSIGNEMNTS, profileName, existingProfileName, "REGION->BRANCH->SCHOOL"));
-                                } else {
-                                    sameAssignmentExists = sameAssignmentExists(assignedClasses,
-                                            assignedClassesInOther,
-                                            allRegisteredClasses);
-                                    System.out.println("REGION->BRANCH->SCHOOL->CLASS sameAssignmentExists?" + sameAssignmentExists);
-                                    if (sameAssignmentExists) {
-                                        // classes conflict.
-                                        throw new ValidationException(MessageFormat.format(
-                                                PROFILES_CONFICT_ASSIGNEMNTS, profileName, existingProfileName, "REGION->BRANCH->SCHOOL->CLASS"));
-                                    }
-                                }
+        if (assignedSchools != null && existingAssignedSchools != null) {
+            // Validate if any of the attendance profile is assigned to this school
+            for (SchoolDto assignedSchool : assignedSchools) {
+                if (assignedSchool != null) {
+                    int schoolId = assignedSchool.getSchoolId();
+                    System.out.println("Assigned School ID= " + schoolId);
+                    for (SchoolDto existingAssignedSchool : existingAssignedSchools) {
+                        if (existingAssignedSchool != null) {
+                            int existingSchoolId = existingAssignedSchool.getSchoolId();
+                            System.out.println("existingSchoolId=" + existingSchoolId);
+                            if (schoolId == existingSchoolId) {
+                                DivisionDto division = existingAssignedSchool.getDivision();
+                                String divisionCode = division.getDivisionCode();
+                                BranchDto branch = existingAssignedSchool.getBranch();
+                                String branchCode = branch.getBranchCode();
+                                String schoolName = existingAssignedSchool.getSchoolName();
+                                String conflictedSchoolName = divisionCode + "/" + branchCode + "/" + schoolName;
+                                throw new ValidationException("School '" + conflictedSchoolName + "' has already been assigned to profile '" + existingProfileName + "'");
                             }
                         }
                     }
@@ -260,205 +273,46 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
     }
 
     /**
+     * Check class conflict.
      * 
-     * @param attendanceProfile the attendance profile
+     * @param assignedClasses the assigned classes
+     * @param existingAssignedClasses the existing assigned classes
      * @throws ValidationException the validation exception
-     * @throws DaoException the dao exception
      */
-    private void validateAssignments(AttendanceProfileDto attendanceProfile)
-            throws ValidationException, DaoException {
-        List<RegionDto> regions = attendanceProfile.getRegions();
-        List<BranchDto> branches = attendanceProfile.getBranches();
-        List<SchoolDto> schools = attendanceProfile.getSchools();
-        List<RegisteredClassDto> registeredClasses = attendanceProfile.getRegisteredClasses();
-        System.out.println("validateAssignments() ");
+    private void checkClassConflict(List<RegisteredClassDto> assignedClasses,
+            AttendanceProfileDto existingAttendanceProfile) throws ValidationException {
+        System.out.println("checkClassConflict()");
+        String existingProfileName = existingAttendanceProfile.getProfileName();
+        List<RegisteredClassDto> existingAssignedClasses = existingAttendanceProfile.getAssignedClasses();
 
-        boolean noRegions = regions == null || regions.isEmpty();
-        boolean noBranches = branches == null || branches.isEmpty();
-        boolean noSchools = schools == null || schools.isEmpty();
-        boolean noClasses = registeredClasses == null || registeredClasses.isEmpty();
+        // Validate if any of the attendance profile is assigned to this class
+        if (assignedClasses != null && existingAssignedClasses != null) {
+            for (RegisteredClassDto assignedClass : assignedClasses) {
+                if (assignedClass != null) {
+                    int classId = assignedClass.getClassId();
+                    System.out.println("Assigned Class ID= " + classId);
+                    for (RegisteredClassDto existingAssignedClass : existingAssignedClasses) {
+                        if (existingAssignedClass != null) {
+                            int existingClassId = existingAssignedClass.getClassId();
+                            System.out.println("existingSchoolId=" + existingClassId);
+                            if (classId == existingClassId) {
+                                SchoolDto school = existingAssignedClass.getSchool();
+                                ClassDto classDto = existingAssignedClass.getClassDto();
+                                MediumDto medium = existingAssignedClass.getMedium();
+                                SectionDto section = existingAssignedClass.getSection();
+                                DivisionDto division = school.getDivision();
+                                String divisionCode = division.getDivisionCode();
+                                BranchDto branch = school.getBranch();
+                                String branchCode = branch.getBranchCode();
+                                String schoolName = school.getSchoolName();
+                                String className = classDto.getClassName();
+                                String mediumName = medium.getDescription();
+                                String sectionName = section.getSectionName();
 
-        System.out.println("noRegions " + noRegions);
-        if (noRegions) {
-            // If there are no regions to assign then branches, schools, classes cannot be assigned.
-            if (!noBranches) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_DEPENDANCY, "BRANCH", "REGION"));
-            }
-            if (!noSchools) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_DEPENDANCY, "SCHOOL", "BRANCH"));
-            }
-            if (!noClasses) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_DEPENDANCY, "CLASS", "SCHOOL"));
-            }
-        } else {
-            System.out.println("noBranches " + noBranches);
-            // There are some regions to assign
-            if (noBranches) {
-                System.out.println("noSchools " + noSchools);
-                // If there are no branches to assign then schools, classes cannot be assigned.
-                if (!noSchools) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_DEPENDANCY, "SCHOOL", "BRANCH"));
-                }
-                System.out.println("noClasses " + noClasses);
-                if (!noClasses) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_DEPENDANCY, "CLASS", "SCHOOL"));
-                }
-            } else {
-                System.out.println("noSchools " + noSchools);
-                // There are some branches to assign
-                if (noSchools) {
-                    System.out.println("noClasses " + noClasses);
-                    // If there are no schools to assign then classes cannot be assigned.
-                    if (!noClasses) {
-                        throw new ValidationException(MessageFormat.format(PROFILE_ERROR_DEPENDANCY, "CLASS", "SCHOOL"));
-                    }
-                }
-            }
-        }
-        System.out.println("!noRegions " + !noRegions);
-        if (!noRegions) {
-            for (RegionDto region : regions) {
-                System.out.println("region.getRegionId() " + region.getRegionId());
-                if (region == null || region.getRegionId() == 0) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "REGION"));
-                }
-                RegionDto existingRegion = regionDao.get(region.getRegionId());
-                if (existingRegion == null) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "REGION"));
-                }
-            }
-        }
-        System.out.println("!noBranches " + !noBranches);
-        if (!noBranches) {
-            for (BranchDto branch : branches) {
-                System.out.println("branch.getBranchId() " + branch.getBranchId());
-                if (branch == null || branch.getBranchId() == 0) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "BRANCH"));
-                }
-                BranchDto existingBranch = branchDao.get(branch.getBranchId());
-                if (existingBranch == null) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "BRANCH"));
-                }
-            }
-        }
-        System.out.println("!noSchools " + !noSchools);
-        if (!noSchools) {
-            for (SchoolDto school : schools) {
-                System.out.println("school.getSchoolId() " + school.getSchoolId());
-                if (school == null || school.getSchoolId() == 0) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "SCHOOL"));
-                }
-                SchoolDto existingSchool = schoolDao.get(school.getSchoolId());
-                if (existingSchool == null) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "SCHOOL"));
-                }
-            }
-        }
-        System.out.println("!noClasses " + !noClasses);
-        if (!noClasses) {
-            for (RegisteredClassDto registeredClass : registeredClasses) {
-                System.out.println("registeredClass.getClassId() " + registeredClass.getClassId());
-                if (registeredClass == null || registeredClass.getClassId() == 0) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "CLASS"));
-                }
-                RegisteredClassDto existingClass = registeredClassDao.get(registeredClass.getClassId());
-                if (existingClass == null) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "CLASS"));
-                }
-            }
-        }
-    
-    }
-
-    /**
-     * Validate year attendance.
-     * 
-     * @param yearAttendance the year attendance
-     * @param effectiveAcademicYearStartDate the effective academic year start
-     *            date
-     * @param effectiveAcademicYearEndDate the effective academic year end date
-     * @throws ValidationException the validation exception
-     * @throws InvalidDataException the invalid data exception
-     */
-    private void validateYearAttendance(List<MonthAttendance> yearAttendance,
-            Date effectiveAcademicYearStartDate,
-            Date effectiveAcademicYearEndDate) throws ValidationException, InvalidDataException {
-        if (yearAttendance == null) {
-            throw new ValidationException("Attendance profile definition is incomplete.");
-        } else {
-            int numberOfMonthsInProfile = yearAttendance.size();
-            int numberOfMonthsInAcademic = DateUtil.dateDiffInMonthNumbers(effectiveAcademicYearStartDate, effectiveAcademicYearEndDate);
-            if (numberOfMonthsInProfile != numberOfMonthsInAcademic) {
-                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISMATCH_MONTHS, numberOfMonthsInAcademic, numberOfMonthsInProfile));
-            }
-            Calendar attendanceDateCalendar = DateUtil.getNewCalendarIgnoreHours();
-            attendanceDateCalendar.setTime(effectiveAcademicYearStartDate);
-            attendanceDateCalendar.set(Calendar.DAY_OF_MONTH, attendanceDateCalendar.getActualMinimum(Calendar.DAY_OF_MONTH));
-            Date effectiveAcademicYearStartMonth = attendanceDateCalendar.getTime();
-            System.out.println("effectiveAcademicYearStartMonth " + effectiveAcademicYearStartMonth);
-            attendanceDateCalendar.setTime(effectiveAcademicYearEndDate);
-            attendanceDateCalendar.set(Calendar.DAY_OF_MONTH, attendanceDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH));
-            Date effectiveAcademicYearEndMonth = attendanceDateCalendar.getTime();
-            System.out.println("effectiveAcademicYearEndMonth " + effectiveAcademicYearEndMonth);
-
-            attendanceDateCalendar.setTime(effectiveAcademicYearStartMonth);
-            for (int index = 0; index < numberOfMonthsInProfile; index++) {
-                int currentMonth = attendanceDateCalendar.get(Calendar.MONTH) + 1;
-                String monthShortNameYear = DateUtil.MONTH_SHORT_NAME_YEAR_FORMAT.format(attendanceDateCalendar.getTime());
-                MonthAttendance monthAttendance = getAttendanceObject(currentMonth, yearAttendance);
-                if (monthAttendance == null) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Attendance for " + monthShortNameYear));
-                }
-                List<DayAttendance> dayAttendances = monthAttendance.getDayAttendances();
-                if (dayAttendances == null || dayAttendances.isEmpty()) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING, "Attendance for " + monthShortNameYear));
-                }
-                int numberOfDays = dayAttendances.size();
-                int numberOfDaysInMonth = attendanceDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
-                if (numberOfDays < numberOfDaysInMonth || numberOfDays > 31) {
-                    throw new ValidationException(MessageFormat.format(PROFILE_ERROR_MISSING_DAYS, monthShortNameYear));
-                }
-                for (int jindex = numberOfDays; jindex < 31; jindex++) {
-                    DayAttendance dayAttendance = new DayAttendance();
-                    dayAttendance.setAttendanceCode(AttendanceCode.UNACCOUNTED);
-                    dayAttendance.setDaysInDifference(DayAttendance.INVALID);
-                    dayAttendances.add(dayAttendance);
-                }
-                for (int dayIndex = 1; dayIndex <= numberOfDaysInMonth; dayIndex++) {
-                    DayAttendance dayAttendance = getAttendanceObject(dayIndex, dayAttendances);
-                    if (dayAttendance == null) {
-                        throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE, "", dayIndex, monthShortNameYear));
-                    }
-                    AttendanceCode attendanceCode = dayAttendance.getAttendanceCode();
-                    if (attendanceCode == null) {
-                        throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE, "", dayIndex, monthShortNameYear));
-                    }
-                    Date currentDate = attendanceDateCalendar.getTime();
-                    if (currentDate.before(effectiveAcademicYearStartDate) || currentDate.after(effectiveAcademicYearEndDate)) {
-                        if (attendanceCode != AttendanceCode.UNACCOUNTED) {
-                            throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE_SUGGEST, attendanceCode, dayIndex, monthShortNameYear, "Must be " + AttendanceCode.UNACCOUNTED));
+                                String conflictedClassName = divisionCode + "/" + branchCode + "/" + schoolName + "/" + className + "/" + mediumName + "/" + sectionName;
+                                throw new ValidationException("Class '" + conflictedClassName + "' has already been assigned to profile '" + existingProfileName + "'");
+                            }
                         }
-                    } else {
-                        if (attendanceCode == AttendanceCode.UNACCOUNTED) {
-                            throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE_SUGGEST, attendanceCode, dayIndex, monthShortNameYear, "Must not be " + AttendanceCode.UNACCOUNTED));
-                        } else if (attendanceCode == AttendanceCode.UNASSIGNED) {
-                            throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE, attendanceCode, dayIndex, monthShortNameYear));
-                        }
-                    }
-                    attendanceDateCalendar.set(Calendar.DAY_OF_MONTH, attendanceDateCalendar.get(Calendar.DAY_OF_MONTH)+1);
-                }
-                // Validate excess days of month.
-                for (int jindex = 0; jindex < numberOfDays - numberOfDaysInMonth; jindex++) {
-                    int dayIndex = numberOfDaysInMonth + jindex + 1;
-                    DayAttendance dayAttendance = getAttendanceObject(dayIndex, dayAttendances);
-                    // If it is null then no problem
-                    if (dayAttendance != null) {
-                        AttendanceCode attendanceCode = dayAttendance.getAttendanceCode();
-                        if (attendanceCode != null && attendanceCode != AttendanceCode.UNACCOUNTED) {
-                            throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_ATTENDANCE_CODE_SUGGEST, attendanceCode, dayIndex, monthShortNameYear, "Must be " + AttendanceCode.UNACCOUNTED));
-                        }
-                        // overwrite to UNACCOUNTED. in case if it was null.
-                        dayAttendance.setAttendanceCode(AttendanceCode.UNACCOUNTED);
                     }
                 }
             }
@@ -476,16 +330,14 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
     private <T> T getAttendanceObject(int number, List<T> attendances) {
         if (attendances != null && !attendances.isEmpty()) {
             for (T attendance : attendances) {
-                if (attendance instanceof MonthAttendance) {
-                    MonthAttendance monthAttendance = (MonthAttendance) attendance;
-                    Month month = monthAttendance.getMonth();
-                    if (month != null && number == month.getNumber()) {
+                if (attendance instanceof AttendanceMonth) {
+                    AttendanceMonth attendanceMonth = (AttendanceMonth) attendance;
+                    if (attendanceMonth != null && number == attendanceMonth.getMonthNumber()) {
                         return attendance;
                     }
-                } else if (attendance instanceof DayAttendance) {
-                    DayAttendance dayAttendance = (DayAttendance) attendance;
-                    Day day = dayAttendance.getDay();
-                    if (day != null && number == day.getDate()) {
+                } else if (attendance instanceof AttendanceDay) {
+                    AttendanceDay attendanceDay = (AttendanceDay) attendance;
+                    if (attendanceDay != null && number == attendanceDay.getDate()) {
                         return attendance;
                     }
                 }
@@ -494,99 +346,166 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
         return null;
     }
 
-    private <T> boolean sameAssignmentExists(List<T> assignments,
-            List<T> assignmentsInExisting, List<T> allAssignable) {
-        boolean currentHasAssignments = (assignments != null && !assignments.isEmpty());
-        boolean existingHasAssignments = (assignmentsInExisting != null && !assignmentsInExisting.isEmpty());
+    /**
+     * Validate attendance months.
+     * 
+     * @param attendanceMonths the attendance months
+     * @param academicStartDate the academic start date
+     * @param academicEndDate the academic end date
+     * @throws ValidationException the validation exception
+     * @throws InvalidDataException the invalid data exception
+     * @throws DaoException the dao exception
+     */
+    private void validateAttendanceMonths(
+            List<AttendanceMonth> attendanceMonths, Date academicStartDate,
+            Date academicEndDate) throws ValidationException,
+            InvalidDataException, DaoException {
+        System.out.println("validateAttendanceMonths()");
+        AttendanceProfileDataAssembler.debug(attendanceMonths);
 
-        if (!currentHasAssignments) {
-            return true;
-        }
-        if (existingHasAssignments) {
-            return true;
-        }
+        if (attendanceMonths == null) {
+            throw new ValidationException("Attendance profile definition is incomplete.");
+        } else {
+            // The number of months in attendance profile must match with the number of months in the academic year
+            int numberOfMonthsInProfile = attendanceMonths.size();
+            System.out.println("numberOfMonthsInProfile " + numberOfMonthsInProfile);
+            int numberOfMonthsInAcademic = DateUtil.dateDiffInMonthNumbers(academicStartDate, academicEndDate);
+            if (numberOfMonthsInProfile != numberOfMonthsInAcademic) {
+                throw new ValidationException(MessageFormat.format(ERROR_MONTHS_MISMATCH, numberOfMonthsInAcademic, numberOfMonthsInProfile));
+            }
+            // Academic start calendar
+            Calendar academicStartCalendar = DateUtil.getNewCalendarIgnoreHours();
+            academicStartCalendar.setTime(academicStartDate);
+            int academicStartYear = academicStartCalendar.get(Calendar.YEAR);
+            int academicStartMonth = academicStartCalendar.get(Calendar.MONTH);
+            // Academic End calendar
+            Calendar academicEndCalendar = DateUtil.getNewCalendarIgnoreHours();
+            academicEndCalendar.setTime(academicEndDate);
+            // Rolling calendar
+            Calendar rollingCalendar = DateUtil.getNewCalendarIgnoreHours();
+            rollingCalendar.set(Calendar.YEAR, academicStartYear);
+            rollingCalendar.set(Calendar.MONTH, academicStartMonth);
+            rollingCalendar.set(Calendar.DAY_OF_MONTH, academicStartCalendar.getActualMinimum(Calendar.DAY_OF_MONTH));
 
-        boolean existingHasAll = hasExistingAll(assignmentsInExisting, allAssignable);
-        System.out.println("existingHasAll? " + existingHasAll);
-        // If existing has all the assignments and current has at least one, its a conflict
-        if (existingHasAll && !currentHasAssignments) {
-            return true;
+            List<AttendanceDay> attendanceDays = null;
+            List<AttendanceCodeDto> attendanceCodes = attendanceDao.getReferredAttendanceCodes();
+            System.out.println("attendanceCodes==" + attendanceCodes);
+            // Iterate till it reaches the last day of the academic year's last month
+            for (int monthIndex = 0; monthIndex < numberOfMonthsInProfile; monthIndex++) {
+                int currentMonth = rollingCalendar.get(Calendar.MONTH) + 1;
+                String monthShortNameYear = DateUtil.MONTH_SHORT_NAME_YEAR_FORMAT.format(rollingCalendar.getTime());
+
+                System.out.println("monthIndex = " + monthIndex + ", currentMonth=" + currentMonth + ", monthShortNameYear=" + monthShortNameYear);
+                AttendanceMonth attendanceMonth = getAttendanceObject(currentMonth, attendanceMonths);
+                if (attendanceMonth == null) {
+                    throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Attendance for " + monthShortNameYear));
+                }
+                attendanceDays = attendanceMonth.getAttendanceDays();
+                if (attendanceDays == null || attendanceDays.isEmpty()) {
+                    throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Attendance for " + monthShortNameYear));
+                }
+                // Validate the number of days in a month to the number of attendance days in the month
+                int numberOfDays = attendanceDays.size();
+                System.out.println("Provided numberOfDays= " + numberOfDays);
+                int maxDaysInMonth = rollingCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+                if (numberOfDays < maxDaysInMonth || numberOfDays > 31) {
+                    throw new ValidationException(MessageFormat.format(ERROR_DAYS_MISMATCH, monthShortNameYear));
+                }
+                rollingCalendar.set(Calendar.YEAR, attendanceMonth.getYear());
+                rollingCalendar.set(Calendar.MONTH, attendanceMonth.getMonthNumber()-1);
+
+                //int daysInMonth = (numberOfDays > maxDaysInMonth) ? numberOfDays : maxDaysInMonth;
+                for (int dayIndex = 1; dayIndex <= maxDaysInMonth; dayIndex++) {
+                    //System.out.print(dayIndex);
+                    rollingCalendar.set(Calendar.DAY_OF_MONTH, dayIndex);
+                    AttendanceDay attendanceDay = getAttendanceObject(dayIndex, attendanceDays);
+                    if (rollingCalendar.getTime().before(academicStartCalendar.getTime())) {
+                        // Cannot assign reference attendance to the days before the academic year start date
+                        if (attendanceDay != null && attendanceDay.getReference() != null) {
+                            throw new ValidationException(MessageFormat.format(ERROR_DAY_OUTOF_AY, dayIndex, monthShortNameYear));
+                        }
+                    } else if (rollingCalendar.getTime().after(academicEndCalendar.getTime())) {
+                        // AttendanceCode referenceAttendance = attendanceDay.getReference();
+                        // Cannot assign reference attendance to the days after the academic year end date
+                        if (attendanceDay != null && attendanceDay.getReference() != null) {
+                            throw new ValidationException(MessageFormat.format(ERROR_DAY_OUTOF_AY, dayIndex, monthShortNameYear));
+                        }
+                    } else {
+                        if (attendanceDay == null || attendanceDay.getReference() == null) {
+                            throw new ValidationException(MessageFormat.format(ERROR_INVALID_CODE, null, dayIndex, monthShortNameYear));
+                        }
+                        validateReferenceAttendanceCode(attendanceDay.getReference(), attendanceCodes);
+                    }
+                }
+                System.out.println("Validating excess days; maxDaysInMonth=" + maxDaysInMonth);
+                // Put nulls from the last day of the month to 31
+                for (int dayIndex = maxDaysInMonth + 1; dayIndex <= 31; dayIndex++) {
+                    AttendanceDay attendanceDay = getAttendanceObject(dayIndex, attendanceDays);
+                    if (attendanceDay != null && attendanceDay.getReference() != null) {
+                        throw new ValidationException(MessageFormat.format(ERROR_INVALID_DATE, dayIndex, monthShortNameYear));
+                    }
+                }
+                System.out.println("Validation complete...");
+            }
         }
-        for (Object assignment : assignments) {
-            for (Object assigned : assignmentsInExisting) {
-                if (assignment instanceof RegionDto && assigned instanceof RegionDto) {
-                    RegionDto assignmentRegion = (RegionDto) assignment;
-                    RegionDto assignedRegion = (RegionDto) assigned;
-                    if (assignmentRegion.getRegionId() == assignedRegion.getRegionId()) {
-                        return true;
-                    }
-                } else if (assignment instanceof BranchDto && assigned instanceof BranchDto) {
-                    BranchDto assignmentBranch = (BranchDto) assignment;
-                    BranchDto assignedBranch = (BranchDto) assigned;
-                    if (assignmentBranch.getBranchId() == assignedBranch.getBranchId()) {
-                        return true;
-                    }
-                } else if (assignment instanceof SchoolDto && assigned instanceof SchoolDto) {
-                    SchoolDto assignmentSchool = (SchoolDto) assignment;
-                    SchoolDto assignedSchool = (SchoolDto) assigned;
-                    if (assignmentSchool.getSchoolId() == assignedSchool.getSchoolId()) {
-                        return true;
-                    }
-                } else if (assignment instanceof RegisteredClassDto && assigned instanceof RegisteredClassDto) {
-                    RegisteredClassDto assignmentRegisteredClass = (RegisteredClassDto) assignment;
-                    RegisteredClassDto assignedRegisteredClass = (RegisteredClassDto) assigned;
-                    if (assignmentRegisteredClass.getClassId() == assignedRegisteredClass.getClassId()) {
-                        return true;
+    }
+
+    /**
+     * Validate reference attendance code.
+     * 
+     * @param referenceAttendance the reference attendance
+     * @param attendanceCodes the attendance codes
+     * @throws ValidationException the validation exception
+     */
+    private void validateReferenceAttendanceCode(
+            AttendanceCode referenceAttendance, List<AttendanceCodeDto> attendanceCodes) throws ValidationException {
+        boolean valid = false;
+        if (referenceAttendance != null && attendanceCodes != null) {
+            for (AttendanceCodeDto attendanceCode : attendanceCodes) {
+                if (attendanceCode.isUseInReference()
+                        && referenceAttendance.getCode().equals(attendanceCode.getCode())) {
+                    valid = true;
+                    break;
+                }
+            }
+            if (!valid) {
+                throw new ValidationException(MessageFormat.format("Attendance Code {0} cannot be used for reference attendance", referenceAttendance.getCode()));
+            }
+        }
+    }
+
+    /*private void validateAssignedAttendanceCode(
+            AttendanceCode assignedAttendance,
+            List<AttendanceCodeDto> attendanceCodes) throws ValidationException {
+        boolean valid = false;
+        if (assignedAttendance != null && attendanceCodes != null) {
+            for (AttendanceCodeDto attendanceCode : attendanceCodes) {
+                if (attendanceCode.isUseInReference()) {
+                    if (assignedAttendance.getCode().equals(attendanceCode.getCode())) {
+                        valid = true;
+                        break;
                     }
                 }
             }
+            if (!valid) {
+                throw new ValidationException(MessageFormat.format("Attendance Code {0} cannot be used for assigning", assignedAttendance));
+            }
         }
-        System.out.println("sameAssignmentExists ? false");
-        return false;
-    }
+    }*/
 
-    private <T> boolean hasExistingAll(List<T> existingAssignments, List<T> allAssignable) {
-        boolean existingHasAll = true;
-        boolean existingHasAssignments = (existingAssignments != null && !existingAssignments.isEmpty());
-
-        if (existingHasAssignments) {
-            if (allAssignable != null && !allAssignable.isEmpty() && existingHasAssignments) {
-                for (T assignable : allAssignable) {
-                    for (T assignmentInExisting : existingAssignments) {
-                        if (assignable instanceof RegionDto && assignmentInExisting instanceof RegionDto) {
-                            RegionDto assignableRegion = (RegionDto) assignable;
-                            RegionDto existingRegion = (RegionDto) assignmentInExisting;
-                            if (existingRegion.getRegionId() !=0 && assignableRegion.getRegionId() != existingRegion.getRegionId()) {
-                                existingHasAll = false;
-                            }
-                        } else if (assignable instanceof BranchDto && assignmentInExisting instanceof BranchDto) {
-                            BranchDto assignableBranch = (BranchDto) assignable;
-                            BranchDto existingBranch = (BranchDto) assignmentInExisting;
-                            if (existingBranch.getBranchId() !=0 && assignableBranch.getBranchId() != existingBranch.getBranchId()) {
-                                existingHasAll = false;
-                            }
-                        } else if (assignable instanceof SchoolDto && assignmentInExisting instanceof SchoolDto) {
-                            SchoolDto assignableSchool = (SchoolDto) assignable;
-                            SchoolDto existingSchool = (SchoolDto) assignmentInExisting;
-                            if (existingSchool.getSchoolId() !=0 && assignableSchool.getSchoolId() != existingSchool.getSchoolId()) {
-                                existingHasAll = false;
-                            }
-                        } else if (assignable instanceof RegisteredClassDto && assignmentInExisting instanceof RegisteredClassDto) {
-                            RegisteredClassDto assignableRegisteredClass = (RegisteredClassDto) assignable;
-                            RegisteredClassDto existingRegisteredClass = (RegisteredClassDto) assignmentInExisting;
-                            if (existingRegisteredClass.getClassId() !=0 && assignableRegisteredClass.getClassId() != existingRegisteredClass.getClassId()) {
-                                existingHasAll = false;
-                            }
-                        }
-                        if (!existingHasAll) {
-                            break;
-                        }
-                    }
-                }
+    /*private void validate(Date academicStartDate, Date academicEndDate,
+            Date currentDate, String monthShortNameYear,
+            int dayIndex, AttendanceCode attendanceCode)
+            throws ValidationException {
+        if (currentDate.before(academicStartDate) || currentDate.after(academicEndDate)) {
+            if (attendanceCode != null) {
+                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_CODE, attendanceCode, dayIndex, monthShortNameYear));
             }
         } else {
-            existingHasAll = false;
+            if (attendanceCode == null) {
+                throw new ValidationException(MessageFormat.format(PROFILE_ERROR_INVALID_CODE, attendanceCode, dayIndex, monthShortNameYear));
+            }
         }
-        return existingHasAll;
-    }
+    }*/
+
 }

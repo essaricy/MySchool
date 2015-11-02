@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import com.myschool.common.util.JsonUtil;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationMode;
 import com.myschool.notification.constants.NotificationType;
@@ -163,12 +164,12 @@ public class NotificationDataAssembler {
         NotificationCriteriaDto notificationCriteria = null;
         if (notificationCriteriaValue != null) {
             notificationCriteria = new NotificationCriteriaDto();
-            notificationCriteria.setEndPoint(notificationCriteriaValue.getString("EndPoint"));
-            notificationCriteria.setMode(notificationCriteriaValue.getString("Mode"));
-            notificationCriteria.setStatus(notificationCriteriaValue.getString("Status"));
-            notificationCriteria.setType(notificationCriteriaValue.getString("Type"));
-            notificationCriteria.setRequestDateMin(notificationCriteriaValue.getString("DateMin"));
-            notificationCriteria.setRequestDateMax(notificationCriteriaValue.getString("DateMax"));
+            notificationCriteria.setEndPoint(JsonUtil.getString(notificationCriteriaValue, "EndPoint"));
+            notificationCriteria.setMode(JsonUtil.getString(notificationCriteriaValue, "Mode"));
+            notificationCriteria.setStatus(JsonUtil.getString(notificationCriteriaValue, "Status"));
+            notificationCriteria.setType(JsonUtil.getString(notificationCriteriaValue, "Type"));
+            notificationCriteria.setRequestDateMin(JsonUtil.getString(notificationCriteriaValue, "DateMin"));
+            notificationCriteria.setRequestDateMax(JsonUtil.getString(notificationCriteriaValue, "DateMax"));
         }
         return notificationCriteria;
     }

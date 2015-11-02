@@ -1,5 +1,7 @@
 package com.myschool.attendance.service;
 
+import java.util.List;
+
 import com.myschool.application.service.Servicable;
 import com.myschool.attendance.dto.AttendanceProfileDto;
 import com.myschool.common.exception.ServiceException;
@@ -9,15 +11,26 @@ import com.myschool.common.exception.ServiceException;
  */
 public interface AttendanceProfileService extends Servicable<AttendanceProfileDto> {
 
+    AttendanceProfileDto getInDetail(int attendanceProfileId) throws ServiceException;
+
     /**
-     * Gets the.
+     * Gets the all.
      * 
-     * @param attendanceProfileId the attendance profile id
      * @param academicYearName the academic year name
-     * @return the attendance profile dto
+     * @return the list
      * @throws ServiceException the service exception
      */
-    AttendanceProfileDto get(int attendanceProfileId,
-            String academicYearName) throws ServiceException;
+    List<AttendanceProfileDto> getAll(String academicYearName) throws ServiceException;
+
+    /**
+     * Gets the blank.
+     * 
+     * @param academicYearName the academic year name
+     * @return the blank
+     * @throws ServiceException the service exception
+     */
+    AttendanceProfileDto getBlank(String academicYearName) throws ServiceException;
+
+    AttendanceProfileDto getBlank() throws ServiceException;
 
 }

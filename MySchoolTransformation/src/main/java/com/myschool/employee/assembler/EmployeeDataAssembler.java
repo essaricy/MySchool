@@ -76,16 +76,16 @@ public class EmployeeDataAssembler {
 
             String searchType = employeeSearchCriteria.getString("SearchType");
 
-            employeeSearchCriteriaDto.setEmployeeNumber(JsonUtil.getStringValue(employeeSearchCriteria, "EmployeeNumber"));
-            employeeSearchCriteriaDto.setEmployeeName(JsonUtil.getStringValue(employeeSearchCriteria, "EmployeeName"));
-            employeeSearchCriteriaDto.setDesignationId(JsonUtil.getIntValue(employeeSearchCriteria, "Designation"));
-            employeeSearchCriteriaDto.setReportingToEmployeeNumber(JsonUtil.getStringValue(employeeSearchCriteria, "ReportingTo"));
-            employeeSearchCriteriaDto.setEmployedAtBranchCode(JsonUtil.getStringValue(employeeSearchCriteria, "EmployedAt"));
+            employeeSearchCriteriaDto.setEmployeeNumber(JsonUtil.getString(employeeSearchCriteria, "EmployeeNumber"));
+            employeeSearchCriteriaDto.setEmployeeName(JsonUtil.getString(employeeSearchCriteria, "EmployeeName"));
+            employeeSearchCriteriaDto.setDesignationId(JsonUtil.getInt(employeeSearchCriteria, "Designation"));
+            employeeSearchCriteriaDto.setReportingToEmployeeNumber(JsonUtil.getString(employeeSearchCriteria, "ReportingTo"));
+            employeeSearchCriteriaDto.setEmployedAtBranchCode(JsonUtil.getString(employeeSearchCriteria, "EmployedAt"));
 
             if (searchType.equalsIgnoreCase("ADVANCED")) {
-                employeeSearchCriteriaDto.setEmploymentStatusId(JsonUtil.getIntValue(employeeSearchCriteria, "EmploymentStatus"));
-                employeeSearchCriteriaDto.setGender(JsonUtil.getStringValue(employeeSearchCriteria, "Gender"));
-                employeeSearchCriteriaDto.setBloodGroup(JsonUtil.getStringValue(employeeSearchCriteria, "BloodGroup"));
+                employeeSearchCriteriaDto.setEmploymentStatusId(JsonUtil.getInt(employeeSearchCriteria, "EmploymentStatus"));
+                employeeSearchCriteriaDto.setGender(JsonUtil.getString(employeeSearchCriteria, "Gender"));
+                employeeSearchCriteriaDto.setBloodGroup(JsonUtil.getString(employeeSearchCriteria, "BloodGroup"));
                 employeeSearchCriteriaDto.setExperienceInMonthsMin(JsonUtil.getIntValue(employeeSearchCriteria, "ExperienceMin", -1));
                 employeeSearchCriteriaDto.setExperienceInMonthsMax(JsonUtil.getIntValue(employeeSearchCriteria, "ExperienceMax", -1));
             }
@@ -103,40 +103,37 @@ public class EmployeeDataAssembler {
         EmployeeDto employee = null;
         if (employeeData != null) {
             employee = new EmployeeDto();
-            String employeeId = employeeData.getString("EmployeeId");
-            if (!StringUtil.isNullOrBlank(employeeId)) {
-                employee.setEmployeeId(Integer.parseInt(employeeId.trim()));
-            }
-            employee.setEmployeeNumber(StringUtil.getValue(employeeData.getString("EmployeeNumber")));
-            employee.setImageName(StringUtil.getValue(employeeData.getString("ImageName")));
-            employee.setFirstName(StringUtil.getValue(employeeData.getString("FirstName")));
-            employee.setMiddleName(StringUtil.getValue(employeeData.getString("MiddleName")));
-            employee.setLastName(StringUtil.getValue(employeeData.getString("LastName")));
-            employee.setGender(StringUtil.getValue(employeeData.getString("Gender")));
-            employee.setDateOfBirth(StringUtil.getValue(employeeData.getString("DateOfBirth")));
-            employee.setBloodGroup(StringUtil.getValue(employeeData.getString("BloodGroup")));
-            employee.setNationality(StringUtil.getValue(employeeData.getString("Nationality")));
-            employee.setMaritalStatus(StringUtil.getValue(employeeData.getString("MaritalStatus")));
-            employee.setWeddingDay(StringUtil.getValue(employeeData.getString("WeddingDay")));
-            employee.setEmploymentStartDate(StringUtil.getValue(employeeData.getString("EmploymentStartDate")));
-            employee.setEmploymentEndDate(StringUtil.getValue(employeeData.getString("EmploymentEndDate")));
-            employee.setVerified(ConversionUtil.toBoolean(employeeData.getString("Verified")));
+            employee.setEmployeeId(JsonUtil.getInt(employeeData, "EmployeeId"));
+            employee.setEmployeeNumber(StringUtil.getValue(JsonUtil.getString(employeeData, "EmployeeNumber")));
+            employee.setImageName(StringUtil.getValue(JsonUtil.getString(employeeData, "ImageName")));
+            employee.setFirstName(StringUtil.getValue(JsonUtil.getString(employeeData, "FirstName")));
+            employee.setMiddleName(StringUtil.getValue(JsonUtil.getString(employeeData, "MiddleName")));
+            employee.setLastName(StringUtil.getValue(JsonUtil.getString(employeeData, "LastName")));
+            employee.setGender(StringUtil.getValue(JsonUtil.getString(employeeData, "Gender")));
+            employee.setDateOfBirth(StringUtil.getValue(JsonUtil.getString(employeeData, "DateOfBirth")));
+            employee.setBloodGroup(StringUtil.getValue(JsonUtil.getString(employeeData, "BloodGroup")));
+            employee.setNationality(StringUtil.getValue(JsonUtil.getString(employeeData, "Nationality")));
+            employee.setMaritalStatus(StringUtil.getValue(JsonUtil.getString(employeeData, "MaritalStatus")));
+            employee.setWeddingDay(StringUtil.getValue(JsonUtil.getString(employeeData, "WeddingDay")));
+            employee.setEmploymentStartDate(StringUtil.getValue(JsonUtil.getString(employeeData, "EmploymentStartDate")));
+            employee.setEmploymentEndDate(StringUtil.getValue(JsonUtil.getString(employeeData, "EmploymentEndDate")));
+            employee.setVerified(ConversionUtil.toBoolean(JsonUtil.getString(employeeData, "Verified")));
             // load reporting to
             EmployeeDto reportingTo = new EmployeeDto();
-            reportingTo.setEmployeeId(employeeData.getInt("ReportingTo"));
+            reportingTo.setEmployeeId(JsonUtil.getInt(employeeData, "ReportingTo"));
             employee.setReportingTo(reportingTo);
-            employee.setRemarks(StringUtil.getValue(employeeData.getString("Remarks")));
+            employee.setRemarks(StringUtil.getValue(JsonUtil.getString(employeeData, "Remarks")));
 
             BranchDto branch = new BranchDto();
-            branch.setBranchId(employeeData.getInt("EmployedAtBranch"));
+            branch.setBranchId(JsonUtil.getInt(employeeData, "EmployedAtBranch"));
             employee.setEmployedAtBranch(branch);
 
             DesignationDto designation = new DesignationDto();
-            designation.setDesignationId(employeeData.getInt("DesignationId"));
+            designation.setDesignationId(JsonUtil.getInt(employeeData, "DesignationId"));
             employee.setDesignation(designation);
 
             EmploymentStatus employmentStatus = new EmploymentStatus();
-            employmentStatus.setStatusId(employeeData.getInt("EmploymentStatusId"));
+            employmentStatus.setStatusId(JsonUtil.getInt(employeeData, "EmploymentStatusId"));
             employee.setEmploymentStatus(employmentStatus);
             // Create employee contact
             employee.setEmployeeContact(EmployeeContactDataAssembler.createEmployeeContact(

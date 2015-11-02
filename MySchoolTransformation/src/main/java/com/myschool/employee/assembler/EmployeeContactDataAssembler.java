@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import com.myschool.application.assembler.RelationshipDataAssembler;
 import com.myschool.common.dto.Relationship;
+import com.myschool.common.util.JsonUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.employee.constant.EmployeeNotificationTo;
 import com.myschool.employee.dto.EmployeeContact;
@@ -52,32 +53,34 @@ public class EmployeeContactDataAssembler {
         EmployeeContact employeeContact = null;
         if (employeeContactData != null) {
             employeeContact = new EmployeeContact();
-            employeeContact.setEmergencyContactNumber(
-                    StringUtil.getValue(employeeContactData.getString("EmergencyContactNumber")));
-            employeeContact.setOfficeDeskExtension(
-                    StringUtil.getValue(employeeContactData.getString("OfficeDeskExtension")));
-            employeeContact.setOfficeDeskPhoneNumber(
-                    StringUtil.getValue(employeeContactData.getString("OfficeDeskPhoneNumber")));
-            employeeContact.setOfficeEmailId(
-                    StringUtil.getValue(employeeContactData.getString("OfficeEmailId")));
-            employeeContact.setOfficeMobileNumber(
-                    StringUtil.getValue(employeeContactData.getString("OfficeMobileNumber")));
-            employeeContact.setPermanentAddress(
-                    StringUtil.getValue(employeeContactData.getString("PermanentAddress")));
-            employeeContact.setPersonalEmailId(
-                    StringUtil.getValue(employeeContactData.getString("PersonalEmailId")));
-            employeeContact.setPersonalMobileNumber(
-                    StringUtil.getValue(employeeContactData.getString("PersonalMobileNumber")));
-            employeeContact.setPresentAddress(
-                    StringUtil.getValue(employeeContactData.getString("PresentAddress")));
+            employeeContact.setEmergencyContactNumber(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "EmergencyContactNumber")));
+            employeeContact.setOfficeDeskExtension(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "OfficeDeskExtension")));
+            employeeContact.setOfficeDeskPhoneNumber(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "OfficeDeskPhoneNumber")));
+            employeeContact.setOfficeEmailId(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "OfficeEmailId")));
+            employeeContact.setOfficeMobileNumber(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "OfficeMobileNumber")));
+            employeeContact.setPermanentAddress(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "PermanentAddress")));
+            employeeContact.setPersonalEmailId(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "PersonalEmailId")));
+            employeeContact.setPersonalMobileNumber(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "PersonalMobileNumber")));
+            employeeContact.setPresentAddress(StringUtil.getValue(
+                    JsonUtil.getString(employeeContactData, "PresentAddress")));
             Relationship emergencyContactRelationship = new Relationship();
-            emergencyContactRelationship.setCode(employeeContactData.getString("EmergencyContactRelationshipCode"));
-            emergencyContactRelationship.setName(employeeContactData.getString("EmergencyContactRelationshipName"));
+            emergencyContactRelationship.setCode(
+                    JsonUtil.getString(employeeContactData, "EmergencyContactRelationshipCode"));
+            emergencyContactRelationship.setName(
+                    JsonUtil.getString(employeeContactData, "EmergencyContactRelationshipName"));
             employeeContact.setEmergencyContactRelationship(emergencyContactRelationship);
             employeeContact.setEmailNotificationTo(
-                    EmployeeNotificationTo.getByCode(employeeContactData.getString("EmailNotificationTo")));
+                    EmployeeNotificationTo.getByCode(JsonUtil.getString(employeeContactData, "EmailNotificationTo")));
             employeeContact.setSmsNotificationTo(
-                    EmployeeNotificationTo.getByCode(employeeContactData.getString("SmsNotificationTo")));
+                    EmployeeNotificationTo.getByCode(JsonUtil.getString(employeeContactData, "SmsNotificationTo")));
         }
         return employeeContact;
     }

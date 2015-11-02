@@ -1,46 +1,40 @@
 package com.myschool.attendance.dao;
 
-import java.util.List;
-
-import com.myschool.attendance.dto.DayAttendance;
-import com.myschool.attendance.dto.MonthAttendance;
-import com.myschool.attendance.dto.ReferenceAttendanceDto;
-import com.myschool.attendance.dto.StudentAttendanceDto;
 
 /**
  * The Class AttendanceDaoSql.
  */
-public class AttendanceDaoSql {
+public class AttendanceDaoSql {/*
 
-    /** The Constant COLUMN_VALUE. */
+    *//** The Constant COLUMN_VALUE. *//*
     private static final String COLUMN_VALUE = "COLUMN_VALUE";
 
-    /** The Constant COLUMN_NAME. */
+    *//** The Constant COLUMN_NAME. *//*
     private static final String COLUMN_NAME = "COLUMN_NAME";
 
-    /** The Constant COLUMN_NAME_AND_VALUE. */
+    *//** The Constant COLUMN_NAME_AND_VALUE. *//*
     private static final String COLUMN_NAME_AND_VALUE = "COLUMN_NAME_AND_VALUE";
 
-    /** The Constant DAY. */
+    *//** The Constant DAY. *//*
     private static final String DAY = "DAY_";
 
-    /**
+    *//**
      * Builds the reference attendance query.
      *
      * @return the string
-     */
+     *//*
     public static String buildReferenceAttendanceQuery() {
         StringBuffer queryBuffer = new StringBuffer();
         queryBuffer.append("SELECT * FROM REF_ATTENDANCE WHERE YEAR = ? AND MONTH = ? AND CLASS_ID = ?");
         return queryBuffer.toString();
     }
 
-    /**
+    *//**
      * Builds the reference attendance insert query.
      *
      * @param referenceAttendance the reference attendance
      * @return the string
-     */
+     *//*
     public static String buildReferenceAttendanceInsertQuery(
             ReferenceAttendanceDto referenceAttendance) {
         StringBuffer queryBuffer = new StringBuffer();
@@ -55,16 +49,16 @@ public class AttendanceDaoSql {
         return queryBuffer.toString();
     }
 
-    /**
+    *//**
      * Gets the attendance day values query part.
      *
      * @param appendWhat the append what
      * @param dayAttendances the day attendances
      * @return the attendance day values query part
-     */
+     *//*
     private static String getAttendanceDayValuesQueryPart(String appendWhat,
-            List<DayAttendance> dayAttendances) {
-        DayAttendance dayAttendance = null;
+            List<AttendanceDay> dayAttendances) {
+        AttendanceDay dayAttendance = null;
         StringBuffer queryBuffer = new StringBuffer();
 
         if (appendWhat != null && dayAttendances != null && !dayAttendances.isEmpty()) {
@@ -88,13 +82,13 @@ public class AttendanceDaoSql {
         return queryBuffer.toString();
     }
 
-    /**
+    *//**
      * Builds the reference attendance update query.
      *
      * @param referenceAttendanceId the reference attendance id
      * @param referenceAttendance the reference attendance
      * @return the string
-     */
+     *//*
     public static String buildReferenceAttendanceUpdateQuery(
             int referenceAttendanceId,
             ReferenceAttendanceDto referenceAttendance) {
@@ -108,29 +102,29 @@ public class AttendanceDaoSql {
         return queryBuffer.toString();
     }
 
-    /**
+    *//**
      * Builds the student attendance query.
      *
      * @return the string
-     */
+     *//*
     public static String buildStudentAttendanceQuery() {
         StringBuffer queryBuffer = new StringBuffer();
         queryBuffer.append("SELECT * FROM STUDENT_ATTENDANCE WHERE YEAR = ? AND MONTH = ? AND STUDENT_ID = ?");
         return queryBuffer.toString();
     }
 
-    /**
+    *//**
      * Builds the student attendance insert query.
      *
      * @param referenceAttendance the reference attendance
      * @param studentAttendance the student attendance
      * @return the string
-     */
+     *//*
     public static String buildStudentAttendanceInsertQuery(
             ReferenceAttendanceDto referenceAttendance,
             StudentAttendanceDto studentAttendance) {
         StringBuffer queryBuffer = new StringBuffer();
-        MonthAttendance monthAttendance = (MonthAttendance) studentAttendance.getAttendance();
+        AttendanceMonth monthAttendance = (AttendanceMonth) studentAttendance.getAttendance();
         queryBuffer.append("INSERT INTO STUDENT_ATTENDANCE ( ");
         queryBuffer.append("ATTENDANCE_ID, YEAR, MONTH, STUDENT_ID, ");
         queryBuffer.append(getAttendanceDayValuesQueryPart(COLUMN_NAME, referenceAttendance.getDayAttendances()));
@@ -142,28 +136,28 @@ public class AttendanceDaoSql {
         return queryBuffer.toString();
     }
 
-    /**
+    *//**
      * Builds the student attendance update query.
      *
      * @param monthAttendanceId the month attendance id
      * @param referenceAttendance the reference attendance
      * @param studentAttendance the student attendance
      * @return the string
-     */
+     *//*
     public static String buildStudentAttendanceUpdateQuery(
             int monthAttendanceId, ReferenceAttendanceDto referenceAttendance,
             StudentAttendanceDto studentAttendance) {
         StringBuffer queryBuffer = new StringBuffer();
-        MonthAttendance monthAttendance = (MonthAttendance) studentAttendance.getAttendance();
+        AttendanceMonth monthAttendance = (AttendanceMonth) studentAttendance.getAttendance();
         queryBuffer.append("UPDATE STUDENT_ATTENDANCE  ");
         queryBuffer.append("SET ");
-        /*queryBuffer.append("YEAR = ").append(referenceAttendance.getYear());
+        queryBuffer.append("YEAR = ").append(referenceAttendance.getYear());
         queryBuffer.append(", MONTH = ").append(referenceAttendance.getMonth());
-        queryBuffer.append(", STUDENT_ID = ").append(studentAttendance.getStudent().getStudentId()).append(", ");*/
+        queryBuffer.append(", STUDENT_ID = ").append(studentAttendance.getStudent().getStudentId()).append(", ");
         queryBuffer.append(getAttendanceDayValuesQueryPart(COLUMN_NAME_AND_VALUE, monthAttendance.getDayAttendances()));
         queryBuffer.append(" WHERE ATTENDANCE_ID = ").append(monthAttendanceId);
         return queryBuffer.toString();
     }
 
 
-}
+*/}
