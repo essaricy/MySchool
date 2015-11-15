@@ -15,7 +15,6 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import com.myschool.application.dto.FeatureDto;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.PropertiesUtil;
@@ -40,9 +39,6 @@ public class AppConfigReader extends DefaultHandler {
 
     /** The agent dtos. */
     private List<AgentDto> agentDtos;
-
-    /** The features. */
-    private List<FeatureDto> features;
 
     /** The file system properties. */
     private Properties fileSystemProperties;
@@ -113,25 +109,11 @@ public class AppConfigReader extends DefaultHandler {
                 agentConfig.setConfigFile(new File(resolvedConfigFilePath));
             }
             agentDtos.add(agentConfig);
-        } else if (localName.equalsIgnoreCase(AppConfigConstants.ELEMENT_FEATURES)) {
-            features = new ArrayList<FeatureDto>();
-        } else if (localName.equalsIgnoreCase(AppConfigConstants.ELEMENT_FEATURE)) {
-            FeatureDto featureDto = new FeatureDto();
-            featureDto.setName(attributes.getValue(AppConfigConstants.ATTRIBUTE_ID));
-            featureDto.setDescription(attributes.getValue(AppConfigConstants.ATTRIBUTE_DESCRIPTION));
-            featureDto.setImagePath(attributes.getValue(AppConfigConstants.ATTRIBUTE_VALUE));
-            features.add(featureDto);
         } else if (localName.equalsIgnoreCase(AppConfigConstants.ELEMENT_MYSCHOOL)) {
             myschool = new MySchoolDto();
             myschool.setBaseDir(new File(attributes.getValue(AppConfigConstants.ATTRIBUTE_BASE_DIR)));
             myschool.setMySchoolName(attributes.getValue(AppConfigConstants.ATTRIBUTE_ID));
             myschool.setWebUrl(attributes.getValue(AppConfigConstants.ATTRIBUTE_WEB_URL));
-        } else if (localName.equalsIgnoreCase(AppConfigConstants.ELEMENT_FEATURE)) {
-            FeatureDto featureDto = new FeatureDto();
-            featureDto.setName(attributes.getValue(AppConfigConstants.ATTRIBUTE_ID));
-            featureDto.setDescription(attributes.getValue(AppConfigConstants.ATTRIBUTE_DESCRIPTION));
-            featureDto.setImagePath(attributes.getValue(AppConfigConstants.ATTRIBUTE_VALUE));
-            features.add(featureDto);
         }
     }
 
@@ -143,7 +125,6 @@ public class AppConfigReader extends DefaultHandler {
             throws SAXException {
         if (localName.equalsIgnoreCase(AppConfigConstants.ELEMENT_APP_CONFIG)) {
             appConfig.setAgentDtos(agentDtos);
-            appConfig.setFeatures(features);
             appConfig.setMyschool(myschool);
         }
     }

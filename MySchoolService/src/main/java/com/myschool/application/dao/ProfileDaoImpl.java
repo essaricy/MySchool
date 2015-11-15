@@ -194,4 +194,34 @@ public class ProfileDaoImpl implements ProfileDao {
         return updated;
     }
 
+    /* (non-Javadoc)
+     * @see com.myschool.application.dao.ProfileDao#pinGallery(java.lang.String)
+     */
+    @Override
+    public boolean pinGallery(String galleryName) throws DaoException {
+        boolean updated = false;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            preparedStatement = connection.prepareStatement(ProfileDaoSql.UPDATE_MYSCHOOL_PROFILE_PIN_GALLERY);
+            preparedStatement.setString(1, galleryName);
+            updated = preparedStatement.executeUpdate() > 0;
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(),
+                    connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(),
+                        connectionException);
+            }
+        }
+        return updated;
+    }
+
 }

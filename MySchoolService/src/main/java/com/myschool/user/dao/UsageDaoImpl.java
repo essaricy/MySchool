@@ -130,7 +130,6 @@ public class UsageDaoImpl implements UsageDao {
     			query = UsageDaoSql.SELECT_LOGINS_TREND_DAY_OF_MONTH;
     		}
             int userTypeValue = userType.getUserTypeValue();
-            System.out.println("query=" + query);
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, userTypeValue);
             resultSet = preparedStatement.executeQuery();

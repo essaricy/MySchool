@@ -5,8 +5,17 @@
 
 <script type="text/javascript" charset="utf-8">
 var oTable = null;
+var thumbUrl = null;
+var resourceUrl = null;
+if ('${RECORD_STATUS}' == 'VERIFIED') {
+  thumbUrl='${RESOURCE_PROFILE.employeeRegistered.thumbnailUrl}'.replace("@RESOURCE_NAME@", "");
+  resourceUrl='${RESOURCE_PROFILE.employeeRegistered.resourceUrl}';
+} else {
+  thumbUrl='${RESOURCE_PROFILE.employeePortal.thumbnailUrl}'.replace("@RESOURCE_NAME@", "");
+  resourceUrl='${RESOURCE_PROFILE.employeePortal.resourceUrl}';
+}
+
 $(document).ready(function() {
-  //$('#EmployeesTableContainer').hide();
   activateActionButtons(actionButtons);
   $('#add').tooltipster();
   $('#update').tooltipster();
@@ -16,7 +25,7 @@ $(document).ready(function() {
     "bAutoWidth": false,
     "bRetrieve": true,
     "bDestroy": true,
-	"iDisplayLength": iDisplayLength,
+    "iDisplayLength": iDisplayLength,
     "sAjaxSource": '<%=request.getContextPath()%>/dummy/jsonList.htm?sid=' + new Date().getTime(),
     "aoColumnDefs": [ {
       "bSearchable": false,
@@ -26,8 +35,7 @@ $(document).ready(function() {
     "aoColumns": [
       {
         "fnRender": function ( o, val ) {
-          var imagePath = '<%=request.getContextPath()%>/image/getImage.htm?type=employee&imageSize=THUMBNAIL&contentId=' + o.aData[1]
-            + '&sid=<%= new java.util.Date().getTime()%>';
+          var imagePath = thumbUrl + o.aData[1];
           var linkedImage ='<a href="javascript: showImage(' + o.aData[1] + ')"><img src="' + imagePath + '" class="thumbnail" /></a>';
           return linkedImage;
         }
@@ -154,7 +162,7 @@ function activateActionButtons(actionButtons) {
 function showImage(employeeNumber) {
   $.magnificPopup.open({
     items: {
-      src: '<%=request.getContextPath()%>/image/getImage.htm?type=employee&imageSize=ORIGINAL&contentId=' + employeeNumber
+      src: resourceUrl + "/" + employeeNumber
     },
     type: 'image' // this is default type
   });

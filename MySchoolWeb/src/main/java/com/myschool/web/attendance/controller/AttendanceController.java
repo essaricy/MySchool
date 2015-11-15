@@ -68,7 +68,6 @@ public class AttendanceController {
     @RequestMapping(value="jsonList")
     public ModelAndView jsonList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        System.out.println("jsonList()");
         JSONArray data = new JSONArray();
         try {
             List<AttendanceProfileDto> attendanceProfiles = attendanceProfileService.getAll();
@@ -105,7 +104,6 @@ public class AttendanceController {
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         String attendanceProfileIdVal = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE_ID);
-        System.out.println("launch(" + attendanceProfileIdVal + ")");
         if (!StringUtil.isNullOrBlank(attendanceProfileIdVal)) {
             AttendanceProfileDto attendanceProfile = attendanceProfileService.get(Integer.parseInt(attendanceProfileIdVal));
             map.put(AttendanceConstant.ATTENDANCE_PROFILE, attendanceProfile);
@@ -127,7 +125,6 @@ public class AttendanceController {
         JSONObject jsonResponse = new JSONObject();
         try {
             String type = request.getParameter("Type");
-            System.out.println("jsonListAttendanceCodes type=" + type);
             List<AttendanceCodeDto> attendanceCodes = attendanceService.getAttendanceCodes(type);
             JSONArray jsonArray = AttendanceDataAssembler.create(attendanceCodes);
             jsonResponse.put(AttendanceConstant.ATTENDANCE_CODES, jsonArray);
@@ -153,7 +150,6 @@ public class AttendanceController {
         try {
             String attendanceProfileIdVal = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE_ID);
             String academicYearNameVal = request.getParameter(AttendanceConstant.ACADEMIC_YEAR_NAME);
-            System.out.println("jsonGetAttendanceProfile(" + attendanceProfileIdVal + ", " + academicYearNameVal + ")");
             if (!StringUtil.isNullOrBlank(attendanceProfileIdVal)) {
                 attendanceProfile = attendanceProfileService.getInDetail(Integer.parseInt(attendanceProfileIdVal));
             } else if (!StringUtil.isNullOrBlank(academicYearNameVal)) {
@@ -182,7 +178,6 @@ public class AttendanceController {
         ResultDto result = new ResultDto();
         try {
             String attendanceProfileData = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE);
-            System.out.println("doCreate() " + attendanceProfileData);
             if (!StringUtil.isNullOrBlank(attendanceProfileData)) {
                 AttendanceProfileDto attendanceProfile = AttendanceProfileDataAssembler.create(attendanceProfileData);
                 result.setSuccessful(attendanceProfileService.create(attendanceProfile));
@@ -210,7 +205,6 @@ public class AttendanceController {
         ResultDto result = new ResultDto();
         try {
             String attendanceProfileData = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE);
-            System.out.println("doUpdate() " + attendanceProfileData);
             if (!StringUtil.isNullOrBlank(attendanceProfileData)) {
                 AttendanceProfileDto attendanceProfile = AttendanceProfileDataAssembler.create(attendanceProfileData);
                 if (attendanceProfile != null) {
@@ -242,7 +236,6 @@ public class AttendanceController {
         ResultDto result = new ResultDto();
         try {
             String attendanceProfileId = request.getParameter(AttendanceConstant.ATTENDANCE_PROFILE_ID);
-            System.out.println("doDelete() " + attendanceProfileId);
             if (!StringUtil.isNullOrBlank(attendanceProfileId)) {
                 result.setSuccessful(attendanceProfileService.delete(Integer.parseInt(attendanceProfileId)));
                 result.setStatusMessage("Attendance Profile has been deleted succesfully.");
@@ -269,7 +262,6 @@ public class AttendanceController {
         AttendanceProfileDto attendanceProfile = null;
 
         try {
-            System.out.println(">>>>>>>>>>>>> jsonSaveAttendanceProfile()");
             String attendanceProfileDataValue = request.getParameter("AttendanceProfileData");
             if (!StringUtil.isNullOrBlank(attendanceProfileDataValue)) {
                 JSONObject attendanceProfileData = new JSONObject(attendanceProfileDataValue);

@@ -65,7 +65,7 @@ $(document).ready(function() {
       } else {
         $.each(result.Galleries, function(index, gallery) {
           var galleryName = gallery.GalleryName;
-		  var pinned = gallery.Pinned;
+          var pinned = gallery.Pinned;
           var galleryHeading = $('<h3 class="expand">');
           galleryHeading.text(galleryName);
 
@@ -76,11 +76,11 @@ $(document).ready(function() {
           $('#GalleryOutlook').append(galleryThumbsContainer);
           $(galleryHeading).toggler();
           $(galleryHeading).click();
-		  if (pinned=='Y') {
-			  galleryHeading.find('a').append(" (" + gallery.GalleryItems.length + ")").append(pin);
-		  } else {
-			  galleryHeading.find('a').append(" (" + gallery.GalleryItems.length + ")");
-		  }
+          if (pinned=='Y') {
+              galleryHeading.find('a').append(" (" + gallery.GalleryItems.length + ")").append(pin);
+          } else {
+              galleryHeading.find('a').append(" (" + gallery.GalleryItems.length + ")");
+          }
         });
       }
     }
@@ -95,7 +95,7 @@ $(document).ready(function() {
         var galleryItemName = galleryItem.GalleryName;
         var image = $('<img>');
         image.attr('class', 'GallerySmallImage');
-        image.attr('src', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=PASSPORT&contentId=' + galleryName + '/' + galleryItemName);
+        image.attr('src', galleryItem.Passport);
         image.click(function() {
           openDialog('<%=request.getContextPath()%>/image/slideshow.htm?GalleryName=' + galleryName + '&Selection=' + (index++) + '&sid=' + new Date().getTime(), 'Slide Show of [ ' + galleryName + ' ]', $(window).width()-20, $(window).height()-20);
         });

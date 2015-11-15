@@ -99,7 +99,7 @@ $(document).ajaxStart($.blockUI(
   </c:if>
 
   $('#Product').click(function() {
-	  var modelDialog = openDialog('<%=request.getContextPath()%>/views/common/credits.jsp', 'About Product', $(document).width()-20, $(document).height()-10);
+      var modelDialog = openDialog('<%=request.getContextPath()%>/views/common/credits.jsp', 'About Product', $(document).width()-20, $(document).height()-10);
   });
 });
 <c:if test="${USER_CONTEXT != null && USER_CONTEXT.userPreference != null}">
@@ -112,7 +112,7 @@ var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPag
 <table cellpadding="0" cellspacing="0" class="headerTable" border="0">
   <tr>
     <td width="109px" style="padding-left:8px;padding-top:2px;">
-      <a href="<%=request.getContextPath()%>"><img src="<%=request.getContextPath()%>/image/getImage.htm?type=logo" class="logo"/></a>
+      <a href="<%=request.getContextPath()%>"><img src="${RESOURCE_PROFILE.logo.passportUrl}" class="logo"/></a>
     </td>
     <td colspan="2">&nbsp;</td>
     <td>
@@ -132,8 +132,8 @@ var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPag
       <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
         <tr>
           <td style="color:white;font-size:14px;font-weight:bold;" valign="bottom" align="right">
-		    <a href="#" id="Product" class="formLink" style="color: white;"><spring:message code="product.name" /></a>
-		  </td>
+            <a href="#" id="Product" class="formLink" style="color: white;"><spring:message code="product.name" /></a>
+          </td>
         </tr>
         <tr>
           <td>

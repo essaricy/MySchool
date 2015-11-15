@@ -14,12 +14,6 @@ public class AppConfigConstants {
     /** The Constant ELEMENT_AGENT. */
     public static final String ELEMENT_AGENT = "agent";
 
-    /** The Constant ELEMENT_FEATURES. */
-    public static final String ELEMENT_FEATURES = "features";
-    
-    /** The Constant ELEMENT_FEATURE. */
-    public static final String ELEMENT_FEATURE = "feature";
-
     /** The Constant ELEMENT_MYSCHOOL. */
     public static final String ELEMENT_MYSCHOOL = "myschool";
 

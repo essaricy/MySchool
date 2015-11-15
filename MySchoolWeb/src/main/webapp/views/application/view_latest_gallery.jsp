@@ -33,21 +33,21 @@ $(document).ready(function() {
           errorMessage.append('Watch out this space for galleries.');
           $('#galleria').append(errorMessage);
         } else {
-		  $('#GalleryName').text('Latest Gallery [' + galleryName + ']');
+          $('#GalleryName').text('Latest Gallery [' + galleryName + ']');
           $.each(galleryItems, function(index, galleryItem) {
-			var galleryItemName = galleryItem.GalleryName;
-           	var image = $('<img>');
-           	image.attr('src', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=THUMBNAIL&contentId=' + galleryName + '/' + galleryItemName);
-           	var link = $('<a>');
-           	link.attr('href', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=ORIGINAL&&contentId=' + galleryName + '/' + galleryItemName);
-           	link.append(image);
-           	$('#galleria').append(link);
-           	$('#galleria').width($(''+refSize).width()-10);
-           	$('#galleria').height($(''+refSize).height()-34);
-           	Galleria.loadTheme('<%=request.getContextPath()%>/widgets/galleria/themes/classic/galleria.classic.min.js');
-           	// Initialize Galleria
-           	Galleria.run('#galleria', {autoplay: true});
-       	  });
+            var galleryItemName = galleryItem.GalleryName;
+            var image = $('<img>');
+            image.attr('src', galleryItem.Thumbnail);
+            var link = $('<a>');
+            link.attr('href', galleryItem.Url);
+            link.append(image);
+            $('#galleria').append(link);
+            $('#galleria').width($(''+refSize).width()-10);
+            $('#galleria').height($(''+refSize).height()-34);
+            Galleria.loadTheme('<%=request.getContextPath()%>/widgets/galleria/themes/classic/galleria.classic.min.js');
+            // Initialize Galleria
+            Galleria.run('#galleria', {autoplay: true});
+          });
         }
       }
     }

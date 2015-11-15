@@ -152,13 +152,13 @@ $(document).ready(function() {
           for (var index=0; index<galleries.length; index++) {
             var gallery=galleries[index];
             var galleryName=gallery['GalleryName'];
-			var pinned=gallery['Pinned'];
-			var li=null;
-			if (pinned=='Y') {
-				var li='<li class="ui-widget-content" value="' + galleryName + '">' + galleryName + pin + '</li>';
-			} else {
-				var li='<li class="ui-widget-content" value="' + galleryName + '">' + galleryName + '</li>';
-			}
+            var pinned=gallery['Pinned'];
+            var li=null;
+            if (pinned=='Y') {
+                var li='<li class="ui-widget-content" value="' + galleryName + '">' + galleryName + pin + '</li>';
+            } else {
+                var li='<li class="ui-widget-content" value="' + galleryName + '">' + galleryName + '</li>';
+            }
             $('#GalleriesList').append(li);
           }
         }
@@ -168,11 +168,11 @@ $(document).ready(function() {
   });
 
   // Get the gallery image item.
-  function getImage(galleryName, galleryItemName) {
+  function getImage(galleryName, galleryItem) {
     var image = $('<img>');
     image.attr('class', 'GallerySmallImage');
-    image.attr('name', galleryItemName);
-    image.attr('src', '<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=PASSPORT&contentId=' + galleryName + '/' + galleryItemName);
+    image.attr('name', galleryItem.GalleryName);
+    image.attr('src', galleryItem.Passport);
     $(image).jrumble({speed: 100});
     image.click(function() {
       if ($(this).hasClass('image-selected')) {
@@ -364,19 +364,19 @@ $(document).ready(function() {
   operationsData.PIN_GALLERY.confirmMessage="Do you want to pin the gallery 'gallery_name'?";
   operationsData.PIN_GALLERY.url='<%=request.getContextPath()%>/gallery/pinGallery.htm';
   operationsData.PIN_GALLERY.successCallback=function() {
-	  $('#GalleriesList li img').each(function(index, img) {
-		  $(img).remove();
-	  });
-	  $('#GalleriesList li:contains(' + currentGalleryName + ')').append(pin);
+      $('#GalleriesList li img').each(function(index, img) {
+          $(img).remove();
+      });
+      $('#GalleriesList li:contains(' + currentGalleryName + ')').append(pin);
     for (var index=0; index<galleries.length; index++) {
       var gallery = galleries[index];
       if (gallery!= null) {
-	    var galleryName=gallery['GalleryName'];
-		if (galleryName == currentGalleryName) {
-			gallery['Pinned']='Y';
-		} else {
-			gallery['Pinned']='N';
-		}
+        var galleryName=gallery['GalleryName'];
+        if (galleryName == currentGalleryName) {
+            gallery['Pinned']='Y';
+        } else {
+            gallery['Pinned']='N';
+        }
       }
     }
   };
@@ -500,7 +500,7 @@ $(document).ready(function() {
     } else {
       var galleryName=gallery['GalleryName'];
       var galleryItems=gallery['GalleryItems'];
-	  // Select the gallery and deselect all other galleries
+      // Select the gallery and deselect all other galleries
       var galleryToSelect=$('#GalleriesList li:contains(' + galleryNameToSelect + ')');
       $(galleryToSelect).siblings().removeClass("ui-selected");
       $(galleryToSelect).addClass('ui-selected');
@@ -511,8 +511,9 @@ $(document).ready(function() {
         for (var index=0; index<galleryItems.length; index++) {
           var galleryItem = galleryItems[index];
           if (galleryItem != null) {
-            var galleryItemName = galleryItem['GalleryName'];
-            var image = getImage(galleryName, galleryItemName);
+            //var galleryItemName = galleryItem['GalleryName'];
+            //var passport = galleryItem['Passport'];
+            var image = getImage(galleryName, galleryItem);
             $('#GalleryItemsContainer').append(image);
           }
         }

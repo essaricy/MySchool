@@ -15,9 +15,9 @@
 <input type="hidden" id="GalleryName" value="${GalleryName}">
 <input type="hidden" id="Selection" value="${Selection}">
 <div id="galleria">
-  <c:forEach var="GalleryItemName" items="${GalleryItemNames}">
-  <a href="<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=ORIGINAL&contentId=${GalleryName}/${GalleryItemName}">
-    <img src="<%=request.getContextPath()%>/image/getImage.htm?type=gallery&imageSize=THUMBNAIL&contentId=${GalleryName}/${GalleryItemName}" />
+  <c:forEach var="GalleryItem" items="${GalleryItems}">
+  <a href="${GalleryItem.url}">
+    <img src="${GalleryItem.thumbnailUrl}" />
   </a>
   </c:forEach>
 </div>

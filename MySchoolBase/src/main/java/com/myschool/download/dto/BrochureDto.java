@@ -1,6 +1,5 @@
 package com.myschool.download.dto;
 
-import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -17,11 +16,8 @@ public class BrochureDto implements Serializable {
     /** The brochure Type. */
     private String brochureType;
 
-    /** The last Updated on. */
-    private String lastUpdatedOn;
-
-    /** The brochure file. */
-    private File brochureFile;
+    /** The url. */
+    private String url;
 
     /**
      * Gets the brochure name.
@@ -60,39 +56,21 @@ public class BrochureDto implements Serializable {
     }
 
     /**
-     * Gets the last updated on.
-     *
-     * @return the last updated on
-     */
-    public String getLastUpdatedOn() {
-        return lastUpdatedOn;
-    }
-
-    /**
-     * Sets the last updated on.
-     *
-     * @param lastUpdatedOn the new last updated on
-     */
-    public void setLastUpdatedOn(String lastUpdatedOn) {
-        this.lastUpdatedOn = lastUpdatedOn;
-    }
-
-    /**
-     * Gets the brochure file.
+     * Gets the url.
      * 
-     * @return the brochure file
+     * @return the url
      */
-    public File getBrochureFile() {
-        return brochureFile;
+    public String getUrl() {
+        return url;
     }
 
     /**
-     * Sets the brochure file.
+     * Sets the url.
      * 
-     * @param brochureFile the new brochure file
+     * @param url the new url
      */
-    public void setBrochureFile(File brochureFile) {
-        this.brochureFile = brochureFile;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     /**
@@ -109,8 +87,7 @@ public class BrochureDto implements Serializable {
             .append(super.toString()).append(SEPARATOR)
             .append("brochureName = ").append(this.brochureName).append(SEPARATOR)
             .append("brochureType = ").append(this.brochureType).append(SEPARATOR)
-            .append("lastUpdatedOn = ").append(this.lastUpdatedOn).append(SEPARATOR)
-            .append("brochureFile = ").append(this.brochureFile).append(SEPARATOR)
+            .append("url = ").append(this.url).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();
     }

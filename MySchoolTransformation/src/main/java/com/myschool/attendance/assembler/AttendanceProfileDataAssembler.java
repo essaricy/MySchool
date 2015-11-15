@@ -84,27 +84,22 @@ public class AttendanceProfileDataAssembler {
     public static List<AttendanceMonth> align(AcademicDto academicDto,
             List<HolidayDto> holidays, List<AttendanceMonth> attendanceMonths) {
 
-        System.out.println("align()");
         AttendanceMonth attendanceMonth = null;
         AttendanceDay attendanceDay = null;
         int previousMonth = -1;
         int currentMonth = -1;
         //Date currentDate = new Date();
         try {
-            System.out.println("academicDto " + academicDto);
             if (academicDto == null) {
                 return attendanceMonths;
             }
             Date academicYearStartDate = ConversionUtil.fromApplicationDate(academicDto.getAcademicYearStartDate());
-            System.out.println("academicYearStartDate=" + academicYearStartDate);
             Date academicYearEndDate = ConversionUtil.fromApplicationDate(academicDto.getAcademicYearEndDate());
-            System.out.println("academicYearEndDate=" + academicYearStartDate);
             if (academicYearStartDate == null || academicYearEndDate == null) {
                 return attendanceMonths;
             }
             // check if exists, otherwise create a blank entry
             if (attendanceMonths == null) {
-                System.out.println("attendanceMonths was null");
                 attendanceMonths = new ArrayList<AttendanceMonth>();
             }
             // Academic start calendar

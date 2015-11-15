@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.agent.GalleryFileSystem;
 import com.myschool.infra.filesystem.constants.FileExtension;
 import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.image.agent.ImageScalingAgent;
@@ -30,10 +29,6 @@ public class ImageScalingProcessor extends StandAloneUtility {
     /** The image scaling agent. */
     @Autowired
     private ImageScalingAgent imageScalingAgent;
-
-    /** The gallery file system. */
-    @Autowired
-    private GalleryFileSystem galleryFileSystem;
 
     /* (non-Javadoc)
      * @see com.myschool.sautil.base.StandAloneUtility#validateParameters()
@@ -97,10 +92,13 @@ public class ImageScalingProcessor extends StandAloneUtility {
      * @param imageSize the image size
      */
     private void resizeImage(File extDir, ImageSize imageSize) {
+        if (imageSize == null || imageSize == ImageSize.ORIGINAL) {
+            return;
+        }
         // exclude files that are not  original and process them 
+        LOGGER.info("Creating " + imageSize + " images in " + extDir);
         File[] files = imageScalingAgent.getOriginalImages(extDir);
-        LOGGER.info("Resizing Images in " + extDir);
-        System.out.println("Resizing Images in " + extDir);
+        System.out.println("Creating " + imageSize + " images in " + extDir);
         for (int index = 0; index < files.length; index++) {
             try {
                 File file = files[index];
@@ -108,9 +106,9 @@ public class ImageScalingProcessor extends StandAloneUtility {
                     resizeImage(file, imageSize);
                 } else if (file.isFile() && FileExtension.isImage(FileUtil.getExtension(file.getName()))) {
                     if (imageSize == ImageSize.THUMBNAIL) {
-                        imageScalingAgent.createThumbnailImage(files[index]);
+                        imageScalingAgent.createThumbnailImage(file);
                     } else if (imageSize == ImageSize.PASSPORT) {
-                        imageScalingAgent.createPassportSizeImage(files[index]);
+                        imageScalingAgent.createPassportSizeImage(file);
                     }
                 }
             } catch (FileSystemException fileSystemException) {

@@ -74,13 +74,10 @@ public class UsageController {
 
         JSONArray data = null;
         try {
-        	System.out.println("getActiveSessions()");
             data = new JSONArray();
             List<UserSession> userSessions = usageService.getActiveSessions();
-            System.out.println("#### userSessions " + userSessions);
 
             if (userSessions != null) {
-            	System.out.println("Found " + userSessions.size() + " active sessions.");
                 for(UserSession userSession : userSessions) {
                 	int userId = userSession.getUserId();
 
@@ -135,13 +132,10 @@ public class UsageController {
 
         JSONArray data = null;
         try {
-        	System.out.println("getLoginsByUser()");
             data = new JSONArray();
             List<UsageCount> usageCounts = usageService.getUsageCount();
-            System.out.println("#### usageCounts " + usageCounts);
 
             if (usageCounts != null) {
-            	System.out.println("Found " + usageCounts.size() + " usage counts.");
                 for(UsageCount usageCount : usageCounts) {
                 	UsersDto user = usageCount.getUser();
                 	UserStatistics userStatistics = usageCount.getUserStatistics();
@@ -164,7 +158,6 @@ public class UsageController {
     @RequestMapping(value="getLoginsTrend")
     public ModelAndView getLoginsTrend(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-    	System.out.println("getLoginsTrend ");
     	JSONObject data = null;
     	LineChartDto lineChart = null;
     	try {
@@ -174,7 +167,6 @@ public class UsageController {
     			lineChart = StatisticsDataAssembler.create(loginsByMonthByUserType);
     		}
     		data = ChartDataAssembler.create(lineChart);
-    		//System.out.println("data = " + data);
     	} finally {
     		HttpUtil.wrapAndWriteJson(response, WebConstants.CHART_DATA, data);
     	}
@@ -184,13 +176,11 @@ public class UsageController {
     /*@RequestMapping(value="getLoginsMonthWise")
     public ModelAndView getLoginsMonthWise(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-    	System.out.println("getLoginsMonthWise ");
     	JSONObject data = null;
     	try {
     		Map<UserType, List<MonthValueDto>> loginsByMonthByUserType = usageService.getLoginsMonthWise();
     		LineChartDto lineChart = StatisticsDataAssembler.createChartForMonthValue(loginsByMonthByUserType);
     		data = ChartDataAssembler.create(lineChart);
-    		System.out.println("data = " + data);
     	} finally {
     		HttpUtil.wrapAndWriteJson(response, WebConstants.CHART_DATA, data);
     	}

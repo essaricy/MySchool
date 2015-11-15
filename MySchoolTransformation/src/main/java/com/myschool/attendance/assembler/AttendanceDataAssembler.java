@@ -45,7 +45,6 @@ public class AttendanceDataAssembler {
     public static List<AttendanceMonth> getYearAttendance(Date academicYearStartDate,
             Date academicYearEndDate, List<HolidayDto> holidays, List<AttendanceMonth> yearAttendance) {
 
-        System.out.println("getYearAttendance(" + academicYearStartDate + ", " + academicYearEndDate + ")");
         AttendanceMonth monthAttendance = null;
         int previousMonth = -1;
         int currentMonth = 0;
@@ -67,12 +66,10 @@ public class AttendanceDataAssembler {
             int avademicStartYear = attendanceDateCalendar.get(Calendar.YEAR);
             int avademicStartMonth = attendanceDateCalendar.get(Calendar.MONTH);
             int academicStartDate = attendanceDateCalendar.get(Calendar.DAY_OF_MONTH);
-            System.out.println("academicYearStartDate " + academicYearStartDate);
 
             attendanceDateCalendar.setTime(academicYearEndDate);
             //int academicEndDate = attendanceDateCalendar.get(Calendar.DAY_OF_MONTH);
             //int avademicEndYear = attendanceDateCalendar.get(Calendar.YEAR);
-            System.out.println("academicYearEndDate " + academicYearEndDate);
 
             // Fill up starting of the month to effective academic start day
             for (attendanceDateCalendar.set(Calendar.YEAR, avademicStartYear),
@@ -82,14 +79,11 @@ public class AttendanceDataAssembler {
                     attendanceDateCalendar.set(Calendar.DAY_OF_YEAR, attendanceDateCalendar.get(Calendar.DAY_OF_YEAR)+1)) {
                 if (monthAttendance == null) {
                     //currentMonth = attendanceDateCalendar.get(Calendar.MONTH) + 1;
-                    System.out.println("There are " + (academicStartDate - attendanceDateCalendar.get(Calendar.DAY_OF_MONTH)) + " days in the start of the month.");
                     monthAttendance = updateExistingOrAddMonth(yearAttendance, attendanceDateCalendar);
                     List<AttendanceDay> dayAttendances = monthAttendance.getDayAttendances();
                     if (dayAttendances != null && (dayAttendances.size() == attendanceDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH) || dayAttendances.size() == 31)) {
-                        System.out.println("evrything was fine already. break doing this.");
                         break;
                     }
-                    //System.out.println("Starting gaps month is " + monthAttendance);
                 }
                 dayAttendance = updateExistingOrAddDate(monthAttendance, attendanceDateCalendar, holidays, currentDate);
                 dayAttendance.setAttendanceCode(AttendanceCode.UNACCOUNTED);
@@ -116,7 +110,6 @@ public class AttendanceDataAssembler {
             List<AttendanceDay> dayAttendances = monthAttendance.getDayAttendances();
             int actualMaximum = attendanceDateCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
             int numberOfGapDays = actualMaximum - dayAttendances.size();
-            //System.out.println("There are " + numberOfGapDays + " days in the end of the month.");
             for (int index=0; index < numberOfGapDays; index++,
                     attendanceDateCalendar.set(Calendar.DAY_OF_YEAR, attendanceDateCalendar.get(Calendar.DAY_OF_YEAR)+1)) {
                 dayAttendance = updateExistingOrAddDate(monthAttendance, attendanceDateCalendar, holidays, currentDate);

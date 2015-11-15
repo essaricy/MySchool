@@ -50,5 +50,10 @@ public class AgentConstants {
     /** The Constant SMS. */
     public static final String SMS = "sms";
 
+    /** The Constant MEDIA_SERVER. */
+    public static final String MEDIA_SERVER = "media_server";
+
+    /** The Constant OUTBOUND_MESSAGE. */
+    public static final String OUTBOUND_MESSAGE = "outbound_message";
 
 }

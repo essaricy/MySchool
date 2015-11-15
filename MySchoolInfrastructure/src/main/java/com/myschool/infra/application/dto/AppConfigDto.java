@@ -3,8 +3,6 @@ package com.myschool.infra.application.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import com.myschool.application.dto.FeatureDto;
-
 /**
  * The Class AppConfigDto.
  */
@@ -18,9 +16,6 @@ public class AppConfigDto implements Serializable {
 
     /** The agent dtos. */
     private List<AgentDto> agentDtos;
-
-    /** The features. */
-    private List<FeatureDto> features;
 
     /**
      * Gets the myschool.
@@ -59,24 +54,6 @@ public class AppConfigDto implements Serializable {
     }
 
     /**
-     * Gets the features.
-     * 
-     * @return the features
-     */
-    public List<FeatureDto> getFeatures() {
-        return features;
-    }
-
-    /**
-     * Sets the features.
-     * 
-     * @param features the new features
-     */
-    public void setFeatures(List<FeatureDto> features) {
-        this.features = features;
-    }
-
-    /**
      * Constructs a <code>String</code> with all attributes
      * in name = value format.
      *
@@ -90,7 +67,6 @@ public class AppConfigDto implements Serializable {
             .append(super.toString()).append(SEPARATOR)
             .append("myschool = ").append(this.myschool).append(SEPARATOR)
             .append("agentDtos = ").append(this.agentDtos).append(SEPARATOR)
-            .append("features = ").append(this.features).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();
     }

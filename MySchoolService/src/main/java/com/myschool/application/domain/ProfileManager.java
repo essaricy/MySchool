@@ -6,14 +6,16 @@ import org.springframework.stereotype.Component;
 import com.myschool.application.dao.ProfileDao;
 import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.application.dto.OrganizationProfileDto;
+import com.myschool.application.dto.ResourceProfile;
 import com.myschool.application.validator.MySchoolProfileValidator;
 import com.myschool.application.validator.OrganizationProfileValidator;
 import com.myschool.common.constants.CacheKeyConstants;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.infra.application.ApplicationLoader;
 import com.myschool.infra.cache.agent.InMemoryCacheAgent;
+import com.myschool.infra.media.agent.MediaServerAgent;
+import com.myschool.infra.media.exception.ResourceException;
 
 /**
  * The Class ProfileManager.
@@ -25,19 +27,21 @@ public class ProfileManager {
     @Autowired
     private InMemoryCacheAgent inMemoryCacheAgent;
 
-    /** The agents. */
-    @Autowired
-    private ApplicationLoader applicationLoader;
-
     /** The profile dao. */
     @Autowired
     private ProfileDao profileDao;
 
+    /** The my school profile validator. */
     @Autowired
     private MySchoolProfileValidator mySchoolProfileValidator;
 
+    /** The organization profile validator. */
     @Autowired
     private OrganizationProfileValidator organizationProfileValidator;
+
+    /** The media server agent. */
+    @Autowired
+    private MediaServerAgent mediaServerAgent;
 
     /**
      * Gets the.
@@ -92,7 +96,6 @@ public class ProfileManager {
      */
     public boolean update(OrganizationProfileDto organizationProfile) throws DataException {
         boolean updated = false;
-
         try {
             organizationProfileValidator.validate(organizationProfile);
             OrganizationProfileDto existingOrganizationProfile = getOrganizationProfile();
@@ -120,7 +123,6 @@ public class ProfileManager {
      */
     public boolean update(MySchoolProfileDto mySchoolProfile) throws DataException {
         boolean updated = false;
-
         try {
             mySchoolProfileValidator.validate(mySchoolProfile);
             updated = profileDao.update(mySchoolProfile);
@@ -133,6 +135,59 @@ public class ProfileManager {
             throw new DataException(validationException.getMessage(), validationException);
         }
         return updated;
+    }
+
+    /**
+     * Pin gallery.
+     * 
+     * @param galleryName the gallery name
+     * @return true, if successful
+     * @throws DataException the data exception
+     */
+    public boolean pinGallery(String galleryName) throws DataException {
+        boolean updated = false;
+        try {
+            updated = profileDao.pinGallery(galleryName);
+            if (updated) {
+                MySchoolProfileDto mySchoolProfile = (MySchoolProfileDto) inMemoryCacheAgent.getEntry(CacheKeyConstants.MY_SCHOOL_PROFILE);
+                if (mySchoolProfile != null) {
+                    mySchoolProfile.setPinnedGallery(galleryName);
+                    inMemoryCacheAgent.putEntry(CacheKeyConstants.MY_SCHOOL_PROFILE, mySchoolProfile);
+                }
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+        return updated;
+    }
+
+    /**
+     * Gets the resource profile.
+     * 
+     * @return the resource profile
+     * @throws DataException the data exception
+     */
+    public ResourceProfile getResourceProfile() throws DataException {
+        ResourceProfile resourceProfile = new ResourceProfile();
+        try {
+            resourceProfile.setBrochures(mediaServerAgent.getResource(MediaServerAgent.BROCHURES));
+            resourceProfile.setFeatures(mediaServerAgent.getResource(MediaServerAgent.FEATURES));
+            resourceProfile.setLogo(mediaServerAgent.getResource(MediaServerAgent.LOGO));
+            resourceProfile.setNoImage(mediaServerAgent.getResource(MediaServerAgent.NO_IMAGE));
+            resourceProfile.setDirector(mediaServerAgent.getResource(MediaServerAgent.DIRECTOR));
+            resourceProfile.setOrganization(mediaServerAgent.getResource(MediaServerAgent.ORGANIZATION));
+            resourceProfile.setGallery(mediaServerAgent.getResource(MediaServerAgent.GALLERY));
+            resourceProfile.setEmployeePortal(mediaServerAgent.getResource(MediaServerAgent.EMPLOYEE_PORTAL));
+            resourceProfile.setEmployeeRegistered(mediaServerAgent.getResource(MediaServerAgent.EMPLOYEE_REGISTERED));
+            resourceProfile.setStudentPortal(mediaServerAgent.getResource(MediaServerAgent.STUDENT_PORTAL));
+            resourceProfile.setStudentRegistered(mediaServerAgent.getResource(MediaServerAgent.STUDENT_REGISTERED));
+            resourceProfile.setGreetings(mediaServerAgent.getResource(MediaServerAgent.GREETINGS));
+            resourceProfile.setProduct(mediaServerAgent.getResource(MediaServerAgent.PRODUCT));
+        } catch (ResourceException resourceException) {
+            throw new DataException(resourceException.getMessage(), resourceException);
+        }
+        System.out.println("resourceProfile " + resourceProfile);
+        return resourceProfile;
     }
 
 }

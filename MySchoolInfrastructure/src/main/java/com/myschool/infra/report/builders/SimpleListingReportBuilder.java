@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.OrganizationProfileDto;
-import com.myschool.infra.application.dto.MySchoolDto;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
 import com.myschool.report.dto.ReportDto;
@@ -44,12 +43,11 @@ public abstract class SimpleListingReportBuilder extends AbstractReportBuilder {
      * @see
      * com.myschool.infra.report.builders.ReportBuilder#generateReport(com.myschool
      * .application.dto.OrganizationProfileDto,
-     * com.myschool.infra.application.dto.MySchoolDto,
      * com.myschool.report.dto.ReportDto,
      * com.myschool.infra.report.dto.ReportCriteria)
      */
     public File generateReport(OrganizationProfileDto organizationProfile,
-            MySchoolDto mySchoolDto, ReportDto report, ReportCriteria reportCriteria)
+            ReportDto report, ReportCriteria reportCriteria)
             throws ReportException {
         throw new ReportException("User Implementing version of generateReport()");
     }

@@ -1,6 +1,5 @@
 package com.myschool.application.service;
 
-import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,6 @@ import com.myschool.application.domain.ImageManager;
 import com.myschool.application.dto.FeatureDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.infra.image.constants.ImageSize;
 
 /**
  * The Class ImageServiceImpl.
@@ -24,7 +22,7 @@ public class ImageServiceImpl implements ImageService {
 
     /* (non-Javadoc)
      * @see com.myschool.application.service.ImageService#getLogo()
-     */
+     
     @Override
     public File getLogo() throws ServiceException {
         try {
@@ -34,9 +32,9 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-    /* (non-Javadoc)
+     (non-Javadoc)
      * @see com.myschool.application.service.ImageService#getNoImage()
-     */
+     
     @Override
     public File getNoImage() throws ServiceException {
         try {
@@ -44,52 +42,20 @@ public class ImageServiceImpl implements ImageService {
         } catch (DataException dataException) {
             throw new ServiceException(dataException.getMessage(), dataException);
         }
-    }
+    }*/
 
     /* (non-Javadoc)
      * @see com.myschool.application.service.ImageService#getFeatures()
      */
     @Override
-    public List<FeatureDto> getFeatures() {
+    public List<FeatureDto> getFeatures() throws ServiceException {
         List<FeatureDto> features = null;
-        features = imageManager.getFeatures();
+        try {
+            features = imageManager.getFeatures();
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(), dataException);
+        }
         return features;
-    }
-
-    /* (non-Javadoc)
-     * @see com.myschool.application.service.ImageService#getStudentImage(java.lang.String, com.myschool.infra.image.constants.ImageSize)
-     */
-    @Override
-    public File getStudentImage(String admissionNumber, ImageSize imageSize) throws ServiceException {
-        try {
-            return imageManager.getStudentImage(admissionNumber, imageSize);
-        } catch (DataException dataException) {
-            throw new ServiceException(dataException.getMessage(), dataException);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see com.myschool.application.service.ImageService#getOrgImage(java.lang.String, com.myschool.infra.image.constants.ImageSize)
-     */
-    @Override
-    public File getOrgImage(String imageName, ImageSize imageSize) throws ServiceException {
-        try {
-            return imageManager.getOrgImage(imageName, imageSize);
-        } catch (DataException dataException) {
-            throw new ServiceException(dataException.getMessage(), dataException);
-        }
-    }
-
-    /* (non-Javadoc)
-     * @see com.myschool.application.service.ImageService#getEmployeeImage(java.lang.String, com.myschool.infra.image.constants.ImageSize)
-     */
-    @Override
-    public File getEmployeeImage(String employeeNumber, ImageSize imageSize) throws ServiceException {
-        try {
-            return imageManager.getEmployeeImage(employeeNumber, imageSize);
-        } catch (DataException dataException) {
-            throw new ServiceException(dataException.getMessage(), dataException);
-        }
     }
 
 }

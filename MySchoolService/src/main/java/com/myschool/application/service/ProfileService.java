@@ -2,9 +2,8 @@ package com.myschool.application.service;
 
 import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.application.dto.OrganizationProfileDto;
+import com.myschool.application.dto.ResourceProfile;
 import com.myschool.common.exception.ServiceException;
-
-
 
 /**
  * The Interface ProfileService.
@@ -44,5 +43,13 @@ public interface ProfileService {
      * @throws ServiceException the service exception
      */
     boolean update(MySchoolProfileDto mySchoolProfile) throws ServiceException;
+
+    /**
+     * Gets the resource profile.
+     * 
+     * @return the resource profile
+     * @throws ServiceException the service exception
+     */
+    ResourceProfile getResourceProfile() throws ServiceException;
 
 }

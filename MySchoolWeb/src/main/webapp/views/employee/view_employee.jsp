@@ -36,7 +36,12 @@ jQuery(document).ready(function() {
       <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
         <tr>
           <td align="center">
-            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=employee&imageSize=ORIGINAL&contentId=${Employee.employeeNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>
+            <c:if test="${Employee.verified}">
+              <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeeRegistered.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            </c:if>
+            <c:if test="${! Employee.verified}">
+              <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeePortal.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            </c:if>
           </td>
         </tr>
       </table>

@@ -41,11 +41,12 @@ import com.myschool.web.framework.util.HttpUtil;
 @Controller
 public class LoginController {
 
-	/** The Constant LOGGER. */
-	private static final Logger LOGGER = Logger.getLogger(LoginController.class);
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = Logger.getLogger(LoginController.class);
 
-	@Autowired
-	private UserService userService;
+    /** The user service. */
+    @Autowired
+    private UserService userService;
 
     /** The login service. */
     @Autowired
@@ -67,18 +68,19 @@ public class LoginController {
     @Autowired
     private MessageUtil messageUtil;
 
+    /** The profile service. */
     @Autowired
     private ProfileService profileService;
 
     /**
      * Launch login.
-     *
+     * 
      * @param request the request
      * @param response the response
      * @return the model and view
      * @throws Exception the exception
      */
-    @RequestMapping(value="launchLogin")
+    @RequestMapping(value = "launchLogin")
     public ModelAndView launchLogin(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
@@ -92,13 +94,12 @@ public class LoginController {
 
     /**
      * Login.
-     *
+     * 
      * @param request the request
      * @param response the response
      * @return the model and view
-     * @throws Exception the exception
      */
-    @RequestMapping(value="login")
+    @RequestMapping(value = "login")
     public ModelAndView login(HttpServletRequest request,
             HttpServletResponse response) {
 
@@ -109,71 +110,89 @@ public class LoginController {
         String loginId = null;
         String password;
         String sessionId = null;
-		try {
-			HttpSession session = HttpUtil.getExistingSession(request);
-			sessionId = session.getId();
-			loginId = request.getParameter("loginId");
-			password = request.getParameter("password");
-			LOGGER.info(sessionId + " trying to use Login ID " + loginId);
-			
-			LoginDto login = new LoginDto();
-			login.setLoginId(loginId);
-			login.setPassword(Encryptor.getInstance().encrypt(password));
-			LoginDto loginDetails = loginService.login(login);
-			if (loginDetails == null) {
-				LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_NOT_IN_SYSTEM, sessionId, loginId));
-				map.put("features", imageService.getFeatures());
-	            map.put(ViewDelegationController.ERROR_KEY, "User does not exist in the system");
-	            modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.LOGIN, map);
-			} else {
-				UserType userType = loginDetails.getUserType();
-				LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_SUCCESS, sessionId, loginId, userType));
-				context = ContextUtil.createUserContext(loginDetails);
-				if (userType == UserType.STUDENT) {
-					StudentDto student = (StudentDto) loginDetails.getUserDetails();
-					session.setAttribute(WebConstants.STUDENT, student);
-					map.put(WebConstants.STUDENT, student);
-				} else if (userType == UserType.EMPLOYEE) {
-					EmployeeDto employee = (EmployeeDto) loginDetails.getUserDetails();
-					session.setAttribute(WebConstants.EMPLOYEE, employee);
-					map.put(WebConstants.EMPLOYEE, employee);
-				}
-				session.setAttribute(WebConstants.USER_CONTEXT, context);
-	        	map.put(WebConstants.USER_CONTEXT, context);
-	        	// Return to dash board screen
-	            modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.DASH_BOARD, map);
-			}
-		} catch (ServiceException serviceException) {
-			String message = serviceException.getMessage();
-			LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_FAILED, sessionId, loginId, message));
-			map.put("features", imageService.getFeatures());
-            map.put(ViewDelegationController.ERROR_KEY, message);
-            modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.LOGIN, map);
-		}
-		return modelAndView;
+        try {
+            HttpSession session = HttpUtil.getExistingSession(request);
+            sessionId = session.getId();
+            loginId = request.getParameter("loginId");
+            password = request.getParameter("password");
+            LOGGER.info(sessionId + " trying to use Login ID " + loginId);
+
+            LoginDto login = new LoginDto();
+            login.setLoginId(loginId);
+            login.setPassword(Encryptor.getInstance().encrypt(password));
+            LoginDto loginDetails = loginService.login(login);
+            if (loginDetails == null) {
+                LOGGER.info(MessageFormat.format(
+                        UserActivityConstant.USER_LOGIN_NOT_IN_SYSTEM,
+                        sessionId, loginId));
+                map.put("features", imageService.getFeatures());
+                map.put(ViewDelegationController.ERROR_KEY,
+                        "User does not exist in the system");
+                modelAndView = ViewDelegationController.delegateWholePageView(
+                        request, ApplicationViewNames.LOGIN, map);
+            } else {
+                UserType userType = loginDetails.getUserType();
+                LOGGER.info(MessageFormat.format(
+                        UserActivityConstant.USER_LOGIN_SUCCESS, sessionId,
+                        loginId, userType));
+                context = ContextUtil.createUserContext(loginDetails);
+                if (userType == UserType.STUDENT) {
+                    StudentDto student = (StudentDto) loginDetails.getUserDetails();
+                    session.setAttribute(WebConstants.STUDENT, student);
+                    map.put(WebConstants.STUDENT, student);
+                } else if (userType == UserType.EMPLOYEE) {
+                    EmployeeDto employee = (EmployeeDto) loginDetails.getUserDetails();
+                    session.setAttribute(WebConstants.EMPLOYEE, employee);
+                    map.put(WebConstants.EMPLOYEE, employee);
+                }
+                session.setAttribute(WebConstants.USER_CONTEXT, context);
+                map.put(WebConstants.USER_CONTEXT, context);
+                // Return to dash board screen
+                modelAndView = ViewDelegationController.delegateWholePageView(
+                        request, ApplicationViewNames.DASH_BOARD, map);
+            }
+        } catch (ServiceException serviceException) {
+            try {
+                String message = serviceException.getMessage();
+                LOGGER.info(MessageFormat.format(
+                        UserActivityConstant.USER_LOGIN_FAILED, sessionId,
+                        loginId, message));
+                map.put("features", imageService.getFeatures());
+                map.put(ViewDelegationController.ERROR_KEY, message);
+            } catch (ServiceException serviceException2) {
+                LOGGER.error(
+                        "Error loading features: "
+                                + serviceException2.getMessage(),
+                        serviceException2);
+            } finally {
+                modelAndView = ViewDelegationController.delegateWholePageView(
+                        request, ApplicationViewNames.LOGIN, map);
+            }
+        }
+        return modelAndView;
     }
 
     /**
      * Logout.
-     *
+     * 
      * @param request the request
      * @param response the response
      * @return the model and view
      * @throws Exception the exception
      */
-    @RequestMapping(value="logout")
+    @RequestMapping(value = "logout")
     public ModelAndView logout(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-    	String loginId = null;
-    	String sessionId = null;
+        String loginId = null;
+        String sessionId = null;
         HttpSession session = HttpUtil.getExistingSession(request);
         if (session != null) {
-        	sessionId = session.getId();
-        	UserContext userContext = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
-        	if (userContext != null) {
-        		loginId = userContext.getLogin().getLoginId();
-        	}
-        	session.removeAttribute(WebConstants.USER_CONTEXT);
+            sessionId = session.getId();
+            UserContext userContext = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
+            if (userContext != null) {
+                loginId = userContext.getLogin().getLoginId();
+            }
+            session.removeAttribute(WebConstants.USER_CONTEXT);
             session.invalidate();
         }
         LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGOUT_SUCCESS, sessionId, loginId));

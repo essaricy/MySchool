@@ -7,7 +7,7 @@
         <fileset dir="../${lib}" includes="*.jar" />
         <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
         <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
-		<fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
+        <fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
         <fileset dir="../${myschool.service}/${target.dir}" includes="${myschool.service}.jar" />
     </path>
 
@@ -81,7 +81,7 @@
 
             <classes dir="${classes.dir}" />
             <classes dir="${target.dir}" includes="*.properties,log4j.xml" />
-        	<classes dir="${resources.dir}" includes="*.properties" />
+            <classes dir="${resources.dir}" includes="*.properties" />
 
             <fileset dir="${webapp.dir}" />
 
@@ -114,7 +114,7 @@
 
             <classes dir="${classes.dir}" />
             <classes dir="${target.dir}" includes="*.properties,log4j.xml" />
-        	<classes dir="${resources.dir}" includes="*.properties" />
+            <classes dir="${resources.dir}" includes="*.properties" />
 
             <fileset dir="${webapp.dir}" />
             <fileset dir="${webapp.resources.dir}" />
@@ -127,10 +127,10 @@
     <target name="UpdateResources">
         <echo message="Updating all resources at ${myschool.base.dir}/${myschool.name}/${config} " />
         <echo message="With token '@LOG.FILE.LOCATION@' = '${myschool.dir}/${logs}'" />
-    	<!--<echo message="With token '@LOG.FILE.NAME@' = '${myschool.dir}/${logs}/${web.log.file}'" />-->
+        <!--<echo message="With token '@LOG.FILE.NAME@' = '${myschool.dir}/${logs}/${web.log.file}'" />-->
         <replace dir="${myschool.base.dir}/${myschool.name}/${config}">
           <include name="**/*.*"/>
-        	<replacefilter token="@LOG.FILE.LOCATION@" value="${myschool.dir}/${logs}"/>
+            <replacefilter token="@LOG.FILE.LOCATION@" value="${myschool.dir}/${logs}"/>
             <!--<replacefilter token="@LOG.FILE.NAME@" value="${myschool.dir}/${logs}/${web.log.file}"/>-->
         </replace>
     </target>
@@ -139,7 +139,7 @@
     <fileset id="spring-contexts" dir="${myschool.dir}/${config}/${spring}">
         <include name="${myschool.base}.xml"/>
         <include name="${myschool.infrastructure}.xml"/>
-    	<include name="${myschool.transformation}.xml"/>
+        <include name="${myschool.transformation}.xml"/>
         <include name="${myschool.service}.xml"/>
     </fileset>
 
@@ -147,7 +147,7 @@
         <!-- Application Jars -->
         <include name="${myschool.base}.jar" />
         <include name="${myschool.infrastructure}.jar" />
-    	<include name="${myschool.transformation}.jar" />
+        <include name="${myschool.transformation}.jar" />
         <include name="${myschool.service}.jar" />
     </fileset>
 
@@ -179,41 +179,42 @@
         <include name="jettison-1.3.3.jar"/>
         <include name="jfreechart-1.0.12.jar" />
         <include name="json-rpc-1.0.jar" />
+        <include name="jsoup-1.8.2.jar" />
         <include name="jstl.jar" />
         <include name="org.springframework.asm-3.0.5.RELEASE.jar" />
         <include name="org.springframework.beans-3.0.5.RELEASE.jar" />
         <include name="org.springframework.context-3.0.5.RELEASE.jar" />
         <include name="org.springframework.core-3.0.5.RELEASE.jar" />
         <include name="org.springframework.expression-3.0.5.RELEASE.jar" />
-    	<include name="org.springframework.jdbc-3.0.5.RELEASE.jar" />
+        <include name="org.springframework.jdbc-3.0.5.RELEASE.jar" />
         <include name="org.springframework.web-3.0.5.RELEASE.jar" />
         <include name="org.springframework.web.servlet-3.0.5.RELEASE.jar" />
         <include name="poi-3.7.jar" />
-    	<include name="quartz-2.2.0.jar"/>
-    	<include name="thumbnailator-0.4.5-all.jar"/>
+        <include name="quartz-2.2.0.jar"/>
+        <include name="thumbnailator-0.4.5-all.jar"/>
         <include name="tiles-api-2.2.2.jar" />
         <include name="tiles-core-2.2.2.jar" />
         <include name="tiles-jsp-2.2.2.jar" />
         <include name="tiles-servlet-2.2.2.jar" />
         <include name="tiles-template-2.2.2.jar" />
         <include name="xpp3-1.1.4c.jar" />
-    	<include name="xstream-1.4.4.jar" />
+        <include name="xstream-1.4.4.jar" />
 
-    	<!-- AOP Jars -->
-    	<include name="aopalliance.jar" />
+        <!-- AOP Jars -->
+        <include name="aopalliance.jar" />
         <include name="aspectjrt-1.6.11.jar" />
-    	<include name="aspectjweaver-1.6.11.jar" />
-    	<include name="org.springframework.aop-3.0.5.RELEASE.jar" />
-    	<include name="org.springframework.context.support-3.0.5.RELEASE.jar" />
-    	<include name="cglib-2.2.jar" />
-    	<include name="asm-3.3.1.jar" />
+        <include name="aspectjweaver-1.6.11.jar" />
+        <include name="org.springframework.aop-3.0.5.RELEASE.jar" />
+        <include name="org.springframework.context.support-3.0.5.RELEASE.jar" />
+        <include name="cglib-2.2.jar" />
+        <include name="asm-3.3.1.jar" />
 
-    	<!-- User Agent Jars -->
-    	<include name="uadetector-core-0.9.22.jar" />
-    	<include name="uadetector-resources-2014.10.jar" />
-    	<include name="quality-check-1.1.jar" />
-    	<include name="logback-core-0.9.6.jar" />
-    	<include name="logback-classic-0.9.jar" />
+        <!-- User Agent Jars -->
+        <include name="uadetector-core-0.9.22.jar" />
+        <include name="uadetector-resources-2014.10.jar" />
+        <include name="quality-check-1.1.jar" />
+        <include name="logback-core-0.9.6.jar" />
+        <include name="logback-classic-0.9.jar" />
     </fileset>
 
     <fileset id="libraries-for-tomcat" dir="../${lib}">

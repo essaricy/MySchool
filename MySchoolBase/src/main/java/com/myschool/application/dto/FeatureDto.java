@@ -19,6 +19,12 @@ public class FeatureDto implements Serializable {
     /** The description. */
     private String description;
 
+    /** The passport url. */
+    private String passportUrl;
+
+    /** The thumbnail url. */
+    private String thumbnailUrl;
+
     /**
      * Gets the image path.
      *
@@ -74,6 +80,42 @@ public class FeatureDto implements Serializable {
     }
 
     /**
+     * Gets the passport url.
+     * 
+     * @return the passport url
+     */
+    public String getPassportUrl() {
+        return passportUrl;
+    }
+
+    /**
+     * Sets the passport url.
+     * 
+     * @param passportUrl the new passport url
+     */
+    public void setPassportUrl(String passportUrl) {
+        this.passportUrl = passportUrl;
+    }
+
+    /**
+     * Gets the thumbnail url.
+     * 
+     * @return the thumbnail url
+     */
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    /**
+     * Sets the thumbnail url.
+     * 
+     * @param thumbnailUrl the new thumbnail url
+     */
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
+
+    /**
      * Constructs a <code>String</code> with all attributes
      * in name = value format.
      *
@@ -85,9 +127,11 @@ public class FeatureDto implements Serializable {
         StringBuilder retValue = new StringBuilder();
         retValue.append("FeatureDto ( ")
             .append(super.toString()).append(SEPARATOR)
-            .append("description = ").append(this.description).append(SEPARATOR)
             .append("imagePath = ").append(this.imagePath).append(SEPARATOR)
             .append("name = ").append(this.name).append(SEPARATOR)
+            .append("description = ").append(this.description).append(SEPARATOR)
+            .append("passportUrl = ").append(this.passportUrl).append(SEPARATOR)
+            .append("thumbnailUrl = ").append(this.thumbnailUrl).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();
     }

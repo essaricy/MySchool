@@ -1,6 +1,5 @@
 package com.myschool.web.application.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +17,8 @@ import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.application.service.GalleryService;
 import com.myschool.application.service.ImageService;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.image.constants.ImageSize;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class ImageController.
@@ -46,24 +43,16 @@ public class ImageController {
      * @return the model and view
      * @throws Exception the exception
      */
-    @RequestMapping(value="slideshow")
+    @RequestMapping(value = "slideshow")
     public ModelAndView slideshow(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        List<String> galleryItemNames = null;
         Map<String, Object> map = new HashMap<String, Object>();
         String galleryName = request.getParameter("GalleryName");
         if (!StringUtil.isNullOrBlank(galleryName)) {
             GalleryDetailDto galleryDetail = galleryService.get(galleryName);
             if (galleryDetail != null) {
-            	map.put("GalleryName", galleryName);
-            	List<GalleryDetailDto> galleryItems = galleryDetail.getGalleryItems();
-            	if (galleryItems != null && !galleryItems.isEmpty()) {
-            		galleryItemNames = new ArrayList<String>();
-            		for (GalleryDetailDto galleryItem : galleryItems) {
-            			galleryItemNames.add(galleryItem.getGalleryName());
-					}
-            	}
-            	map.put("GalleryItemNames", galleryItemNames);
+                map.put("GalleryName", galleryName);
+                map.put("GalleryItems", galleryDetail.getGalleryItems());
             }
         }
         String selectedItem = request.getParameter("Selection");
@@ -72,18 +61,19 @@ public class ImageController {
         } else {
             map.put("Selection", selectedItem);
         }
-        return ViewDelegationController.delegateModelPageView(request, ApplicationViewNames.VIEW_SLIDE_SHOW, map);
+        return ViewDelegationController.delegateModelPageView(request,
+                ApplicationViewNames.VIEW_SLIDE_SHOW, map);
     }
 
     /**
      * Gets the image.
-     *
+     * 
      * @param request the request
      * @param response the response
      * @return the image
      * @throws Exception the exception
-     */
-    @RequestMapping(value="getImage")
+     *//*
+    @RequestMapping(value = "getImage")
     public ModelAndView getImage(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
@@ -101,26 +91,23 @@ public class ImageController {
                 // First try to get the image from the File server.
                 file = imageService.getNoImage();
             } else if (type.equals("student")) {
-                file = imageService.getStudentImage(contentId, ImageSize.getImageType(imageSize));
+                file = imageService.getStudentImage(contentId,
+                        ImageSize.getImageType(imageSize));
             } else if (type.equals("employee")) {
-                file = imageService.getEmployeeImage(contentId, ImageSize.getImageType(imageSize));
+                file = imageService.getEmployeeImage(contentId,
+                        ImageSize.getImageType(imageSize));
             } else if (type.equals("org")) {
-                file = imageService.getOrgImage(contentId, ImageSize.getImageType(imageSize));
-            } else if (type.equals("gallery")) {
-                if (contentId.contains("?")) {
-                    contentId= contentId.substring(0, contentId.indexOf("?"));
-                }
-                file = galleryService.getGalleryItemFile(contentId, ImageSize.getImageType(imageSize));
+                file = imageService.getOrgImage(contentId,
+                        ImageSize.getImageType(imageSize));
             }
             if (file == null) {
                 file = imageService.getNoImage();
             }
-            System.out.println("Image Type = " + type + ", contentId = " + contentId);
             if (file != null) {
                 HttpUtil.writeToResponse(response, file);
             }
         }
         return null;
-    }
+    }*/
 
 }

@@ -44,24 +44,6 @@
             <file name="object-xml-mappings.xml" absence="ERROR" />
         </directory>
     </directory>
-    <directory name="fileserver" absence="ERROR">
-        <directory name="brochures" absence="CREATE" />
-        <directory name="gallery" absence="CREATE" />
-        <directory name="image" absence="CREATE">
-            <directory name="employee" absence="CREATE">
-              <directory name="PASSPORT" absence="CREATE" />
-              <directory name="THUMBNAIL" absence="CREATE" />
-            </directory>
-            <directory name="student" absence="CREATE">
-              <directory name="PASSPORT" absence="CREATE" />
-              <directory name="THUMBNAIL" absence="CREATE" />
-            </directory>
-            <directory name="organization" absence="CREATE">
-              <directory name="PASSPORT" absence="CREATE" />
-              <directory name="THUMBNAIL" absence="CREATE" />
-            </directory>
-        </directory>
-    </directory>
     <directory name="lib" absence="ERROR" />
     <directory name="logs" absence="CREATE" />
     <directory name="rules" absence="ERROR" />

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.myschool.application.domain.ProfileManager;
 import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.application.dto.OrganizationProfileDto;
+import com.myschool.application.dto.ResourceProfile;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 
@@ -73,6 +74,20 @@ public class ProfileServiceImpl implements ProfileService {
             throw new ServiceException(dataException.getMessage(), dataException);
         }
         return updated;
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.application.service.ProfileService#getResourceProfile()
+     */
+    @Override
+    public ResourceProfile getResourceProfile() throws ServiceException {
+        ResourceProfile resourceProfile = null;
+        try {
+            resourceProfile = profileManager.getResourceProfile();
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(), dataException);
+        }
+        return resourceProfile;
     }
 
 }

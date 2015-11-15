@@ -11,6 +11,9 @@ public class WebConstants {
     /** The Constant MYSCHOOL_PROFILE. */
     public static final String MYSCHOOL_PROFILE = "MYSCHOOL_PROFILE";
 
+    /** The Constant RESOURCE_PROFILE. */
+    public static final String RESOURCE_PROFILE = "RESOURCE_PROFILE";
+
     /** The Constant VIEW_ONLY. */
     public static final String VIEW_ONLY = "VIEW_ONLY";
 
@@ -32,7 +35,7 @@ public class WebConstants {
 	/** The Constant CHART_DATA. */
     public static final String CHART_DATA = "CHART_DATA";
 
-    /** The Constant SEARCH_MODE. */
-    public static final String SEARCH_MODE = "SEARCH_MODE";
+    /** The Constant RECORD_STATUS. */
+    public static final String RECORD_STATUS = "RECORD_STATUS";
 
 }

@@ -104,13 +104,11 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
      */
     public void doValidate(AttendanceProfileDto attendanceProfile) throws ValidationException {
         try {
-            System.out.println("validate()");
             if (attendanceProfile == null) {
                 throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Attendance Profile"));
             }
             // Profile name is mandatory
             String profileName = attendanceProfile.getProfileName();
-            System.out.println("profileName " + profileName);
             validate(profileName, "Attendance Profile Name", DataTypeValidator.ANY_CHARACTER, true);
             // Current academic must be setup
             AcademicDto currentAcademic = academicDao.getCurrentAcademic();
@@ -119,7 +117,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             }
             // Effective academic must be given
             AcademicDto effectiveAcademic = attendanceProfile.getEffectiveAcademic();
-            System.out.println("effectiveAcademic " + effectiveAcademic);
             if (effectiveAcademic == null) {
                 throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Effective Academic"));
             }
@@ -165,13 +162,11 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             throws ValidationException, DaoException, DataException {
         List<SchoolDto> schools = attendanceProfile.getAssignedSchools();
         List<RegisteredClassDto> registeredClasses = attendanceProfile.getAssignedClasses();
-        System.out.println("validateAssignments() ");
         if ((schools == null || schools.isEmpty()) && (registeredClasses == null || registeredClasses.isEmpty())) {
             throw new ValidationException("Profile must be assigned to at least one School/Class");
         }
         if (schools != null && !schools.isEmpty()) {
             for (SchoolDto school : schools) {
-                //System.out.println("school.getSchoolId() " + school.getSchoolId());
                 if (school == null || school.getSchoolId() == 0) {
                     throw new ValidationException(ERROR_SCHOOL_DOESNT_EXIST);
                 }
@@ -183,7 +178,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
         }
         if (registeredClasses != null && !registeredClasses.isEmpty()) {
             for (RegisteredClassDto registeredClass : registeredClasses) {
-                //System.out.println("registeredClass.getClassId() " + registeredClass.getClassId());
                 if (registeredClass == null || registeredClass.getClassId() == 0) {
                     throw new ValidationException(ERROR_CLASS_DOESNT_EXIST);
                 }
@@ -206,25 +200,20 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
     public void validateAssignmentConflicts(
             AttendanceProfileDto attendanceProfile) throws ValidationException,
             DataException {
-        System.out.println(">>>>>>>>>>>>>>>> validateAssignmentConflicts()");
         int attendanceProfileId = attendanceProfile.getProfileId();
         AcademicDto effectiveAcademic = attendanceProfile.getEffectiveAcademic();
         List<SchoolDto> assignedSchools = attendanceProfile.getAssignedSchools();
         List<RegisteredClassDto> assignedClasses = attendanceProfile.getAssignedClasses();
         String academicYearName = effectiveAcademic.getAcademicYearName();
 
-        System.out.println("academicYearName " + academicYearName);
-        System.out.println("Current attendanceProfileId= " + attendanceProfileId);
         // retrieve only this academic year's attendance profiles to compare
         List<AttendanceProfileDto> allAttendanceProfiles = attendanceProfileManager.getAllInDetail(academicYearName);
         if (allAttendanceProfiles != null && !allAttendanceProfiles.isEmpty()) {
             int profilesForAnYear = allAttendanceProfiles.size();
-            System.out.println("There are " + profilesForAnYear + " profiles to compare for academic " + effectiveAcademic.getAcademicYearName());
 
             // Check if it conflicts with other academic profiles school assignment.
             for (AttendanceProfileDto existingAttendanceProfile : allAttendanceProfiles) {
                 int existingAttendanceProfileId = existingAttendanceProfile.getProfileId();
-                System.out.println("existingAttendanceProfileId " + existingAttendanceProfileId);
                 if (existingAttendanceProfileId != attendanceProfileId) {
                     checkSchoolConflict(assignedSchools, existingAttendanceProfile);
                 }
@@ -232,7 +221,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             // Check if it conflicts with other academic profiles class assignment.
             for (AttendanceProfileDto existingAttendanceProfile : allAttendanceProfiles) {
                 int existingAttendanceProfileId = existingAttendanceProfile.getProfileId();
-                System.out.println("existingAttendanceProfileId " + existingAttendanceProfileId);
                 if (existingAttendanceProfileId != attendanceProfileId) {
                     checkClassConflict(assignedClasses, existingAttendanceProfile);
                 }
@@ -242,7 +230,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
 
     private void checkSchoolConflict(List<SchoolDto> assignedSchools,
             AttendanceProfileDto existingAttendanceProfile) throws ValidationException {
-        System.out.println("checkSchoolConflict()");
         String existingProfileName = existingAttendanceProfile.getProfileName();
         List<SchoolDto> existingAssignedSchools = existingAttendanceProfile.getAssignedSchools();
 
@@ -251,11 +238,9 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             for (SchoolDto assignedSchool : assignedSchools) {
                 if (assignedSchool != null) {
                     int schoolId = assignedSchool.getSchoolId();
-                    System.out.println("Assigned School ID= " + schoolId);
                     for (SchoolDto existingAssignedSchool : existingAssignedSchools) {
                         if (existingAssignedSchool != null) {
                             int existingSchoolId = existingAssignedSchool.getSchoolId();
-                            System.out.println("existingSchoolId=" + existingSchoolId);
                             if (schoolId == existingSchoolId) {
                                 DivisionDto division = existingAssignedSchool.getDivision();
                                 String divisionCode = division.getDivisionCode();
@@ -281,7 +266,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
      */
     private void checkClassConflict(List<RegisteredClassDto> assignedClasses,
             AttendanceProfileDto existingAttendanceProfile) throws ValidationException {
-        System.out.println("checkClassConflict()");
         String existingProfileName = existingAttendanceProfile.getProfileName();
         List<RegisteredClassDto> existingAssignedClasses = existingAttendanceProfile.getAssignedClasses();
 
@@ -290,11 +274,9 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             for (RegisteredClassDto assignedClass : assignedClasses) {
                 if (assignedClass != null) {
                     int classId = assignedClass.getClassId();
-                    System.out.println("Assigned Class ID= " + classId);
                     for (RegisteredClassDto existingAssignedClass : existingAssignedClasses) {
                         if (existingAssignedClass != null) {
                             int existingClassId = existingAssignedClass.getClassId();
-                            System.out.println("existingSchoolId=" + existingClassId);
                             if (classId == existingClassId) {
                                 SchoolDto school = existingAssignedClass.getSchool();
                                 ClassDto classDto = existingAssignedClass.getClassDto();
@@ -360,7 +342,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
             List<AttendanceMonth> attendanceMonths, Date academicStartDate,
             Date academicEndDate) throws ValidationException,
             InvalidDataException, DaoException {
-        System.out.println("validateAttendanceMonths()");
         AttendanceProfileDataAssembler.debug(attendanceMonths);
 
         if (attendanceMonths == null) {
@@ -368,7 +349,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
         } else {
             // The number of months in attendance profile must match with the number of months in the academic year
             int numberOfMonthsInProfile = attendanceMonths.size();
-            System.out.println("numberOfMonthsInProfile " + numberOfMonthsInProfile);
             int numberOfMonthsInAcademic = DateUtil.dateDiffInMonthNumbers(academicStartDate, academicEndDate);
             if (numberOfMonthsInProfile != numberOfMonthsInAcademic) {
                 throw new ValidationException(MessageFormat.format(ERROR_MONTHS_MISMATCH, numberOfMonthsInAcademic, numberOfMonthsInProfile));
@@ -389,13 +369,11 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
 
             List<AttendanceDay> attendanceDays = null;
             List<AttendanceCodeDto> attendanceCodes = attendanceDao.getReferredAttendanceCodes();
-            System.out.println("attendanceCodes==" + attendanceCodes);
             // Iterate till it reaches the last day of the academic year's last month
             for (int monthIndex = 0; monthIndex < numberOfMonthsInProfile; monthIndex++) {
                 int currentMonth = rollingCalendar.get(Calendar.MONTH) + 1;
                 String monthShortNameYear = DateUtil.MONTH_SHORT_NAME_YEAR_FORMAT.format(rollingCalendar.getTime());
 
-                System.out.println("monthIndex = " + monthIndex + ", currentMonth=" + currentMonth + ", monthShortNameYear=" + monthShortNameYear);
                 AttendanceMonth attendanceMonth = getAttendanceObject(currentMonth, attendanceMonths);
                 if (attendanceMonth == null) {
                     throw new ValidationException(MessageFormat.format(ERROR_DOESNT_EXIST, "Attendance for " + monthShortNameYear));
@@ -406,7 +384,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
                 }
                 // Validate the number of days in a month to the number of attendance days in the month
                 int numberOfDays = attendanceDays.size();
-                System.out.println("Provided numberOfDays= " + numberOfDays);
                 int maxDaysInMonth = rollingCalendar.getActualMaximum(Calendar.DAY_OF_MONTH);
                 if (numberOfDays < maxDaysInMonth || numberOfDays > 31) {
                     throw new ValidationException(MessageFormat.format(ERROR_DAYS_MISMATCH, monthShortNameYear));
@@ -416,7 +393,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
 
                 //int daysInMonth = (numberOfDays > maxDaysInMonth) ? numberOfDays : maxDaysInMonth;
                 for (int dayIndex = 1; dayIndex <= maxDaysInMonth; dayIndex++) {
-                    //System.out.print(dayIndex);
                     rollingCalendar.set(Calendar.DAY_OF_MONTH, dayIndex);
                     AttendanceDay attendanceDay = getAttendanceObject(dayIndex, attendanceDays);
                     if (rollingCalendar.getTime().before(academicStartCalendar.getTime())) {
@@ -437,7 +413,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
                         validateReferenceAttendanceCode(attendanceDay.getReference(), attendanceCodes);
                     }
                 }
-                System.out.println("Validating excess days; maxDaysInMonth=" + maxDaysInMonth);
                 // Put nulls from the last day of the month to 31
                 for (int dayIndex = maxDaysInMonth + 1; dayIndex <= 31; dayIndex++) {
                     AttendanceDay attendanceDay = getAttendanceObject(dayIndex, attendanceDays);
@@ -445,7 +420,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
                         throw new ValidationException(MessageFormat.format(ERROR_INVALID_DATE, dayIndex, monthShortNameYear));
                     }
                 }
-                System.out.println("Validation complete...");
             }
         }
     }

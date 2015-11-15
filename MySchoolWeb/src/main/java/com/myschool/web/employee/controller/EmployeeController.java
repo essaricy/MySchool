@@ -63,7 +63,7 @@ public class EmployeeController {
     public ModelAndView launchVerifiedEmployeesSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.VERIFIED);
+        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.VERIFIED);
         map.put("TITLE", "Search Employees");
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.SEARCH_EMPLOYEE, map);
@@ -81,7 +81,7 @@ public class EmployeeController {
     public ModelAndView launchUnverifiedEmployeesSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.UNVERIFIED);
+        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.UNVERIFIED);
         map.put("TITLE", "Search Employees (Portal)");
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.SEARCH_EMPLOYEE, map);
@@ -133,7 +133,7 @@ public class EmployeeController {
         if (!StringUtil.isNullOrBlank(employeeNumber)) {
             map.put("Employee", employeeService.get(employeeNumber));
         }
-        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        map.put(WebConstants.RECORD_STATUS, request.getParameter(WebConstants.RECORD_STATUS));
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.EMPLOYEE_REGISTRATION, map);
     }
@@ -208,7 +208,7 @@ public class EmployeeController {
         	nextEmployee = employeeService.get(employeeNumber);
         }
         map.put("Employee", nextEmployee);
-        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        map.put(WebConstants.RECORD_STATUS, request.getParameter(WebConstants.RECORD_STATUS));
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.EMPLOYEE_REGISTRATION, map);
     }
@@ -235,7 +235,7 @@ public class EmployeeController {
         	nextEmployee = employeeService.get(employeeNumber);
         }
         map.put("Employee", nextEmployee);
-        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        map.put(WebConstants.RECORD_STATUS, request.getParameter(WebConstants.RECORD_STATUS));
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.EMPLOYEE_REGISTRATION, map);
     }
@@ -369,7 +369,7 @@ public class EmployeeController {
                         row.put(employee.getLastName());
                         row.put(employee.getGender());
                         row.put(employee.getDateOfBirth());
-                        
+
                         DesignationDto designation = employee.getDesignation();
                         row.put(designation.getDesignation());
                         row.put(employee.getEmployedAtBranch().getBranchCode());

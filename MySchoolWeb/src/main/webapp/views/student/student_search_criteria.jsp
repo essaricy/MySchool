@@ -45,9 +45,9 @@ $(document).ready(function() {
   $(this).datePicker({rangeId1: 'AdvancedSearch_DateOfJoiningMin', rangeId2: 'AdvancedSearch_DateOfJoiningMax'});
 
   var destinationUrl = null;
-  if ($('#SEARCH_MODE').val() == 'VERIFIED') {
+  if ($('#RECORD_STATUS').val() == 'VERIFIED') {
       destinationUrl = '<%=request.getContextPath()%>/student/searchVerifiedStudents.htm';
-  } else if ($('#SEARCH_MODE').val() == 'UNVERIFIED') {
+  } else if ($('#RECORD_STATUS').val() == 'UNVERIFIED') {
       destinationUrl = '<%=request.getContextPath()%>/student/searchUnverifiedStudents.htm';
   }
 
@@ -91,7 +91,7 @@ $(document).ready(function() {
 
 </script>
 
-<input type="hidden" id="SEARCH_MODE" name="SEARCH_MODE" value="${SEARCH_MODE}" />
+<input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
 <table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
   <caption class="dataTableCaption">${TITLE}</caption>
   <tr>

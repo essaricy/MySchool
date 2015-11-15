@@ -70,7 +70,6 @@ public class AttendanceProfileManager {
     public List<AttendanceProfileDto> getAll() throws DataException {
         List<AttendanceProfileDto> attendanceProfiles = null;
         try {
-            System.out.println("AttendanceProfileManager getAll()");
             attendanceProfiles = attendanceProfileDao.getAll();
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
@@ -89,7 +88,6 @@ public class AttendanceProfileManager {
         List<AttendanceProfileDto> attendanceProfiles;
         try {
             attendanceProfiles = null;
-            System.out.println("AttendanceProfileManager get(" + academicYearName + ")");
             if (academicYearName == null) {
                 throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
             }
@@ -113,7 +111,6 @@ public class AttendanceProfileManager {
     public List<AttendanceProfileDto> getAllInDetail() throws DataException {
         List<AttendanceProfileDto> attendanceProfiles = null;
         try {
-            System.out.println("AttendanceProfileManager getAllInDetail()");
             attendanceProfiles = attendanceProfileDao.getAll();
             if (attendanceProfiles != null && !attendanceProfiles.isEmpty()) {
                 for (AttendanceProfileDto attendanceProfile : attendanceProfiles) {
@@ -137,7 +134,6 @@ public class AttendanceProfileManager {
         List<AttendanceProfileDto> attendanceProfiles;
         try {
             attendanceProfiles = null;
-            System.out.println("AttendanceProfileManager getAllInDetail(" + academicYearName + ")");
             if (academicYearName == null) {
                 throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
             }
@@ -167,7 +163,6 @@ public class AttendanceProfileManager {
     public AttendanceProfileDto get(int attendanceProfileId) throws DataException {
         AttendanceProfileDto attendanceProfile = null;
         try {
-            System.out.println("AttendanceProfileManager get(" + attendanceProfileId + ")");
             if (attendanceProfileId == 0) {
                 throw new DataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
@@ -191,7 +186,6 @@ public class AttendanceProfileManager {
     public AttendanceProfileDto getInDetail(int attendanceProfileId) throws DataException {
         AttendanceProfileDto attendanceProfile = null;
         try {
-            System.out.println("AttendanceProfileManager get(" + attendanceProfileId + ")");
             if (attendanceProfileId == 0) {
                 throw new DataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
@@ -215,7 +209,6 @@ public class AttendanceProfileManager {
     public AttendanceProfileDto getBlank() throws DataException {
         AttendanceProfileDto attendanceProfile = null;
         try {
-            System.out.println("AttendanceProfileManager getBlank()");
             AcademicDto academic = academicManager.getCurrentAcademic();
             if (academic == null) {
                 throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, "null"));
@@ -239,7 +232,6 @@ public class AttendanceProfileManager {
     public AttendanceProfileDto getBlank(String academicYearName) throws DataException {
         AttendanceProfileDto attendanceProfile = null;
         try {
-            System.out.println("AttendanceProfileManager getBlank(" + academicYearName + ")");
             if (academicYearName == null) {
                 throw new DataException(MessageFormat.format(AttendanceConstant.ERROR_INVALID_ACADEMIC, academicYearName));
             }
@@ -266,7 +258,6 @@ public class AttendanceProfileManager {
     public boolean create(AttendanceProfileDto attendanceProfile) throws DataException {
         int attendanceProfileId = 0;
         try {
-            System.out.println("create(" + attendanceProfile + ")");
             // Validate attendance profile
             attendanceProfileValidator.validate(attendanceProfile);
             attendanceProfileId = attendanceProfile.getProfileId();
@@ -276,7 +267,6 @@ public class AttendanceProfileManager {
                 throw new DataException("Attendance Profile (" + profileName + ") already exists.");
             }
             attendanceProfileId = attendanceProfileDao.create(attendanceProfile);
-            System.out.println("attendanceProfileId " + attendanceProfileId);
             if (attendanceProfileId == 0) {
                 throw new DataException("Unable to create Attendance Profile now.");
             }
@@ -312,7 +302,6 @@ public class AttendanceProfileManager {
 
         String profileName = null;
         try {
-            System.out.println("update(" + attendanceProfileId + ")");
             // Validate attendance profile
             attendanceProfileValidator.validate(attendanceProfile);
             attendanceProfileId = attendanceProfile.getProfileId();
@@ -365,7 +354,6 @@ public class AttendanceProfileManager {
     public boolean delete(int attendanceProfileId) throws DataException {
         boolean deleted = false;
         try {
-            System.out.println("delete(" + attendanceProfileId  + ")");
             if (attendanceProfileId <= 0) {
                 throw new InvalidDataException(AttendanceConstant.ERROR_NO_PROFILE);
             }
@@ -384,14 +372,11 @@ public class AttendanceProfileManager {
      * @throws DaoException the dao exception
      */
     private void setProfileAssociatedData(AttendanceProfileDto attendanceProfile) throws DataException, DaoException {
-        System.out.println("setProfileAssociatedData()");
         List<AttendanceMonth> attendanceMonths = null;
         if (attendanceProfile != null) {
             AcademicDto academic = attendanceProfile.getEffectiveAcademic();
-            System.out.println("academic=" + academic);
             if (academic != null) {
                 int profileId = attendanceProfile.getProfileId();
-                System.out.println("profileId=" + profileId);
                 List<HolidayDto> holidays = holidayManager.getAll(HolidayDataAssembler.createSearchCriteria(academic));
                 if (profileId == 0) {
                     attendanceMonths = AttendanceProfileDataAssembler.align(academic, holidays, null);

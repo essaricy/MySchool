@@ -30,7 +30,12 @@ jQuery(document).ready(function() {
       <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
         <tr>
           <td align="center">
-            <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=${Student.admissionNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>
+            <c:if test="${Student.verified}">
+              <img id="studentImage" name="studentImage" src="${RESOURCE_PROFILE.studentRegistered.resourceUrl}/${Student.admissionNumber}" border="1" width="150px" height="180px"/>
+            </c:if>
+            <c:if test="${! Student.verified}">
+              <img id="studentImage" name="studentImage" src="${RESOURCE_PROFILE.studentPortal.resourceUrl}/${Student.admissionNumber}" border="1" width="150px" height="180px"/>
+            </c:if>
           </td>
         </tr>
       </table>
@@ -49,5 +54,3 @@ jQuery(document).ready(function() {
     </td>
   </tr>
 </table>
-
-

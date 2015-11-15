@@ -15,7 +15,6 @@ import net.sf.jasperreports.engine.data.ListOfArrayDataSource;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.OrganizationProfileDto;
-import com.myschool.infra.application.dto.MySchoolDto;
 import com.myschool.infra.report.constants.ReportStyles;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -36,18 +35,16 @@ public class JasperSimpleListingReportBuilder extends JasperAbstractReportBuilde
      * @see
      * com.myschool.infra.report.builders.ReportBuilder#generateReport(com.myschool
      * .application.dto.OrganizationProfileDto,
-     * com.myschool.infra.application.dto.MySchoolDto,
      * com.myschool.report.dto.ReportDto,
      * com.myschool.infra.report.dto.ReportCriteria)
      */
     @Override
     public final File generateReport(OrganizationProfileDto organizationProfile,
-            MySchoolDto mySchoolDto, ReportDto report,
-            ReportCriteria reportCriteria) throws ReportException {
+            ReportDto report, ReportCriteria reportCriteria) throws ReportException {
 
         File reportFile = null;
         Hashtable<String, Object> reportParameters = report.getReportParameters();
-        JasperReportBuilder jasperReportBuilder = getBaseReport(organizationProfile, mySchoolDto, report, reportCriteria);
+        JasperReportBuilder jasperReportBuilder = getBaseReport(organizationProfile, report, reportCriteria);
         String[] listingHeaders = (String[]) reportParameters.get("LISTING_HEADERS");
         List<Object[]> reportData = (List<Object[]>) reportParameters.get("LISTING_DATA");
         if (listingHeaders == null) {

@@ -32,18 +32,6 @@ public class LocalFileSystemAgent extends FileSystemAgent {
     @Autowired
     private FileSystemReader fileSystemReader;
 
-    /** The brochures file system. */
-    @Autowired
-    private BrochuresFileSystem brochuresFileSystem;
-
-    /** The gallery file system. */
-    @Autowired
-    private GalleryFileSystem galleryFileSystem;
-
-    /** The image file system. */
-    @Autowired
-    private ImageFileSystem imageFileSystem;
-
     /** The rules file system. */
     @Autowired
     private RulesFileSystem rulesFileSystem;
@@ -124,13 +112,7 @@ public class LocalFileSystemAgent extends FileSystemAgent {
         }
 
         // Determine the sub file system and pass the excerpt to initiate the sub file system
-        if (path.equalsIgnoreCase("fileserver/brochures")) {
-            brochuresFileSystem.init(directory); 
-        } else if (path.equalsIgnoreCase("fileserver/gallery")) {
-            galleryFileSystem.init(directory); 
-        } else if (path.equalsIgnoreCase("fileserver/image")) {
-            imageFileSystem.init(directory); 
-        } else if (path.equalsIgnoreCase("rules")) {
+        if (path.equalsIgnoreCase("rules")) {
             rulesFileSystem.init(directory); 
         } else if (path.equalsIgnoreCase("temp")) {
             tempFileSystem.init(directory); 

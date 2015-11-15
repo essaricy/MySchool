@@ -5,10 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.myschool.application.assembler.BrochureDataAssembler;
+import com.myschool.application.dto.ResourceDto;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.FileSystemException;
 import com.myschool.download.dto.BrochureDto;
-import com.myschool.infra.filesystem.agent.BrochuresFileSystem;
+import com.myschool.infra.filesystem.util.FileUtil;
+import com.myschool.infra.media.agent.MediaServerAgent;
+import com.myschool.infra.media.exception.ResourceException;
 
 /**
  * The Class BrochureManager.
@@ -16,43 +19,31 @@ import com.myschool.infra.filesystem.agent.BrochuresFileSystem;
 @Component
 public class BrochureManager {
 
-    /** The brochures file system. */
+    /** The media server agent. */
     @Autowired
-    private BrochuresFileSystem brochuresFileSystem;
+    private MediaServerAgent mediaServerAgent;
 
     /**
-     * Gets the brochures.
+     * Gets the all.
      * 
-     * @return the brochures
+     * @return the all
      * @throws DataException the data exception
      */
-    public List<BrochureDto> getBrochures() throws DataException {
+    public List<BrochureDto> getAll() throws DataException {
         List<BrochureDto> brochures = null;
         try {
-            brochures = brochuresFileSystem.getBrochures();
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            List<ResourceDto> resources = mediaServerAgent.getBrochures();
+            brochures = BrochureDataAssembler.create(resources);
+            if (brochures != null && !brochures.isEmpty()) {
+                for (BrochureDto brochure : brochures) {
+                    String brochureType = brochure.getBrochureType();
+                    brochure.setBrochureType(FileUtil.getExtension(brochureType));
+                }
+            }
+        } catch (ResourceException resourceException) {
+            throw new DataException(resourceException.getMessage(), resourceException);
         }
         return brochures;
     }
 
-    /**
-     * Gets the brochure.
-     * 
-     * @param brochureName the brochure name
-     * @return the brochure
-     * @throws DataException the data exception
-     */
-    public BrochureDto getBrochure(String brochureName) throws DataException {
-        BrochureDto brochure = null;
-        try {
-            if (brochureName != null) {
-                brochure = brochuresFileSystem.getBrochure(brochureName);
-            }
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-        return brochure;
-    }
-    
 }

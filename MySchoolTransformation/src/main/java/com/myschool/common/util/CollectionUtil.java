@@ -60,4 +60,44 @@ public class CollectionUtil {
         return sqlArray;
     }
 
+    /**
+     * Contains.
+     * 
+     * @param text the text
+     * @param list the list
+     * @return true, if successful
+     */
+    public static boolean contains(String text, List<String> list) {
+        boolean contains = false;
+        if (text != null && list != null && !list.isEmpty()) {
+            for (String listValue : list) {
+                if (text.equals(listValue)) {
+                    contains = true;
+                    break;
+                }
+            }
+        }
+        return contains;
+    }
+
+    /**
+     * Contains ignore case.
+     * 
+     * @param text the text
+     * @param list the list
+     * @return true, if successful
+     */
+    public static boolean containsIgnoreCase(String text, List<String> list) {
+        boolean contains = false;
+        if (text != null && list != null && !list.isEmpty()) {
+            for (String listValue : list) {
+                if (text.equalsIgnoreCase(listValue)) {
+                    contains = true;
+                    break;
+                }
+            }
+        }
+        return contains;
+    }
+
 }

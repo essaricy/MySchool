@@ -1,159 +1,159 @@
 package com.myschool.application.dto;
 
-import java.io.File;
 import java.util.List;
+
 
 /**
  * The Class GalleryDetailDto.
  */
 public class GalleryDetailDto {
 
-	/** The gallery name. */
-	private String galleryName;
+    /** The gallery name. */
+    private String galleryName;
 
-	/** The gallery items. */
-	private List<GalleryDetailDto> galleryItems;
+    /** The pinned. */
+    private boolean pinned;
 
-	/** The last modified. */
-	private String lastModified;
+    /** The url. */
+    private String url;
 
-	/** The size. */
-	private String size;
+    /** The passport url. */
+    private String passportUrl;
 
-	/** The pinned. */
-	private boolean pinned;
+    /** The thumbnail url. */
+    private String thumbnailUrl;
 
-	/** The file. */
-	private File file;
+    /** The gallery items. */
+    private List<GalleryDetailDto> galleryItems;
 
-	/**
-	 * Gets the gallery name.
-	 *
-	 * @return the gallery name
-	 */
-	public String getGalleryName() {
-		return galleryName;
-	}
+    /**
+     * Gets the gallery name.
+     * 
+     * @return the gallery name
+     */
+    public String getGalleryName() {
+        return galleryName;
+    }
 
-	/**
-	 * Sets the gallery name.
-	 *
-	 * @param galleryName the new gallery name
-	 */
-	public void setGalleryName(String galleryName) {
-		this.galleryName = galleryName;
-	}
+    /**
+     * Sets the gallery name.
+     * 
+     * @param galleryName the new gallery name
+     */
+    public void setGalleryName(String galleryName) {
+        this.galleryName = galleryName;
+    }
 
-	/**
-	 * Gets the gallery items.
-	 *
-	 * @return the gallery items
-	 */
-	public List<GalleryDetailDto> getGalleryItems() {
-		return galleryItems;
-	}
+    /**
+     * Checks if is pinned.
+     * 
+     * @return true, if is pinned
+     */
+    public boolean isPinned() {
+        return pinned;
+    }
 
-	/**
-	 * Sets the gallery items.
-	 *
-	 * @param galleryItems the new gallery items
-	 */
-	public void setGalleryItems(List<GalleryDetailDto> galleryItems) {
-		this.galleryItems = galleryItems;
-	}
+    /**
+     * Sets the pinned.
+     * 
+     * @param pinned the new pinned
+     */
+    public void setPinned(boolean pinned) {
+        this.pinned = pinned;
+    }
 
-	/**
-	 * Gets the last modified.
-	 *
-	 * @return the last modified
-	 */
-	public String getLastModified() {
-		return lastModified;
-	}
+    /**
+     * Gets the url.
+     * 
+     * @return the url
+     */
+    public String getUrl() {
+        return url;
+    }
 
-	/**
-	 * Sets the last modified.
-	 *
-	 * @param lastModified the new last modified
-	 */
-	public void setLastModified(String lastModified) {
-		this.lastModified = lastModified;
-	}
+    /**
+     * Sets the url.
+     * 
+     * @param url the new url
+     */
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	/**
-	 * Gets the size.
-	 *
-	 * @return the size
-	 */
-	public String getSize() {
-		return size;
-	}
+    /**
+     * Gets the passport url.
+     * 
+     * @return the passport url
+     */
+    public String getPassportUrl() {
+        return passportUrl;
+    }
 
-	/**
-	 * Sets the size.
-	 *
-	 * @param size the new size
-	 */
-	public void setSize(String size) {
-		this.size = size;
-	}
+    /**
+     * Sets the passport url.
+     * 
+     * @param passportUrl the new passport url
+     */
+    public void setPassportUrl(String passportUrl) {
+        this.passportUrl = passportUrl;
+    }
 
-	/**
-	 * Checks if is pinned.
-	 *
-	 * @return true, if is pinned
-	 */
-	public boolean isPinned() {
-		return pinned;
-	}
+    /**
+     * Gets the thumbnail url.
+     * 
+     * @return the thumbnail url
+     */
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
 
-	/**
-	 * Sets the pinned.
-	 *
-	 * @param pinned the new pinned
-	 */
-	public void setPinned(boolean pinned) {
-		this.pinned = pinned;
-	}
+    /**
+     * Sets the thumbnail url.
+     * 
+     * @param thumbnailUrl the new thumbnail url
+     */
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
+    }
 
-	/**
-	 * Gets the file.
-	 *
-	 * @return the file
-	 */
-	public File getFile() {
-		return file;
-	}
+    /**
+     * Gets the gallery items.
+     * 
+     * @return the gallery items
+     */
+    public List<GalleryDetailDto> getGalleryItems() {
+        return galleryItems;
+    }
 
-	/**
-	 * Sets the file.
-	 *
-	 * @param file the new file
-	 */
-	public void setFile(File file) {
-		this.file = file;
-	}
+    /**
+     * Sets the gallery items.
+     * 
+     * @param galleryItems the new gallery items
+     */
+    public void setGalleryItems(List<GalleryDetailDto> galleryItems) {
+        this.galleryItems = galleryItems;
+    }
 
-	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name = value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
-	 */
-	public String toString() {
-	    final String SEPARATOR = ", ";
-	    StringBuilder retValue = new StringBuilder();
-	    retValue.append("GalleryDetailDto ( ")
-	        .append(super.toString()).append(SEPARATOR)
-	        .append("galleryName = ").append(this.galleryName).append(SEPARATOR)
-	        .append("galleryItems = ").append(this.galleryItems).append(SEPARATOR)
-	        .append("lastModified = ").append(this.lastModified).append(SEPARATOR)
-	        .append("size = ").append(this.size).append(SEPARATOR)
-	        .append("pinned = ").append(this.pinned).append(SEPARATOR)
-	        .append("file = ").append(this.file).append(SEPARATOR)
-	        .append(" )\n");
-	    return retValue.toString();
-	}
+    /**
+     * Constructs a <code>String</code> with all attributes
+     * in name = value format.
+     *
+     * @return a <code>String</code> representation 
+     * of this object.
+     */
+    public String toString() {
+        final String SEPARATOR = ", ";
+        StringBuilder retValue = new StringBuilder();
+        retValue.append("GalleryDetailDto ( ")
+            .append(super.toString()).append(SEPARATOR)
+            .append("galleryName = ").append(this.galleryName).append(SEPARATOR)
+            .append("pinned = ").append(this.pinned).append(SEPARATOR)
+            .append("url = ").append(this.url).append(SEPARATOR)
+            .append("passportUrl = ").append(this.passportUrl).append(SEPARATOR)
+            .append("thumbnailUrl = ").append(this.thumbnailUrl).append(SEPARATOR)
+            .append("galleryItems = ").append(this.galleryItems).append(SEPARATOR)
+            .append(" )\n");
+        return retValue.toString();
+    }
 
 }

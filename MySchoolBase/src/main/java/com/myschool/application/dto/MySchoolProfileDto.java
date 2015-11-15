@@ -40,6 +40,9 @@ public class MySchoolProfileDto implements Serializable {
     /** The use student self submit. */
     private boolean useStudentSelfSubmit;
 
+    /** The pinned gallery. */
+    private String pinnedGallery;
+
     /**
      * Checks if is email active.
      * 
@@ -221,29 +224,48 @@ public class MySchoolProfileDto implements Serializable {
 	}
 
 	/**
-	 * Constructs a <code>String</code> with all attributes
-	 * in name = value format.
-	 *
-	 * @return a <code>String</code> representation 
-	 * of this object.
-	 */
-	public String toString() {
-	    final String SEPARATOR = ", ";
-	    StringBuilder retValue = new StringBuilder();
-	    retValue.append("MySchoolProfileDto ( ")
-	        .append(super.toString()).append(SEPARATOR)
-	        .append("emailActive = ").append(this.emailActive).append(SEPARATOR)
-	        .append("smsActive = ").append(this.smsActive).append(SEPARATOR)
-	        .append("emailStudents = ").append(this.emailStudents).append(SEPARATOR)
-	        .append("smsStudents = ").append(this.smsStudents).append(SEPARATOR)
-	        .append("emailEmployees = ").append(this.emailEmployees).append(SEPARATOR)
-	        .append("smsEmployees = ").append(this.smsEmployees).append(SEPARATOR)
-	        .append("ayeInProgress = ").append(this.ayeInProgress).append(SEPARATOR)
-	        .append("useMenuIcons = ").append(this.useMenuIcons).append(SEPARATOR)
-	        .append("useEmployeeSelfSubmit = ").append(this.useEmployeeSelfSubmit).append(SEPARATOR)
-	        .append("useStudentSelfSubmit = ").append(this.useStudentSelfSubmit).append(SEPARATOR)
-	        .append(" )\n");
-	    return retValue.toString();
-	}
+     * Gets the pinned gallery.
+     * 
+     * @return the pinned gallery
+     */
+	public String getPinnedGallery() {
+        return pinnedGallery;
+    }
+
+    /**
+     * Sets the pinned gallery.
+     * 
+     * @param pinnedGallery the new pinned gallery
+     */
+    public void setPinnedGallery(String pinnedGallery) {
+        this.pinnedGallery = pinnedGallery;
+    }
+
+    /**
+     * Constructs a <code>String</code> with all attributes
+     * in name = value format.
+     *
+     * @return a <code>String</code> representation 
+     * of this object.
+     */
+    public String toString() {
+        final String SEPARATOR = ", ";
+        StringBuilder retValue = new StringBuilder();
+        retValue.append("MySchoolProfileDto ( ")
+            .append(super.toString()).append(SEPARATOR)
+            .append("emailActive = ").append(this.emailActive).append(SEPARATOR)
+            .append("smsActive = ").append(this.smsActive).append(SEPARATOR)
+            .append("emailStudents = ").append(this.emailStudents).append(SEPARATOR)
+            .append("smsStudents = ").append(this.smsStudents).append(SEPARATOR)
+            .append("emailEmployees = ").append(this.emailEmployees).append(SEPARATOR)
+            .append("smsEmployees = ").append(this.smsEmployees).append(SEPARATOR)
+            .append("ayeInProgress = ").append(this.ayeInProgress).append(SEPARATOR)
+            .append("useMenuIcons = ").append(this.useMenuIcons).append(SEPARATOR)
+            .append("useEmployeeSelfSubmit = ").append(this.useEmployeeSelfSubmit).append(SEPARATOR)
+            .append("useStudentSelfSubmit = ").append(this.useStudentSelfSubmit).append(SEPARATOR)
+            .append("pinnedGallery = ").append(this.pinnedGallery).append(SEPARATOR)
+            .append(" )\n");
+        return retValue.toString();
+    }
 
 }

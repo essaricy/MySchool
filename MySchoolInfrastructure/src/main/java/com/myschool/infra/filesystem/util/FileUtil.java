@@ -29,7 +29,7 @@ public class FileUtil {
     public static String getExtension(String fileName) {
         String extension = null;
         if (fileName != null) {
-        	if (fileName.indexOf(FILE_EXTENSION_SEPARATOR) > 1) {
+        	if (fileName.indexOf(FILE_EXTENSION_SEPARATOR) > 0) {
         		extension = fileName.substring(fileName.lastIndexOf(FILE_EXTENSION_SEPARATOR) + 1, fileName.length());
         	}
         }

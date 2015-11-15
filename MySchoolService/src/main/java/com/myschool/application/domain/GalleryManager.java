@@ -9,13 +9,15 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.application.assembler.GalleryDataAssembler;
 import com.myschool.application.dto.GalleryDetailDto;
+import com.myschool.application.dto.MySchoolProfileDto;
+import com.myschool.application.dto.ResourceDto;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.filesystem.agent.GalleryFileSystem;
 import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.image.agent.ImageScalingAgent;
-import com.myschool.infra.image.constants.ImageSize;
+import com.myschool.infra.media.agent.MediaServerAgent;
+import com.myschool.infra.media.exception.ResourceException;
+import com.myschool.infra.middleware.agent.OutboundMessageAgent;
 
 /**
  * The Class GalleryManager.
@@ -23,464 +25,413 @@ import com.myschool.infra.image.constants.ImageSize;
 @Component
 public class GalleryManager {
 
-	/** The gallery file system. */
+    /** The media server agent. */
     @Autowired
-    private GalleryFileSystem galleryFileSystem;
+    private MediaServerAgent mediaServerAgent;
 
     /** The image scaling agent. */
     @Autowired
     private ImageScalingAgent imageScalingAgent;
 
-	/**
-	 * Gets the gallery details.
-	 *
-	 * @return the gallery details
-	 * @throws DataException the data exception
-	 */
-	public List<GalleryDetailDto> getAll() throws DataException {
-		List<GalleryDetailDto> galleryDetailDtos = null;
-        try {
-        	// Get the list of galleries
-        	List<File> galleryFiles = galleryFileSystem.getGalleryFiles();
-    		if (galleryFiles != null && !galleryFiles.isEmpty()) {
-    			File pinnedGallery = galleryFileSystem.getPinnedGallery();
-        		galleryDetailDtos = new ArrayList<GalleryDetailDto>();
-        		// For each gallery
-        		for (File galleryFile : galleryFiles) {
-        			// Create a gallery detail object
-        			GalleryDetailDto galleryDetail = GalleryDataAssembler.createGalleryDetail(galleryFile);
-        			// List the item files in the gallery
-        			List<File> galleryItemFiles = galleryFileSystem.getGalleryItemFiles(galleryFile);
-        			List<GalleryDetailDto> galleryItemDetails = GalleryDataAssembler.createGalleryDetails(galleryItemFiles);
-        			galleryDetail.setGalleryItems(galleryItemDetails);
-        			galleryDetail.setPinned(pinnedGallery != null && pinnedGallery.getName().equals(galleryFile.getName()));
-        			galleryDetailDtos.add(galleryDetail);
-    			}
-        	}
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-		return galleryDetailDtos;
-    }
+    /** The profile manager. */
+    @Autowired
+    private ProfileManager profileManager;
 
-	/**
-	 * Gets the gallery detail.
-	 *
-	 * @param galleryName the gallery name
-	 * @return the gallery detail
-	 * @throws DataException the data exception
-	 */
-	public GalleryDetailDto getGalleryDetail(String galleryName) throws DataException {
-		GalleryDetailDto galleryDetail;
-		try {
-			File galleryFile = galleryFileSystem.getGalleryFile(galleryName);
-			File pinnedGallery = galleryFileSystem.getPinnedGallery();
-			galleryDetail = GalleryDataAssembler.createGalleryDetail(galleryFile);
-			if (galleryDetail != null) {
-				List<GalleryDetailDto> galleryDetails = GalleryDataAssembler.createGalleryDetails(galleryFileSystem.getGalleryItemFiles(galleryFile));
-				galleryDetail.setGalleryItems(galleryDetails);
-				galleryDetail.setPinned(pinnedGallery != null && pinnedGallery.getName().equals(galleryFile.getName()));
-			}
-		} catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-		return galleryDetail;
-	}
-
-	/**
-	 * Gets the latest gallery details.
-	 *
-	 * @return the latest gallery details
-	 * @throws DataException the data exception
-	 */
-	public GalleryDetailDto getPinned() throws DataException {
-		GalleryDetailDto galleryDetail;
-		try {
-			File latestGallery = galleryFileSystem.getPinnedGallery();
-			galleryDetail = GalleryDataAssembler.createGalleryDetail(latestGallery);
-			// List the item files in the gallery
-			if (galleryDetail != null) {
-				List<File> galleryItemFiles = galleryFileSystem.getGalleryItemFiles(latestGallery);
-				List<GalleryDetailDto> galleryItemDetails = GalleryDataAssembler.createGalleryDetails(galleryItemFiles);
-				galleryDetail.setGalleryItems(galleryItemDetails);
-			}
-		} catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }
-		return galleryDetail;
-	}
+    /** The outbound message agent. */
+    @Autowired
+    private OutboundMessageAgent outboundMessageAgent;
 
     /**
-     * Gets the gallery item.
+     * Gets the gallery details.
      * 
-     * @param galleryName the gallery name
-     * @param imageSize the image size
-     * @return the gallery item
+     * @return the gallery details
      * @throws DataException the data exception
      */
-    public File getGalleryItemFile(String galleryName, ImageSize imageSize) throws DataException {
+    public List<GalleryDetailDto> getAll() throws DataException {
+        List<GalleryDetailDto> galleries = null;
         try {
-            return galleryFileSystem.getGalleryItem(galleryName, imageSize);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            // Get the list of galleries
+            List<ResourceDto> galleryResources = mediaServerAgent.getGallery();
+            MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
+            String pinnedGallery = myschoolProfile.getPinnedGallery();
+            galleries = GalleryDataAssembler.createGalleryDetails(galleryResources, pinnedGallery);
+        } catch (ResourceException resourceException) {
+            throw new DataException(resourceException.getMessage(), resourceException);
+        }
+        return galleries;
+    }
+
+    /**
+     * Gets the all in detail.
+     * 
+     * @return the all in detail
+     * @throws DataException the data exception
+     */
+    public List<GalleryDetailDto> getAllInDetail() throws DataException {
+        List<GalleryDetailDto> galleries = getAll();
+        if (galleries != null && !galleries.isEmpty()) {
+            for (GalleryDetailDto gallery : galleries) {
+                gallery.setGalleryItems(getGalleryItems(gallery.getGalleryName()));
+            }
+        }
+        return galleries;
+    }
+
+    /**
+     * Gets the gallery.
+     * 
+     * @param galleryName the gallery name
+     * @return the gallery
+     * @throws DataException the data exception
+     */
+    public GalleryDetailDto getGallery(String galleryName) throws DataException {
+        GalleryDetailDto gallery = new GalleryDetailDto();
+        gallery.setGalleryName(galleryName);
+        gallery.setGalleryItems(getGalleryItems(galleryName));
+        return gallery;
+    }
+
+    /**
+     * Gets the pinned.
+     * 
+     * @return the pinned
+     * @throws DataException the data exception
+     */
+    public GalleryDetailDto getPinned() throws DataException {
+        MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
+        String pinnedGallery = myschoolProfile.getPinnedGallery();
+        return getGallery(pinnedGallery);
+    }
+
+    /**
+     * Pin gallery.
+     * 
+     * @param galleryName the gallery name
+     * @throws DataException the data exception
+     */
+    public void pin(String galleryName) throws DataException {
+        try {
+            List<ResourceDto> galleryResources = mediaServerAgent.getGallery();
+            if (galleryName == null || galleryResources == null || galleryResources.isEmpty()) {
+                throw new DataException("There are no galleries present to pin.");
+            }
+            boolean exists = false;
+            for (ResourceDto galleryResource : galleryResources) {
+                String name = galleryResource.getName();
+                if (galleryName.equals(name)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                throw new DataException("Gallery '" + galleryName + "' does not exist");
+            }
+            List<GalleryDetailDto> galleryItems = getGalleryItems(galleryName);
+            if (galleryItems == null || galleryItems.isEmpty()) {
+                throw new DataException("Cannot Pin Gallery '" + galleryName
+                        + "'. There are no images in this gallery.");
+            }
+            profileManager.pinGallery(galleryName);
+        } catch (ResourceException resourceException) {
+            throw new DataException(resourceException.getMessage(), resourceException);
         }
     }
 
-	/**
-	 * Pin gallery.
-	 *
-	 * @param galleryName the gallery name
-	 * @throws DataException the data exception
-	 */
-	public void pin(String galleryName) throws DataException {
+    /**
+     * Creates the.
+     * 
+     * @param galleryName the gallery name
+     * @return true, if successful
+     * @throws DataException the data exception
+     */
+    public boolean create(String galleryName) throws DataException {
+        boolean success = false;
         try {
-        	File galleryFile = galleryFileSystem.getGalleryFile(galleryName);
-        	if (galleryFile == null) {
-        		throw new DataException("Gallery '" + galleryName + "' does not exist");
-        	}
-        	List<File> galleryItemFiles = galleryFileSystem.getGalleryItemFiles(galleryFile);
-        	if (galleryItemFiles == null || galleryItemFiles.isEmpty()) {
-        		throw new DataException("Cannot Pin Gallery '" + galleryName + "'. There are no images in this gallery.");
-        	}
-            galleryFileSystem.pinGallery(galleryFile);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            if (StringUtil.isNullOrBlank(galleryName)) {
+                throw new DataException("Gallery Name cannot be empty");
+            }
+            galleryName = galleryName.trim();
+            List<GalleryDetailDto> galleryDetails = getAll();
+            if (galleryDetails != null && !galleryDetails.isEmpty()) {
+                for (GalleryDetailDto galleryDetail : galleryDetails) {
+                    if (galleryName.equalsIgnoreCase(galleryDetail.getGalleryName())) {
+                        throw new DataException("Gallery '" + galleryName + "' already exists");
+                    }
+                }
+            }
+            // Send Command
+            outboundMessageAgent.sendMessage("Create Gallery: " + galleryName);
+        } catch (Exception fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(),
+                    fileSystemException);
         }
+        return success;
     }
 
-	/**
-	 * Creates the.
-	 *
-	 * @param galleryName the gallery name
-	 * @return true, if successful
-	 * @throws DataException the data exception
-	 */
-	public boolean create(String galleryName) throws DataException {
-		boolean success=false;
+    /**
+     * Update.
+     * 
+     * @param oldGalleryName the old gallery name
+     * @param newGalleryName the new gallery name
+     * @return true, if successful
+     * @throws DataException the data exception
+     */
+    public boolean update(String oldGalleryName, String newGalleryName)
+            throws DataException {
+        boolean success = false;
         try {
-        	if (StringUtil.isNullOrBlank(galleryName)) {
-        		throw new DataException("Gallery Name cannot be empty");
-        	}
-        	galleryName = galleryName.trim();
-        	List<GalleryDetailDto> galleryDetails = getAll();
-        	if (galleryDetails != null && !galleryDetails.isEmpty()) {
-        		for (GalleryDetailDto galleryDetail : galleryDetails) {
-        			if (galleryName.equalsIgnoreCase(galleryDetail.getGalleryName())) {
-        				throw new DataException("Gallery '" + galleryName + "' already exists");
-        			}
-        		}
-        	}
-        	File galleryFile = galleryFileSystem.createGallery(galleryName);
-        	success = (galleryFile != null && galleryFile.exists());
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            if (StringUtil.isNullOrBlank(oldGalleryName)) {
+                throw new DataException("Old Gallery Name cannot be empty");
+            }
+            if (StringUtil.isNullOrBlank(newGalleryName)) {
+                throw new DataException("New Gallery Name cannot be empty");
+            }
+            oldGalleryName = oldGalleryName.trim();
+            newGalleryName = newGalleryName.trim();
+            if (oldGalleryName.equalsIgnoreCase(newGalleryName)) {
+                throw new DataException("New Gallery Name is same as the old gallery name");
+            }
+            List<GalleryDetailDto> galleryDetails = getAll();
+            if (galleryDetails == null || galleryDetails.isEmpty()) {
+                throw new DataException(
+                        "There are no galleries present to rename");
+            }
+            // Old gallery name must exist and new gallery name must not exist
+            boolean galleryExists = false, newGalleryPresent = false;
+            for (GalleryDetailDto galleryDetail : galleryDetails) {
+                String galleryName = galleryDetail.getGalleryName();
+                if (oldGalleryName.equals(galleryName)) {
+                    galleryExists = true;
+                }
+                if (newGalleryName.equals(galleryName)) {
+                    newGalleryPresent = true;
+                }
+            }
+            if (!galleryExists) {
+                throw new DataException("Gallery '" + oldGalleryName + "' does not exist");
+            }
+            if (newGalleryPresent) {
+                throw new DataException("A Gallery exists with name '" + newGalleryName + "'");
+            }
+            // Send Command
+            outboundMessageAgent.sendMessage("Update Gallery Name from: " + oldGalleryName + " to " + newGalleryName);
+            success = true;
+        } catch (Exception fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(),
+                    fileSystemException);
         }
-		return success;
+        return success;
     }
 
-	/**
-	 * Update.
-	 *
-	 * @param oldGalleryName the old gallery name
-	 * @param newGalleryName the new gallery name
-	 * @return true, if successful
-	 * @throws DataException the data exception
-	 */
-	public boolean update(String oldGalleryName, String newGalleryName) throws DataException {
-		boolean success=false;
+    /**
+     * Delete.
+     * 
+     * @param galleryName the gallery name
+     * @return true, if successful
+     * @throws DataException the data exception
+     */
+    public boolean delete(String galleryName) throws DataException {
+        boolean success = false;
         try {
-        	if (StringUtil.isNullOrBlank(oldGalleryName)) {
-        		throw new DataException("Old Gallery Name cannot be empty");
-        	}
-        	if (StringUtil.isNullOrBlank(newGalleryName)) {
-        		throw new DataException("New Gallery Name cannot be empty");
-        	}
-        	oldGalleryName = oldGalleryName.trim();
-        	newGalleryName = newGalleryName.trim();
-        	if (oldGalleryName.equalsIgnoreCase(newGalleryName)) {
-        		throw new DataException("New Gallery Name is same as the old gallery name");
-        	}
-        	// Old gallery name must exist and new gallery name must not exist
-        	File oldFile=null, newFile=null;
-        	List<GalleryDetailDto> galleryDetails = getAll();
-        	if (galleryDetails == null || galleryDetails.isEmpty()) {
-        		throw new DataException("There are no galleries present to rename");
-        	}
-        	for (GalleryDetailDto galleryDetail : galleryDetails) {
-        		String galleryName = galleryDetail.getGalleryName();
-				if (oldGalleryName.equals(galleryName)) {
-					oldFile=galleryDetail.getFile();
-				}
-				if (newGalleryName.equals(galleryName)) {
-					newFile=galleryDetail.getFile();
-				}
-			}
-        	if (oldFile == null) {
-        		throw new DataException("Gallery '" + oldGalleryName + "' does not exist");
-        	}
-        	if (newFile != null) {
-        		throw new DataException("A Gallery exists with name '" + newGalleryName+ "'");
-        	}
-        	success = galleryFileSystem.renameGallery(oldFile, newGalleryName);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            if (StringUtil.isNullOrBlank(galleryName)) {
+                throw new DataException("Gallery Name cannot be empty");
+            }
+            galleryName = galleryName.trim();
+            // gallery name must exist
+            List<GalleryDetailDto> galleryDetails = getAll();
+            if (galleryDetails == null || galleryDetails.isEmpty()) {
+                throw new DataException("There are no galleries present to delete");
+            }
+            boolean exists = false;
+            for (GalleryDetailDto galleryDetail : galleryDetails) {
+                if (galleryName.equals(galleryDetail.getGalleryName())) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (!exists) {
+                throw new DataException("Gallery '" + galleryName + "' does not exist");
+            }
+            // Remove pin if its a pinned gallery
+            MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
+            String pinnedGallery = myschoolProfile.getPinnedGallery();
+            if (galleryName.equals(pinnedGallery)) {
+                profileManager.pinGallery(null);
+            }
+            // Send Command
+            outboundMessageAgent.sendMessage("Delete Gallery: " + galleryName);
+            success = true;
+        } catch (Exception fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(),
+                    fileSystemException);
         }
-		return success;
+        return success;
     }
 
-	/**
-	 * Delete.
-	 *
-	 * @param galleryName the gallery name
-	 * @return true, if successful
-	 * @throws DataException the data exception
-	 */
-	public boolean delete(String galleryName) throws DataException {
-		boolean success=false;
+    /**
+     * Adds the.
+     * 
+     * @param galleryName the gallery name
+     * @param galleryItemFile the gallery item file
+     * @return true, if successful
+     * @throws DataException the data exception
+     */
+    public boolean add(String galleryName, File galleryItemFile) throws DataException {
+        boolean success = false;
         try {
-        	if (StringUtil.isNullOrBlank(galleryName)) {
-        		throw new DataException("Gallery Name cannot be empty");
-        	}
-        	galleryName = galleryName.trim();
-        	// gallery name must exist
-        	File existingFile=null;
-        	List<GalleryDetailDto> galleryDetails = getAll();
-        	if (galleryDetails == null || galleryDetails.isEmpty()) {
-        		throw new DataException("There are no galleries present to delete");
-        	}
-        	for (GalleryDetailDto galleryDetail : galleryDetails) {
-				if (galleryName.equals(galleryDetail.getGalleryName())) {
-					existingFile=galleryDetail.getFile();
-					break;
-				}
-			}
-        	if (existingFile == null) {
-        		throw new DataException("Gallery '" + galleryName + "' does not exist");
-        	}
-        	success = galleryFileSystem.deleteGallery(existingFile);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            if (StringUtil.isNullOrBlank(galleryName)) {
+                throw new DataException("Gallery Name cannot be empty");
+            }
+            if (galleryItemFile == null) {
+                throw new DataException("Could not add file as it is missing.");
+            }
+            String galleryItemName = galleryItemFile.getName();
+            if (StringUtil.isNullOrBlank(galleryItemName)) {
+                throw new DataException("Gallery Item Name cannot be empty");
+            }
+            FileUtil.checkFile(galleryItemFile, "Gallery Item file is missing", "Gallery Item file does not exist");
+            galleryName = galleryName.trim();
+            galleryItemName = galleryItemName.trim();
+
+            // gallery name must exist
+            GalleryDetailDto existingGalleryDetail = null;
+            List<GalleryDetailDto> galleries = getAll();
+            if (galleries == null || galleries.isEmpty()) {
+                throw new DataException("There are no galleries present to add images");
+            }
+            for (int index = 0; index < galleries.size(); index++) {
+                existingGalleryDetail = galleries.get(index);
+                if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
+                    break;
+                }
+            }
+            if (existingGalleryDetail == null) {
+                throw new DataException("Gallery '" + galleryName + "' does not exist");
+            }
+            // Send Command
+            outboundMessageAgent.sendMessage("Add Image " + galleryItemName + " to Gallery: " + galleryName);
+            success = true;
+        } catch (Exception fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(),
+                    fileSystemException);
         }
-		return success;
+        return success;
     }
 
-	/**
-	 * Adds the.
-	 *
-	 * @param galleryName the gallery name
-	 * @param galleryItemDetail the gallery item detail
-	 * @return true, if successful
-	 * @throws DataException the data exception
-	 */
-	public boolean add(String galleryName, GalleryDetailDto galleryItemDetail) throws DataException {
-		boolean success = false;
+    /**
+     * Delete.
+     * 
+     * @param galleryName the gallery name
+     * @param galleryItemName the gallery item name
+     * @return true, if successful
+     * @throws DataException the data exception
+     */
+    public boolean delete(String galleryName, String galleryItemName)
+            throws DataException {
+        boolean success = false;
         try {
-        	if (StringUtil.isNullOrBlank(galleryName)) {
-        		throw new DataException("Gallery Name cannot be empty");
-        	}
-        	if (galleryItemDetail == null) {
-        		throw new DataException("Gallery Item information is not present");
-        	}
-        	String galleryItemName = galleryItemDetail.getGalleryName();
-        	if (StringUtil.isNullOrBlank(galleryItemName)) {
-        		throw new DataException("Gallery Item Name cannot be empty");
-        	}
-        	File galleryItemFromFile = galleryItemDetail.getFile();
-        	FileUtil.checkFile(galleryItemFromFile, "Gallery Item file is missing", "Gallery Item file does not exist");
-        	galleryItemName = galleryItemName.trim();
-        	galleryName = galleryName.trim();
-        	// gallery name must exist
-        	File existingGalleryFile=null;
-        	GalleryDetailDto existingGalleryDetail = null;
-        	List<GalleryDetailDto> galleryDetails = getAll();
-        	if (galleryDetails == null || galleryDetails.isEmpty()) {
-        		throw new DataException("There are no galleries present to add images");
-        	}
-        	for (int index = 0; index < galleryDetails.size(); index++) {
-        		existingGalleryDetail = galleryDetails.get(index);
-				if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
-					existingGalleryFile=existingGalleryDetail.getFile();
-					break;
-				}
-			}
-        	if (existingGalleryFile == null) {
-        		throw new DataException("Gallery '" + galleryName + "' does not exist");
-        	}
-        	File galleryItemToFile = new File(existingGalleryFile, galleryItemName);
-        	if (galleryItemToFile.exists()) {
-        		throw new DataException("Image already added to gallery");
-        	}
-        	success = galleryFileSystem.addGalleryItem(galleryItemFromFile, galleryItemToFile);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            if (StringUtil.isNullOrBlank(galleryName)) {
+                throw new DataException("Gallery Name cannot be empty");
+            }
+            if (StringUtil.isNullOrBlank(galleryItemName)) {
+                throw new DataException("Gallery Item name is not present");
+            }
+            galleryItemName = galleryItemName.trim();
+            galleryName = galleryName.trim();
+
+            // gallery name must exist
+            List<GalleryDetailDto> galleryDetails = getAllInDetail();
+            if (galleryDetails == null || galleryDetails.isEmpty()) {
+                throw new DataException("There are no galleries present to delete images");
+            }
+            boolean galleryExists = false;
+            for (GalleryDetailDto existingGalleryDetail : galleryDetails) {
+                if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
+                    galleryExists = true;
+                    break;
+                }
+            }
+            if (!galleryExists) {
+                throw new DataException("Gallery '" + galleryName + "' does not exist");
+            }
+            // Send Command
+            outboundMessageAgent.sendMessage("Delete Image " + galleryItemName + " from Gallery: " + galleryName);
+            success = true;
+        } catch (Exception fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(),
+                    fileSystemException);
         }
-		return success;
+        return success;
     }
 
-	/**
-	 * Adds the.
-	 *
-	 * @param galleryName the gallery name
-	 * @param galleryItemDetails the gallery item details
-	 * @return the list
-	 * @throws DataException the data exception
-	 */
-	public List<String> add(String galleryName, List<GalleryDetailDto> galleryItemDetails) throws DataException {
-		List<String> result = new ArrayList<String>();
+    /**
+     * Delete.
+     * 
+     * @param galleryName the gallery name
+     * @param galleryItemNames the gallery item names
+     * @return the list
+     * @throws DataException the data exception
+     */
+    public List<String> delete(String galleryName, List<String> galleryItemNames)
+            throws DataException {
+        List<String> result = new ArrayList<String>();
 
-		if (StringUtil.isNullOrBlank(galleryName)) {
-			throw new DataException("Gallery Name cannot be empty");
-		}
-		if (galleryItemDetails == null || galleryItemDetails.isEmpty()) {
-			throw new DataException("Gallery Item information is not present");
-		}
-		// Get the pinned directory to pin again after this operation
-		galleryName = galleryName.trim();
-		for (GalleryDetailDto galleryDetail : galleryItemDetails) {
-			boolean success = false;
-			try {
-				if (galleryDetail == null) {
-					result.add("Gallery Item information is not present");
-					continue;
-				}
-				String galleryItemName = galleryDetail.getGalleryName();
-				if (StringUtil.isNullOrBlank(galleryItemName)) {
-					result.add("Gallery Item Name cannot be empty");
-					continue;
-				}
-				File galleryItemFromFile = galleryDetail.getFile();
-				FileUtil.checkFile(galleryItemFromFile, "Gallery Item file is missing", "Gallery Item file does not exist");
-				galleryItemName = galleryItemName.trim();
-				
-				// gallery name must exist
-				File existingFile=null;
-				List<GalleryDetailDto> galleryDetails = getAll();
-				if (galleryDetails == null || galleryDetails.isEmpty()) {
-	        		throw new DataException("There are no galleries present to add images");
-	        	}
-				for (GalleryDetailDto existingGalleryDetail : galleryDetails) {
-					if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
-						existingFile=existingGalleryDetail.getFile();
-					}
-				}
-				if (existingFile == null) {
-					result.add("Gallery '" + galleryName + "' does not exist");
-					continue;
-				}
-				File galleryItemToFile = new File(existingFile, existingFile.getName());
-				if (galleryItemToFile.exists() || !galleryItemToFile.isFile()) {
-					result.add("Gallery Item '" + galleryName + "' already exist");
-					continue;
-				}
-				success = galleryFileSystem.addGalleryItem(galleryItemFromFile, galleryItemToFile);
-				if (success) {
-					result.add("Added Gallery Item '" + galleryName + "'");
-				} else {
-					result.add("Unable to add Gallery Item '" + galleryName + "'");
-				}
-			} catch (Exception exception) {
-				result.add("Error: " + exception.getMessage());
-			}
-		}
-		return result;
+        if (StringUtil.isNullOrBlank(galleryName)) {
+            throw new DataException("Gallery Name cannot be empty");
+        }
+        if (galleryItemNames == null || galleryItemNames.isEmpty()) {
+            throw new DataException("Gallery Item information is not present");
+        }
+        // Get the pinned directory to pin again after this operation
+        galleryName = galleryName.trim();
+        // gallery name must exist
+        List<GalleryDetailDto> galleryDetails = getAll();
+        if (galleryDetails == null || galleryDetails.isEmpty()) {
+            throw new DataException("There are no galleries present to delete images");
+        }
+        boolean galleryExists = false;
+        for (GalleryDetailDto existingGalleryDetail : galleryDetails) {
+            if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
+                galleryExists = true;
+                break;
+            }
+        }
+        if (!galleryExists) {
+            throw new DataException("Gallery '" + galleryName + "' does not exist");
+        }
+
+        for (String galleryItemName : galleryItemNames) {
+            try {
+                if (StringUtil.isNullOrBlank(galleryItemName)) {
+                    throw new DataException("Gallery Item Name is not present.");
+                } else {
+                    result.add("Gallery Item will be deleted.");
+                }
+            } catch (Exception exception) {
+                result.add("Error: " + exception.getMessage());
+            }
+        }
+        // Send Command
+        outboundMessageAgent.sendMessage("Delete Images " + galleryItemNames + " from Gallery: " + galleryName);
+        return result;
     }
 
-	/**
-	 * Delete.
-	 *
-	 * @param galleryName the gallery name
-	 * @param galleryItemName the gallery item name
-	 * @return true, if successful
-	 * @throws DataException the data exception
-	 */
-	public boolean delete(String galleryName, String galleryItemName) throws DataException {
-		boolean success = false;
+    /**
+     * Gets the gallery items.
+     * 
+     * @param galleryName the gallery name
+     * @return the gallery items
+     * @throws DataException the data exception
+     */
+    private List<GalleryDetailDto> getGalleryItems(String galleryName) throws DataException {
+        List<GalleryDetailDto> galleryItems = null;
         try {
-        	if (StringUtil.isNullOrBlank(galleryName)) {
-        		throw new DataException("Gallery Name cannot be empty");
-        	}
-        	if (StringUtil.isNullOrBlank(galleryItemName)) {
-        		throw new DataException("Gallery Item name is not present");
-        	}
-        	galleryItemName = galleryItemName.trim();
-        	galleryName = galleryName.trim();
-        	// gallery name must exist
-        	File existingFile=null;
-        	List<GalleryDetailDto> galleryDetails = getAll();
-        	if (galleryDetails == null || galleryDetails.isEmpty()) {
-        		throw new DataException("There are no galleries present to delete images");
-        	}
-        	for (GalleryDetailDto existingGalleryDetail : galleryDetails) {
-				if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
-					existingFile=existingGalleryDetail.getFile();
-				}
-			}
-        	if (existingFile == null) {
-        		throw new DataException("Gallery '" + galleryName + "' does not exist");
-        	}
-        	File galleryItemFile = new File(existingFile, existingFile.getName());
-        	if (!galleryItemFile.exists() || !galleryItemFile.isFile()) {
-        		throw new DataException("Gallery Item '" + galleryName + "' does not exist");
-        	}
-        	success = galleryFileSystem.deleteGalleryItem(existingFile);
-        } catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+            List<ResourceDto> galleryItemResources = mediaServerAgent.getGalleryItems(galleryName);
+            galleryItems = GalleryDataAssembler.createGalleryDetails(galleryItemResources, null);
+        } catch (ResourceException resourceException) {
+            throw new DataException(resourceException.getMessage(), resourceException);
         }
-		return success;
-    }
-
-	/**
-	 * Delete.
-	 *
-	 * @param galleryName the gallery name
-	 * @param galleryItemNames the gallery item names
-	 * @return the list
-	 * @throws DataException the data exception
-	 */
-	public List<String> delete(String galleryName, List<String> galleryItemNames) throws DataException {
-		List<String> result = new ArrayList<String>();
-
-		if (StringUtil.isNullOrBlank(galleryName)) {
-			throw new DataException("Gallery Name cannot be empty");
-		}
-		if (galleryItemNames == null || galleryItemNames.isEmpty()) {
-			throw new DataException("Gallery Item information is not present");
-		}
-		// Get the pinned directory to pin again after this operation
-		galleryName = galleryName.trim();
-		// gallery name must exist
-		File existingFile=null;
-		List<GalleryDetailDto> galleryDetails = getAll();
-		if (galleryDetails == null || galleryDetails.isEmpty()) {
-    		throw new DataException("There are no galleries present to delete images");
-    	}
-		for (GalleryDetailDto existingGalleryDetail : galleryDetails) {
-			if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
-				existingFile=existingGalleryDetail.getFile();
-			}
-		}
-		if (existingFile == null) {
-			throw new DataException("Gallery '" + galleryName + "' does not exist");
-		}
-		for (String galleryItemName : galleryItemNames) {
-			boolean success = false;
-			try {
-				File galleryItemFile = new File(existingFile, galleryItemName);
-				if (!galleryItemFile.exists() || !galleryItemFile.isFile()) {
-					result.add("Gallery Item '" + galleryName + "' does not exist");
-					continue;
-				}
-				success = galleryFileSystem.deleteGalleryItem(galleryItemFile);
-				if (success) {
-					result.add("Deleted Gallery Item '" + galleryItemName + "'");
-				} else {
-					result.add("Unable to delete Gallery Item '" + galleryItemName + "'");
-				}
-			} catch (Exception exception) {
-				result.add("Error: " + exception.getMessage());
-			}
-		}
-		return result;
+        return galleryItems;
     }
 
 }

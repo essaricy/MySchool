@@ -2,7 +2,6 @@ package com.myschool.infra.application;
 
 import java.io.File;
 import java.io.InputStream;
-import java.util.List;
 import java.util.Properties;
 
 import javax.annotation.PostConstruct;
@@ -11,7 +10,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.application.dto.FeatureDto;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ApplicationException;
 import com.myschool.common.exception.ConfigurationException;
@@ -92,15 +90,6 @@ public class ApplicationLoader {
             properties = PropertiesUtil.loadNestedProperties(fileSystemPropertiesFile);
         }
         return properties;
-    }
-
-    /**
-     * Gets the features.
-     * 
-     * @return the features
-     */
-    public List<FeatureDto> getFeatures() {
-        return appConfig.getFeatures();
     }
 
     /**

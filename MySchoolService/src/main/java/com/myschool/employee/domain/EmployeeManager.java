@@ -32,9 +32,9 @@ import com.myschool.employee.dto.EmployeeExperience;
 import com.myschool.employee.dto.EmployeePromotion;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
 import com.myschool.employee.dto.EmployeeSubjectDto;
-import com.myschool.infra.filesystem.agent.ImageFileSystem;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.infra.image.constants.ImageSize;
+import com.myschool.infra.middleware.agent.OutboundMessageAgent;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationType;
 import com.myschool.notification.domain.NotificationManager;
@@ -68,10 +68,6 @@ public class EmployeeManager {
     @Autowired
     private TempFileSystem tempFileSystem;
 
-    /** The image file system. */
-    @Autowired
-    private ImageFileSystem imageFileSystem;
-
     /** The profile manager. */
     @Autowired
     private ProfileManager profileManager;
@@ -99,6 +95,9 @@ public class EmployeeManager {
     /** The employee subject dao. */
     @Autowired
     private EmployeeSubjectDao employeeSubjectDao;
+
+    @Autowired
+    private OutboundMessageAgent outboundMessageAgent;
 
     /**
      * Gets the.
@@ -205,7 +204,8 @@ public class EmployeeManager {
         try {
             if (referenceNumber != null && employeeNumber != null) {
                 File fromFile = tempFileSystem.getEmployeeImage(referenceNumber, ImageSize.ORIGINAL);
-                imageFileSystem.createEmployeeImage(employeeNumber, fromFile);
+                //imageFileSystem.createEmployeeImage(employeeNumber, fromFile);
+                outboundMessageAgent.sendMessage("Will assign image " + fromFile + " to the employee: " + employeeNumber);
             }
         } catch (FileSystemException fileSystemException) {
             throw new DataException(fileSystemException.getMessage(), fileSystemException);

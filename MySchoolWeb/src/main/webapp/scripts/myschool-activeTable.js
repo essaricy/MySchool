@@ -514,18 +514,23 @@ var currentDataTable = null;
       reportButton.tooltipster();
       reportButton.click( function() {
         currentDataTable = oTable;
-        var title = getButtonAttribute('report', 'title');
-        var url = getButtonAttribute('report', 'url');
-        var width = getButtonAttribute('report', 'width');
-        var height = getButtonAttribute('report', 'height');
-        var selectRowMessage = getButtonAttribute('report', 'selectRowMessage');
-        var sendParams = getButtonAttribute('report', 'sendParams');
-        var anSelected = fnGetSelected(oTable);
-        if (anSelected == null) {
-          info_ac(selectRowMessage);
+        var callback = getButtonAttribute('report', 'callback');
+        if (callback == null || typeof callback == 'undefined') {
+            var title = getButtonAttribute('report', 'title');
+            var url = getButtonAttribute('report', 'url');
+            var width = getButtonAttribute('report', 'width');
+            var height = getButtonAttribute('report', 'height');
+            var selectRowMessage = getButtonAttribute('report', 'selectRowMessage');
+            var sendParams = getButtonAttribute('report', 'sendParams');
+            var anSelected = fnGetSelected(oTable);
+            if (anSelected == null) {
+              info_ac(selectRowMessage);
+            } else {
+              //modelDialog = openReportDialog(getUrl(url, sendParams), title, width, height);
+              modelDialog = openDialog(getUrl(url, sendParams), title, width, height);
+            }
         } else {
-          //modelDialog = openReportDialog(getUrl(url, sendParams), title, width, height);
-		  modelDialog = openDialog(getUrl(url, sendParams), title, width, height);
+            callback.call();
         }
       });
     }

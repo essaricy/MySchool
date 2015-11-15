@@ -18,6 +18,10 @@ public class ProfileDaoSql {
     /** The UPDATE_MYSCHOOL_PROFILE. */
     public static String UPDATE_MYSCHOOL_PROFILE;
 
+    /** The UPDATE_MYSCHOOL_PROFILE_PIN_GALLERY. */
+    public static String UPDATE_MYSCHOOL_PROFILE_PIN_GALLERY;
+
+    /** The UPDATE_AYE_STATUS. */
     public static String UPDATE_AYE_STATUS;
 
     static {
@@ -51,7 +55,8 @@ public class ProfileDaoSql {
         builder.append("USE_MENU_ICONS, ");
         builder.append("AYE_IN_PROGRESS, ");
         builder.append("USE_EMPLOYEE_SELF_SUBMIT, ");
-        builder.append("USE_STUDENT_SELF_SUBMIT ");
+        builder.append("USE_STUDENT_SELF_SUBMIT, ");
+        builder.append("PINNED_GALLERY ");
         builder.append("FROM ");
         builder.append("MYSCHOOL_PROFILE ");
         SELECT_MYSCHOOL_PROFILE = builder.toString();
@@ -71,10 +76,13 @@ public class ProfileDaoSql {
         builder.setLength(0);
 
         builder.append("UPDATE MYSCHOOL_PROFILE ");
+        builder.append("SET PINNED_GALLERY=? ");
+        UPDATE_MYSCHOOL_PROFILE_PIN_GALLERY = builder.toString();
+
+        builder.append("UPDATE MYSCHOOL_PROFILE ");
         builder.append("SET AYE_IN_PROGRESS=? ");
         UPDATE_AYE_STATUS = builder.toString();
         builder.setLength(0);
-
     }
 
 }

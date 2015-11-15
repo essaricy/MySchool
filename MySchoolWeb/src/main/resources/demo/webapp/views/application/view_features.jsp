@@ -89,7 +89,7 @@
     <c:if test="${featureStatus.count != 1}">
     <a href="#">
     </c:if>
-    <img src="<%=request.getContextPath()%>/images/${feature.imagePath}" alt="${feature.name}" width="600" height="360" rel="<h3>${feature.name}</h3>${feature.description}" border="1"/>
+    <img src="${feature.imagePath}" alt="${feature.name}" width="600" height="360" rel="<h3>${feature.name}</h3>${feature.description}" border="1"/>
     </a>
     </c:forEach>
     <div class="caption"><div class="content"></div></div>

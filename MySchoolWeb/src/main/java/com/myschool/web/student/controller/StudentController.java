@@ -74,7 +74,7 @@ public class StudentController {
     public ModelAndView launchVerifiedStudentsSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.VERIFIED);
+        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.VERIFIED);
         map.put("TITLE", "Search Students");
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.SEARCH_STUDENT, map);
@@ -92,7 +92,7 @@ public class StudentController {
     public ModelAndView launchUnverifiedStudentsSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.SEARCH_MODE, MySchoolConstant.UNVERIFIED);
+        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.UNVERIFIED);
         map.put("TITLE", "Search Students (Portal)");
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.SEARCH_STUDENT, map);
@@ -114,7 +114,7 @@ public class StudentController {
         if (!StringUtil.isNullOrBlank(admissionNumber)) {
             map.put("Student", studentService.get(admissionNumber));
         }
-        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        map.put(WebConstants.RECORD_STATUS, request.getParameter(WebConstants.RECORD_STATUS));
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.STUDENT_REGISTRATION, map);
     }
@@ -220,7 +220,7 @@ public class StudentController {
         	nextStudent = studentService.get(admissionNumber);
         }
         map.put("Student", nextStudent);
-        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        map.put(WebConstants.RECORD_STATUS, request.getParameter(WebConstants.RECORD_STATUS));
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.STUDENT_REGISTRATION, map);
     }
@@ -247,7 +247,7 @@ public class StudentController {
         	nextStudent = studentService.get(admissionNumber);
         }
         map.put("Student", nextStudent);
-        map.put(WebConstants.SEARCH_MODE, request.getParameter(WebConstants.SEARCH_MODE));
+        map.put(WebConstants.RECORD_STATUS, request.getParameter(WebConstants.RECORD_STATUS));
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.STUDENT_REGISTRATION, map);
     }

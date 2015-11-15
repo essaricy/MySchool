@@ -58,6 +58,7 @@ public class ProfileDataAssembler {
                 ConversionUtil.toBoolean(resultSet.getString("USE_EMPLOYEE_SELF_SUBMIT")));
         mySchoolProfile.setUseStudentSelfSubmit(
                 ConversionUtil.toBoolean(resultSet.getString("USE_STUDENT_SELF_SUBMIT")));
+        mySchoolProfile.setPinnedGallery(resultSet.getString("PINNED_GALLERY"));
         return mySchoolProfile;
     }
 

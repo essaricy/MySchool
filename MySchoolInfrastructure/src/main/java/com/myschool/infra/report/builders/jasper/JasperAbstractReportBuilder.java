@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Date;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -20,14 +19,18 @@ import net.sf.dynamicreports.report.constant.ComponentPositionType;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.exception.DRException;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.OrganizationProfileDto;
+import com.myschool.application.dto.ResourceDto;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.ConversionUtil;
-import com.myschool.infra.application.dto.MySchoolDto;
+import com.myschool.common.util.StringUtil;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
+import com.myschool.infra.media.agent.MediaServerAgent;
+import com.myschool.infra.media.exception.ResourceException;
 import com.myschool.infra.report.builders.ReportBuilder;
 import com.myschool.infra.report.constants.ReportStyles;
 import com.myschool.infra.report.exception.ReportException;
@@ -41,32 +44,38 @@ import com.myschool.report.dto.ReportDto;
 @Component
 public abstract class JasperAbstractReportBuilder implements ReportBuilder {
 
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = Logger.getLogger(JasperAbstractReportBuilder.class);
+
     /** The temp file system. */
     @Autowired
     private TempFileSystem tempFileSystem;
+
+    /** The media server agent. */
+    @Autowired
+    private MediaServerAgent mediaServerAgent;
 
     /**
      * Gets the base report.
      * 
      * @param organizationProfile the organization profile
-     * @param mySchoolDto the my school dto
-     * @param report 
+     * @param report the report
      * @param reportCriteria the report criteria
      * @return the base report
      * @throws ReportException the report exception
      */
-    protected JasperReportBuilder getBaseReport(OrganizationProfileDto organizationProfile,
-            MySchoolDto mySchoolDto, ReportDto report, ReportCriteria reportCriteria) throws ReportException {
+    protected JasperReportBuilder getBaseReport(
+            OrganizationProfileDto organizationProfile, ReportDto report,
+            ReportCriteria reportCriteria) throws ReportException {
         JasperReportBuilder reportBuilder = null;
         if (reportCriteria == null) {
             throw new ReportException("No Report Criteria.");
         }
-        Hashtable<String, Object> reportParameters = report.getReportParameters();
+        //Hashtable<String, Object> reportParameters = report.getReportParameters();
         reportBuilder = DynamicReports.report();
         ComponentBuilders componentBuilders = DynamicReports.cmp;
         // Logo Builder
-        File logoImage = (File) reportParameters.get("LOGO");
-        ImageBuilder logo = componentBuilders.image(logoImage.getAbsolutePath());
+        ImageBuilder logo = componentBuilders.image(getLogo());
         logo.setFixedDimension(80, 80);
         logo.setPositionType(ComponentPositionType.FLOAT);
 
@@ -175,4 +184,25 @@ public abstract class JasperAbstractReportBuilder implements ReportBuilder {
         return reportFile;
     }
 
+    /**
+     * Gets the logo.
+     * 
+     * @return the logo
+     */
+    private String getLogo() {
+        String thumbnailUrl = null;
+        try {
+            ResourceDto logo = mediaServerAgent.getLogo();
+            if (logo == null || logo.getThumbnailUrl() == null) {
+                throw new ResourceException("LOGO resource is null");
+            }
+            thumbnailUrl = logo.getThumbnailUrl();
+            if (StringUtil.isNullOrBlank(thumbnailUrl)) {
+                throw new ResourceException("LOGO/thumbnail is null");
+            }
+        } catch (ResourceException resourceException) {
+            LOGGER.warn("Unable to load the logo into the report. " + resourceException.getMessage());
+        }
+        return thumbnailUrl;
+    }
 }

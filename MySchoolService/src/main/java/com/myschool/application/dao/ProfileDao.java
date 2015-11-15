@@ -52,4 +52,13 @@ public interface ProfileDao {
      */
     boolean updateAyeProgress(String ayeProgressStatus) throws DaoException;
 
+    /**
+     * Pin gallery.
+     * 
+     * @param galleryName the gallery name
+     * @return true, if successful
+     * @throws DaoException the dao exception
+     */
+    boolean pinGallery(String galleryName) throws DaoException;
+
 }

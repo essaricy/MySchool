@@ -22,9 +22,9 @@ jQuery(document).ready(function() {
   $("#StudentAccordion").accordion( "option", "active", 0);
 
   var searchUrl = null;
-  if ($('#SEARCH_MODE').val() == 'VERIFIED') {
+  if ($('#RECORD_STATUS').val() == 'VERIFIED') {
     searchUrl = '<%=request.getContextPath()%>/student/launchVerifiedStudentsSearch.htm';
-  } else if ($('#SEARCH_MODE').val() == 'UNVERIFIED') {
+  } else if ($('#RECORD_STATUS').val() == 'UNVERIFIED') {
     searchUrl = '<%=request.getContextPath()%>/student/launchUnverifiedStudentsSearch.htm';
   }
 
@@ -39,12 +39,12 @@ jQuery(document).ready(function() {
   });
 
   $('#previous').click(function () {
-    document.forms[0].action='<%=request.getContextPath()%>/student/getPreviousStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#SEARCH_MODE').val();;
+    document.forms[0].action='<%=request.getContextPath()%>/student/getPreviousStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
   $('#next').click(function () {
-    document.forms[0].action='<%=request.getContextPath()%>/student/getNextStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#SEARCH_MODE').val();;
+    document.forms[0].action='<%=request.getContextPath()%>/student/getNextStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
@@ -200,7 +200,7 @@ jQuery(document).ready(function() {
 });
 </script>
 
-<input type="hidden" id="SEARCH_MODE" name="SEARCH_MODE" value="${SEARCH_MODE}" />
+<input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
 <c:if test="${Student == null}">
   <input type="hidden" id="StudentId" value="0" />
 </c:if>
@@ -226,7 +226,7 @@ jQuery(document).ready(function() {
 <table cellpadding="2" width="90%" align="center" cellspacing="0" border="0">
   <caption class="dataTableCaption">
     Student Registration
-    <c:if test="${SEARCH_MODE == 'UNVERIFIED'}"> (Portal) </c:if>
+    <c:if test="${RECORD_STATUS == 'UNVERIFIED'}"> (Portal) </c:if>
   </caption>
   <tr>
     <td colspan="2" align="right" valign="top" style="padding-top: 8px;">

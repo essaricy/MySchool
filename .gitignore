@@ -49,6 +49,7 @@ Temporary Items
 .metadata*
 true
 
+DataLoaders/
 MySchoolBase/bin
 MySchoolBase/target
 MySchoolInfrastructure/bin
@@ -59,5 +60,6 @@ MySchoolScheduler/bin
 MySchoolScheduler/target
 MySchoolService/bin
 MySchoolService/target
+MySchoolTransformation/target
 MySchoolWeb/bin
 MySchoolWeb/target

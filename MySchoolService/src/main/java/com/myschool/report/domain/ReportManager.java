@@ -7,13 +7,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.application.domain.ImageManager;
 import com.myschool.application.domain.ProfileManager;
 import com.myschool.application.dto.OrganizationProfileDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.application.ApplicationLoader;
 import com.myschool.infra.report.agent.ReportAgent;
 import com.myschool.infra.report.builders.ReportBuilder;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
@@ -30,10 +28,6 @@ import com.myschool.report.factory.ReportBuilderFactory;
 @Component
 public class ReportManager {
 
-    /** The application loader. */
-    @Autowired
-    private ApplicationLoader applicationLoader;
-
     /** The report agent. */
     @Autowired
     private ReportAgent reportAgent;
@@ -49,10 +43,6 @@ public class ReportManager {
     /** The report builder factory. */
     @Autowired
     private ReportBuilderFactory reportBuilderFactory;
-
-    /** The image manager. */
-    @Autowired
-    private ImageManager imageManager;
 
     /**
      * Gets the all.
@@ -127,7 +117,6 @@ public class ReportManager {
                 reportParameters = new Hashtable<String, Object>();
                 report.setReportParameters(reportParameters);
             }
-            reportParameters.put("LOGO", imageManager.getLogo());
             if (reportBuilder instanceof SimpleListingReportBuilder) {
                 String[] listingHeaders = ((SimpleListingReportBuilder) reportBuilder).getListingHeaders();
                 if (listingHeaders != null) {
@@ -138,7 +127,7 @@ public class ReportManager {
                     reportParameters.put("LISTING_DATA", listingData);
                 }
             }
-            reportFile = reportBuilderImpl.generateReport(organizationProfile, applicationLoader.getMySchool(), report, reportCriteria);
+            reportFile = reportBuilderImpl.generateReport(organizationProfile, report, reportCriteria);
         } catch (ReportException reportException) {
             throw new DataException(reportException.getMessage(), reportException);
         } catch (DaoException daoException) {

@@ -1,11 +1,9 @@
 package com.myschool.application.service;
 
-import java.io.File;
 import java.util.List;
 
 import com.myschool.application.dto.FeatureDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.infra.image.constants.ImageSize;
 
 /**
  * The Interface ImageService.
@@ -17,23 +15,24 @@ public interface ImageService {
      * 
      * @return the logo
      * @throws ServiceException the service exception
-     */
+     *//*
     File getLogo() throws ServiceException;
 
-    /**
+    *//**
      * Gets the no image.
      * 
      * @return the no image
      * @throws ServiceException the service exception
-     */
-    File getNoImage() throws ServiceException;
+     *//*
+    File getNoImage() throws ServiceException;*/
 
     /**
      * Gets the features.
      * 
      * @return the features
+     * @throws ServiceException the service exception
      */
-    List<FeatureDto> getFeatures();
+    List<FeatureDto> getFeatures() throws ServiceException;
 
     /**
      * Gets the student image.
@@ -42,27 +41,27 @@ public interface ImageService {
      * @param imageSize the image size
      * @return the student image
      * @throws ServiceException the service exception
-     */
+     *//*
     File getStudentImage(String admissionNumber, ImageSize imageSize) throws ServiceException;
 
-    /**
+    *//**
      * Gets the employee image.
      * 
      * @param employeeNumber the employee number
      * @param imageSize the image size
      * @return the employee image
      * @throws ServiceException the service exception
-     */
+     *//*
     File getEmployeeImage(String employeeNumber, ImageSize imageSize) throws ServiceException;
 
-    /**
+    *//**
      * Gets the org image.
      * 
      * @param imageName the image name
      * @param imageSize the image size
      * @return the org image
      * @throws ServiceException the service exception
-     */
-    File getOrgImage(String imageName, ImageSize imageSize) throws ServiceException;
+     *//*
+    File getOrgImage(String imageName, ImageSize imageSize) throws ServiceException;*/
 
 }

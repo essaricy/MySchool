@@ -34,7 +34,7 @@ public class BrochureServiceImpl implements BrochureService {
     @Override
     public List<BrochureDto> getAll() throws ServiceException {
         try {
-            return brochureManager.getBrochures();
+            return brochureManager.getAll();
         } catch (DataException dataException) {
             throw new ServiceException(dataException.getMessage(), dataException);
         }
@@ -62,18 +62,6 @@ public class BrochureServiceImpl implements BrochureService {
     @Override
     public boolean delete(int id) throws ServiceException {
         return false;
-    }
-
-    /* (non-Javadoc)
-     * @see com.myschool.download.service.BrochureService#getBrochure(java.lang.String)
-     */
-    @Override
-    public BrochureDto getBrochure(String brochureName) throws ServiceException {
-        try {
-            return brochureManager.getBrochure(brochureName);
-        } catch (DataException dataException) {
-            throw new ServiceException(dataException.getMessage(), dataException);
-        }
     }
 
 }

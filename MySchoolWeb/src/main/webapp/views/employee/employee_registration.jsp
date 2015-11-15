@@ -18,10 +18,13 @@ jQuery(document).ready(function() {
   $("#EmployeeAccordion").accordion( "option", "active", 0);
 
   var searchUrl = null;
-  if ($('#SEARCH_MODE').val() == 'VERIFIED') {
+  var resourceUrl = null;
+  if ($('#RECORD_STATUS').val() == 'VERIFIED') {
       searchUrl='<%=request.getContextPath()%>/employee/launchVerifiedEmployeesSearch.htm';
-  } else if ($('#SEARCH_MODE').val() == 'UNVERIFIED') {
+      resourceUrl='${RESOURCE_PROFILE.employeeRegistered.resourceUrl}';
+  } else if ($('#RECORD_STATUS').val() == 'UNVERIFIED') {
       searchUrl='<%=request.getContextPath()%>/employee/launchUnverifiedEmployeesSearch.htm';
+      resourceUrl='${RESOURCE_PROFILE.employeePortal.resourceUrl}';
   }
 
   $('#add').click(function () {
@@ -35,19 +38,19 @@ jQuery(document).ready(function() {
   });
 
   $('#previous').click(function () {
-    document.forms[0].action='<%=request.getContextPath()%>/employee/getPreviousEmployee.htm?EmployeeNumber=' + $('#EmployeeNumber').val() + "&Type=" + $('#SEARCH_MODE').val();;
+    document.forms[0].action='<%=request.getContextPath()%>/employee/getPreviousEmployee.htm?EmployeeNumber=' + $('#EmployeeNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
   $('#next').click(function () {
-    document.forms[0].action='<%=request.getContextPath()%>/employee/getNextEmployee.htm?EmployeeNumber=' + $('#EmployeeNumber').val() + "&Type=" + $('#SEARCH_MODE').val();;
+    document.forms[0].action='<%=request.getContextPath()%>/employee/getNextEmployee.htm?EmployeeNumber=' + $('#EmployeeNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
   if ($('#EmployeeId').val() == '0') {
       $('#add').hide();
-	  $('#previous').hide();
-	  $('#next').hide();
+      $('#previous').hide();
+      $('#next').hide();
       $('#uploadImage').attr('title', 'Add Picture');
       $('#print').hide();
   } else {
@@ -95,7 +98,7 @@ jQuery(document).ready(function() {
       showSuccess('Image has been successfully uploaded and will be updated when saved.');
       // Replace image with some fading effect
       var employeeImage = $('#employeeImage');
-      var employeeImageUrl = '<%=request.getContextPath()%>/image/getImage.htm?type=employee&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var employeeImageUrl = resourceUrl + '/' + response.ReferenceNumber;
       employeeImage.fadeOut(1000, function () {
         employeeImage.attr('src', employeeImageUrl);
         // Magnify image on click
@@ -209,7 +212,7 @@ jQuery(document).ready(function() {
 });
 </script>
 
-<input type="hidden" id="SEARCH_MODE" name="SEARCH_MODE" value="${SEARCH_MODE}" />
+<input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
 <c:if test="${Employee == null}">
   <input type="hidden" id="EmployeeId" value="0" />
 </c:if>
@@ -238,7 +241,7 @@ jQuery(document).ready(function() {
 <table cellpadding="2" width="90%" align="center" cellspacing="0" border="0">
   <caption class="dataTableCaption">
     Employee Registration
-    <c:if test="${SEARCH_MODE == 'UNVERIFIED'}"> (Portal) </c:if>
+    <c:if test="${RECORD_STATUS == 'UNVERIFIED'}"> (Portal) </c:if>
   </caption>
   <tr>
     <td colspan="2" align="right" valign="middle" style="padding-top: 8px;">
@@ -246,7 +249,7 @@ jQuery(document).ready(function() {
       <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Create Employee" />
       <img id="search" src="<%=request.getContextPath()%>/images/icons/magnifier.png" class="iconImage" title="Search Employees" />
       <img id="previous" src="<%=request.getContextPath()%>/images/icons/back.png" class="iconImage" title="Previous Employee" />
-	  <img id="next" src="<%=request.getContextPath()%>/images/icons/forward.png" class="iconImage" title="Next Employee" />
+      <img id="next" src="<%=request.getContextPath()%>/images/icons/forward.png" class="iconImage" title="Next Employee" />
       <img id="uploadImage" src="<%=request.getContextPath()%>/images/icons/picture_edit.png" class="iconImage" title="" />
       <img id="save" src="<%=request.getContextPath()%>/images/icons/save.png" class="iconImage" title="Save Employee" />
       <img id="save_verify" src="<%=request.getContextPath()%>/images/icons/save_accept.png" class="iconImage" title="Save & Verify Employee" />
@@ -260,7 +263,7 @@ jQuery(document).ready(function() {
       <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
         <tr>
           <td align="center">
-            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
+            <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.noImage.resourceUrl}" border="1" width="150px" height="180px"/>
           </td>
         </tr>
       </table>
@@ -269,7 +272,12 @@ jQuery(document).ready(function() {
       <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
         <tr>
           <td align="center">
-            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=employee&imageSize=ORIGINAL&contentId=${Employee.employeeNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>
+            <c:if test="${RECORD_STATUS == 'VERIFIED'}">
+            <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeeRegistered.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            </c:if>
+            <c:if test="${RECORD_STATUS == 'UNVERIFIED'}">
+            <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeePortal.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            </c:if>
           </td>
         </tr>
       </table>
