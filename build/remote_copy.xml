@@ -1,11 +1,20 @@
-<project name="MySchool" default="CopyToRemote" basedir="../">
-	<description>Builds and deploys MySchool to server</description>
+<project name="MySchool" basedir="../">
+	<description>Remote copy features</description>
 
-	<target name="CopyToRemote">
-		<echo message="Copying file to remote machine." />
-		<scp remoteTodir="${remote.user}@${remote.host}:${remote.dir}"
-			password="${remote.password}" trust="yes" sftp="true" verbose="true">
-			<fileset dir="${local.dir}"/>
-		</scp>
-	</target>
+    <target name="Copy-FTP">
+        <echo message="Copying file to remote machine." />
+        <ftp server="${ftp.server.name}" remotedir="${ftp.remote.dir}"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}">
+            <fileset dir="${ftp.file}"/>
+        </ftp>
+    </target>
+
+    <target name="Copy-SCP">
+        <echo message="Copying file to remote machine." />
+        <scp remoteTodir="${remote.user}@${remote.host}:${remote.dir}"
+            password="${remote.password}" trust="yes" sftp="true" verbose="true">
+            <fileset dir="${local.dir}"/>
+        </scp>
+    </target>
+
 </project>

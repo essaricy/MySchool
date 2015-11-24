@@ -25,7 +25,7 @@
         <param name="MaxFileSize" value="5MB"/>
         <param name="MaxBackupIndex" value="10"/>
         <param name="DatePattern" value="yyyy-MM-dd" />
-        <param name="File" value="@LOG.FILE.NAME@" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/@LOG.FILE.NAME@" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %-5p [%c{1}] %m%n" />
         </layout>

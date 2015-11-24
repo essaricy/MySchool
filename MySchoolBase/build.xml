@@ -9,39 +9,23 @@
     <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
 
     <target name="Clean">
-        <echo message="Cleaning ${ant.project.name} ${basedir}" />
         <delete dir="${target.dir}" />
         <mkdir dir="${target.dir}"/>
         <mkdir dir="${classes.dir}"/>
     </target>
 
     <target name="Build">
-        <javac srcdir="${src.dir}"
+        <javac srcdir="${src.main.java}"
             destdir="${classes.dir}" classpathref="jars-classpath"
             source="1.6" target="1.6" includeantruntime="true" />
         <jar destfile="${target.dir}/${myschool.base}.jar" basedir="${classes.dir}" />
     </target>
 
     <target name="Deploy">
-        <copy todir="${myschool.dir}/${lib}" file="${target.dir}/${myschool.base}.jar" />
+        <copy file="${target.dir}/${myschool.base}.jar" todir="${stage.dir}/${deploy.lib}" />
         <!-- Deploy config items -->
-        <copy todir="${myschool.dir}/${config}">
-            <fileset dir="${resources.dir}/${config}" />
+        <copy todir="${stage.dir}/${deploy.config}">
+            <fileset dir="${src.main.resources.config}" />
         </copy>
-        <antcall target="UpdateResources" />
-    </target>
-
-    <target name="UpdateResources">
-        <echo message="Updating all resources at ${myschool.base.dir}/${myschool.name}/${config} " />
-        <echo message="With token '@MYSCHOOL.DIR@' = '${myschool.base.dir}/${myschool.name}'" />
-        <echo message="With token '@MYSCHOOL.NAME@' = '${myschool.name}'" />
-        <echo message="With token '@DATABASE.NAME@' = '${myschool.name}'" />
-
-        <replace dir="${myschool.base.dir}/${myschool.name}/${config}">
-          <include name="**/*.*"/>
-          <replacefilter token="@MYSCHOOL.DIR@" value="${myschool.base.dir}/${myschool.name}" />
-          <replacefilter token="@MYSCHOOL.NAME@" value="${myschool.name}" />
-          <replacefilter token="@DATABASE.NAME@" value="${myschool.name}" />
-        </replace>
     </target>
 </project>

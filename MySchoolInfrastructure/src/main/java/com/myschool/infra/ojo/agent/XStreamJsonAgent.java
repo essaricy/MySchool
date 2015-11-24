@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.batik.xml.XMLException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -102,14 +101,14 @@ public class XStreamJsonAgent extends OjoAgent {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.infra.xml.agent.XmlAgent#toJson(java.lang.Object)
+     * @see com.myschool.infra.ojo.agent.OjoAgent#toJson(java.lang.Object)
      */
     @Override
     public String toJson(Object object) {
-        if (!(object instanceof Serializable)) {
-            throw new XMLException("Object must be serializable to convert to JSON.");
+        if (object instanceof Serializable) {
+            return X_STREAM_JSON_WRITER.toXML(object);
         }
-        return X_STREAM_JSON_WRITER.toXML(object);
+        return null;
     }
 
     /* (non-Javadoc)

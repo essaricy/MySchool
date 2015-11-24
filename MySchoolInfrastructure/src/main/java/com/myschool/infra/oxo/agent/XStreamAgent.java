@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 
-import org.apache.batik.xml.XMLException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -92,14 +91,14 @@ public class XStreamAgent extends OxoAgent {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.infra.xml.agent.XmlAgent#toXml(java.lang.Object)
+     * @see com.myschool.infra.oxo.agent.OxoAgent#toXml(java.lang.Object)
      */
     @Override
     public String toXml(Object object) {
-        if (!(object instanceof Serializable)) {
-            throw new XMLException("Object must be serializable to convert to XML.");
+        if (object instanceof Serializable) {
+            return X_STREAM.toXML(object);
         }
-        return X_STREAM.toXML(object);
+        return null;
     }
 
     /* (non-Javadoc)

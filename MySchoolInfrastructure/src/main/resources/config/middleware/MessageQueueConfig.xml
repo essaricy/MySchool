@@ -9,8 +9,8 @@
 <mq-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <message-queues>
         <message-queue category="COMMAND_EXECUTOR" description="Executes commands sent by other applications."
-            output="MYSCHOOL.@MYSCHOOL.NAME@.COMMAND.OUTPUT"
-            fail="MYSCHOOL.@MYSCHOOL.NAME@.COMMAND.FAIL"
-            error="MYSCHOOL.@MYSCHOOL.NAME@.COMMAND.ERROR"/>
+            output="MYSCHOOL.@@MYSCHOOL.NAME@@.COMMAND.OUTPUT"
+            fail="MYSCHOOL.@@MYSCHOOL.NAME@@.COMMAND.FAIL"
+            error="MYSCHOOL.@@MYSCHOOL.NAME@@.COMMAND.ERROR"/>
     </message-queues>
 </mq-configuration>

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-    @MYSCHOOL.NAME@ - replaces with myschool name, replaced only during build
     @BASE_URL@ - Represents base url, defined in base-url
     @PARENT_URL@ - Represents parent url
     @RESOURCE_NAME@ - Resource Name
  -->
 
-<media-server base-url="http://192.168.0.12:8080"
+<media-server base-url="@@MEDIASERVER.WEB.URL@@"
     passport="@PARENT_URL@/PASSPORT/@RESOURCE_NAME@" thumbnail="@PARENT_URL@/THUMBNAIL/@RESOURCE_NAME@">
 
     <!-- File resources -->

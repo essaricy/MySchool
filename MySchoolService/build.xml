@@ -6,62 +6,42 @@
         <fileset dir="../${lib}" includes="*.jar" />
         <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
         <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
-    	<fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
+        <fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
     </path>
 
     <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
 
     <target name="Clean">
-        <echo message="Cleaning ${ant.project.name} ${basedir}" />
         <delete dir="${target.dir}" />
         <mkdir dir="${target.dir}"/>
         <mkdir dir="${classes.dir}"/>
     </target>
 
     <target name="Build">
-        <javac srcdir="${src.dir}"
+        <javac srcdir="${src.main.java}"
             destdir="${classes.dir}" classpathref="jars-classpath"
             source="1.6" target="1.6" includeantruntime="true" />
         <jar destfile="${target.dir}/${myschool.service}.jar" basedir="${classes.dir}" />
     </target>
 
     <target name="Deploy">
-        <copy todir="${myschool.dir}/${lib}" file="${target.dir}/${myschool.service}.jar" />
+        <copy file="${target.dir}/${myschool.service}.jar" todir="${stage.dir}/${deploy.lib}" />
 
         <!-- Deploy config items -->
-        <copy todir="${myschool.dir}/${config}">
-            <fileset dir="${resources.dir}/${config}" />
+        <copy todir="${stage.dir}/${deploy.config}">
+            <fileset dir="${src.main.resources.config}" />
         </copy>
-        <!-- Deploy file server items -->
-        <copy todir="${myschool.dir}/${fileserver}">
-            <fileset dir="${resources.dir}/${myschool.name}/${fileserver}" />
-        </copy>
-        <!-- Deploy config items -->
-        <copy todir="${myschool.dir}/${rules}">
-            <fileset dir="${resources.dir}/${rules}" />
+        <!-- Deploy rules -->
+        <copy todir="${stage.dir}/${deploy.rules}">
+            <fileset dir="${src.main.resources.rules}" />
         </copy>
         <!-- Deploy templates -->
-        <copy todir="${myschool.dir}/${templates}/${main}">
-            <fileset dir="${resources.dir}/${templates}" />
+        <copy todir="${stage.dir}/${deploy.templates.main}">
+            <fileset dir="${src.main.resources.templates}" />
         </copy>
-        <copy todir="${myschool.dir}/${templates}/${test}">
-            <fileset dir="${test.resources.dir}/${templates}" />
+        <copy todir="${stage.dir}/${deploy.templates.test}">
+            <fileset dir="${src.test.resources.templates}" />
         </copy>
-        <antcall target="UpdateResources" />
-    </target>
-
-    <target name="UpdateResources">
-        <echo message="Updating all resources at ${myschool.base.dir}/${myschool.name}/${config} " />
-        <echo message="With token '@MYSCHOOL.DIR@' = '${myschool.base.dir}/${myschool.name}'" />
-        <echo message="With token '@MYSCHOOL.NAME@' = '${myschool.name}'" />
-        <echo message="With token '@DATABASE.NAME@' = '${myschool.name}'" />
-
-        <replace dir="${myschool.base.dir}/${myschool.name}/${config}">
-          <include name="**/*.*"/>
-          <replacefilter token="@MYSCHOOL.DIR@" value="${myschool.base.dir}/${myschool.name}" />
-          <replacefilter token="@MYSCHOOL.NAME@" value="${myschool.name}" />
-          <replacefilter token="@DATABASE.NAME@" value="${myschool.name}" />
-        </replace>
     </target>
 </project>
 

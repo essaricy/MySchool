@@ -1,93 +1,107 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<file-system base-dir="@MYSCHOOL.DIR@">
-    <directory name="config" absence="ERROR">
-        <directory name="application" absence="ERROR">
-            <file name="app-config.xml" absence="ERROR" />
+<file-system base-dir="@@APPL.LOCAL.DIR@@">
+    <directory name="deploy" absence="ERROR">
+        <directory name="config" absence="ERROR">
+            <directory name="application" absence="ERROR">
+                <file name="app-config.xml" absence="ERROR" />
+            </directory>
+            <directory name="cache" absence="ERROR">
+                <file name="jcs-cache.properties" absence="ERROR" />
+            </directory>
+            <directory name="database" absence="ERROR">
+                <file name="standalone-datasource.properties" absence="ERROR" />
+            </directory>
+            <directory name="email" absence="ERROR">
+                <file name="email.properties" absence="ERROR" />
+            </directory>
+            <directory name="filesystem" absence="ERROR">
+                <file name="local-filesystem.xml" absence="ERROR" />
+                <file name="web-hosted-media-server.xml" absence="ERROR" />
+            </directory>
+            <directory name="image" absence="ERROR">
+                <file name="image-scaling.properties" absence="ERROR" />
+            </directory>
+            <directory name="middleware" absence="ERROR">
+                <file name="active-mq.properties" absence="ERROR" />
+                <file name="MessageQueueConfig.xml" absence="ERROR" />
+            </directory>
+            <directory name="rules" absence="ERROR">
+                <file name="rules-config.properties" absence="ERROR" />
+            </directory>
+            <directory name="sms" absence="ERROR">
+                <file name="sms-integra-sms.properties" absence="ERROR" />
+            </directory>
+            <directory name="spring" absence="ERROR">
+                <file name="MySchoolBase.xml" absence="ERROR" />
+                <file name="MySchoolInfrastructure.xml" absence="ERROR" />
+                <file name="MySchoolSautil.xml" absence="ERROR" />
+                <file name="MySchoolService.xml" absence="ERROR" />
+                <file name="MySchoolTransformation.xml" absence="ERROR" />
+            </directory>
+            <directory name="templates" absence="ERROR">
+                <file name="templates-config.xml" absence="ERROR" />
+            </directory>
+            <directory name="xml" absence="ERROR">
+                <file name="object-xml-mappings.xml" absence="ERROR" />
+            </directory>
         </directory>
-        <directory name="cache" absence="ERROR">
-            <file name="jcs-cache.properties" absence="ERROR" />
-        </directory>
-        <directory name="database" absence="ERROR">
-            <file name="jboss-ds.xml"  must-exist="false" />
-            <file name="standalone-datasource.properties" absence="ERROR" />
-            <file name="tomcat-context.xml"  must-exist="false" />
-        </directory>
-        <directory name="email" absence="ERROR">
-            <file name="email.properties" absence="ERROR" />
-        </directory>
-        <directory name="filesystem" absence="ERROR">
-            <file name="local-filesystem.xml" absence="ERROR" />
-        </directory>
-        <directory name="logs" absence="ERROR" />
-        <directory name="middleware" absence="ERROR">
-            <file name="active-mq.properties" absence="ERROR" />
-            <file name="MessageQueueConfig.xml" absence="ERROR" />
-            <file name="MessageQueueConfig.xsd" absence="ERROR" />
-        </directory>
-        <directory name="rules" absence="ERROR">
-            <file name="rules-config.properties" absence="ERROR" />
-        </directory>
-        <directory name="sms" absence="ERROR">
-            <file name="sms-integra-sms.properties" absence="ERROR" />
-        </directory>
-        <directory name="spring" absence="ERROR">
-            <file name="MySchoolBase.xml" absence="ERROR" />
-            <file name="MySchoolTransformation.xml" absence="ERROR" />
-            <file name="MySchoolInfrastructure.xml" absence="ERROR" />
-            <file name="MySchoolSautil.xml" absence="ERROR" />
-            <file name="MySchoolService.xml" absence="ERROR" />
-        </directory>
+        <directory name="lib" absence="ERROR" />
+        <directory name="rules" absence="ERROR" />
+        <directory name="scripts" absence="ERROR" />
         <directory name="templates" absence="ERROR">
-            <file name="templates-config.xml" absence="ERROR" />
-        </directory>
-        <directory name="xml" absence="ERROR">
-            <file name="object-xml-mappings.xml" absence="ERROR" />
-        </directory>
-    </directory>
-    <directory name="lib" absence="ERROR" />
-    <directory name="logs" absence="CREATE" />
-    <directory name="rules" absence="ERROR" />
-    <directory name="scripts" absence="ERROR" />
-    <directory name="templates" absence="ERROR">
-        <directory name="main" absence="CREATE">
-            <directory name="device" absence="CREATE">
-                <file name="mobile-template.xsl" absence="ERROR" />
+            <directory name="main" absence="CREATE">
+                <directory name="device" absence="CREATE">
+                    <file name="mobile-template.xsl" absence="ERROR" />
+                </directory>
+                <directory name="import" absence="CREATE" />
+                <directory name="notification" absence="CREATE">
+                    <directory name="email" absence="CREATE">
+                        <directory name="employee" absence="CREATE" />
+                        <directory name="notice_board" absence="CREATE" />
+                        <directory name="student" absence="CREATE" />
+                    </directory>
+                    <directory name="sms" absence="CREATE">
+                        <directory name="employee" absence="CREATE" />
+                        <directory name="notice_board" absence="CREATE" />
+                        <directory name="student" absence="CREATE" />
+                    </directory>
+                </directory>
             </directory>
-            <directory name="import" absence="CREATE" />
-            <directory name="notification" absence="CREATE">
-                <directory name="email" absence="CREATE">
+            <directory name="test" absence="CREATE">
+                <directory name="notification" absence="CREATE">
                     <directory name="employee" absence="CREATE" />
                     <directory name="notice_board" absence="CREATE" />
                     <directory name="student" absence="CREATE" />
                 </directory>
-                <directory name="sms" absence="CREATE">
-                    <directory name="employee" absence="CREATE" />
-                    <directory name="notice_board" absence="CREATE" />
-                    <directory name="student" absence="CREATE" />
-                </directory>
-            </directory>
-        </directory>
-        <directory name="test" absence="CREATE">
-            <directory name="notification" absence="CREATE">
-                <directory name="employee" absence="CREATE" />
-                <directory name="notice_board" absence="CREATE" />
-                <directory name="student" absence="CREATE" />
             </directory>
         </directory>
     </directory>
-    <directory name="temp" absence="CREATE">
-        <directory name="email" absence="CREATE" />
-        <directory name="employee" absence="CREATE">
-          <directory name="PASSPORT" absence="CREATE" />
-          <directory name="THUMBNAIL" absence="CREATE" />
+    <directory name="runtime" absence="CREATE" >
+        <directory name="cache" absence="CREATE" />
+        <directory name="logs" absence="CREATE" />
+        <directory name="tmp" absence="CREATE" />
+    </directory>
+    <directory name="transfers" absence="CREATE" >
+        <directory name="outbound" absence="CREATE">
+            <directory name="attendance" absence="CREATE" />
+            <directory name="exim" absence="CREATE">
+                <directory name="export" absence="CREATE" />
+                <directory name="import" absence="CREATE" />
+            </directory>
+            <directory name="logs" absence="CREATE" />
+            <directory name="media" absence="CREATE">
+                <directory name="brochure" absence="CREATE" />
+                <directory name="employee" absence="CREATE">
+                    <directory name="portal" absence="CREATE" />
+                    <directory name="registered" absence="CREATE" />
+                </directory>
+                <directory name="features" absence="CREATE" />
+                <directory name="gallery" absence="CREATE" />
+                <directory name="student" absence="CREATE">
+                    <directory name="portal" absence="CREATE" />
+                    <directory name="registered" absence="CREATE" />
+                </directory>
+            </directory>
         </directory>
-        <directory name="import" absence="CREATE" />
-        <directory name="report" absence="CREATE" />
-        <directory name="student" absence="CREATE">
-          <directory name="PASSPORT" absence="CREATE" />
-          <directory name="THUMBNAIL" absence="CREATE" />
-        </directory>
-        <directory name="notification" absence="CREATE" />
-        <directory name="upload" absence="CREATE" />
     </directory>
 </file-system>

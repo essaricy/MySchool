@@ -12,6 +12,7 @@ import com.myschool.infra.image.agent.ImageScalingAgent;
 import com.myschool.infra.image.constants.ImageSize;
 
 /**
+ * @deprecated
  * The Class ImageFileSystem.
  */
 @Component

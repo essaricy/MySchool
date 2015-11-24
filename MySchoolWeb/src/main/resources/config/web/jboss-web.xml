@@ -2,7 +2,7 @@
 <jboss-web>
     <class-loading java2ClassLoadingCompliance="false">
         <loader-repository>
-            org.myschool:loader=@MYSCHOOL.NAME@.war
+            org.myschool:loader=@@MYSCHOOL.NAME@@.war
             <loader-repository-config>java2ParentDelegation=false</loader-repository-config>
         </loader-repository>
     </class-loading>

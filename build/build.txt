@@ -6,14 +6,12 @@ ant CleanAll
 
 # To build a particular school use school name
 ant -Dmyschool.name=demo
-ant -Dmyschool.name=ratnam
 
 # To Create new school, use this command. This creates Database, builds code and deploys war with the school name.
 ant -f myschool.xml -Dmyschool.name=demo
 
 # To create a new application and load data from excel sheets
 ant -f myschool.xml -Dmyschool.name=demo -Daction=INIT -Ddata.format=EXCEL -Dext.dir="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData" -Dext.cfg="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData\init.properties"
-ant -f myschool.xml -Dmyschool.name=demo -Daction=INIT -Ddata.format=EXCEL -Dext.dir="D:\Documents\MySchoolDox\ApplicationData\ratnam\ExcelData" -Dext.cfg="D:\Documents\MySchoolDox\ApplicationData\ratnam\ExcelData\init.properties"
 
 # To load data to an existing application using excel sheets
 ant -f myschool.xml -Dmyschool.name=demo -Daction=LOAD -Ddata.format=EXCEL -Dext.dir="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData" -Dext.cfg="D:\Documents\MySchoolDox\ApplicationData\demo\ExcelData\load.properties"

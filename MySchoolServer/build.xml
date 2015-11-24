@@ -6,7 +6,6 @@
     <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
 
     <target name="Clean">
-        <echo message="Cleaning ${ant.project.name} ${basedir}" />
         <delete dir="${target.dir}" />
         <mkdir dir="${target.dir}"/>
         <mkdir dir="${classes.dir}"/>

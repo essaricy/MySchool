@@ -151,7 +151,6 @@ public class WebHostedMediaServerMappingReader extends DefaultHandler {
      */
     private String parseResourceUrl(String url) {
         /*
-        @MYSCHOOL.NAME@ - replaces with myschool name, replaced only during build
         @BASE_URL@ - Represents base url, defined in base-url
         @PARENT_URL@ - Represents parent url
         @RESOURCE_NAME@ - Resource Name

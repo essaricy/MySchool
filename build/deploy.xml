@@ -1,0 +1,238 @@
+<project name="MySchool" basedir="../">
+    <description>Builds and deploys MySchool to server</description>
+
+    <taskdef resource="net/sf/antcontrib/antlib.xml" />
+    <taskdef name="unset" classname="ise.antelope.tasks.Unset"/>
+
+    <property name="server-properties" location="build/server.properties" />
+    <loadfile property="server.properties" srcFile="${server-properties}"/>
+
+    <property name="stage.dir" value="${app.build.dir}/${myschool.name}" />
+
+    <tstamp prefix="build-info">
+        <format property="current-date" pattern="d-MMMM-yyyy" locale="en" />
+        <format property="current-time" pattern="hh:mm:ss a z" locale="en" />
+    </tstamp>
+
+    <path id="jars-classpath">
+        <fileset dir="${lib}" includes="*.jar" />
+    </path>
+
+    <target name="DeployToServers" description="Deploying to all server instances">
+        <!-- For each appserver, create a new directory and detokenize in it -->
+        <for list="${server.properties}" param="appservers" delimiter="${line.separator}" trim="true">
+            <sequential>
+                <propertyregex property="appserver.properties" input="@{appservers}" regexp="(.*)" select="\1" override="true" />
+                <property file="build/${appserver.properties}" />
+                <antcall target="DeployToServer" />
+                <unset file="build/${appserver.properties}" />
+            </sequential>
+        </for>
+    </target>
+
+    <target name="DeployToServer">
+        <echo message="Deploying to '${deploy.server.name}', instance of ${deploy.server.appserver.name} at ${deploy.server.ip} (${deploy.server.os}) " />
+
+        <delete dir="${@@APPL.LOCAL.DEPLOY@@}" />
+        <mkdir dir="${@@APPL.LOCAL.DIR@@}" />
+        <mkdir dir="${@@APPL.LOCAL.DEPLOY@@}" />
+
+        <echo message="Copying ${stage.dir}/${deploy} to ${@@APPL.LOCAL.DEPLOY@@}" />
+        <copy todir="${@@APPL.LOCAL.DEPLOY@@}" >
+            <fileset dir="${stage.dir}/${deploy}"/>
+        </copy>
+        <antcall target="DetokenizeAll">
+            <param name="current.dir" value="${@@APPL.LOCAL.DIR@@}" />
+            <param name="current.deploy.dir" value="${@@APPL.LOCAL.DEPLOY@@}" />
+        </antcall>
+        <antcall target="RunPrograms">
+            <param name="current.dir" value="${@@APPL.LOCAL.DIR@@}" />
+            <param name="current.deploy.dir" value="${@@APPL.LOCAL.DEPLOY@@}" />
+        </antcall>
+        <antcall target="KeepOnlyPlatformFiles">
+            <param name="current.dir" value="${@@APPL.LOCAL.DIR@@}/${deploy.scripts}" />
+            <param name="current.platform" value="${deploy.server.os}" />
+        </antcall>
+
+        <if>
+            <equals arg1="${deploy.server.type}" arg2="local" />
+            <then>
+                <!-- Build WAR file based on the server type -->
+                <if>
+                    <equals arg1="${deploy.server.appserver.name}" arg2="jboss" />
+                    <then>
+                        <ant antfile="build.xml" target="BuildWar-JBoss" dir="${myschool.web}" />
+                    </then>
+                    <else>
+                        <ant antfile="build.xml" target="BuildWar-Tomcat" dir="${myschool.web}" />
+                    </else>
+                </if>
+                <antcall target="DeployToServer-Local" />
+            </then>
+            <else>
+                <!-- Replace all the local directory name with the actual deploy directory of the remote server -->
+                <!-- Replace @@APPL.LOCAL.DIR@@ with @@APPL.REMOTE.DIR@@ -->
+                <echo message="Replace ${@@APPL.LOCAL.DIR@@} with ${@@APPL.REMOTE.DIR@@}" />
+                <replace dir="${@@APPL.LOCAL.DEPLOY@@}" includes="**/*.xml,**/*.properties,**/*.bat,**/*.sh">
+                    <replacefilter token="${@@APPL.LOCAL.DIR@@}" value="${@@APPL.REMOTE.DIR@@}" />
+                </replace>
+                <!-- Build WAR file based on the server type -->
+                <if>
+                    <equals arg1="${deploy.server.appserver.name}" arg2="jboss" />
+                    <then>
+                        <ant antfile="build.xml" target="BuildWar-JBoss" dir="${myschool.web}" />
+                    </then>
+                    <else>
+                        <ant antfile="build.xml" target="BuildWar-Tomcat" dir="${myschool.web}" />
+                    </else>
+                </if>
+                <antcall target="DeployToServer-Remote" />
+                <delete dir="${@@APPL.LOCAL.DIR@@}" />
+            </else>
+        </if>
+
+    </target>
+
+    <target name="DeployToServer-Local">
+        <!-- If it s a local deployment then all the files are already present.
+        Just copy the required libs to the webserver lib directory and the war to the deploy directory. -->
+        <echo message="Copying lib files to ${deploy.server.appserver.lib}" />
+        <copy todir="${deploy.server.appserver.lib}">
+            <fileset dir="${myschool.web}/${target.dir}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <echo message="Deploying *.war, *.xml to ${deploy.server.appserver.deploy}" />
+        <copy todir="${deploy.server.appserver.deploy}">
+            <fileset dir="${myschool.web}/${target.dir}">
+                <include name="*.war" />
+                <include name="*.xml" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="DeployToServer-Remote">
+        <!-- If it s a remote deployment then all the files are already present.
+        Just copy the required libs for web and copy the war file.-->
+        <echo message="Copying lib files to ${@@APPL.LOCAL.DEPLOY@@}/${appserver.lib}" />
+        <copy todir="${@@APPL.LOCAL.DIR@@}/${appserver.lib}">
+            <fileset dir="${myschool.web}/${target.dir}">
+                <include name="*.jar"/>
+            </fileset>
+        </copy>
+        <echo message="Deploying *.war, *.xml to ${@@APPL.LOCAL.DEPLOY@@}/${appserver.deploy}" />
+        <copy todir="${@@APPL.LOCAL.DIR@@}/${appserver.deploy}">
+            <fileset dir="${myschool.web}/${target.dir}">
+                <include name="*.war" />
+                <include name="*.xml" />
+            </fileset>
+        </copy>
+        <echo message="Deploying remotely to '${deploy.server.name}', instance of ${deploy.server.appserver.name} at ${deploy.server.ip} (${deploy.server.os}) " />
+        <antcall target="Remote-FTP">
+            <param name="ftp.server.name" value="${remote.server.name}" />
+            <param name="ftp.user.name" value="${remote.user.name}" />
+            <param name="ftp.user.pwd" value="${remote.user.pwd}" />
+            <param name="ftp.remote.dir" value="${remote.app.dir}" />
+            <param name="ftp.app.dir" value="${@@APPL.LOCAL.DIR@@}" />
+            <param name="ftp.deploy.dir" value="${@@APPL.LOCAL.DEPLOY@@}" />
+        </antcall>
+    </target>
+
+    <target name="DetokenizeAll">
+        <echo message="Updating all resources at ${current.deploy.dir} " />
+        <!-- Select all the properties that have @.*@ as key -->
+        <propertyselector property="tokens" match="(@.*@)" select="\1"/>
+        <!-- Replace all the keys with the key value defined in detokenize -->
+        <for list="${tokens}" param="token.key">
+            <sequential>
+                <propertycopy property="token.value" from="@{token.key}" />
+                <echo message="Detokenizing '@{token.key}' with '${token.value}'" />
+                <replace dir="${current.deploy.dir}" includes="**/*.xml,**/*.properties">
+                    <replacefilter token="@{token.key}" value="${token.value}" />
+                </replace>
+                <var name="token.value" unset="true"/>
+            </sequential>
+        </for>
+        <!-- Replace @@APPL.LOCAL.DIR@@ and @@MYSCHOOL.NAME@@ runtime properties -->
+        <replace dir="${current.dir}" includes="**/*.xml,**/*.properties,**/*.bat,**/*.sh">
+            <replacefilter token="@@APPL.LOCAL.DIR@@" value="${current.dir}" />
+            <replacefilter token="@@MYSCHOOL.NAME@@" value="${myschool.name}" />
+        </replace>
+    </target>
+
+    <target name="RunPrograms">
+        <!-- Update object-xml-mapping.xml file -->
+        <echo message="${executable} ${executable.option} ${current.dir}/${deploy.scripts.oxo}.${executable.extension} --ext-dir ${basedir}/${myschool.infrastructure}/${src.main.resources.config.xml}" />
+        <exec executable="${executable}" failonerror="true">
+            <arg value="${executable.option}"/>
+            <arg value="${current.dir}/${deploy.scripts.oxo}.${executable.extension} --ext-dir ${basedir}/${myschool.infrastructure}/${src.main.resources.config.xml}"/>
+        </exec>
+        <echo message="Copying updated object-xml-mapping.xml file from ${src.main.resources.config.xml} to ${current.dir}/${deploy.config.xml}" />
+        <copy todir="${current.dir}/${deploy.config.xml}">
+            <fileset dir="${basedir}/${myschool.infrastructure}/${src.main.resources.config.xml}" />
+        </copy>
+    </target>
+
+    <target name="KeepOnlyPlatformFiles">
+        <echo message="Keeping only ${current.platform} files in ${current.dir}" />
+        <if>
+            <equals arg1="${current.platform}" arg2="windows" />
+            <then>
+                <delete>
+                    <!-- Remove scripts other than bat if the appserver is of windows -->
+                    <fileset dir="${current.dir}" includes="*.*" excludes="*.bat" />
+                </delete>
+            </then>
+            <else>
+                <if>
+                    <equals arg1="${current.platform}" arg2="unix" />
+                    <then>
+                        <delete>
+                            <!-- Remove scripts other than sh if the appserver is of windows -->
+                            <fileset dir="${@@APPL.LOCAL.DIR@@}/${deploy.scripts}" excludes="*.sh" />
+                        </delete>
+                    </then>
+                    <else>
+                        <echo message="Could not identify the platform." />
+                    </else>
+                </if>
+                
+            </else>
+        </if>
+    </target>
+
+    <!-- Remote copy tasks -->
+    <target name="Remote-FTP">
+        <echo message="Copying '${ftp.deploy.dir}' to ${ftp.user.name}@${ftp.server.name}/${ftp.remote.dir}" />
+
+        <ftp action="delete" server="${ftp.server.name}" remotedir="${ftp.remote.dir}/deploy"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+            <fileset>
+                <include name="**/*" />
+            </fileset>
+        </ftp>
+        <ftp action="mkdir" server="${ftp.server.name}" remotedir="${ftp.remote.dir}"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+        </ftp>
+        <ftp action="mkdir" server="${ftp.server.name}" remotedir="${ftp.remote.dir}/deploy"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+        </ftp>
+        <ftp action="mkdir" server="${ftp.server.name}" remotedir="${ftp.remote.dir}/appserver"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+        </ftp>
+        <ftp action="mkdir" server="${ftp.server.name}" remotedir="${ftp.remote.dir}/${appserver.lib}"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+        </ftp>
+        <ftp action="mkdir" server="${ftp.server.name}" remotedir="${ftp.remote.dir}/${appserver.deploy}"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+        </ftp>
+        <ftp action="send" server="${ftp.server.name}" remotedir="${ftp.remote.dir}/deploy"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+            <fileset dir="${ftp.deploy.dir}"/>
+        </ftp>
+        <ftp action="send" server="${ftp.server.name}" remotedir="${ftp.remote.dir}/appserver"
+            userid="${ftp.user.name}" password="${ftp.user.pwd}" depends="yes">
+            <fileset dir="${ftp.app.dir}/appserver"/>
+        </ftp>
+    </target>
+</project>

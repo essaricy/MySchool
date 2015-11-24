@@ -22,7 +22,10 @@ public class MiddlewareMessageHelper {
     public void produceCommandMessage(CommandDto command) throws MessageException {
         if (command != null) {
             String xmlMessage = oxoAgent.toXml(command);
-            middlewareAgent.produceMessage(QueueCategory.COMMAND_EXECUTOR, QueueType.OUTPUT, xmlMessage);
+            // TODO handle error if the message is null
+            if (xmlMessage != null) {
+                middlewareAgent.produceMessage(QueueCategory.COMMAND_EXECUTOR, QueueType.OUTPUT, xmlMessage);
+            }
         }
     }
 

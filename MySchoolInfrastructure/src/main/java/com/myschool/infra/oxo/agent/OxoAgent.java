@@ -13,7 +13,7 @@ public abstract class OxoAgent extends AbstractAgent {
 
     /**
      * To xml.
-     *
+     * 
      * @param object the object
      * @return the string
      */
