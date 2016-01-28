@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://camel.apache.org/schema/spring
+        http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <!-- <import resource="academic/camel_endpoints.xml" />
+    <context:component-scan base-package="com.myschool.integration" />
+
+    <routeContext id="Brochure_Routes" xmlns="http://camel.apache.org/schema/spring">
+        <route id="ApplicationLogsProcessor">
+            <camel:description>Processes application logs</camel:description>
+            <from uri="file://D:/myschool/demo/appserver-local1/transfers/dps/inbound/logs" />
+            <camel:filter>
+                1449027624860 - 2592000000 = 1446435624860
+                <simple>${header.CamelFileLastModified} > 1446435624860</simple>
+                <camel:process ref="ApplicationLogsProcessor" />
+                <to uri="file:history" />
+            </camel:filter>
+        </route>
+    </routeContext> -->
+
+</beans>

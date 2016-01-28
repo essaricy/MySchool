@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://camel.apache.org/schema/spring
+        http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <import resource="camel-integration-endpoints.xml" />
+    <context:component-scan base-package="com.myschool.integration" />
+
+    <routeContext id="Employee_Integration_Routes" xmlns="http://camel.apache.org/schema/spring">
+        <route id="IS_EMPLOYEE">
+            <camel:description>Processes Employee Images</camel:description>
+
+            <camel:from ref="IntegrationServer-In-Employee" />
+            <camel:setHeader headerName="TRACKER_ID" >
+                <camel:xpath>/Transport/@TrackerId</camel:xpath>
+            </camel:setHeader>
+            <camel:log message="Processing file ${file:name}, TRACKER_ID=${header.TRACKER_ID}" />
+            <camel:to uri="bean:EmployeeImageProcessor?method=preProcess" />
+
+            <camel:split streaming="true">
+                <xpath>/Transport/Message</xpath>
+                <camel:setHeader headerName="INSTRUCT" >
+                    <camel:xpath>/Message/@Instruct</camel:xpath>
+                </camel:setHeader>
+                <!-- Send only the resource content to the bean -->
+                <transform>
+                    <xpath>/Message/Content/text()</xpath>
+                </transform>
+                <camel:doTry>
+                    <choice>
+                        <when>
+                            <simple>${header.INSTRUCT} == 'ADD'</simple>
+                            <camel:to uri="bean:EmployeeImageProcessor?method=add" />
+                        </when>
+                        <when>
+                            <simple>${header.INSTRUCT} == 'UPDATE'</simple>
+                            <camel:to uri="bean:EmployeeImageProcessor?method=update" />
+                        </when>
+                        <when>
+                            <simple>${header.INSTRUCT} == 'DELETE'</simple>
+                            <camel:to uri="bean:EmployeeImageProcessor?method=delete" />
+                        </when>
+                        <when>
+                            <simple>${header.INSTRUCT} == 'VERIFY'</simple>
+                            <camel:to uri="bean:EmployeeImageProcessor?method=verify" />
+                        </when>
+                        <when>
+                            <simple>${header.INSTRUCT} == 'UNVERIFY'</simple>
+                            <camel:to uri="bean:EmployeeImageProcessor?method=unverify" />
+                        </when>
+                        <otherwise>
+                            <log message="Unsupported command ${header.INSTRUCT}" />
+                        </otherwise>
+                    </choice>
+                    <camel:doCatch>
+                        <camel:exception>com.myschool.integration.common.exception.CommandExecutionException</camel:exception>
+                        <handled><constant>true</constant></handled>
+                        <camel:log message="Exception occurred while processing command. ${exception.message}" />
+                    </camel:doCatch>
+                </camel:doTry>
+            </camel:split>
+            <camel:to uri="bean:EmployeeImageProcessor?method=postProcess" />
+            <camel:log message="Processed file ${file:name}, TRACKER_ID=${header.TRACKER_ID}" />
+        </route>
+    </routeContext>
+
+</beans>

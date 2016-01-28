@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource-servers>
+	<FileServer protocol="http" host="192.168.0.12" port="8080">
+		<resource name="brochures" url="${myschool.name}/brochures">
+		  <pattern excludes="<Parent Directory>" />
+		</resource>
+	</FileServer>
+	<ImageServer protocol="http" host="192.168.0.12" port="8080">
+        <resource name="features" url="${myschool.name}/features">
+          <pattern excludes="<Parent Directory>" />
+        </resource>
+        <resource name="gallery" url="${myschool.name}/gallery">
+          <pattern excludes="<Parent Directory>,<PASSPORT>,<THUMBNAIL>" />
+        </resource>
+        <resource name="employee" url="${myschool.name}/employee">
+          <pattern excludes="<Parent Directory>,<PASSPORT>,<THUMBNAIL>" />
+        </resource>
+        <resource name="employee_portal" url="${myschool.name}/employee/portal">
+          <pattern excludes="<Parent Directory>,<PASSPORT>,<THUMBNAIL>" />
+        </resource>
+        <resource name="employee_registered" url="${myschool.name}/employee/registered">
+          <pattern excludes="<Parent Directory>,<PASSPORT>,<THUMBNAIL>" />
+        </resource>
+        <resource name="student_portal" url="${myschool.name}/student/portal">
+          <pattern excludes="<Parent Directory>,<PASSPORT>,<THUMBNAIL>" />
+        </resource>
+        <resource name="student_registered" url="${myschool.name}/student/registered">
+          <pattern excludes="<Parent Directory>,<PASSPORT>,<THUMBNAIL>" />
+        </resource>
+    </ImageServer>
+	<RoutingServer local-base="@MYSCHOOL.DIR@" remote-base="myschool/${myschool.name}" protocol="ftp" host="192.168.0.12" port="2121">
+        <route local="outbound/employee/portal" remote="inbound/employee/portal">
+           <pattern includes="*.jpg,*.jpeg,*.png,command*.txt" />
+        </route>
+        <route local="outbound/employee/registered" remote="inbound/employee/registered">
+           <pattern includes="*.jpg,*.jpeg,*.png,command*.txt" />
+        </route>
+        <route local="outbound/student/portal" remote="inbound/student/portal">
+           <pattern includes="*.jpg,*.jpeg,*.png,command*.txt" />
+        </route>
+        <route local="outbound/student/registered" remote="inbound/student/registered">
+           <pattern includes="*.jpg,*.jpeg,*.png,command*.txt" />
+        </route>
+        <route local="outbound/import" remote="inbound/import">
+           <pattern includes="*.csv,*.xls,*.xlsx,command*.txt" />
+        </route>
+        <route local="outbound/brochure" remote="inbound/brochure">
+           <pattern includes="*.jpg,*.jpeg,*.png,command*.txt" />
+        </route>
+        <route local="outbound/gallery" remote="inbound/gallery">
+           <pattern includes="*.jpg,*.jpeg,*.png,command*.txt" />
+        </route>
+    </RoutingServer>
+</resource-servers>
+
+  </image-server>
+    <directory name="fileserver" absence="ERROR">
+        <directory name="brochures" absence="CREATE" />
+        <directory name="gallery" absence="CREATE" />
+        <directory name="image" absence="CREATE">
+            <directory name="employee" absence="CREATE">
+              <directory name="PASSPORT" absence="CREATE" />
+              <directory name="THUMBNAIL" absence="CREATE" />
+            </directory>
+            <directory name="student" absence="CREATE">
+              <directory name="PASSPORT" absence="CREATE" />
+              <directory name="THUMBNAIL" absence="CREATE" />
+            </directory>
+            <directory name="organization" absence="CREATE">
+              <directory name="PASSPORT" absence="CREATE" />
+              <directory name="THUMBNAIL" absence="CREATE" />
+            </directory>
+        </directory>
+    </directory>
+</resource-server>

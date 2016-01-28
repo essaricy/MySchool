@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://camel.apache.org/schema/spring
+        http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <import resource="camel-integration-endpoints.xml" />
+    <context:component-scan base-package="com.myschool.integration" />
+
+    <routeContext id="Exim_Integration_Routes" xmlns="http://camel.apache.org/schema/spring">
+        <route id="IS_IMPORT">
+            <camel:description>Processes data in files and updates System</camel:description>
+            <from ref="IntegrationServer-In-Import" />
+            <camel:process ref="ImportDataProcessor" />
+        </route>
+    </routeContext>
+
+</beans>
