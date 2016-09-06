@@ -31,6 +31,7 @@ import com.myschool.user.dto.ChangePasswordDto;
 import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserSession;
+import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -320,6 +321,14 @@ public class UserManager {
 		return updated;
 	}
 
+	/**
+     * Creates the user activities.
+     *
+     * @param sessionId the session id
+     * @param userActivities the user activities
+     * @return true, if successful
+     * @throws DataException the data exception
+     */
 	public boolean createUserActivities(String sessionId,
 			List<UserActivity> userActivities) throws DataException {
 		boolean updated = false;
@@ -371,5 +380,19 @@ public class UserManager {
 		}
 		UserSessionDataAssembler.updateInformation(userSession);
 	}
+
+    /**
+     * Gets the themes.
+     *
+     * @return the themes
+     * @throws DataException the data exception
+     */
+    public List<UserTheme> getThemes() throws DataException {
+        try {
+            return userDao.getThemes();
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        }
+    }
 
 }

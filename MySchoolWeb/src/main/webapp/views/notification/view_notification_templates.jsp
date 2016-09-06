@@ -62,7 +62,7 @@ $(document).ready(function() {
 });
 
 function showNotificationTemplate(templateId, endPoint, mode, type) {
-  openDialog('<%=request.getContextPath()%>/notification/getTemplate.htm?templateId=' + templateId + '&sid=' + new Date().getTime(),
+  openWindow('<%=request.getContextPath()%>/notification/getTemplate.htm?templateId=' + templateId + '&sid=' + new Date().getTime(),
   endPoint + ' - ' + type + ' (' + mode + ')',
   $(window).width()-100, $(window).height()-50);
 }

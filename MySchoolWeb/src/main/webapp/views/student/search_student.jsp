@@ -182,7 +182,7 @@ function showImage(admissionNumber) {
 }
 
 function showStudent(admissionNumber, firstName, middleName, lastName) {
-  openDialog('<%=request.getContextPath()%>/student/viewStudent.htm?admissionNumber=' + admissionNumber + '&sid=' + new Date().getTime(),
+  openWindow('<%=request.getContextPath()%>/student/viewStudent.htm?admissionNumber=' + admissionNumber + '&sid=' + new Date().getTime(),
   admissionNumber + ' - ' + firstName + ' ' + middleName + ' ' + lastName,
   $(window).width()-100, $(window).height()-50);
 }

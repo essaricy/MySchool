@@ -6,6 +6,7 @@
             config - This file will be determined by looking into the FileSystem.properties file It must point to n appropriate property in the file.
          -->
         <agent id="filesystem" class="com.myschool.infra.filesystem.agent.LocalFileSystemAgent" config="${config.filesystem.xml.file}" />
+        <agent id="storage_server" class="com.myschool.infra.storage.cloud.google.GoogleDriveStorageAccessAgent" config="${config.storage-access.xml.file}" />
         <agent id="media_server" class="com.myschool.infra.media.agent.WebHostedMediaServerAgent" config="${config.web-hosted-media-server.xml.file}" />
         <agent id="webserver" class="com.myschool.infra.webserver.agent.WebServerAgent" />
         <agent id="database" class="com.myschool.infra.database.agent.DatabaseAgent" config="${config.database.file}" />

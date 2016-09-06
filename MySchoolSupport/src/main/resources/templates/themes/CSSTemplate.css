@@ -1,0 +1,1068 @@
+/** ####################################### BODY STYLES ####################################### **/
+html, body {
+    background-color: @@Page::Background@@;
+    padding: 0px;
+    height: 100%;
+    margin: auto 7% auto 7%;
+}
+
+
+/** ####################################### PAGE STYLES ####################################### **/
+#PageContainer {
+    min-height:100%;
+    position:relative;
+    background-color: #FFFFFF;
+}
+
+#PageBody {
+    font-size: 1em;
+    padding:10px;
+    padding-bottom:60px;
+    background-color: #FFFFFF;
+}
+
+#PageFooter {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:20px;
+
+    background-color: @@Footer::Background@@;
+    color: @@Footer::Color@@;
+    letter-spacing: 1px;
+
+    font-size: 0.80em;
+    font-weight: bold;
+    text-align: center;
+}
+
+/** ####################################### HEADER STYLES ####################################### **/
+table.headerTable {
+    border-width: 0px;
+    background-color: @@Header::Background@@;
+    width: 100%;
+}
+
+table.headerTable .schoolName {
+    color: white;
+    font-size: 2em;
+    letter-spacing: 2px;
+    word-spacing: 4px;
+    text-transform: uppercase;
+}
+
+/** ####################################### Footer Links STYLES ####################################### **/
+#PageFooterLinks table {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#PageFooterLinks div.row {
+  width: 100%;
+  background-color: @@FooterLink::Row:Background@@;
+  color: #EEEEEE;
+
+  font-size: 0.8em;
+  font-weight: bold;
+  text-align: left;
+  letter-spacing: 1px;
+}
+
+#PageFooterLinks div.row span.title {
+  display: inline-block;
+  width: 120px;
+  font-size: 1em;
+  margin: 0;
+  padding: 3px 10px 2px 3px;
+  margin: 2px 5px 2px 3px;
+}
+
+#PageFooterLinks div.row span.odd {
+  background-color: @@FooterLink::Title-Odd:Background@@;
+}
+#PageFooterLinks div.row span.even {
+  background-color: @@FooterLink::Title-Even:Background@@;
+}
+#PageFooterLinks div.odd a:link, #PageFooterLinks div.even a:link,
+#PageFooterLinks div.odd a:visited, #PageFooterLinks div.even a:visited {
+  color: @@FooterLink::Link:Color@@;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 2px 5px 5px 2px;
+  border-right: 3px solid @@FooterLink::Link:Seperator@@;
+}
+#PageFooterLinks div.odd a:hover, #PageFooterLinks div.even a:hover {
+  text-decoration: underline;
+}
+/** ####################################### MENU STYLES ####################################### **/
+.mega {
+    width: 230px; /*default width of mega menu*/
+    padding: 10px;
+    position: absolute;
+    visibility: hidden;
+    border: 2px solid #000000; /* Menu Drop down, border color */
+    border-top-width: 1px;
+}
+
+.mega a {
+    text-decoration: none;
+}
+
+.mega .column { /*each link column within a mega menu*/
+    float: left;
+    width: 100%;
+}
+
+.mega .column ul {
+    margin: 0;
+    margin-left: 0px;
+    padding: 0;
+    list-style: none;
+}
+
+.mega .column ul li {
+    margin-bottom: 3px;
+}
+
+.mega .column ul li a {
+    font: normal 0.8em Arial;
+    font-weight: bold;
+    color: #EEEEEE;
+}
+
+.mega .column ul li a:hover {
+    font: normal 0.8em Arial;
+    font-weight: bold;
+    text-decoration: underline;
+    color: #EEEEEE;
+}
+
+.mega .ulmenu { /*style any UL within mega menu with class="ulmenu"*/
+    margin: 0;
+    padding: 0;
+    border: 1px solid gray;
+    border-bottom-width: 0;
+    list-style: none;
+}
+
+.mega .ulmenu a {
+    display:block;
+    border-bottom:1px solid gray;
+    padding:5px;
+}
+
+.mega .ulmenu a:hover {
+    background: lightyellow;
+}
+
+.solidblocktheme { /*additional mega drop down menu style for this theme*/
+    background-color: @@Menu::List:Background@@;
+    border-left-width: 0px;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-bottom: 5px solid @@Menu::List:LastItem@@;
+    padding: 0; /*remove default padding inside mega menu*/
+}
+
+.solidblocktheme p, .solidblocktheme .column {
+    padding: 5px; /*add padding inside p and .column elements within mega menu*/
+    width: auto;
+}
+
+.solidblockmenu {
+    margin: 0;
+    padding: 0;
+    float: left;
+    font: bold 0.8em Arial;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 1em;
+    border: 10px solid @@Menu::Border@@;
+    border-width: 1px 0;
+    background: @@Menu::Background@@; /* For browsers that do not support gradients */
+    /*background: -webkit-linear-gradient(@@Menu::Shade1@@, @@Menu::Shade2@@); /* For Safari 5.1 to 6.0 */
+    /*background: -o-linear-gradient(@@Menu::Shade1@@, @@Menu::Shade2@@); /* For Opera 11.1 to 12.0 */
+    /*background: -moz-linear-gradient(@@Menu::Shade1@@, @@Menu::Shade2@@); /* For Firefox 3.6 to 15 */
+    /*background: linear-gradient(@@Menu::Shade1@@, @@Menu::Shade2@@); /* Standard syntax (must be last) */
+}
+
+.solidblockmenu li {
+    display: inline;
+}
+
+.solidblockmenu li a {
+    float: left;
+    color: white;
+    padding: 9px 11px;
+    text-decoration: none;
+    border-right: 1px solid @@Menu::Border@@;
+    text-align: center;
+}
+
+.solidblockmenu li a:visited {
+    color: white;
+}
+
+.solidblockmenu li a:hover, .solidblockmenu li a.selected { /*Selected Tab style*/
+  color: white;
+  background-color: @@Menu::Hover@@;
+}
+
+/** ####################################### FORM TABLE STYLES ####################################### **/
+.formTable_Container {
+    margin: 0 auto;
+}
+
+.formTable_Container caption {
+    background-color: @@Heading::Title:Background@@;
+    font-size: 1em;
+    font-weight: bold;
+    color: @@Heading::Title:Color@@;
+    letter-spacing: 5px;
+    word-spacing: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding-top: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 8px;
+    box-shadow: 5px 5px 5px #888;
+}
+
+.formTable_Data {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.formTable_Data caption {
+    background-color: @@Heading::Title:Background@@;
+    font-size: 0.7em;
+    font-weight: bold;
+    color: @@Heading::Title:Color@@;
+    letter-spacing: 5px;
+    word-spacing: 5px;
+    text-decoration: none;
+    text-transform: uppercase;
+    padding-top: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-bottom: 8px;
+    box-shadow: 5px 5px 5px #888;
+}
+
+.formTable_Data tbody tr td.label {
+    color: #888888;
+    font-size: 0.85em;
+    padding-right: 5px;
+    text-align: right;
+    vertical-align: top;
+}
+
+.formTable_Data tbody tr td.label .mandatory {
+    color: red;
+    font-size: 1.3em;
+}
+
+.formTable_Data tbody tr td.value {
+    color: #000000;
+    font-size: 0.7em;
+    /*font-weight: bold;*/
+    padding-left: 5px;
+    text-align: left;
+    vertical-align: top;
+    /*width: 100%;*/
+}
+
+/** ####################################### ACCORDION/TAB STYLES ####################################### **/
+/* To control the size of the accordion title */
+.ui-tabs .ui-tabs-nav li a {
+    font-size: 0.6em !important;
+}
+/*.ui-tabs-nav {
+    background: @@Accordion::Background@@;
+}*/
+
+/** ####################################### SELECTABLE STYLES ####################################### **/
+.ui-selected {
+  background: @List::Selected:Background@@;
+  color: @List::Selected:Color@@;
+}
+
+
+/** ####################################### DATEPICKER STYLES ####################################### **/
+/* To control the size of the date */
+div.ui-datepicker{
+    font-size: 0.7em;
+}
+
+.ui-datepicker-header {
+    background: @@Input::Calendar:Title@@;
+}
+/*.ui-datepicker table {
+    background: green;
+}*/
+
+/** ####################################### BUTTON STYLES ####################################### **/
+input[type=button], .formButton {
+    background-color: @@Input::Button:Background@@;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid @@Input::Button:Border@@;
+    display: inline-block;
+    color: #ffffff;
+    cursor: pointer;
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold;
+    height: 30px;
+    margin-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+input[type=button]:hover, .formButton:hover {
+    background-color: @@Input::Button:Hover@@;
+}
+
+input[type=button]:disabled, .formButton:disabled {
+    background-color: @@Input::Button:Disabled.Background@@;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    border:1px solid @@Input::Button:Disabled.Border@@;
+    display: inline-block;
+    color: #ffffff;
+    cursor: auto;
+    font-family: arial;
+    font-size: 12px;
+    font-weight: bold;
+    height: 30px;
+    margin-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+/** ####################################### LINK STYLES ####################################### **/
+a:link, a:visited {
+  color: @@Link::Color@@;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 2px 5px 5px 2px;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/** ####################################### CHOSEN SELECT STYLES ####################################### **/
+.chosen-drop .chosen-results li.highlighted {
+	background: @@Input::Select:Hover@@;
+}
+
+.text-counter {
+	font-size: 0.9em;
+	color: @@Input::TextArea:Counter@@;
+}
+
+/** ####################################### 2-STATE CHECKBOX STYLES ####################################### **/
+.onoffswitch-checkbox:checked + .onoffswitch-label {
+    background-color: @@Input::Checkbox:Background@@;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label:before {
+    right: 0px;
+    background-color: @@Input::Checkbox:Color@@;
+    box-shadow: 3px 6px 18px 0px rgba(0, 0, 0, 0.2);
+}
+
+/** ####################################### DATATABLE STYLES ####################################### **/
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables features
+ */
+
+.dataTables_wrapper {
+    position: relative;
+    min-height: 302px;
+    clear: both;
+    _height: 302px;
+    zoom: 1; /* Feeling sorry for IE */
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+}
+
+.dataTables_processing {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    height: 30px;
+    margin-left: -125px;
+    margin-top: -15px;
+    padding: 14px 0 2px 0;
+    border: 1px solid #ddd;
+    text-align: center;
+    color: #999;
+    font-size: 14px;
+    background-color: white;
+}
+
+.dataTables_length {
+    width: 40%;
+    float: left;
+}
+
+.dataTables_filter {
+    width: 50%;
+    float: right;
+    text-align: right;
+}
+
+.dataTables_info {
+    width: 60%;
+    float: left;
+}
+
+.dataTables_paginate {
+    width: 44px;
+    * width: 50px;
+    float: right;
+    text-align: right;
+}
+
+/* Pagination nested */
+.paginate_disabled_previous, .paginate_enabled_previous, .paginate_disabled_next, .paginate_enabled_next {
+    height: 19px;
+    width: 19px;
+    margin-left: 3px;
+    float: left;
+}
+
+.paginate_disabled_previous {
+    background-image: url('demo/images/icons/back_disabled.jpg');
+}
+
+.paginate_enabled_previous {
+    background-image: url('demo/images/icons/back_enabled.jpg');
+}
+
+.paginate_disabled_next {
+    background-image: url('demo/images/icons/forward_disabled.jpg');
+}
+
+.paginate_enabled_next {
+    background-image: url('demo/images/icons/forward_enabled.jpg');
+}
+
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables display
+ */
+table.display {
+    margin: 0 auto;
+    clear: both;
+    width: 100%;
+    box-shadow: 5px 5px 5px #888;
+    border: 2px solid #888888;
+    /* Note Firefox 3.5 and before have a bug with border-collapse
+     * ( https://bugzilla.mozilla.org/show%5Fbug.cgi?id=155955 ) 
+     * border-spacing: 0; is one possible option. Conditional-css.com is
+     * useful for this kind of thing
+     *
+     * Further note IE 6/7 has problems when calculating widths with border width.
+     * It subtracts one px relative to the other browsers from the first column, and
+     * adds one to the end...
+     *
+     * If you want that effect I'd suggest setting a border-top/left on th/td's and 
+     * then filling in the gaps with other borders.
+     */
+}
+
+table.display thead th {
+    padding: 3px 18px 3px 10px;
+    border-bottom: 1px solid black;
+    font-size: 0.9em;
+    font-weight: bold;
+    cursor: pointer;
+    * cursor: hand;
+    background-image: url('../images/icons/blockdefault.gif');
+    background-repeat:repeat-x;
+    color:white;
+}
+
+table.display tfoot th {
+    padding: 3px 18px 3px 10px;
+    border-top: 1px solid black;
+}
+
+table.display tr.heading2 td {
+    border-bottom: 1px solid #aaa;
+}
+
+table.display td {
+    font-size:0.9em;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: center;
+    word-wrap: break-word;
+}
+
+table.display td.center {
+    text-align: center;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables sorting
+ */
+
+.sorting_asc {
+    background: url('demo/images/icons/sort_asc.png') no-repeat center right;
+}
+
+.sorting_desc {
+    background: url('demo/images/icons/sort_desc.png') no-repeat center right;
+}
+
+.sorting {
+    background: url('demo/images/icons/sort_both.png') no-repeat center right;
+}
+
+.sorting_asc_disabled {
+    background: url('demo/images/icons/sort_asc_disabled.png') no-repeat center right;
+}
+
+.sorting_desc_disabled {
+    background: url('demo/images/icons/sort_desc_disabled.png') no-repeat center right;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * DataTables row classes
+ */
+
+tr.odd {
+    // background-color: #E2E4FF;
+    background-color: @@DataTable::Row-Odd:Background@@;
+}
+
+tr.even {
+    background-color: white;
+}
+
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * Misc
+ */
+.dataTables_scroll {
+    clear: both;
+}
+
+.dataTables_scrollBody {
+    *margin-top: -1px;
+}
+
+/*.top, .bottom {
+    padding: 15px;
+    background-color: #F5F5F5;
+    border: 1px solid #CCCCCC;
+}
+.top .dataTables_info {
+    float: none;
+}
+*/
+
+.clear {
+    clear: both;
+}
+
+.dataTables_empty {
+    text-align: center;
+}
+
+tfoot input {
+    margin: 0.5em 0;
+    width: 100%;
+    color: #444;
+}
+
+tfoot input.search_init {
+    color: #999;
+}
+
+td.group {
+    background-color: #d1cfd0;
+    border-bottom: 2px solid #A19B9E;
+    border-top: 2px solid #A19B9E;
+}
+
+td.details {
+    background-color: #d1cfd0;
+    border: 2px solid #A19B9E;
+}
+
+
+.example_alt_pagination div.dataTables_info {
+    width: 40%;
+}
+
+.paging_full_numbers {
+    width: 400px;
+    height: 22px;
+    line-height: 22px;
+}
+
+.paging_full_numbers span.paginate_button,
+    .paging_full_numbers span.paginate_active {
+    border: 1px solid #aaa;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    padding: 2px 5px;
+    margin: 0 3px;
+    cursor: pointer;
+    *cursor: hand;
+    box-shadow: 3px 3px 3px #888;
+}
+
+.paging_full_numbers span.paginate_button {
+    background-color: #ddd;
+}
+
+.paging_full_numbers span.paginate_button:hover {
+    background-color: #ccc;
+}
+
+.paging_full_numbers span.paginate_active {
+    background-color: #99B3FF;
+}
+
+table.display tr.even.row_selected td {
+    background-color: @@DataTable::Row-Selected:Background@@;
+    color: @@DataTable::Row-Selected:Color@@;
+}
+
+table.display tr.odd.row_selected td {
+    background-color: @@DataTable::Row-Selected:Background@@;
+    color: @@DataTable::Row-Selected:Color@@;
+}
+
+
+/*
+ * Sorting classes for columns
+ */
+/* For the standard odd/even */
+tr.odd td.sorting_1 {
+    background-color: #D3D6FF;
+}
+
+tr.odd td.sorting_2 {
+    background-color: #DADCFF;
+}
+
+tr.odd td.sorting_3 {
+    background-color: #E0E2FF;
+}
+
+tr.even td.sorting_1 {
+    background-color: #EAEBFF;
+}
+
+tr.even td.sorting_2 {
+    background-color: #F2F3FF;
+}
+
+tr.even td.sorting_3 {
+    background-color: #F9F9FF;
+}
+
+
+/* For the Conditional-CSS grading rows */
+/*
+    Colour calculations (based off the main row colours)
+  Level 1:
+        dd > c4
+        ee > d5
+    Level 2:
+      dd > d1
+      ee > e2
+ */
+tr.odd.gradeA td.sorting_1 {
+    background-color: #c4ffc4;
+}
+
+tr.odd.gradeA td.sorting_2 {
+    background-color: #d1ffd1;
+}
+
+tr.odd.gradeA td.sorting_3 {
+    background-color: #d1ffd1;
+}
+
+tr.even.gradeA td.sorting_1 {
+    background-color: #d5ffd5;
+}
+
+tr.even.gradeA td.sorting_2 {
+    background-color: #e2ffe2;
+}
+
+tr.even.gradeA td.sorting_3 {
+    background-color: #e2ffe2;
+}
+
+tr.odd.gradeC td.sorting_1 {
+    background-color: #c4c4ff;
+}
+
+tr.odd.gradeC td.sorting_2 {
+    background-color: #d1d1ff;
+}
+
+tr.odd.gradeC td.sorting_3 {
+    background-color: #d1d1ff;
+}
+
+tr.even.gradeC td.sorting_1 {
+    background-color: #d5d5ff;
+}
+
+tr.even.gradeC td.sorting_2 {
+    background-color: #e2e2ff;
+}
+
+tr.even.gradeC td.sorting_3 {
+    background-color: #e2e2ff;
+}
+
+tr.odd.gradeX td.sorting_1 {
+    background-color: #ffc4c4;
+}
+
+tr.odd.gradeX td.sorting_2 {
+    background-color: #ffd1d1;
+}
+
+tr.odd.gradeX td.sorting_3 {
+    background-color: #ffd1d1;
+}
+
+tr.even.gradeX td.sorting_1 {
+    background-color: #ffd5d5;
+}
+
+tr.even.gradeX td.sorting_2 {
+    background-color: #ffe2e2;
+}
+
+tr.even.gradeX td.sorting_3 {
+    background-color: #ffe2e2;
+}
+
+tr.odd.gradeU td.sorting_1 {
+    background-color: #c4c4c4;
+}
+
+tr.odd.gradeU td.sorting_2 {
+    background-color: #d1d1d1;
+}
+
+tr.odd.gradeU td.sorting_3 {
+    background-color: #d1d1d1;
+}
+
+tr.even.gradeU td.sorting_1 {
+    background-color: #d5d5d5;
+}
+
+tr.even.gradeU td.sorting_2 {
+    background-color: #e2e2e2;
+}
+
+tr.even.gradeU td.sorting_3 {
+    background-color: #e2e2e2;
+}
+
+
+/*
+ * Row highlighting example
+ */
+.ex_highlight #example tbody tr.even:hover, #example tbody tr.even td.highlighted {
+    background-color: #ECFFB3;
+}
+
+.ex_highlight #example tbody tr.odd:hover, #example tbody tr.odd td.highlighted {
+    background-color: #E6FF99;
+}
+
+.ex_highlight_row #example tr.even:hover {
+    background-color: #ECFFB3;
+}
+
+.ex_highlight_row #example tr.even:hover td.sorting_1 {
+    background-color: #DDFF75;
+}
+
+.ex_highlight_row #example tr.even:hover td.sorting_2 {
+    background-color: #E7FF9E;
+}
+
+.ex_highlight_row #example tr.even:hover td.sorting_3 {
+    background-color: #E2FF89;
+}
+
+.ex_highlight_row #example tr.odd:hover {
+    background-color: #E6FF99;
+}
+
+.ex_highlight_row #example tr.odd:hover td.sorting_1 {
+    background-color: #D6FF5C;
+}
+
+.ex_highlight_row #example tr.odd:hover td.sorting_2 {
+    background-color: #E0FF84;
+}
+
+.ex_highlight_row #example tr.odd:hover td.sorting_3 {
+    background-color: #DBFF70;
+}
+
+
+/*
+ * KeyTable
+ */
+table.KeyTable td {
+    border: 3px solid transparent;
+}
+
+table.KeyTable td.focus {
+    border: 3px solid #3366FF;
+}
+
+table.display tr.gradeA {
+    background-color: #eeffee;
+}
+
+table.display tr.gradeC {
+    background-color: #ddddff;
+}
+
+table.display tr.gradeX {
+    background-color: #ffdddd;
+}
+
+table.display tr.gradeU {
+    background-color: #ddd;
+}
+
+div.box {
+    height: 100px;
+    padding: 10px;
+    overflow: auto;
+    border: 1px solid #8080FF;
+    background-color: #E5E5FF;
+}
+
+/** ####################################### IMAGE STYLES ####################################### **/
+img.logo {
+    margin: 5px 5px 5px 5px;
+    width: 99px;
+    height: 80px;
+}
+img.iconImage {
+    border: 0px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    * cursor: hand;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+img.thumbnail {
+    margin: 2px 2px 2px 2px;
+    width: 65px;
+    height: 78px;
+    border: 0px solid red;
+}
+img.passport {
+    margin: 2px 2px 2px 2px;
+    width: 150px;
+    height: 180px;
+    border: 0px solid red;
+}
+.thumbnailCheck {
+    position: relative;
+    top: -20px;
+    left: -24px;
+    background-color: black;
+}
+
+/** ####################################### TOOLTIP STYLES ####################################### **/
+.tooltipster-default {
+    /*border-radius: 5px; 
+    border: 2px solid #000;
+    background: #41A317;
+    color: #fff;*/
+    border: 1px solid @@ToolTip::Border@@;
+    background: @@ToolTip::Background@@;
+    color: @@ToolTip::Color@@;
+}
+/** ####################################### NOTIFICATION STYLES ####################################### **/
+/** Notification styles*/
+.lobibox-notify.lobibox-notify-default {
+  background-color: @@Notification::Default::Background@@;
+  border-color: @@Notification::Default::Border@@;
+  color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-success {
+  background-color: @@Notification::Success::Background@@;
+  border-color: @@Notification::Success::Border@@;
+  color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-info {
+  background-color: @@Notification::Info::Background@@;
+  border-color: @@Notification::Info::Border@@;
+  color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-warning {
+  background-color: @@Notification::Warning::Background@@;
+  border-color: @@Notification::Warning::Border@@;
+  color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-error {
+  background-color: @@Notification::Error::Background@@;
+  border-color: @@Notification::Error::Border@@;
+  color: #FFFFFF;
+}
+/** Notification hover styles*/
+.lobibox-notify.lobibox-notify-default:hover {
+  background-color: @@Notification::Default::Background@@;
+  border-color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-success:hover {
+  background-color: @@Notification::Success::Background@@;
+  border-color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-info:hover {
+  background-color: @@Notification::Info::Background@@;
+  border-color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-warning:hover {
+  background-color: @@Notification::Warning::Background@@;
+  border-color: #FFFFFF;
+}
+.lobibox-notify.lobibox-notify-error:hover {
+  background-color: @@Notification::Error::Background@@;
+  border-color: #FFFFFF;
+}
+/** Alert Message styles*/
+.lobibox.lobibox-success .lobibox-header {
+    background-color: @@Notification::Success::Background@@;
+    color: #EEEEEE;
+}
+.lobibox.lobibox-info .lobibox-header {
+    background-color: @@Notification::Info::Background@@;
+    color: #EEEEEE;
+}
+.lobibox.lobibox-warning .lobibox-header {
+    background-color: @@Notification::Warning::Background@@;
+    color: #EEEEEE;
+}
+.lobibox.lobibox-error .lobibox-header {
+    background-color: @@Notification::Error::Background@@;
+    color: #EEEEEE;
+}
+.lobibox.lobibox-error .lobibox-footer,
+.lobibox.lobibox-success .lobibox-footer,
+.lobibox.lobibox-info .lobibox-footer,
+.lobibox.lobibox-warning .lobibox-footer {
+    color: #EEEEEE;
+    background-color: rgba(255, 255, 255, 0.98);
+}
+/** Confirm Message styles*/
+.lobibox.lobibox-confirm .lobibox-footer {
+    color: #EEEEEE;
+    background-color: rgba(255, 255, 255, 0.98);
+}
+
+.lobibox.lobibox-window {
+  border: 3px solid @@Modal::Background@@;
+  border-radius: 6px;
+  background-color: @@Modal::Background@@;
+}
+
+.lobibox.lobibox-window .lobibox-header {
+  background-color: @@Modal::Header::Background@@;
+  color: #eeeeee;
+  font-size: 18px;
+}
+.lobibox.lobibox-window .lobibox-body {
+    overflow: auto;
+    display: block;
+    font-size: 14px;
+    padding: 15px;
+    background-color: @@Modal::Body::Background@@;
+}
+
+/***************************** GRIDS AND CARDS ***********************************************/
+.brick {
+    background-color: #FFFAFA;
+    border: 1px solid @@Tile::Header::Background@@;
+    border-radius: 10px;
+}
+.TileHeader {
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 4px;
+  background-color: @@Tile::Header::Background@@;
+  color: white;
+}
+.TileHeader strong {
+  font-weight: bold;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.TileHeader a img {
+    border: 0px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    * cursor: hand;
+    float: right;
+    padding-right: 5px;
+}
+
+.TileContent {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.card {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+
+  background-color: #f4f4f4;
+  border: 2px dashed #a7a7a7;
+  float: left;
+  text-align: left;
+}
+
+.fc-event-skin {
+    border-color: @@Calendar::Event::Background@@;
+    background-color: @@Calendar::Event::Background@@;
+    color: #fff;
+}

@@ -9,8 +9,8 @@ import javax.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.dto.DirectoryDto;
-import com.myschool.infra.filesystem.dto.FileDto;
+import com.myschool.filesystem.dto.DirectoryDto;
+import com.myschool.filesystem.dto.FileDto;
 import com.myschool.infra.filesystem.util.FileUtil;
 
 /**

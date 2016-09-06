@@ -12,10 +12,11 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.dto.AbsenceCode;
-import com.myschool.infra.filesystem.dto.DirectoryDto;
-import com.myschool.infra.filesystem.dto.FileDto;
-import com.myschool.infra.filesystem.dto.FileSystemDto;
+import com.myschool.common.util.StringUtil;
+import com.myschool.filesystem.dto.AbsenceCode;
+import com.myschool.filesystem.dto.DirectoryDto;
+import com.myschool.filesystem.dto.FileDto;
+import com.myschool.filesystem.dto.FileSystemDto;
 import com.myschool.infra.filesystem.reader.FileSystemReader;
 import com.myschool.infra.filesystem.util.FileUtil;
 
@@ -112,18 +113,20 @@ public class LocalFileSystemAgent extends FileSystemAgent {
         }
 
         // Determine the sub file system and pass the excerpt to initiate the sub file system
-        if (path.equalsIgnoreCase("rules")) {
-            rulesFileSystem.init(directory); 
-        } else if (path.equalsIgnoreCase("temp")) {
-            tempFileSystem.init(directory); 
-        } else if (path.equalsIgnoreCase("templates")) {
-            templatesFileSystem.init(directory); 
-        } else if (path.equalsIgnoreCase("config/rules")) {
-            rulesFileSystem.setConfigurationFiles(directory.getFiles()); 
-        } else if (path.equalsIgnoreCase("config/templates")) {
-            templatesFileSystem.setConfigurationFiles(directory.getFiles()); 
+        String id = directory.getId();
+        if (id != null && !StringUtil.isNullOrBlank(id)) {
+            if (id.equalsIgnoreCase("RULES_FILE_SYSTEM")) {
+                rulesFileSystem.init(directory);
+            } else if (id.equalsIgnoreCase("TMP_FILE_SYSTEM")) {
+                tempFileSystem.init(directory);
+            } else if (id.equalsIgnoreCase("TEMPLATES_FILE_SYSTEM")) {
+                templatesFileSystem.init(directory);
+            } else if (id.equalsIgnoreCase("RULES_CONFIG")) {
+                rulesFileSystem.setConfigurationFiles(directory.getFiles());
+            } else if (id.equalsIgnoreCase("TEMPLATES_CONFIG")) {
+                templatesFileSystem.setConfigurationFiles(directory.getFiles());
+            }
         }
-        
     }
 
     /**

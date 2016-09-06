@@ -1,0 +1,13 @@
+Google-Drive
+------------
+google-api-client-1.22.0.jar
+google-api-services-drive-v3-rev34-1.22.0.jar
+google-http-client-1.22.0.jar
+google-http-client-jackson2-1.22.0.jar
+google-oauth-client-1.22.0.jar
+google-oauth-client-java6-1.22.0.jar
+google-oauth-client-jetty-1.22.0.jar
+jackson-core-2.8.0.jar
+org.mortbay.jetty.jar
+org.mortbay.jetty.util.jar
+

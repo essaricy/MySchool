@@ -55,5 +55,5 @@ jQuery(document).ready(function() {
   </div>
 </div>
 <br />
-<input type="button" id="InstructionsRead" value="I have read the instructions" class="formButton" />
+<input type="button" id="InstructionsRead" value="I have read the instructions" />
 <br />

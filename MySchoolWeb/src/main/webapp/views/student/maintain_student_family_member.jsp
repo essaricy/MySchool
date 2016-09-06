@@ -47,7 +47,7 @@ function getStudentFamilyMember() {
 </script>
 
 <c:if test="${StudentFamilyMember == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">
       <spring:message code="common.relationship"/><label class="mandatory">*</label>
@@ -109,14 +109,14 @@ function getStudentFamilyMember() {
   <tr>
     <td colspan="2" align="center">
       <input type="hidden" id="StudentFamilyMember_FamilyMemberId" value="0" />
-      <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+      <input type="button" id="create" value='<spring:message code="common.create"/>' />
     </td>
   </tr>
 </table>
 </c:if>
 
 <c:if test="${StudentFamilyMember != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">
       <spring:message code="common.relationship"/><label class="mandatory">*</label>
@@ -178,7 +178,7 @@ function getStudentFamilyMember() {
   <tr>
     <td colspan="2" align="center">
       <input type="hidden" id="StudentFamilyMember_FamilyMemberId" value="${StudentFamilyMember.familyMemberId}" />
-      <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
+      <input type="button" id="update" value='<spring:message code="common.update"/>' />
     </td>
   </tr>
 </table>

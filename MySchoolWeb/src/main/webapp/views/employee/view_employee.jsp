@@ -33,7 +33,7 @@ jQuery(document).ready(function() {
   <tr>
     <td width="15%" valign="top">
       <!-- Employee Photo -->
-      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <c:if test="${Employee.verified}">

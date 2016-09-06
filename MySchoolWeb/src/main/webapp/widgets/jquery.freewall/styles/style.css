@@ -18,6 +18,55 @@
 
 
 /*** Free Wall Sizes Start ***/
+.size00 {
+  width: 100%;
+}
+
+.size01 {
+  width: 100%;
+  height: 100px;
+}
+
+.size02 {
+  width: 100%;
+  height: 200px;
+}
+
+.size03 {
+  width: 100%;
+  height: 300px;
+}
+
+.size04 {
+  width: 100%;
+  height: 400px;
+}
+
+.size05 {
+  width: 100%;
+  height: 500px;
+}
+
+.size06 {
+  width: 100%;
+  height: 600px;
+}
+
+.size07 {
+  width: 100%;
+  height: 700px;
+}
+
+.size08 {
+  width: 100%;
+  height: 800px;
+}
+
+.size09 {
+  width: 100%;
+  height: 900px;
+}
+
 .size11 {
   width: 100px;
   height: 100px;

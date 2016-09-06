@@ -1,13 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<!-- TODO: Rename this view name -->
-<style>
-.ui-tabs .ui-tabs-nav li a {
-    font-size: 0.6em !important;
-}
-</style>
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery-ui-1.10.2/ui/jquery.ui.tabs.js"></script>
+
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() {
   $("#ProfilesContainer").tabs();
@@ -16,6 +10,16 @@ $(document).ready(function() {
   $('#address').textcounter({id: 'address'});
   setEmailOptions($("#emailActive").is(":checked"));
   setSmsOptions($("#smsActive").is(":checked"));
+
+  $("#emailActive").toggleSwitch();
+  $("#emailEmployees").toggleSwitch();
+  $("#emailStudents").toggleSwitch();
+  $("#smsActive").toggleSwitch();
+  $("#smsEmployees").toggleSwitch();
+  $("#smsStudents").toggleSwitch();
+  $("#useMenuIcons").toggleSwitch();
+  $("#useEmployeeSelfSubmit").toggleSwitch();
+  $("#useStudentSelfSubmit").toggleSwitch();
 
   $("#emailActive").click(function() {
       setEmailOptions($(this).is(":checked"));
@@ -55,7 +59,7 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseWholepageResponse(result, false);
+        handleServerResponseOnPage(result, false);
     });
   });
 
@@ -77,14 +81,14 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseWholepageResponse(result, false);
+        handleServerResponseOnPage(result, false);
     });
   });
 });
 </script>
 
-<table width="70%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">Manage Profiles</caption>
+<table width="70%" class="formTable_Container">
+  <caption>Manage Profiles</caption>
   <tr>
     <td>
       <div id="ProfilesContainer">
@@ -97,37 +101,37 @@ $(document).ready(function() {
           <spring:message code="organization.not.defined"/>
         </c:if>
         <c:if test="${OrganizationProfile != null}">
-          <table cellpadding="5" cellspacing="0" align="center" width="100%" class="formDataTable" border="0">
+          <table class="formTable_Data" style="font-size: 0.85em;">
             <tbody>
               <tr>
-                <td width="50%" class="formLabel"><spring:message code="organization.name"/></td>
-                <td width="50%" align="left">
+                <td width="50%" class="label"><spring:message code="organization.name"/></td>
+                <td width="50%" class="value">
                   <input type="hidden" id="organizationName" value="${OrganizationProfile.organizationName}" />
                   <b>${OrganizationProfile.organizationName}</b>
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel"><spring:message code="organization.currentAcademicYear"/></td>
-                <td width="50%" align="left">
+                <td width="50%" class="label"><spring:message code="organization.currentAcademicYear"/></td>
+                <td width="50%" class="value">
                   <input type="hidden" id="currentAcademicYear" value="${OrganizationProfile.currentAcademicYear}" />
                   <b>${OrganizationProfile.currentAcademicYear}</b>
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel" valign="top"><spring:message code="common.address"/><label class="mandatory">*</label></td>
-                <td width="50%" align="left">
+                <td width="50%" class="label"><spring:message code="common.address"/><label class="mandatory">*</label></td>
+                <td width="50%" class="value">
                   <textarea id="address" rows="5" cols="30" maxlength="128">${OrganizationProfile.address}</textarea>
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel" valign="top"><spring:message code="common.phoneNumber"/><label class="mandatory">*</label></td>
-                <td width="50%" align="left">
+                <td width="50%" class="label"><spring:message code="common.phoneNumber"/><label class="mandatory">*</label></td>
+                <td width="50%" class="value">
                   <input type="text" id="phoneNumber" maxlength="16" value="${OrganizationProfile.phoneNumber}" />
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel" valign="top"><spring:message code="common.faxNumber"/></td>
-                <td width="50%" align="left">
+                <td width="50%" class="label"><spring:message code="common.faxNumber"/></td>
+                <td width="50%" class="value">
                   <input type="text" id="faxNumber" maxlength="16" value="${OrganizationProfile.faxNumber}" />
                 </td>
               </tr>
@@ -137,10 +141,10 @@ $(document).ready(function() {
                 <td colspan="2" align="center">
                 <c:choose>
                   <c:when test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
-                    <input type="button" id="SaveOrganizationProfile" class="formButton" style="width:120px;" value='Save Changes' />
+                    <input type="button" id="SaveOrganizationProfile" style="width:120px;" value='Save Changes' />
                   </c:when>
                   <c:otherwise>
-                    <input type="button" class="inactive" style="width:120px;" value='Save Changes'  disabled />
+                    <input type="button" style="width:120px;" value='Save Changes'  disabled />
                   </c:otherwise>
                 </c:choose>
                 </td>
@@ -154,12 +158,12 @@ $(document).ready(function() {
           MySchool Profile is not defined.
         </c:if>
         <c:if test="${MySchoolProfile != null}">
-          <table cellpadding="5" cellspacing="0" align="center" class="formDataTable" border="0" width="100%">
+          <table class="formTable_Data" style="font-size: 0.85em;">
             <tbody>
               <!-- Email service configuration -->
               <tr>
-                <td width="50%" class="formLabel">Use Email Service</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use Email Service</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.emailActive}">
                   <input id="emailActive" type="checkbox" checked />
                 </c:if>
@@ -169,8 +173,8 @@ $(document).ready(function() {
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel">Use Email Service for Employees</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use Email Service for Employees</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.emailEmployees}">
                   <input id="emailEmployees" type="checkbox" checked />
                 </c:if>
@@ -180,8 +184,8 @@ $(document).ready(function() {
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel">Use Email Service for Students</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use Email Service for Students</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.emailStudents}">
                   <input id="emailStudents" type="checkbox" checked />
                 </c:if>
@@ -190,11 +194,12 @@ $(document).ready(function() {
                 </c:if>
                 </td>
               </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
 
               <!-- SMS service configuration -->
               <tr>
-                <td width="50%" class="formLabel">Use SMS Service</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use SMS Service</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.smsActive}">
                   <input id="smsActive" type="checkbox" checked />
                 </c:if>
@@ -204,8 +209,8 @@ $(document).ready(function() {
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel">Use SMS Service for Employees</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use SMS Service for Employees</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.smsEmployees}">
                   <input id="smsEmployees" type="checkbox" checked />
                 </c:if>
@@ -215,8 +220,8 @@ $(document).ready(function() {
                 </td>
               </tr>
               <tr>
-                <td width="50%" class="formLabel">Use SMS Service for Students</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use SMS Service for Students</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.smsStudents}">
                   <input id="smsStudents" type="checkbox" checked />
                 </c:if>
@@ -225,11 +230,12 @@ $(document).ready(function() {
                 </c:if>
                 </td>
               </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
 
               <!-- Menu Options -->
               <tr>
-                <td width="50%" class="formLabel">Use Icons in Menu</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use Icons in Menu</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.useMenuIcons}">
                   <input id="useMenuIcons" type="checkbox" checked />
                 </c:if>
@@ -238,11 +244,12 @@ $(document).ready(function() {
                 </c:if>
                 </td>
               </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
 
               <!-- User self submit options Options -->
               <tr>
-                <td width="50%" class="formLabel">Use Employee Self-Submit</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use Employee Self-Submit</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.useEmployeeSelfSubmit}">
                   <input id="useEmployeeSelfSubmit" type="checkbox" checked />
                 </c:if>
@@ -253,8 +260,8 @@ $(document).ready(function() {
               </tr>
               <!-- Menu Options -->
               <tr>
-                <td width="50%" class="formLabel">Use Student Self-Submit</td>
-                <td width="50%" align="left">
+                <td width="50%" class="label">Use Student Self-Submit</td>
+                <td width="50%" class="value">
                 <c:if test="${MySchoolProfile.useStudentSelfSubmit}">
                   <input id="useStudentSelfSubmit" type="checkbox" checked />
                 </c:if>
@@ -263,6 +270,7 @@ $(document).ready(function() {
                 </c:if>
                 </td>
               </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
 
             <tbody>
             <tfoot>
@@ -270,10 +278,10 @@ $(document).ready(function() {
                 <td colspan="2" align="center">
                 <c:choose>
                   <c:when test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
-                    <input type="button" id="SaveMySchoolProfile" class="formButton" style="width:120px;" value='Save Changes' />
+                    <input type="button" id="SaveMySchoolProfile" style="width:120px;" value='Save Changes' />
                   </c:when>
                   <c:otherwise>
-                    <input type="button" class="inactive" style="width:120px;" value='Save Changes' disabled />
+                    <input type="button" style="width:120px;" value='Save Changes' disabled />
                   </c:otherwise>
                 </c:choose>
                 </td>

@@ -1,0 +1,5 @@
+- [x] All new browsers compatability.
+- [x] Checkbox, radiobuttons support.
+- [ ] Disabled items.
+- [ ] Initialize using any jquery selector (not only an id), bulk initialize.
+- [ ] Write tests.

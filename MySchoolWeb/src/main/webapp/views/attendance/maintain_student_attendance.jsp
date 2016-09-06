@@ -55,7 +55,7 @@ $(document).ready(function() {
     var currentDate = getCurrentDate(true);
     if (currentDate == null) {
         $('#studentAttendanceEntryTable').hide();
-        showError('Unable to load the data. Please try again later.');
+        attendError('Unable to load the data. Please try again later.');
     } else {
         var classId = $('#classId').val();
         if (classId != '' && typeof(classId) != 'undefined') {
@@ -144,7 +144,7 @@ $(document).ready(function() {
             },
             context: document.body,
             success: function(result) {
-                parseModelResponse(result);
+                handleServerResponseOnModal(result);
             }
         });
     });
@@ -203,7 +203,7 @@ $(document).ready(function() {
                         displayActionButtons(true);
                     } else {
                         displayActionButtons(false);
-                        showError('Unable to load student attendances. Please try again later.');
+                        attendError('Unable to load student attendances. Please try again later.');
                         $('#studentAttendanceEntryTable').hide();
                     }
                 }
@@ -424,14 +424,14 @@ $(document).ready(function() {
 <table cellpadding="2" cellspacing="0" align="center" border="0" width="80%">
     <tr>
         <td>
-            <table cellpadding="2" cellspacing="0" align="center" border="0" width="100%" class="formTable" id="studentAttendanceSummaryTable">
+            <table class="formTable_Data" id="studentAttendanceSummaryTable">
                 <tbody></tbody>
             </table>
         </td>
     </tr>
     <tr>
         <td>
-            <table cellpadding="2" cellspacing="0" align="center" border="1" class="formTable" id="studentAttendanceEntryTable">
+            <table class="formTable_Container" id="studentAttendanceEntryTable">
                 <thead></thead>
                 <tbody></tbody>
                 <tfoot>

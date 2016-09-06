@@ -10,6 +10,7 @@ import java.util.Properties;
 import java.util.Set;
 
 import com.myschool.common.exception.FileSystemException;
+import com.myschool.file.util.FileUtil;
 
 /**
  * The Class PropertiesUtil.
@@ -129,4 +130,34 @@ public class PropertiesUtil {
         }
         return value;
     }
+
+    public static long getLong(Properties properties, String key) {
+        String propertyValue = properties.getProperty(key);
+        return Long.parseLong(propertyValue);
+    }
+
+    /**
+     * Gets the int.
+     * 
+     * @param properties the properties
+     * @param key the key
+     * @return the int
+     */
+    public static int getInt(Properties properties, String key) {
+        String propertyValue = properties.getProperty(key);
+        return Integer.parseInt(propertyValue);
+    }
+
+    public File getFile(Properties properties, String key, boolean create) {
+        File file = null;
+        String value = properties.getProperty(key);
+        if (value != null) {
+            file = new File(value);
+            if (!file.exists() && create) {
+                FileUtil.createDirectory(file);
+            }
+        }
+        return file;
+    }
+
 }

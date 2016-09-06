@@ -1,14 +1,6 @@
 package com.myschool.sautil.middleware;
 
-import java.util.List;
-import java.util.Properties;
-
 import org.apache.log4j.Logger;
-
-import com.myschool.infra.application.constants.CommandName;
-import com.myschool.infra.application.dto.CommandDto;
-import com.myschool.infra.application.dto.ConfigurationParameterDto;
-import com.myschool.sautil.base.StandAloneUtility;
 
 /**
  * The Class CommandMessageProcessor.
@@ -23,7 +15,7 @@ public class CommandMessageProcessor extends MessageProcessor {
      */
     @Override
     public void processObject(Object object) throws Exception {
-        StandAloneUtility standAloneUtility = null;
+        /*StandAloneUtility standAloneUtility = null;
         if (object instanceof CommandDto) {
             CommandDto command = (CommandDto) object;
             LOGGER.info("Command Received: " + command);
@@ -45,7 +37,7 @@ public class CommandMessageProcessor extends MessageProcessor {
             
         } else {
             LOGGER.fatal("Cannot execute the command. Unsupported object " + object);
-        }
+        }*/
     }
 
 }

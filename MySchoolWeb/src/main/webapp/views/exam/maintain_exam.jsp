@@ -55,7 +55,7 @@ $(document).ready(function() {
         var oTable = $('#subjectsTable').dataTable();
 
         if ('${fn:length(registeredSubjects)}' == '0') {
-            showError('There are no subjects setup in this class. You must add subjects to the class before creating an exam.');
+            attendError('There are no subjects setup in this class. You must add subjects to the class before creating an exam.');
             return;
         }
 
@@ -99,7 +99,7 @@ $(document).ready(function() {
                 },
                 context: this
             }).done(function(result) {
-                parseModelResponse(result);
+                handleServerResponseOnModal(result);
             });
         }
     });
@@ -146,18 +146,18 @@ $(document).ready(function() {
     function getFormData() {
         var examName =  $('#examName').val();
         if (examName == null || examName == '') {
-            showError('<spring:message code="exam.enter.examName"/>');
+            notifyError('<spring:message code="exam.enter.examName"/>');
             return null;
         }
         var examDate =  $('#examDate').val();
         if (examDate == null || examDate == '') {
-            showError('<spring:message code="exam.enter.examDate"/>');
+            notifyError('<spring:message code="exam.enter.examDate"/>');
             return null;
         }
 
         var oTable = $('#subjectsTable').dataTable();
         if (oTable.fnGetData().length == 0) {
-            showError('<spring:message code="exam.no.subject"/>');
+            notifyError('<spring:message code="exam.no.subject"/>');
             return null;
         }
 
@@ -182,7 +182,7 @@ $(document).ready(function() {
                                 } 
                             }
                             if (subjectPresent) {
-                                showError('Subject (' + subjectExamData.subjectName + ') is selected more than once.');
+                                notifyError('Subject (' + subjectExamData.subjectName + ') is selected more than once.');
                                 continueValidation = false;
                             } else {
                                 subjectsTracker[subjectsTracker.length] = subjectExamData.registeredSubjectId;
@@ -217,7 +217,7 @@ $(document).ready(function() {
 </script>
 
 <c:if test="${examDetails == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <input type="hidden" name="updatedSubjectExamsData" />
   <input type="hidden" id="examId" value="0"/>
   <tr>
@@ -263,14 +263,14 @@ $(document).ready(function() {
   </tr>
   <tr>
     <td colspan="2" align="center">
-      <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+      <input type="button" id="create" value='<spring:message code="common.create"/>' />
     </td>
   </tr>
 </table>
 </c:if>
 
 <c:if test="${examDetails != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <input type="hidden" id="examId" value="${examDetails.examId}"/>
   <c:if test="${examDetails.examCompleted}">
   <tr>
@@ -349,7 +349,7 @@ $(document).ready(function() {
   <c:if test="${examDetails.examCompleted == 'false'}">
   <tr>
     <td colspan="2" align="center">
-      <input type="button" id="create" class="active" value='<spring:message code="common.update"/>' />
+      <input type="button" id="create" value='<spring:message code="common.update"/>' />
     </td>
   </tr>
   </c:if>

@@ -13,7 +13,7 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
 
@@ -27,7 +27,7 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
 
@@ -38,7 +38,7 @@ $(document).ready(function() {
 </script>
 
 <c:if test="${medium == null}">
-  <table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+  <table class="formTable_Data">
     <tr>
       <td class="label" width="40%"><spring:message code="common.description"/><label class="mandatory">*</label></td>
       <td class="value" width="60%">
@@ -47,24 +47,24 @@ $(document).ready(function() {
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+        <input type="button" id="create" value='<spring:message code="common.create"/>' />
       </td>
     </tr>
   </table>
 </c:if>
 
 <c:if test="${medium != null}">
-  <table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+  <table class="formTable_Data">
     <tr>
       <td class="label" width="40%"><spring:message code="common.description"/><label class="mandatory">*</label></td>
       <td class="value" width="60%">
-        <textArea name="description" id="description" class="formInputText" maxlength="16">${medium.description}</textArea>
+        <textArea name="description" id="description" maxlength="16">${medium.description}</textArea>
       </td>
     </tr>
     <tr>
       <td colspan="2" align="center">
         <input type="hidden" id="mediumId" value="${medium.mediumId}" />
-        <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
+        <input type="button" id="update" value='<spring:message code="common.update"/>' />
       </td>
     </tr>
   </table>

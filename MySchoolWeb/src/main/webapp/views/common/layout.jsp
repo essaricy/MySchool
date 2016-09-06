@@ -7,12 +7,13 @@
 <html>
   <head>
     <title><tiles:insertAttribute name="title" ignore="true" /></title>
-	<link rel="icon" type="image/gif" href="<%=request.getContextPath() %>/images/school/favicon.png" />
+    <link rel="icon" type="image/gif" href="<%=request.getContextPath() %>/images/school/favicon.png" />
     <tiles:useAttribute id="css_imports" name="css_imports" classname="java.util.List" />
-	<c:set var="current_theme" value="${(USER_CONTEXT == null || USER_CONTEXT.userPreference == null || USER_CONTEXT.userPreference.userTheme == null)? 'BLUE' : USER_CONTEXT.userPreference.userTheme}" />
+    <!-- TODO: Get the default theme name from myschool profile.  -->
+    <c:set var="current_theme" value="${(USER_CONTEXT == null || USER_CONTEXT.userPreference == null || USER_CONTEXT.userPreference.userTheme == null)? 'SECRET_KEY' : USER_CONTEXT.userPreference.userTheme.code}" />
 
     <c:forEach var="css_import" items="${css_imports}">
-      <c:set var="modified_css_import_name" value="${fn:replace(css_import, '${theme}', current_theme)}" />
+      <c:set var="modified_css_import_name" value="${fn:replace(css_import, '${current_theme}', current_theme)}" />
       <link type="text/css" rel="stylesheet" href="<%=request.getContextPath() %>/${modified_css_import_name}" />
     </c:forEach>
     <tiles:useAttribute id="script_imports" name="script_imports" classname="java.util.List" />

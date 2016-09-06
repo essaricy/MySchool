@@ -10,6 +10,7 @@ import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UserStatistics;
+import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -141,5 +142,12 @@ public interface UserDao {
 	 */
 	boolean update(UserSession userSession) throws DaoException;
 
+    /**
+     * Gets the themes.
+     *
+     * @return the themes
+     * @throws DaoException the dao exception
+     */
+    List<UserTheme> getThemes() throws DaoException;
 
 }

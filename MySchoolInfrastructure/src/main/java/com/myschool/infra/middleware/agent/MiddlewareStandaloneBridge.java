@@ -1,16 +1,11 @@
 package com.myschool.infra.middleware.agent;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.infra.application.constants.CommandName;
-import com.myschool.infra.application.dto.CommandDto;
-import com.myschool.infra.application.dto.ConfigurationParameterDto;
 import com.myschool.infra.middleware.exception.MessageException;
 
 /**
@@ -47,7 +42,7 @@ public class MiddlewareStandaloneBridge {
      */
     public void sendStandAloneCommand(CommandName commandName,
             Map<String, Object> commandArguementsMap) throws MessageException {
-        ConfigurationParameterDto param = null;
+        /*ConfigurationParameterDto param = null;
         List<ConfigurationParameterDto> commandArguements = null;
         if (commandName != null) {
             CommandDto command = new CommandDto();
@@ -67,7 +62,7 @@ public class MiddlewareStandaloneBridge {
                 command.setCommandArguements(commandArguements);
             }
             middlewareMessageHelper.produceCommandMessage(command);
-        }
+        }*/
     }
 
 }

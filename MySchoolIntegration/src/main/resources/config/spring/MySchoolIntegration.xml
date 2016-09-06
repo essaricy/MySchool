@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:camel="http://camel.apache.org/schema/spring"
+    xsi:schemaLocation=" http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://camel.apache.org/schema/spring
+        http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <context:component-scan base-package="com.myschool.integration" />
+
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="config/integration.properties" /> 
+    </bean>
+
+    <import resource="../camel/academic/camel-integration-routes.xml" />
+    <import resource="../camel/attendance/camel-integration-routes.xml" />
+    <import resource="../camel/brochure/camel-integration-routes.xml" />
+    <import resource="../camel/employee/camel-integration-routes.xml" />
+    <import resource="../camel/exim/camel-integration-routes.xml" />
+    <import resource="../camel/feature/camel-integration-routes.xml" />
+    <import resource="../camel/gallery/camel-integration-routes.xml" />
+    <import resource="../camel/student/camel-integration-routes.xml" />
+    <!-- <import resource="log/camel-integration-routes.xml" /> -->
+
+    <import resource="../camel/brochure/camel-media-routes.xml" />
+    <import resource="../camel/employee/camel-media-routes.xml" />
+    <import resource="../camel/feature/camel-media-routes.xml" />
+    <import resource="../camel/gallery/camel-media-routes.xml" />
+    <import resource="../camel/student/camel-media-routes.xml" />
+
+    <camelContext id="camelIntegrationContext" xmlns="http://camel.apache.org/schema/spring" useMDCLogging="true" autoStartup="true">
+        <routeContextRef ref="Academic_Integration_Routes" />
+        <routeContextRef ref="Attendance_Integration_Routes" />
+        <routeContextRef ref="Brochure_Integration_Routes" />
+        <routeContextRef ref="Employee_Integration_Routes" />
+        <routeContextRef ref="Exim_Integration_Routes" />
+        <routeContextRef ref="Feature_Integration_Routes" />
+        <routeContextRef ref="Gallery_Integration_Routes" />
+        <routeContextRef ref="Student_Integration_Routes" />
+        <!-- <routeContextRef ref="Logs_Integration_Routes" /> -->
+
+        <routeContextRef ref="Brochure_Media_Routes" />
+        <routeContextRef ref="Employee_Media_Routes" />
+        <routeContextRef ref="Feature_Media_Routes" />
+        <routeContextRef ref="Gallery_Media_Routes" />
+        <routeContextRef ref="Student_Media_Routes" />
+
+    </camelContext>
+</beans>

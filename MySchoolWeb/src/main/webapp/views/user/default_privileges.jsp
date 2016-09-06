@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
 
-<script src="<%=request.getContextPath()%>/widgets/chosen.ImageSelect/ImageSelect.jquery.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/scripts/myschool-privileges.js" type="text/javascript"></script>
 
 <style>
@@ -38,14 +37,6 @@ $(document).ready(function () {
     };
     showPrivileges(url, data, images_src);
   });
-  $('#ExpandAll').click(function() {
-    $('.module_functions_div').slideDown(1000);
-    $('.expand_collapse_toggle').attr('src', images_src.collapse_src);
-  });
-  $('#CollapseAll').click(function() {
-    $('.module_functions_div').slideUp(1000);
-    $('.expand_collapse_toggle').attr('src', images_src.expand_src);
-  });
   $('#UpdatePrivileges').click(function() {
     updatePrivileges('<%=request.getContextPath()%>/privileges/jsonSaveDefaultPrivileges.htm');
   });
@@ -55,15 +46,17 @@ $(document).ready(function () {
   $('#CollapseAll').tooltipster();
   $('.chosen-select').chosen({width: "95%"});
   $('#UserTypeID').change();
+
+  $('.iconImage').tooltipster();
 });
 
 </script>
 
-<table cellpadding="5" cellspacing="0" width="60%" class="formTable">
-  <caption class="dataTableCaption">Default Privileges</caption>
+<table class="formTable_Container" style="width: 70%; font-size: 1em; color: #555;">
+  <caption>Default Privileges</caption>
   <tr>
-    <td class="formLabel" width="50%">User Type</td>
-    <td align="left" width="50%">
+    <td width="50%" class="label">User Type</td>
+    <td width="50%" class="value">
     <c:if test="${UserTypes != null}">
       <select id="UserTypeID" class="chosen-select">
       <c:forEach var="UserType" items="${UserTypes}">
@@ -80,17 +73,17 @@ $(document).ready(function () {
   </tr>
   <tr>
     <td colspan="2" valign="top">
-      <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" valign="top">
-        <thead>
+      <table width="100%" cellpadding="2" cellspacing="0">
+        <thead style="background: url('<%=request.getContextPath()%>/images/icons/blockdefault.gif') repeat-x left center;">
           <tr>
-            <th width="40px" align="left">
-              <img src="<%=request.getContextPath()%>/images/icons/triangle_down.png" class="iconImage" id="ExpandAll" title="Expand All"/><img src="<%=request.getContextPath()%>/images/icons/triangle_up.png" class="iconImage" id="CollapseAll" title="Collapse All"/>
+            <th width="5%" align="left">
+              &nbsp;
             </th>
-            <th width="35%" align="left">Module</th>
-            <th align="center">View</th>
-            <th align="center">Create</th>
-            <th align="center">Update</th>
-            <th align="center">Delete</th>
+            <th width="75%" align="left" style="color: white;">Module</th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/view.png" class="iconImage" title="View" /></th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Add" /></th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/update.png" class="iconImage" title="Update" /></th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/delete.png" class="iconImage" title="Delete" /></th>
           </tr>
         </thead>
         <tbody>
@@ -106,10 +99,10 @@ $(document).ready(function () {
     <td colspan="3" align="right">
       <c:choose>
         <c:when test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
-          <input type="button" id="UpdatePrivileges" value="Update" class="formButton" />
+          <input type="button" id="UpdatePrivileges" value="Update" />
         </c:when>
         <c:otherwise>
-          <input type="button" value="Update" class="inactive" disabled />
+          <input type="button" value="Update" disabled />
         </c:otherwise>
       </c:choose>
     </td>

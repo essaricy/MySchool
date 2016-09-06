@@ -27,13 +27,13 @@ $(document).ready(function() {
             title: 'Create Medium',
             url: '<%=request.getContextPath()%>/medium/launchNew.htm',
             width: 400,
-            height: 150
+            height: 200
         },
         'update': {
             title: 'Update Medium',
             url: '<%=request.getContextPath()%>/medium/launchUpdate.htm',
             width: 400,
-            height: 150,
+            height: 200,
             selectRowMessage: '<spring:message code="common.selectRow.update"/>',
             sendParams: [ {
                 refTable: 'self',

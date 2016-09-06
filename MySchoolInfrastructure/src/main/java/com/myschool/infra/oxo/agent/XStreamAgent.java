@@ -2,6 +2,7 @@ package com.myschool.infra.oxo.agent;
 
 import java.io.File;
 import java.io.Serializable;
+import java.io.Writer;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -14,6 +15,10 @@ import com.myschool.infra.oxo.dto.ObjectXmlFieldDto;
 import com.myschool.infra.oxo.dto.ObjectXmlMappingDto;
 import com.myschool.infra.oxo.reader.OxoMappingReader;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.core.util.QuickWriter;
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
 
 /**
  * The Class XStreamAgent.
@@ -25,7 +30,7 @@ public class XStreamAgent extends OxoAgent {
     private static final Logger LOGGER = Logger.getLogger(XStreamAgent.class);
 
     /** The Constant X_STREAM. */
-    private static final XStream X_STREAM = new XStream();
+    private static XStream X_STREAM = new XStream();
 
     /** The object xml mapping reader. */
     @Autowired
@@ -45,6 +50,18 @@ public class XStreamAgent extends OxoAgent {
         Class<?> objectClass = null;
         List<ObjectXmlFieldDto> objectXmlFields = null;
 
+        X_STREAM = new XStream(new DomDriver() {
+            public HierarchicalStreamWriter createWriter(Writer out) {
+                return new PrettyPrintWriter(out) {
+                    protected void writeText(QuickWriter writer, String text) {
+                        writer.write("<![CDATA[");
+                        writer.write(text);
+                        writer.write("]]>");
+                    }
+                };
+            }
+        });
+
         List<ObjectXmlMappingDto> mappings = objectXmlMappingReader.readMappings(configFile);
 
         if (mappings != null && !mappings.isEmpty()) {
@@ -56,6 +73,9 @@ public class XStreamAgent extends OxoAgent {
                     objectXmlFields = objectXmlMapping.getObjectXmlFields();
 
                     X_STREAM.alias(name, objectClass);
+                    //String implicitCollectionName = name + "List";
+                    //System.out.println("Adding implicit collection " + implicitCollectionName + " to " + objectClass);
+                    //X_STREAM.addImplicitCollection(objectClass, implicitCollectionName);
                     //LOGGER.debug("Alias '" + name + "' will be used for type " + type);
 
                     if (objectXmlFields != null && !objectXmlFields.isEmpty()) {
@@ -108,5 +128,47 @@ public class XStreamAgent extends OxoAgent {
     public Object toObject(String xmlContent) {
         return X_STREAM.fromXML(xmlContent);
     }
+
+    /* (non-Javadoc)
+     * @see com.myschool.infra.oxo.agent.OxoAgent#toXml(java.util.List, java.lang.Class)
+     */
+    @Override
+    public synchronized <T> String toXml(List<T> list, Class<T> type) {
+        String xml = null;
+        if (list != null) {
+            String className = type.getSimpleName();
+            if (className.endsWith("Dto")) {
+                className = className.substring(0, className.indexOf("Dto"));
+            }
+            xml = X_STREAM.toXML(list);
+            if (xml != null) {
+                xml = xml.replaceAll("<list>", "<" + className + "s>")
+                        .replaceAll("</list>", "</" + className + "s>")
+                        .replaceAll("<list/>", "<" + className + "s/>")
+                        .replaceAll("<list />", "<" + className + "s />");
+            }
+        }
+        return xml;
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.infra.oxo.agent.OxoAgent#toXml(com.myschool.infra.application.dto.CommandDto, java.lang.Class)
+     
+    @Override
+    public <T> String toXml(CommandDto command, Class<T> type) {
+        String xml = toXml(command);
+        if (xml != null) {
+            String className = type.getSimpleName();
+            if (className.endsWith("Dto")) {
+                className = className.substring(0, className.indexOf("Dto"));
+            }
+            xml = xml.replaceAll("<Content>", "<" + className + ">")
+                    .replaceAll("</Content>", "</" + className + ">")
+                    .replaceAll("<Content/>", "<" + className + "/>")
+                    .replaceAll("<Content />", "<" + className + " />")
+                    .replaceAll("<Content", "<" + className);
+        }
+        return null;
+    }*/
 
 }

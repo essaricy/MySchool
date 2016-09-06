@@ -2,7 +2,7 @@
 
 <c:set var="EmployeeNotificationToValues" value="<%=EmployeeNotificationTo.values()%>"/>
 <c:if test="${EmployeeContact != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Present Address</td>
     <td width="60%" class="value">${EmployeeContact.presentAddress}</td>

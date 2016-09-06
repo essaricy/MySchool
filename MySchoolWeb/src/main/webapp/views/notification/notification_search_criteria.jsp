@@ -29,8 +29,8 @@ $(document).ready(function() {
 
 </script>
 
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">Notification Templates</caption>
+<table class="formTable_Container">
+  <caption>Notification Templates</caption>
   <tr>
     <td>
       <div id="SearchTabs">
@@ -63,7 +63,7 @@ $(document).ready(function() {
             </tr>
             <tr>
               <td align="right" colspan="6">
-                <input type="button" id="Search" value="Search" class="formButton" />
+                <input type="button" id="Search" value="Search" />
               </td>
             </tr>
           </table>

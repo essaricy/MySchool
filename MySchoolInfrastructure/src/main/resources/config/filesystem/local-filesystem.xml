@@ -25,7 +25,7 @@
                 <file name="active-mq.properties" absence="ERROR" />
                 <file name="MessageQueueConfig.xml" absence="ERROR" />
             </directory>
-            <directory name="rules" absence="ERROR">
+            <directory name="rules" absence="ERROR" id="RULES_CONFIG">
                 <file name="rules-config.properties" absence="ERROR" />
             </directory>
             <directory name="sms" absence="ERROR">
@@ -38,7 +38,7 @@
                 <file name="MySchoolService.xml" absence="ERROR" />
                 <file name="MySchoolTransformation.xml" absence="ERROR" />
             </directory>
-            <directory name="templates" absence="ERROR">
+            <directory name="templates" absence="ERROR" id="TEMPLATES_CONFIG">
                 <file name="templates-config.xml" absence="ERROR" />
             </directory>
             <directory name="xml" absence="ERROR">
@@ -46,9 +46,9 @@
             </directory>
         </directory>
         <directory name="lib" absence="ERROR" />
-        <directory name="rules" absence="ERROR" />
+        <directory name="rules" absence="ERROR" id="RULES_FILE_SYSTEM"/>
         <directory name="scripts" absence="ERROR" />
-        <directory name="templates" absence="ERROR">
+        <directory name="templates" absence="ERROR" id="TEMPLATES_FILE_SYSTEM">
             <directory name="main" absence="CREATE">
                 <directory name="device" absence="CREATE">
                     <file name="mobile-template.xsl" absence="ERROR" />
@@ -79,7 +79,14 @@
     <directory name="runtime" absence="CREATE" >
         <directory name="cache" absence="CREATE" />
         <directory name="logs" absence="CREATE" />
-        <directory name="tmp" absence="CREATE" />
+        <directory name="tmp" absence="CREATE" id="TMP_FILE_SYSTEM">
+            <directory name="employee" absence="CREATE" />
+            <directory name="import" absence="CREATE" />
+            <directory name="report" absence="CREATE" />
+            <directory name="student" absence="CREATE" />
+            <directory name="notification" absence="CREATE" />
+            <directory name="upload" absence="CREATE" />
+        </directory>
     </directory>
     <directory name="transfers" absence="CREATE" >
         <directory name="outbound" absence="CREATE">

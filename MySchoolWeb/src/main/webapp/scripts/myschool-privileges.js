@@ -44,10 +44,10 @@
 
   function createModuleTable(PrivilegesDataContainer, Module, expand_src) {
     var id = Module.ModuleId;
-    var module_table = $('<table cellpadding="0" cellspacing="0" width="100%" border="0" id="module_table_' + id + '" style="padding-left: 1px; padding-right: 1px; padding-top: 1px; padding-bottom: 2px;" class="module_table">');
+    var module_table = $('<table class="module_table" cellpadding="3" cellspacing="0" width="100%" id="module_table_' + id + '" style="margin-top: 3px; margin-bottom: 3px; border: 1px solid #555;">');
     var module_functions_div = $('<div id="module_functions_div_' + id + '" style="display:none;" class="module_functions_div" >');
     var module_functions_table = $('<table cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px black solid;" >');
-    var module_row = $('<tr style="background-color:#CCCCFF;">');
+    var module_row = $('<tr style="background-color:#FFFFFF;">');
     module_table.append(module_row);
     module_functions_div.append(module_functions_table);
 
@@ -70,12 +70,12 @@
     var id = null;
     var name = null;
     // Expand collapse toggler
-    var td_expand_collapse = $('<td width="40px">');
+    var td_expand_collapse = $('<td width="5%">');
     if (type == 'module') {
       id = object.ModuleId;
       name = object.ModuleName;
       td_expand_collapse.append('<input type="hidden" name="ModuleId" value="' + id + '" />');
-      td_expand_collapse.append('<img src="' + expand_src + '" id="expand_collapse_module_' + id + '" class="iconImage expand_collapse_toggle" width="40px" />');
+      td_expand_collapse.append('<img src="' + expand_src + '" id="expand_collapse_module_' + id + '" class="iconImage expand_collapse_toggle" width="10%" />');
     } else {
       id = object.FunctionId;
       name = object.FunctionName;
@@ -84,7 +84,7 @@
     tr.append(td_expand_collapse);
 
     // Module/Function name
-    var td_name = $('<td width="35%" style="text-align: left; font-size: 12px;">');
+    var td_name = $('<td width="76%" align="left" style="font-size: 0.85em;">');
     td_name.append(name);
     tr.append(td_name);
 
@@ -180,7 +180,7 @@
       },
       context: this
     }).done(function(result) {
-      parseWholepageResponse(result, false);
+    	handleServerResponseOnPage(result, false);
       //setTimeout(function(){ window.location.reload(); }, 3000);
     });
   }

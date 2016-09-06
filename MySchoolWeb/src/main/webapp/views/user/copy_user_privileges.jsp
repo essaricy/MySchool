@@ -36,13 +36,13 @@ $(document).ready(function () {
         context: this
       }).done(function(result) {
         //alert(JSON.stringify(result));
-        parseModelResponse(result);
+        handleServerResponseOnModal(result);
       });
 
   });
 });
 </script>
-<table cellpadding="5" cellspacing="0" width="100%" class="userFormTable">
+<table class="formTable_Data">
   <tbody>
     <tr>
       <td width="30%" align="right">Copy From</td>
@@ -70,7 +70,7 @@ $(document).ready(function () {
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <input type="button" id="Copy" value="Copy Privileges" class="formButton" />
+        <input type="button" id="Copy" value="Copy Privileges" />
       </td>
     </tr>
   </tbody>

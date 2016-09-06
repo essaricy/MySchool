@@ -21,7 +21,7 @@ $(document).ready(function(){
 </script>
 
 <c:if test="${StudentPersonalDetails != null}">
-<table width="80%" id="StudentPersonalDetailsTable" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label"><spring:message code="common.firstName"/></td>
     <td width="60%" class="value">${StudentPersonalDetails.firstName}</td>

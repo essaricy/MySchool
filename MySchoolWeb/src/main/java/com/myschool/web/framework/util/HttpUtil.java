@@ -23,6 +23,7 @@ import net.sf.uadetector.service.UADetectorServiceFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.myschool.common.assembler.ResultDataAssembler;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.ResourceUtil;
@@ -175,16 +176,14 @@ public class HttpUtil {
     public static void writeAsJson(HttpServletResponse response, ResultDto result)
             throws IOException {
         PrintWriter writer = null;
-        JSONObject jsonObject = new JSONObject();
+        JSONObject jsonObject = null;
         response.setContentType(MimeTypes.APPLICATION_JSON);
         writer = response.getWriter();
         try {
-            if (result != null) {
-                jsonObject.put("Successful", result.isSuccessful());
-                jsonObject.put("StatusMessage", result.getStatusMessage());
-                jsonObject.put("ReferenceNumber", result.getReferenceNumber());
+            jsonObject = ResultDataAssembler.createJSON(result);
+            if (jsonObject != null) {
+                writer.write(jsonObject.toString());
             }
-            writer.write(jsonObject.toString());
         } finally {
             if (writer != null) {
                 writer.close();

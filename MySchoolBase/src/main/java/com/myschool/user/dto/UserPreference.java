@@ -3,7 +3,6 @@ package com.myschool.user.dto;
 import java.io.Serializable;
 
 import com.myschool.user.constants.ColorSwatch;
-import com.myschool.user.constants.UserTheme;
 
 /**
  * The Class UserPreference.

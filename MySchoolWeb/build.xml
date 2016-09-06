@@ -6,6 +6,7 @@
     <path id="jars-classpath">
         <fileset dir="../${lib}" includes="*.jar" />
         <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
+    	<fileset dir="../${myschool.support}/${target.dir}" includes="${myschool.support}.jar" />
         <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
         <fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
         <fileset dir="../${myschool.service}/${target.dir}" includes="${myschool.service}.jar" />
@@ -20,6 +21,11 @@
     <target name="Build">
         <javac srcdir="${src.main.java}" destdir="${classes.dir}"
             source="1.6" target="1.6" classpathref="jars-classpath" includeantruntime="true" />
+        <echo message="######################### Generating web Themes #########################" />
+        <!-- Generate Themes -->
+        <java classname="com.myschool.web.theme.ThemesGenerator" classpathref="jars-classpath" failonerror="true">
+            <arg value="../${myschool.web}/${src.main.webapp}/themes" />
+        </java>
     </target>
 
     <target name="DeployResources">
@@ -68,6 +74,14 @@
         <include name="commons-logging-1.1.1.jar" />
         <include name="concurrent-1.3.3.jar" />
         <include name="dynamicreports-core-2.4.1.jar" />
+    	<include name="google-api-client-1.22.0.jar" />
+        <include name="google-api-services-drive-v3-rev34-1.22.0.jar" />
+        <include name="google-http-client-1.22.0.jar" />
+        <include name="google-http-client-jackson2-1.22.0.jar" />
+        <include name="google-oauth-client-1.22.0.jar" />
+        <include name="google-oauth-client-java6-1.22.0.jar" />
+        <include name="google-oauth-client-jetty-1.22.0.jar" />
+    	<include name="jackson-core-2.8.0.jar" />
         <include name="jasperreports-4.5.1.jar" />
         <include name="jcaptcha-2.0-alpha-1-SNAPSHOT.jar" />
         <include name="jcaptcha-api-1.0.jar" />
@@ -78,6 +92,8 @@
         <include name="jsoup-1.8.2.jar" />
         <include name="log4j.jar" />
         <include name="mail.jar" />
+    	<include name="org.mortbay.jetty.jar" />
+        <include name="org.mortbay.jetty.util.jar" />
         <!-- Spring Jars -->
         <include name="org.springframework.aop-3.0.5.RELEASE.jar" />
         <include name="org.springframework.asm-3.0.5.RELEASE.jar" />

@@ -1,0 +1,5 @@
+1. Change storage_server class to the desired storage provider
+2. change provider in storage-access.xml
+3. Change related properties in server-storage.properties
+4. Enable @Component annotation for the desired agent and comment for other agents.
+    com.myschool.infra.storage.local.filesystem.FileSystemStorageAccess

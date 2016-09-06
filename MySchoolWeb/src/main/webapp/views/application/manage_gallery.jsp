@@ -41,10 +41,6 @@
   border: 1px solid #DDD;
   overflow: scroll;
 }
-#GalleriesList .ui-selected {
-  background: #4682B4;
-  color: white;
-}
 #GalleriesList {
   list-style-type: none;
   margin: 0;
@@ -55,21 +51,11 @@
   margin: 1px;
   padding: 0.3em;
   font-size: 1em;
-  height: 16px;
 }
 #GalleriesList li:hover {
   cursor: pointer;
 }
 .image-selected {}
-.NewGalleryInput {
-  width: 92%;
-  height: 20px;
-  padding-top: 2px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin-left: 1px;
-  margin-right: 1px;
-}
 .upload-error {
   font-size: 10px;
   font-weight:bold;
@@ -86,12 +72,8 @@
 }
 </style>
 
-<script src="<%=request.getContextPath()%>/widgets/jquery-ui-1.10.2/ui/jquery-ui.js"></script>
 <script src="<%=request.getContextPath()%>/widgets/jquery.jrumble.1.3/jquery.jrumble.1.3.min.js"></script>
-<script src="<%=request.getContextPath()%>/widgets/flip-1.0.16/dist/jquery.flip.min.js"></script>
-
 <script>
-
 var SHOW_UPLOAD_CONTAINER=1;
 var SHOW_GALLERY_ITEMS_CONTAINER=2;
 var uploader=null;
@@ -100,8 +82,7 @@ var galleries=new Array();
 var addImageStatusElements=null;
 var addImageStatus=null;
 var newGallertNameInput=null;
-var pinImage=$('<img src="<%=request.getContextPath()%>/images/icons/blue_pin.png" class="iconImage" />');
-var pin='<img src="<%=request.getContextPath()%>/images/icons/red_pin.png" class="iconImage" />';
+var pin='<img src="<%=request.getContextPath()%>/images/icons/red_pin.png" width="16" height="16" style="float: right;"/>';
 
 $(document).ready(function() {
   $('#LeftContainer').height($(window).height()-140);
@@ -111,7 +92,7 @@ $(document).ready(function() {
 
   // Make the gallery options selectable.
   $("#GalleriesList").selectable({
-    stop:function(event, ui) {
+    /*stop:function(event, ui) {
       $(event.target).children('.ui-selected').not(':first').removeClass('ui-selected');
       $(".ui-selected", this).each(function () {
         var index = $("#GalleriesList li").index(this);
@@ -123,17 +104,22 @@ $(document).ready(function() {
       if( $(".ui-selected, .ui-selecting").length > 1){
         $(ui.selecting).removeClass("ui-selecting");
       }
-    },
+    },*/
     selected: function( event, ui ) {
-      $('#GalleriesList li').each(function(index, value) {
+      $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
+      currentGalleryName=$(ui.selected).text();
+      updateUI(currentGalleryName);
+      //alert($(ui.selected).text());
+      /*$('#GalleriesList li').each(function(index, value) {
         // If selected then display the gallery items init.
         if ($(this).hasClass('ui-selected')) {
           $(this).siblings().removeClass("ui-selected");
           updateUI($(this).attr('value'));
         }
-      });
+      });*/
     }
   });
+  //$('#GalleriesList li:first').addClass('ui-selected');
 
   // Display the list of galleries on the left panel.
   $.ajax({
@@ -154,10 +140,11 @@ $(document).ready(function() {
             var galleryName=gallery['GalleryName'];
             var pinned=gallery['Pinned'];
             var li=null;
+
             if (pinned=='Y') {
-                var li='<li class="ui-widget-content" value="' + galleryName + '">' + galleryName + pin + '</li>';
+                li='<li class="ui-widget-content" value="' + galleryName + '">' + pin + galleryName + '</li>';
             } else {
-                var li='<li class="ui-widget-content" value="' + galleryName + '">' + galleryName + '</li>';
+                li='<li class="ui-widget-content" value="' + galleryName + '">' + galleryName + '</li>';
             }
             $('#GalleriesList').append(li);
           }
@@ -171,8 +158,8 @@ $(document).ready(function() {
   function getImage(galleryName, galleryItem) {
     var image = $('<img>');
     image.attr('class', 'GallerySmallImage');
-    image.attr('name', galleryItem.GalleryName);
-    image.attr('src', galleryItem.Passport);
+    image.attr('name', galleryItem['GalleryName']);
+    image.attr('src', galleryItem['Passport']);
     $(image).jrumble({speed: 100});
     image.click(function() {
       if ($(this).hasClass('image-selected')) {
@@ -239,9 +226,9 @@ $(document).ready(function() {
     pluploader.bind('FileUploaded', function(up, file, response) {
       var result = $.parseJSON(response.response);
       if (result != null && result.Successful) {
-        showSuccess(result.StatusMessage);
+        notifySuccess(result.StatusMessage);
       } else {
-        showError(result.StatusMessage);
+        attendError(result.StatusMessage);
       }
       // Capture the status into the array to update
       addImageStatus[addImageStatus.length]=result;
@@ -265,6 +252,10 @@ $(document).ready(function() {
                 // add gallery item to the local map
                 var galleryItem=new Object();
                 galleryItem['GalleryName']=file.name;
+                var reference=result['Reference'];
+                if (reference != null && reference != 'undefined') {
+                    galleryItem['Passport']=reference['Passport'];
+                }
                 galleryItems[galleryItems.length]=galleryItem;
               } else {
                 $(addImageStatusElement).addClass('upload-error');
@@ -276,26 +267,10 @@ $(document).ready(function() {
 
   // New Gallery
   $('#NewGallery').click(function() {
-    if (newGallertNameInput == null) {
-      // Create 'New Gallery' Control
-      var newGallertNameInput = $('<input type="text" onfocus="this.select();" >');
-      newGallertNameInput.addClass('NewGalleryInput');
-      $('#LeftContainer').append(newGallertNameInput);
-      $(newGallertNameInput).hide();
-      $(newGallertNameInput).focusout(function() {
-        var galleryName=$.trim($(this).val());
-        if (galleryName == '') {
-          $(this).hide();
-        } else {
-          $(newGallertNameInput).hide();
-          currentGalleryName=galleryName;
-          performOperations('CREATE_GALLERY');
-        }
-      });
-    }
-    $(newGallertNameInput).val('');
-    $(newGallertNameInput).show();
-    $(newGallertNameInput).focus();
+    promptText('Gallery Name', '', function(galleryName) {
+        currentGalleryName=galleryName;
+        performOperations('CREATE_GALLERY');
+    });
   });
 
   $('#AddImages').click(function() {
@@ -367,7 +342,8 @@ $(document).ready(function() {
       $('#GalleriesList li img').each(function(index, img) {
           $(img).remove();
       });
-      $('#GalleriesList li:contains(' + currentGalleryName + ')').append(pin);
+      //$('#GalleriesList li:contains(' + currentGalleryName + ')').append(pin);
+      $('#GalleriesList li:contains(' + currentGalleryName + ')').html(pin + currentGalleryName);
     for (var index=0; index<galleries.length; index++) {
       var gallery = galleries[index];
       if (gallery!= null) {
@@ -433,8 +409,8 @@ $(document).ready(function() {
       sendRequest(url, data, function(result) {processResponse(result, successCallback)});
     } else {
       confirmMessage=confirmMessage.replace('gallery_name', currentGalleryName);
-      confirm(confirmMessage, function (result) {
-        if (result == "Yes") {
+      interactConfirm(confirmMessage,
+        function () {
           if (operation == 'DELETE_IMAGES') {
             var imagesToDelete=new Array();
             var selectedImages = $('.image-selected');
@@ -445,12 +421,12 @@ $(document).ready(function() {
             data['GalleryItems']=JSON.stringify(imagesToDelete);
           }
           sendRequest(url, data, function(result) {processResponse(result, successCallback, failureCallback)});
-        } else {
-          if (confirmNoCallback != null) {
-            confirmNoCallback.call();
-          }
+        }, // Confirm message close
+      function() {
+        if (confirmNoCallback != null) {
+          confirmNoCallback.call();
         }
-      }); // Confirm message close
+      });
     }
   }
 
@@ -469,15 +445,15 @@ $(document).ready(function() {
 
   function processResponse(result, successCallback, failureCallback) {
     if (result == null || result.Successful == null) {
-      showError('Unable to perform the operation now.');
+      attendError('Unable to perform the operation now.');
     } else if (result.Successful) {
-      showSuccess(result.StatusMessage);
+      notifySuccess(result.StatusMessage);
       if (successCallback != null) {
         successCallback.call();
         updateUI(currentGalleryName);
       }
     } else {
-      showError(result.StatusMessage);
+      attendError(result.StatusMessage);
       if (failureCallback != null) {
         failureCallback.call();
       }
@@ -501,7 +477,7 @@ $(document).ready(function() {
       var galleryName=gallery['GalleryName'];
       var galleryItems=gallery['GalleryItems'];
       // Select the gallery and deselect all other galleries
-      var galleryToSelect=$('#GalleriesList li:contains(' + galleryNameToSelect + ')');
+      var galleryToSelect=$('#GalleriesList li:eq(' + galleryNameToSelect + ')');
       $(galleryToSelect).siblings().removeClass("ui-selected");
       $(galleryToSelect).addClass('ui-selected');
       if (galleryItems == null || galleryItems.length == 0) {
@@ -511,8 +487,6 @@ $(document).ready(function() {
         for (var index=0; index<galleryItems.length; index++) {
           var galleryItem = galleryItems[index];
           if (galleryItem != null) {
-            //var galleryItemName = galleryItem['GalleryName'];
-            //var passport = galleryItem['Passport'];
             var image = getImage(galleryName, galleryItem);
             $('#GalleryItemsContainer').append(image);
           }
@@ -539,11 +513,11 @@ $(document).ready(function() {
 <div id="LayoutContainer">
   <div id="TopContainer">
     <div id="ControlsContainer">
-      <input id="NewGallery" type="button" class="formButton" value="New Gallery" />
-      <input id="AddImages" type="button" class="formButton" value="Add Images" />
-      <input id="DeleteImages" type="button" class="formButton" value="Delete Images" />
-      <input id="DeleteGallery" type="button" class="formButton" value="Delete Gallery" />
-      <input id="PinGallery" type="button" class="formButton" value="Pin Gallery" />
+      <input id="NewGallery" type="button" value="New Gallery" />
+      <input id="AddImages" type="button" value="Add Images" />
+      <input id="DeleteImages" type="button" value="Delete Images" />
+      <input id="DeleteGallery" type="button" value="Delete Gallery" />
+      <input id="PinGallery" type="button" value="Pin Gallery" />
     </div>
   </div>
   <div id="LeftContainer">

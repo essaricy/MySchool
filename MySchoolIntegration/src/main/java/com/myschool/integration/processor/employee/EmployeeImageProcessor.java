@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.integration.agent.IntegrationImageResource;
-import com.myschool.integration.common.constant.IntegrationConstant;
-import com.myschool.integration.common.exception.CommandExecutionException;
-import com.myschool.integration.common.exception.CommandProcessException;
+import com.myschool.integration.constant.IntegrationConstant;
+import com.myschool.integration.exception.CommandExecutionException;
+import com.myschool.integration.exception.CommandProcessException;
 import com.myschool.integration.processor.common.AbstractDynamicImageProcessor;
 
 /**

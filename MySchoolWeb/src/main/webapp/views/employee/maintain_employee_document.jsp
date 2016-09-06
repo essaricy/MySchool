@@ -38,7 +38,7 @@ $(document).ready(function() {
 
 </script>
 <c:if test="${EmployeeDocument == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Document Type<label class="mandatory">*</label></td>
     <td width="60%" class="value">
@@ -67,14 +67,14 @@ $(document).ready(function() {
   <tr>
     <td colspan="2" align="center">
       <input type="hidden" id="EmployeeDocumentId" value="0" />
-      <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+      <input type="button" id="create" value='<spring:message code="common.create"/>' />
     </td>
   </tr>
 </table>
 </c:if>
 
 <c:if test="${EmployeeDocument != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Document Type<label class="mandatory">*</label></td>
     <td width="60%" class="value">
@@ -104,7 +104,7 @@ $(document).ready(function() {
   <tr>
     <td colspan="2" align="center">
       <input type="hidden" id="EmployeeDocumentId" value="${EmployeeDocument.employeeDocumentId}" />
-      <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
+      <input type="button" id="update" value='<spring:message code="common.update"/>' />
     </td>
   </tr>
 </table>

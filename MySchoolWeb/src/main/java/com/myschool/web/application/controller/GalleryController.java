@@ -297,16 +297,15 @@ public class GalleryController {
                 throw new InsufficientInputException("There is no data to upload.");
             }
             // Create a temp file to transfer multipart contents.
-            File galleryItemTempFile = tempFileSystem
-                    .createTempFile(originalFilename);
+            File galleryItemTempFile = tempFileSystem.createTempFile(originalFilename);
             multipartFile.transferTo(galleryItemTempFile);
             if (galleryItemTempFile == null) {
                 throw new ServiceException("Unable to upload the image now.");
             }
-            boolean success = galleryService.add(galleryName,
-                    galleryItemTempFile);
-            result.setSuccessful(success);
-            if (success) {
+            GalleryDetailDto galleryDetail = galleryService.add(galleryName, galleryItemTempFile);
+            if (galleryDetail != null) {
+                result.setSuccessful(true);
+                result.setReference(galleryDetail);
                 result.setStatusMessage("Image added to gallery");
             } else {
                 result.setStatusMessage("Failed to add image to gallery");

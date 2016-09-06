@@ -1,0 +1,5 @@
+jquery.passstrength.js and jquery.passstrength.min.js
+    This is to keep the password bar always below the password field.
+    $out_el = $('<span>').css('display', 'inline-block')
+    to
+    $out_el = $('<span>').css('display', 'block')

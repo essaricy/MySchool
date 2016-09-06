@@ -19,6 +19,7 @@ import com.myschool.infra.oxo.factory.OxoAgentFactory;
 import com.myschool.infra.report.factory.ReportAgentFactory;
 import com.myschool.infra.scheduler.agent.SchedulerAgentFactory;
 import com.myschool.infra.sms.factory.SmsServerAgentFactory;
+import com.myschool.infra.storage.factory.StorageAccessAgentFactory;
 import com.myschool.infra.webserver.factory.WebserverAgentFactory;
 
 /**
@@ -91,6 +92,9 @@ public class AgentFactoryFactory {
     @Autowired
     private OutboundMessageAgentFactory outboundMessageAgentFactory;
 
+    @Autowired
+    private StorageAccessAgentFactory storageAccessAgentFactory;
+
     /**
      * Gets the agent factory.
      *
@@ -134,6 +138,8 @@ public class AgentFactoryFactory {
                 agentFactory = mediaServerAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.OUTBOUND_MESSAGE)) {
                 agentFactory = outboundMessageAgentFactory;
+            } else if (agentKeyName.equals(AgentConstants.STORAGE_SERVER)) {
+                agentFactory = storageAccessAgentFactory;
             }
         }
         return agentFactory;

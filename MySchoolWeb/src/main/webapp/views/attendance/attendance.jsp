@@ -42,7 +42,7 @@
 
 </script>
 
-<table width="100%" border="0" cellpadding="6" cellspacing="0" align="center" id="attendance" class="formTable">
+<table class="formTable_Container" id="attendance">
 	<tr>
 		<td><div id='calendar'></div></td>
 	</tr>

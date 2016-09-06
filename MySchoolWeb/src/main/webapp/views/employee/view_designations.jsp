@@ -27,13 +27,13 @@ $(document).ready(function() {
             title: 'Create Designation',
             url: '<%=request.getContextPath()%>/designation/launchNew.htm',
             width: 420,
-            height: 120
+            height: 200
         },
         'update': {
             title: 'Update Designation',
             url: '<%=request.getContextPath()%>/designation/launchUpdate.htm',
             width: 420,
-            height: 120,
+            height: 200,
             selectRowMessage: '<spring:message code="common.selectRow.update"/>',
             sendParams: [ {
                 refTable: 'self',

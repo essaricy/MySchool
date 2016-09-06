@@ -21,8 +21,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.ResourceUtil;
+import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.infra.filesystem.constants.NotificationConfigConstants;
-import com.myschool.infra.filesystem.dto.DirectoryDto;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationMode;
 import com.myschool.notification.constants.NotificationType;

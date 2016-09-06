@@ -27,6 +27,7 @@ import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UserStatistics;
+import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -258,7 +259,7 @@ public class UserDaoImpl implements UserDao {
         try {
             connection = databaseAgent.getConnection();
             preparedStatement = connection.prepareStatement(UserDaoSql.UPDATE_USER_PREFERENCES_BY_ID);
-            preparedStatement.setString(1, userPreference.getUserTheme().toString());
+            preparedStatement.setString(1, userPreference.getUserTheme().getCode());
             preparedStatement.setInt(2, userPreference.getRecordsPerPage());
             preparedStatement.setString(3, ConversionUtil.toYN(userPreference.isAllowAds()));
             preparedStatement.setInt(4, userPreference.getUserId());
@@ -507,6 +508,42 @@ public class UserDaoImpl implements UserDao {
             }
         }
         return updated;
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.user.dao.UserDao#getThemes()
+     */
+    @Override
+    public List<UserTheme> getThemes() throws DaoException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        List<UserTheme> userThemes = null;
+
+        try {
+            connection = databaseAgent.getConnection();
+            preparedStatement = connection.prepareStatement(UserDaoSql.SELECT_ALL_THEMES);
+            resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                if (userThemes == null) {
+                    userThemes = new ArrayList<UserTheme>();
+                }
+                userThemes.add(UserDataAssembler.createUserTheme(resultSet, false));
+            }
+        } catch (SQLException sqlException) {
+            throw new DaoException(sqlException.getMessage(), sqlException);
+        } catch (ConnectionException connectionException) {
+            throw new DaoException(connectionException.getMessage(),
+                    connectionException);
+        } finally {
+            try {
+                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
+            } catch (ConnectionException connectionException) {
+                throw new DaoException(connectionException.getMessage(), connectionException);
+            }
+        }
+        return userThemes;
     }
 
 }

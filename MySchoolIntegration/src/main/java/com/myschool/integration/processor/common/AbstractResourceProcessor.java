@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.ResourceDto;
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.util.FileUtil;
-import com.myschool.integration.common.exception.CommandExecutionException;
-import com.myschool.integration.common.exception.CommandProcessException;
-import com.myschool.integration.common.exception.MediaServerException;
+import com.myschool.file.util.FileUtil;
+import com.myschool.infra.remote.ftp.exception.FtpException;
+import com.myschool.integration.exception.CommandExecutionException;
+import com.myschool.integration.exception.CommandProcessException;
 
 /**
  * The Class AbstractFileCommandProcessor.
@@ -102,8 +102,8 @@ public abstract class AbstractResourceProcessor extends AbstractProcessor {
                 }
                 FileUtils.write(integrationInboundMetaFile, fileContent);
             }
-        } catch (MediaServerException mediaServerException) {
-            throw new CommandProcessException(mediaServerException.getMessage(), mediaServerException);
+        } catch (FtpException ftpException) {
+            throw new CommandProcessException(ftpException.getMessage(), ftpException);
         } catch (IOException ioException) {
             throw new CommandProcessException(ioException.getMessage(), ioException);
         }
@@ -221,8 +221,8 @@ public abstract class AbstractResourceProcessor extends AbstractProcessor {
             updateMetaFile(existingResources);
         } catch (IOException ioException) {
             throw new CommandExecutionException(ioException.getMessage(), ioException);
-        } catch (MediaServerException mediaServerException) {
-            throw new CommandExecutionException(mediaServerException.getMessage(), mediaServerException);
+        } catch (FtpException ftpException) {
+            throw new CommandExecutionException(ftpException.getMessage(), ftpException);
         }
     }
 
@@ -263,7 +263,9 @@ public abstract class AbstractResourceProcessor extends AbstractProcessor {
      * @throws IOException Signals that an I/O exception has occurred.
      */
     protected List<ResourceDto> getResources() throws IOException {
+        System.out.println("integrationInboundMetaFile " + integrationInboundMetaFile);
         String resourcesXml = FileUtils.readFileToString(integrationInboundMetaFile);
+        System.out.println("resourcesXml " + resourcesXml);
         List<ResourceDto> existingResources = tempUtil.toObject(resourcesXml, ResourceDto.class);
         return existingResources;
     }

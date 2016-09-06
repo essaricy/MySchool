@@ -1,12 +1,16 @@
 package com.myschool.application.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 
 /**
  * The Class GalleryDetailDto.
  */
-public class GalleryDetailDto {
+public class GalleryDetailDto implements Serializable {
+
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
     /** The gallery name. */
     private String galleryName;

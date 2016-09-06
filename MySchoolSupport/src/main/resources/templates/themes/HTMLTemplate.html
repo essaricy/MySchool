@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>All In One Form</title>
+
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery-ui-1.10.2/demos/demos.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery-ui-1.10.2/themes/base/jquery.ui.all.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/chosen/chosen.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery.toggleSwitch/lib/ToggleSwitch.css">
+<link type="text/css" rel="stylesheet" href="demo/widgets/tooltipster-master/css/tooltipster.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/lobibox-master/css/Lobibox.css"/>
+<link type="text/css" rel="stylesheet" href="demo/widgets/lobibox-master/font-awesome/css/font-awesome.min.css"/>
+<link type="text/css" rel="stylesheet" href="demo/themes/@@THEME_CODE@@.css"/>
+
+<!-- <link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/datatable.css" />
+<link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/ddmegamenu.css" />
+<link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/footer.css" />
+<link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/form.css" />
+<link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/header.css" />
+<link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/messages.css" />
+<link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/modal.css" />
+<link type="text/css" rel="stylesheet" href="demo/themes/BLUE/css/page-layout.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery.fullcalendar/cupertino/theme.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery.fullcalendar/fullcalendar.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery.plupload/js/jquery.plupload.queue/css/jquery.plupload.queue.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/simplemodal/basic/css/basic.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/magnific-popup/magnific-popup.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/alertify.js/themes/alertify.core.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/alertify.js/themes/alertify.default.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery.msgBox/Styles/msgBoxLight.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/social-likes/social-likes_birman.css" />
+
+<link type="text/css" rel="stylesheet" href="demo/widgets/awesome-grid-master/demo/css/custom.styles.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery.freewall/styles/style.css" />
+<link type="text/css" rel="stylesheet" href="demo/widgets/jquery.jqplot/dist/jquery.jqplot.min.css" />
+
+<link rel="stylesheet" href="demo/themes/menu.css" />
+ -->
+
+<script type="text/javascript" src="demo/widgets/jquery-ui-1.10.2/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery-ui-1.10.2/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery-ui-1.10.2/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery-ui-1.10.2/ui/jquery.ui.accordion.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery-ui-1.10.2/ui/jquery.ui.datepicker.js"></script>
+
+<script type="text/javascript" src="demo/widgets/jquery.toggleSwitch/lib/ToggleSwitch.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.datatable/jquery.dataTables.js"></script>
+<script type="text/javascript" src="demo/widgets/tooltipster-master/js/jquery.tooltipster.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.chosen/chosen.jquery.js"></script>
+<script type="text/javascript" src="demo/widgets/chosen/docsupport/prism.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.textcounter/jquery.textcounter.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.passstrength/jquery.passstrength.js"></script>
+<script type="text/javascript" src="demo/widgets/lobibox-master/js/Lobibox.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.goup/jquery.goup.min.js"></script>
+
+<script type="text/javascript" src="demo/widgets/ddmegamenu/ddmegamenu.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-activeTable.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-datePicker.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-messages.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-responseHandler.js"></script>
+
+<!--
+<script type="text/javascript" src="demo/scripts/common.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-validator.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-lazySelect.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-myAccordion.js"></script>
+<script type="text/javascript" src="demo/scripts/myschool-social.js"></script>
+<script type="text/javascript" src="demo/scripts/dhtmlwindow.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.plupload/js/plupload.full.min.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.plupload/js/jquery.plupload.queue/jquery.plupload.queue.js"></script>
+<script type="text/javascript" src="demo/widgets/simplemodal/basic/js/jquery.simplemodal.js"></script>
+<script type="text/javascript" src="demo/widgets/magnific-popup/jquery.magnific-popup.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.fileDownload/jquery.fileDownload.js"></script>
+<script type="text/javascript" src="demo/widgets/alertify.js/lib/alertify.min.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.msgBox/Scripts/jquery.msgBox.js"></script>
+<script type="text/javascript" src="demo/widgets/social-likes/social-likes.min.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.blockUI/jquery.blockUI.js"></script>
+<script type="text/javascript" src="demo/widgets/awesome-grid-master/awesome-grid.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.freewall/scripts/freewall.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.fullcalendar/fullcalendar.min.js"></script>
+ 
+<script type="text/javascript" src="demo/widgets/jquery.jqplot/dist/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.jqplot/dist/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="demo/widgets/jquery.jqplot/dist/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
+ -->
+<script>
+$(document).ready(function() {
+  ddmegamenu.docinit({
+    menuid:'solidmenu',
+    dur:200,
+    easing:'easeOutBack'
+  });
+
+  $('#goup').goup({
+    appear: 200,
+    scrolltime: 800,
+    imgsrc: 'demo/images/icons/goup.png',
+    width: 40,
+    place: 'bottom-right',
+    fadein: 500,
+    fadeout: 500,
+    opacity: 0.5,
+    marginX: 2,
+    marginY: 2,
+  });
+
+  $.fn.scrollTo = function(target, options, callback ) {
+    if(typeof options == 'function' && arguments.length == 2){ callback = options; options = target; }
+    var settings = $.extend({
+      scrollTarget  : target,
+      offsetTop     : 50,
+      duration      : 500,
+      easing        : 'swing'
+    }, options);
+    return this.each(function() {
+      var scrollPane = $(this);
+      var scrollTarget = (typeof settings.scrollTarget == "number") ? settings.scrollTarget : $(settings.scrollTarget);
+      var scrollY = (typeof scrollTarget == "number") ? scrollTarget : scrollTarget.offset().top + scrollPane.scrollTop() - parseInt(settings.offsetTop);
+      scrollPane.animate({scrollTop : scrollY }, parseInt(settings.duration), settings.easing, function() {
+        if (typeof callback == 'function') { callback.call(this); }
+      });
+    });
+  }
+
+  $('nav li').hover(
+    function() { $('ul', this).stop().slideDown(200); },
+    function() { $('ul', this).stop().slideUp(200); }
+  );
+
+  $('#ActiveTable').activeTable({
+      title: 'Exam Grade',
+      width: "80%",
+      caption: 'Exam Grades',
+      columns: [
+        'Exam Grade ID',
+        'Exam Grade Name',
+        'Qualifying Percentage'
+      ],
+      buttonIconsPath: 'demo/images/icons',
+      dataTableSettings: {
+          "bPaginate": true,
+          "aoColumnDefs": [ {
+              "bSearchable": false,
+              "bVisible": false,
+              "aTargets": [ 0 ]
+          }],
+          "sPaginationType": "full_numbers",
+      },
+      buttons: actionButtons,
+      'add' : {
+          title: 'Add Exam Grade',
+          url: 'demo/views/maintain_exam_grade.html',
+          width: 420,
+          height: 200
+      },
+      'update': {
+          title: 'Update Exam Grade',
+          url: '/demo/examGrade/launchUpdate.htm',
+          width: 420,
+          height: 300,
+          selectRowMessage: 'Select a row to update.',
+          sendParams: [ {
+              refTable: 'self',
+              columnIndex: 0,
+              paramName: 'examGradeId'
+          } ]
+      },
+      'delete': {
+    	  title: 'Delete Exam Grade',
+          url: '/demo/examGrade/doDelete.htm',
+          selectRowMessage: 'Select a row to delete.',
+          confirmMessage: 'Do you want to delete the Exam Grade?',
+          sendParams: [ {
+              refTable: 'self',
+              columnIndex: 0,
+              paramName: 'examGradeId'
+          } ]
+      }
+  });
+});
+
+var recordsPerPage = 10;
+var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPage;
+var actionButtons = ['add', 'update','delete'];
+</script>
+</head>
+
+<body>
+    <div id="PageContainer">
+        <div id="PageHeader">
+            <!-- Header start -->
+            <table class="headerTable">
+                <tr>
+                    <td width="109px" style="padding-left: 8px; padding-top: 2px;">
+                        <a href="#" class="logo"><img src="demo/images/logo.jpg" class="logo" /></a>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                    <td class="schoolName">Your School Name Here</td>
+                </tr>
+            </table>
+
+            <ul id="solidmenu" class="solidblockmenu">
+                <li><a href="#"> <img src="demo/images/icons/home.png" style="float: left;" />&nbsp;Home</a></li>
+                <li><a href="#" rel='Master_Menu'>Master</a></li>
+                <li><a href="#" rel='Admin_Menu'>Admin</a></li>
+                <li><a href="#" rel='Web_Admin_Menu'>Web Admin</a></li>
+                <li><a href="#" rel='Notifications_Menu'>Notifications</a></li>
+                <li><a href="#" rel='Notice_Board_Menu'>Notice Board</a></li>
+                <li><a href="#" rel='Privileges_Menu'>Privileges</a></li>
+                <li><a href="#" rel='Statistics_Menu'>Statistics</a></li>
+            </ul>
+            <div id='Master_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                        <li><a href="demo/academic/list.htm"><img
+                                src="demo/images/icons/book.png" class="menuItemImage" />&nbsp;Manage
+                                Academics</a></li>
+                        <li><a href="demo/admission-status/list.htm"><img
+                                src="demo/images/icons/status_online.png" class="menuItemImage" />&nbsp;Manage
+                                Admission Status</a></li>
+                        <li><a href="demo/branch/list.htm"><img
+                                src="demo/images/icons/arrow_branch.png" class="menuItemImage" />&nbsp;Manage
+                                Branches</a></li>
+                        <li><a href="demo/designation/list.htm"><img
+                                src="demo/images/icons/medal_gold.png" class="menuItemImage" />&nbsp;Manage
+                                Designations</a></li>
+                        <li><a href="demo/division/list.htm"><img
+                                src="demo/images/icons/arrow_divide.png" class="menuItemImage" />&nbsp;Manage
+                                Divisions</a></li>
+                        <li><a href="demo/document/list.htm"><img
+                                src="demo/images/icons/page_white_stack.png"
+                                class="menuItemImage" />&nbsp;Manage Documents</a></li>
+                        <li><a href="demo/employment/list.htm"><img
+                                src="demo/images/icons/status_online.png" class="menuItemImage" />&nbsp;Manage
+                                Employment Status</a></li>
+                        <li><a href="demo/examGrade/list.htm"><img
+                                src="demo/images/icons/star.png" class="menuItemImage" />&nbsp;Manage
+                                Exam Grades</a></li>
+                        <li><a href="demo/holiday/list.htm"><img
+                                src="demo/images/icons/film.png" class="menuItemImage" />&nbsp;Manage
+                                Holidays</a></li>
+                        <li><a href="demo/class/list.htm"><img
+                                src="demo/images/icons/projection_screen.png"
+                                class="menuItemImage" />&nbsp;Manage Master Classes</a></li>
+                        <li><a href="demo/subject/list.htm"><img
+                                src="demo/images/icons/book_open.png" class="menuItemImage" />&nbsp;Manage
+                                Master Subjects</a></li>
+                        <li><a href="demo/medium/list.htm"><img
+                                src="demo/images/icons/style.png" class="menuItemImage" />&nbsp;Manage
+                                Mediums</a></li>
+                        <li><a href="demo/profile/list.htm"><img
+                                src="demo/images/icons/shield.png" class="menuItemImage" />&nbsp;Manage
+                                Profile Information</a></li>
+                        <li><a href="demo/region/list.htm"><img
+                                src="demo/images/icons/shape_group.png" class="menuItemImage" />&nbsp;Manage
+                                Regions</a></li>
+                        <li><a href="demo/relationship/list.htm"><img
+                                src="demo/images/icons/heart.png" class="menuItemImage" />&nbsp;Manage
+                                Relationship Codes</a></li>
+                        <li><a href="demo/school/list.htm"><img
+                                src="demo/images/icons/vcard.png" class="menuItemImage" />&nbsp;Manage
+                                Schools</a></li>
+                        <li><a href="demo/section/list.htm"><img
+                                src="demo/images/icons/shape_flip_horizontal.png"
+                                class="menuItemImage" />&nbsp;Manage Sections</a></li>
+                        <li><a href="demo/state/list.htm"><img
+                                src="demo/images/icons/zone.png" class="menuItemImage" />&nbsp;Manage
+                                States</a></li>
+                        <li><a href="demo/aye/show.htm"><img
+                                src="demo/images/icons/flag_blue.png" class="menuItemImage" />&nbsp;Process
+                                Academic Year Closure</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Admin_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                        <li><a href="demo/export/list.htm"><img
+                                src="demo/images/icons/document_small_upload.png"
+                                class="menuItemImage" />&nbsp;Export Data</a></li>
+                        <li><a href="demo/attendance/list.htm"><img
+                                src="demo/images/icons/color_swatch.png" class="menuItemImage" />&nbsp;Manage
+                                Attendance Profiles</a></li>
+                        <li><a href="demo/class/listRegisteredClasses.htm"><img
+                                src="demo/images/icons/projection_screen_present.png"
+                                class="menuItemImage" />&nbsp;Manage Classes</a></li>
+                        <li><a href="demo/attendance/employeeAttendance.htm"><img
+                                src="demo/images/icons/color_swatch.png" class="menuItemImage" />&nbsp;Manage
+                                Employee Attendance</a></li>
+                        <li><a href="demo/employee/launchVerifiedEmployeesSearch.htm"><img
+                                src="demo/images/icons/group_green.png" class="menuItemImage" />&nbsp;Manage
+                                Employees</a></li>
+                        <li><a
+                            href="demo/employee/launchUnverifiedEmployeesSearch.htm"><img
+                                src="demo/images/icons/bookmark_book_open.png"
+                                class="menuItemImage" />&nbsp;Manage Employees (Portal)</a></li>
+                        <li><a href="demo/exam/list.htm"><img
+                                src="demo/images/icons/clipboard_text.png" class="menuItemImage" />&nbsp;Manage
+                                Exams</a></li>
+                        <li><a href="demo/attendance/studentAttendance.htm"><img
+                                src="demo/images/icons/color_swatch.png" class="menuItemImage" />&nbsp;Manage
+                                Student Attendance</a></li>
+                        <li><a href="demo/student-exam/viewExamResults.htm"><img
+                                src="demo/images/icons/clipboard_paste_image.png"
+                                class="menuItemImage" />&nbsp;Manage Student Marks</a></li>
+                        <li><a href="demo/student/launchVerifiedStudentsSearch.htm"><img
+                                src="demo/images/icons/group_blue.png" class="menuItemImage" />&nbsp;Manage
+                                Students</a></li>
+                        <li><a href="demo/student/launchUnverifiedStudentsSearch.htm"><img
+                                src="demo/images/icons/bookmark_book_open.png"
+                                class="menuItemImage" />&nbsp;Manage Students (Portal)</a></li>
+                        <li><a href="demo/registeredSubject/list.htm"><img
+                                src="demo/images/icons/bookmark_book_open.png"
+                                class="menuItemImage" />&nbsp;Manage Subjects</a></li>
+                        <li><a href="demo/upload/listDataUpload.htm"><img
+                                src="demo/images/icons/upload.png" class="menuItemImage" />&nbsp;Upload
+                                Data</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Student_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Employee_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Notifications_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                        <li><a href="demo/notification/history.htm"><img
+                                src="demo/images/icons/clock.png" class="menuItemImage" />&nbsp;Notification
+                                History</a></li>
+                        <li><a href="demo/notification/listEmployees.htm"><img
+                                src="demo/images/icons/bell.png" class="menuItemImage" />&nbsp;Notify
+                                Employees</a></li>
+                        <li><a href="demo/notification/listStudents.htm"><img
+                                src="demo/images/icons/bell.png" class="menuItemImage" />&nbsp;Notify
+                                Students</a></li>
+                        <li><a href="demo/notification/list.htm"><img
+                                src="demo/images/icons/doc_table.png" class="menuItemImage" />&nbsp;View
+                                Notification Templates</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Notice_Board_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                        <li><a href="demo/noticeBoard/director.htm"><img
+                                src="demo/images/icons/boss.png" class="menuItemImage" />&nbsp;About
+                                Director</a></li>
+                        <li><a href="demo/noticeBoard/organization.htm"><img
+                                src="demo/images/icons/text_signature.png" class="menuItemImage" />&nbsp;About
+                                Organization</a></li>
+                        <li><a href="demo/findus/contactUs.htm"><img
+                                src="demo/images/icons/telephone.png" class="menuItemImage" />&nbsp;Contact
+                                Us</a></li>
+                        <li>
+                          <img src="demo/images/icons/doc_pdf.png" class="menuItemImage" />
+                          <a href="demo/download/brochures.htm">Download Brochures</a>
+                        </li>
+                        <li><a href="demo/findus/locateUs.htm"><img
+                                src="demo/images/icons/direction.png" class="menuItemImage" />&nbsp;Locate
+                                Us</a></li>
+                        <li><a href="demo/noticeBoard/achievements.htm"><img
+                                src="demo/images/icons/trophy_silver.png" class="menuItemImage" />&nbsp;Our
+                                Achievements</a></li>
+                        <li><a href="demo/noticeBoard/upcomingEvents.htm"><img
+                                src="demo/images/icons/rainbow.png" class="menuItemImage" />&nbsp;Upcoming
+                                Events</a></li>
+                        <li><a href="demo/noticeBoard/upcomingExams.htm"><img
+                                src="demo/images/icons/clipboard_sign.png" class="menuItemImage" />&nbsp;Upcoming
+                                Exams</a></li>
+                        <li><a href="demo/gallery/launchGallery.htm"><img
+                                src="demo/images/icons/slides.png" class="menuItemImage" />&nbsp;View
+                                Gallery</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Privileges_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                        <li><a href="demo/privileges/defaultPrivileges.htm"><img
+                                src="demo/images/icons/group_green_edit.png"
+                                class="menuItemImage" />&nbsp;Default Privileges</a></li>
+                        <li><a href="demo/privileges/userPrivileges.htm"><img
+                                src="demo/images/icons/group_green_new.png"
+                                class="menuItemImage" />&nbsp;User Privileges</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Statistics_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                        <li><a href="demo/graphs/list.htm"><img
+                                src="demo/images/icons/chart_bar.png" class="menuItemImage" />&nbsp;Graphs</a>
+                        </li>
+                        <li><a href="demo/reports/list.htm"><img
+                                src="demo/images/icons/report.png" class="menuItemImage" />&nbsp;Reports</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id='Web_Admin_Menu' class="mega solidblocktheme">
+                <div class="column">
+                    <ul>
+                        <li><a href="demo/usage/list.htm"><img
+                                src="demo/images/icons/calculator.png" class="menuItemImage" />&nbsp;Usage
+                                Statistics</a></li>
+                        <li><a href="demo/issue/list.htm"><img
+                                src="demo/images/icons/bug.png" class="menuItemImage" />&nbsp;Manage
+                                Issues</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Header end -->
+        </div>
+        <div id="PageBody">
+            <!-- Body start -->
+
+<script type="text/javascript" src="demo/widgets/jquery-ui-1.10.2/ui/jquery.ui.tabs.js"></script>
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+  $("#ProfilesContainer").tabs();
+  $("#ProfilesContainer").tabs("option", "active", 0);
+
+  //$('#address').textcounter({id: 'address'});
+  $('#SaveOrganizationProfile').click(function() {
+	  if ($('#FirstName').val() == '' ) {
+	       notifyMessage("Enter some value for first name");
+	       notifySuccess("Enter some value for first name");
+	       notifyInfo("Enter some value for first name");
+	       notifyWarning("Enter some value for first name");
+	       notifyError("Enter some value for first name");
+	   } else if ($('#Password').val() == '' ) {
+           attendSuccess("Enter some value for Password");
+           attendInfo("Enter some value for Password");
+           attendWarning("Enter some value for Password");
+           attendError("Enter some value for Password");
+       } else if ($('#DateOfBirth').val() == '' ) {
+           alertSuccess("Enter some value for DOB");
+           alertInfo("Enter some value for DOB");
+           alertWarning("Enter some value for DOB");
+           alertError("Enter some value for DOB");
+       } else {
+    	   interactConfirm("Dou you want to save changes?", saveChanges, donotSaveChanges);
+       }
+  });
+
+  var saveChanges = function() {
+	  notifyInfo("Changes are updated");
+  }
+  var donotSaveChanges = function() {
+      notifyInfo("Changes are not updated");
+  }
+
+  $('#Reset').click(function() {
+  });
+
+  $('#SaveMySchoolProfile').click(function() {
+	  promptText('Gallery Name', 'Bhavana', function (val) { notifyInfo('Your entered ' + val);});
+  });
+  $('#BloodGroup').chosen({width: "65%"});
+
+  $(this).datePicker({
+	  id: 'DateOfBirth'
+  });
+
+  $('#PresentAddress').textcounter({id: 'PresentAddress'});
+  $('#Password').passStrengthify();
+  
+  $("#email").toggleSwitch();
+  $("#sms").toggleSwitch();
+  $("#app").toggleSwitch();
+  $("#web").toggleSwitch();
+
+  $("#emailActive").toggleSwitch();
+  $("#emailEmployees").toggleSwitch();
+  $("#emailStudents").toggleSwitch();
+  $("#smsActive").toggleSwitch();
+  $("#smsEmployees").toggleSwitch();
+  $("#smsStudents").toggleSwitch();
+  $("#useMenuIcons").toggleSwitch();
+  $("#useEmployeeSelfSubmit").toggleSwitch();
+  $("#useStudentSelfSubmit").toggleSwitch();
+
+  $("#emailActive").click(function() {
+      setEmailOptions($(this).is(":checked"));
+  });
+
+  $("#smsActive").click(function() {
+      setSmsOptions($(this).is(":checked"));
+  });
+
+  function setEmailOptions(checked) {
+    $("#emailEmployees").attr('disabled', !checked);
+    $("#emailStudents").attr('disabled', !checked);
+    if (!checked) {
+      $("#emailEmployees").attr('checked', checked);
+      $("#emailStudents").attr('checked', checked);
+    }
+  }
+
+  function setSmsOptions(checked) {
+    $("#smsEmployees").attr('disabled', !checked);
+    $("#smsStudents").attr('disabled', !checked);
+    if (!checked) {
+      $("#smsEmployees").attr('checked', checked);
+      $("#smsStudents").attr('checked', checked);
+    }
+  }
+  setEmailOptions($("#emailActive").is(":checked"));
+  setSmsOptions($("#smsActive").is(":checked"));
+});
+</script>
+
+<table width="80%" class="formTable_Container">
+  <caption>Manage Profiles</caption>
+  <tr>
+    <td>
+      <div id="ProfilesContainer">
+        <ul>
+          <li><a href="#OrganizationProfile">Organization Profile</a></li>
+          <li><a href="#MySchooProfile">MySchool Profile</a></li>
+        </ul>
+        <div id="OrganizationProfile">
+          <table class="formTable_Data">
+            <tbody>
+              <tr>
+                <td width="50%" class="label">Organization Name</td>
+                <td width="50%" class="value">
+                  <input type="hidden" id="organizationName" value="My Organization" />
+                  <b>My Organization</b>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" class="label"><label class="mandatory">*</label>First Name</td>
+                <td width="50%" class="value"><input type="text" id="FirstName" maxlength="16" /></td>
+             </tr>
+             <tr>
+                <td width="50%" class="label"><label class="mandatory">*</label>Password</td>
+                <td width="50%" class="value"><input type="password" id="Password" maxlength="16" /></td>
+             </tr>
+             <tr>
+                <td width="50%" class="label"><label class="mandatory">*</label>Gender</td>
+                <td width="50%" class="value">
+                  <input type="radio" name="Gender" id="Gender" value="Male">Male
+                  <input type="radio" name="Gender" id="Gender" value="Male">Female
+                  <input type="radio" name="Gender" id="Gender" value="Other">Other
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" class="label"><label class="mandatory">*</label>Date Of Birth</td>
+                <td width="50%" class="value"><input type="text" id="DateOfBirth" /></td>
+              </tr>
+              <tr>
+                <td width="50%" class="label">Blood Group</td>
+                <td width="50%" class="value">
+                    <select id="BloodGroup" class="chosen-select">
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" class="label"><label class="mandatory">*</label>Address</td>
+                <td width="50%" class="value">
+                  <textarea rows="5" cols="30" maxlength="128" id="PresentAddress"></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td width="50%" class="label">Notify Through</td>
+                <td width="50%" class="value">
+                  <table>
+                    <tr><td>Emails</td><td><input type="checkbox" id="email"></td></tr>
+                    <tr><td>SMS</td><td><input type="checkbox" id="sms"></td></tr>
+                    <tr><td>App</td><td><input type="checkbox" id="app"></td></tr>
+                    <tr><td>Web</td><td><input type="checkbox" id="web"></td></tr>
+                  </table>
+                </td>
+              </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
+            </tbody>
+            <tfoot>
+              <tr>
+                <td align="right">
+                    <input type="button" id="Reset" style="width:120px;" value="Reset" disabled />
+                </td>
+                <td align="left">
+                    <input type="button" id="SaveOrganizationProfile" style="width:120px;" value="Save Changes" />
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        
+        </div>
+        <div id="MySchooProfile">
+          <table class="formTable_Data" border="0">
+            <tbody>
+              <!-- Email service configuration -->
+              <tr>
+                <td width="50%" class="label">Use Email Service</td>
+                <td width="50%" class="value"><input type="checkbox" id="emailActive"></td>
+              </tr>
+              <tr>
+                <td width="50%" class="label">Use Email Service for Employees</td>
+                <td width="50%" class="value"><input type="checkbox" id="emailEmployees"></td>
+              </tr>
+              <tr>
+                <td width="50%" class="label">Use Email Service for Students</td>
+                <td width="50%" class="value"><input type="checkbox" id="emailStudents"></td>
+              </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
+
+              <!-- SMS service configuration -->
+              <tr>
+                <td width="50%" class="label">Use SMS Service</td>
+                <td width="50%" class="value"><input type="checkbox" id="smsActive"></td>
+              </tr>
+              <tr>
+                <td width="50%" class="label">Use SMS Service for Employees</td>
+                <td width="50%" class="value"><input type="checkbox" id="smsEmployees"></td>
+              </tr>
+              <tr>
+                <td width="50%" class="label">Use SMS Service for Students</td>
+                <td width="50%" class="value"><input type="checkbox" id="smsStudents"></td>
+              </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
+
+              <!-- Menu Options -->
+              <tr>
+                <td width="50%" class="label">Use Icons in Menu</td>
+                <td width="50%" class="value"><input type="checkbox" id="useMenuIcons"></td>
+              </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
+
+              <!-- User self submit options Options -->
+              <tr>
+                <td width="50%" class="label">Use Employee Self-Submit</td>
+                <td width="50%" class="value"><input type="checkbox" id="useEmployeeSelfSubmit"></td>
+              </tr>
+              <tr>
+                <td width="50%" class="label">Use Student Self-Submit</td>
+                <td width="50%" class="value"><input type="checkbox" id="useStudentSelfSubmit"></td>
+              </tr>
+              <tr><td colspan="2">&nbsp;</td></tr>
+            <tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2" align="center">
+                    <input type="button" id="SaveMySchoolProfile" value='Save Changes' style="width: 120px;"/>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </td>
+  </tr>
+</table>
+
+<div id="ActiveTable"></div>
+
+            <!-- Body end -->
+        </div>
+
+        <!-- Footer Links -->
+        <div id="PageFooterLinks">
+<div class="row">
+  <span class="title odd">Portfolio</span>
+  <a href="demo/portal-employee/launchSelfSubmit.htm">About Organization</a>
+  <a href="demo/portal-student/launchSelfSubmit.htm">About Director</a>
+  <a href="demo/portal-student/launchSelfSubmit.htm">Our Achievements</a>
+</div>
+<div class="row">
+  <span class="title even">Reach us</span>
+  <a href="demo/portal-employee/launchSelfSubmit.htm">Contact Us</a>
+  <a href="demo/portal-student/launchSelfSubmit.htm">Locate Us</a>
+  <a href="demo/portal-student/launchSelfSubmit.htm">Have a Question?</a>
+</div>
+<div class="row">
+  <span class="title odd">Whats New?</span>
+  <a href="demo/portal-employee/launchSelfSubmit.htm">Download Brochures</a>
+  <a href="demo/portal-student/launchSelfSubmit.htm">Notice Board</a>
+  <a href="demo/portal-student/launchSelfSubmit.htm">Gallery</a>
+</div>
+<div class="row">
+  <span class="title even">Self Submit</span>
+  <a href="demo/portal-employee/launchSelfSubmit.htm">Employee Information</a>
+  <a href="demo/portal-student/launchSelfSubmit.htm">Student Information</a>
+</div>
+        </div>
+
+        <!-- Footer -->
+        <div id="PageFooter">
+        Copyright ©2006-2014, All Rights Reserved
+        | Best viewed in IE 7+, Firefox 15+, Chrome 27+, Opera 10+
+        </div>
+    </div>
+    <div id="shadow" class="opaqueLayer"></div>
+    <div id="goup"></div>
+</body>
+</html>

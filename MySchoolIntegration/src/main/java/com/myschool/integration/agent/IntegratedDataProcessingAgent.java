@@ -7,6 +7,13 @@ import org.apache.camel.spring.Main;
  */
 public class IntegratedDataProcessingAgent {
 
+    private void loadAgent() throws Exception {
+        Main main = new Main();
+        main.setApplicationContextUri("config/spring/MySchoolIntegration.xml");
+        main.enableHangupSupport();
+        main.run();
+    }
+
     /**
      * The main method.
      * 
@@ -14,12 +21,8 @@ public class IntegratedDataProcessingAgent {
      * @throws Exception the exception
      */
     public static void main(String[] args) throws Exception {
-        /*String encode = URLEncoder.encode("move=history/${file:name.noext}_${date:now:yyyyMMddHHmmssSSS}.${file:name.ext}");
-        System.out.println(encode);*/
-        Main main = new Main();
-        main.setApplicationContextUri("camelcontext-integration.xml");
-        main.enableHangupSupport();
-        main.run();
+        IntegratedDataProcessingAgent integratedDataProcessingAgent = new IntegratedDataProcessingAgent();
+        integratedDataProcessingAgent.loadAgent();
     }
 
 }

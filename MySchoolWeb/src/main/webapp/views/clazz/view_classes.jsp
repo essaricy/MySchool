@@ -29,13 +29,13 @@ $(document).ready(function() {
             title: 'Create Class',
             url: '<%=request.getContextPath()%>/class/launchNew.htm',
             width: 420,
-            height: 120
+            height: 200
         },
         'update': {
             title: 'Update Class',
             url: '<%=request.getContextPath()%>/class/launchUpdate.htm',
             width: 400,
-            height: 120,
+            height: 200,
             selectRowMessage: '<spring:message code="common.selectRow.update"/>',
             sendParams: [ {
                 refTable: 'self',

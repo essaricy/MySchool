@@ -22,11 +22,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.ResourceUtil;
+import com.myschool.filesystem.dto.AbsenceCode;
+import com.myschool.filesystem.dto.DirectoryDto;
+import com.myschool.filesystem.dto.FileDto;
+import com.myschool.filesystem.dto.FileSystemDto;
 import com.myschool.infra.filesystem.constants.FileSystemConfigConstants;
-import com.myschool.infra.filesystem.dto.AbsenceCode;
-import com.myschool.infra.filesystem.dto.DirectoryDto;
-import com.myschool.infra.filesystem.dto.FileDto;
-import com.myschool.infra.filesystem.dto.FileSystemDto;
 import com.myschool.infra.filesystem.util.FileUtil;
 
 /**
@@ -134,6 +134,7 @@ public class FileSystemReader extends DefaultHandler {
             File directory = new File(parentDirectory, fileName);
             directoryDto.setName(fileName);
             directoryDto.setFile(directory);
+            directoryDto.setId(directoryElement.getAttribute(FileSystemConfigConstants.ATTRIBUTE_ID));
 
             if (pathFromParent == null) {
                 directoryDto.setPath(fileName);

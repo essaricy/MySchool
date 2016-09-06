@@ -9,7 +9,7 @@ public class Excludes {
         // Common excludes
         "/themes", "/scripts", "/image", "/images", "/widgets", "/jcaptcha",
         // login excludes
-        "/login.htm", "/logout.htm", "/launchLogin.htm",
+        "/log",
     };
 
     /** The PUBLIC_EXCLUDES. */

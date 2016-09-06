@@ -21,10 +21,10 @@
     </tr>
 </table>
 </c:if>
-<table cellpadding="10" cellspacing="0" width="60%" border="0" class="formTable">
-    <caption class="dataTableCaption"><spring:message code="export.title"/></caption>
+<table class="formTable_Container">
+    <caption><spring:message code="export.title"/></caption>
     <tr>
-        <td class="formLabel" width="49%"><spring:message code="export.label"/></td>
+        <td class="label" width="49%"><spring:message code="export.label"/></td>
         <td width="2%">&nbsp;</td>
         <td width="49%" align="left">
             <select id="exportKey" name="exportKey" class="chosen-select">
@@ -43,7 +43,7 @@
     </tr>
     <tr>
         <td colspan="3" align="center">
-            <input id="exportButton" type="button" class="formButton" value='<spring:message code="export.label"/>'/>
+            <input id="exportButton" type="button" value='<spring:message code="export.label"/>'/>
         </td>
     </tr>
 </table>

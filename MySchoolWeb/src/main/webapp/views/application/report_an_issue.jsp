@@ -43,7 +43,7 @@ $(document).ready( function () {
         info('Issue has been successfully recorded by us.<br/>You will be notified with the status of the issue through email.<br/>We thank you for your initiative and support.');
         $('#Reset').click();
       } else {
-        showError(result.StatusMessage);
+        attendError(result.StatusMessage);
       }
     });
   });
@@ -53,8 +53,8 @@ $(document).ready( function () {
 </script>
 
 <c:set var="UserTypes" value="<%=UserType.values()%>"/>
-<table width="60%" class="userFormTable" align="center" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">Post Your Question</caption>
+<table class="formTable_Container">
+  <caption>Post Your Question</caption>
   <tr>
     <td width="40%" class="label">
       You are a<label class="mandatory">*</label>
@@ -74,7 +74,7 @@ $(document).ready( function () {
       Your Email Address<label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <input type="text" id="EmailID" class="formInputText" maxlength="32" />
+      <input type="text" id="EmailID" maxlength="32" />
     </td>
   </tr>
   <tr>
@@ -82,7 +82,7 @@ $(document).ready( function () {
       Subject<label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <input type="text" id="Subject" class="formInputText" maxlength="128"/>
+      <input type="text" id="Subject" maxlength="128"/>
     </td>
   </tr>
   <tr>
@@ -90,7 +90,7 @@ $(document).ready( function () {
       Description<label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <textarea id="Description" class="formInputText" rows="10" maxlength="1024">
+      <textarea id="Description" rows="10" maxlength="1024">
       </textarea>
     </td>
   </tr>
@@ -103,8 +103,8 @@ $(document).ready( function () {
   <tr>
     <td width="40%" class="label">&nbsp;</td>
     <td width="60%" class="value" align="left">
-      <input type="button" id="Submit" value="Submit" class="formButton" />
-      <input type="reset" id="Reset" value="Reset" class="formButton" />
+      <input type="button" id="Submit" value="Submit" />
+      <input type="reset" id="Reset" value="Reset" />
     </td>
   </tr>
 </table>

@@ -10,8 +10,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.integration.common.constant.IntegrationConstant;
-import com.myschool.integration.common.constant.IntegrationPropertiesConstant;
+import com.myschool.integration.constant.IntegrationConstant;
+import com.myschool.integration.constant.IntegrationPropertiesConstant;
 
 /**
  * A factory for creating IntegrationImageResource objects.
@@ -19,9 +19,8 @@ import com.myschool.integration.common.constant.IntegrationPropertiesConstant;
 @Component
 public class IntegrationImageResourceFactory {
 
-    /** The integration agent. */
     @Autowired
-    private IntegrationAgent integrationAgent;
+    private IntegrationProperties integrationProperties;
 
     /** The integration image resources. */
     private Map<String, IntegrationImageResource> integrationImageResources;
@@ -69,39 +68,39 @@ public class IntegrationImageResourceFactory {
                         dynamicDirName = "";
                     }
                     System.out.println("dynamicDirName " + dynamicDirName);
-                    integrationInboundBase = integrationAgent.getProperty(
+                    integrationInboundBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_EMPLOYEE);
-                    integrationInboundDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_EMPLOYEE_DYNAMIC),
                             dynamicDirName);
-                    integrationInboundDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_EMPLOYEE_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    integrationInboundDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_EMPLOYEE_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
 
-                    integrationOutboundBase = integrationAgent.getProperty(
+                    integrationOutboundBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_EMPLOYEE);
-                    integrationOutboundDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_EMPLOYEE_DYNAMIC),
                             dynamicDirName);
-                    integrationOutboundDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_EMPLOYEE_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    integrationOutboundDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_EMPLOYEE_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
 
-                    mediaBase = integrationAgent.getProperty(
+                    mediaBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_EMPLOYEE);
-                    mediaDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_EMPLOYEE_DYNAMIC),
                             dynamicDirName);
-                    mediaDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_EMPLOYEE_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    mediaDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_EMPLOYEE_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
                 } else if (key.equals(IntegrationConstant.STUDENT_REGISTERED)
@@ -110,39 +109,39 @@ public class IntegrationImageResourceFactory {
                         dynamicDirName = "";
                     }
                     System.out.println("dynamicDirName " + dynamicDirName);
-                    integrationInboundBase = integrationAgent.getProperty(
+                    integrationInboundBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_STUDENT);
-                    integrationInboundDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_STUDENT_DYNAMIC),
                             dynamicDirName);
-                    integrationInboundDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_STUDENT_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    integrationInboundDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_STUDENT_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
 
-                    integrationOutboundBase = integrationAgent.getProperty(
+                    integrationOutboundBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_STUDENT);
-                    integrationOutboundDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_STUDENT_DYNAMIC),
                             dynamicDirName);
-                    integrationOutboundDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_STUDENT_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    integrationOutboundDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_STUDENT_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
 
-                    mediaBase = integrationAgent.getProperty(
+                    mediaBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_STUDENT);
-                    mediaDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_STUDENT_DYNAMIC),
                             dynamicDirName);
-                    mediaDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_STUDENT_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    mediaDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_STUDENT_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
                 } else if (key.startsWith(IntegrationConstant.GALLERY)) {
@@ -150,39 +149,39 @@ public class IntegrationImageResourceFactory {
                         dynamicDirName = "";
                     }
                     System.out.println("dynamicDirName " + dynamicDirName);
-                    integrationInboundBase = integrationAgent.getProperty(
+                    integrationInboundBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_GALLERY);
-                    integrationInboundDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_GALLERY_DYNAMIC),
                             dynamicDirName);
-                    integrationInboundDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_GALLERY_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    integrationInboundDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    integrationInboundDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_GALLERY_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
 
-                    integrationOutboundBase = integrationAgent.getProperty(
+                    integrationOutboundBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_GALLERY);
-                    integrationOutboundDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_GALLERY_DYNAMIC),
                             dynamicDirName);
-                    integrationOutboundDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_GALLERY_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    integrationOutboundDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    integrationOutboundDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_GALLERY_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
 
-                    mediaBase = integrationAgent.getProperty(
+                    mediaBase = integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_GALLERY);
-                    mediaDynamic = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamic = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_GALLERY_DYNAMIC),
                             dynamicDirName);
-                    mediaDynamicPassport = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamicPassport = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_GALLERY_DYNAMIC_PASSPORT),
                             dynamicDirName);
-                    mediaDynamicThumbnail = MessageFormat.format(integrationAgent.getProperty(
+                    mediaDynamicThumbnail = MessageFormat.format(integrationProperties.getProperty(
                             IntegrationPropertiesConstant.MEDIA_SERVER_GALLERY_DYNAMIC_THUMBNAIL),
                             dynamicDirName);
                 }

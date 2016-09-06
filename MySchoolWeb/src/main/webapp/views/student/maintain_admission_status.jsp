@@ -14,7 +14,7 @@ $(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
 
@@ -23,36 +23,36 @@ $(document).ready(function() {
       type: "POST",
       url: "<%=request.getContextPath()%>/admission-status/doUpdate.htm",
       data: {
-    	  AdmissionStatusId: $('#AdmissionStatusId').val(),
+          AdmissionStatusId: $('#AdmissionStatusId').val(),
           Description: $('#Description').val(),
           sid: new Date().getTime()
       },
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
 });
 </script>
 
 <c:if test="${AdmissionStatus == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
-    <td width="40%" class="label">Admission Status<label class="mandatory">*</label></td>
-    <td width="60%" class="value">
+    <td width="50%" class="label">Admission Status<label class="mandatory">*</label></td>
+    <td width="50%" class="value">
       <input type="text" id="Description" maxlength="64"/>
     </td>
   </tr>
   <tr>
     <td colspan="2" align="center">
-        <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+        <input type="button" id="create" value='<spring:message code="common.create"/>' />
     </td>
   </tr>
 </table>
 </c:if>
 
 <c:if test="${AdmissionStatus != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Admission Status<label class="mandatory">*</label></td>
     <td width="60%" class="value">
@@ -62,7 +62,7 @@ $(document).ready(function() {
   <tr>
     <td colspan="2" align="center">
         <input type="hidden" id="AdmissionStatusId" value="${AdmissionStatus.statusId}" />
-        <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
+        <input type="button" id="update" value='<spring:message code="common.update"/>' />
     </td>
   </tr>
 </table>

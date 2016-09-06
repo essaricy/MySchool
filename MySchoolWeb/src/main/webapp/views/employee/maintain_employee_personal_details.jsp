@@ -49,7 +49,7 @@ function getPersonalDetails() {
 </script>
 
 <c:if test="${Employee == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label"><spring:message code="common.firstName"/><label class="mandatory">*</label></td>
     <td width="60%" class="value"><input type="text" id="FirstName" maxlength="16" /></td>
@@ -98,7 +98,7 @@ function getPersonalDetails() {
 </c:if>
 
 <c:if test="${Employee != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label"><spring:message code="common.firstName"/><label class="mandatory">*</label></td>
     <td width="60%" class="value"><input type="text" id="FirstName" maxlength="16" value="${Employee.firstName}" /></td>

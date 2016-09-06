@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.dto.DirectoryDto;
+import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.infra.filesystem.reader.NotificationConfigReader;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationMode;

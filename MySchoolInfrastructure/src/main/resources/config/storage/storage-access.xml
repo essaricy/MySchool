@@ -1,0 +1,38 @@
+<storage-config>
+    <provider name="GOOGLE_DRIVE"
+        app-name="MySchool"
+        direct-link="https://docs.google.com/uc?id={0}"
+        passport-link="https://docs.google.com/uc?id={0}"
+        thumbnail-link="https://docs.google.com/uc?id={0}">
+        <params>
+            <param key="CLIENT_ID_FILE" value="@@APPL.LOCAL.DEPLOY@@/@@STORAGE.PROVIDER.CLIENT.ID.FILE@@" />
+            <param key="DATA_STORE_DIR" value="@@APPL.LOCAL.DEPLOY@@/@@STORAGE.PROVIDER.DATA.STORE.DIR@@" />
+            <param key="DATA_STORE_FILE" value="@@STORAGE.PROVIDER.DATA.STORE.NAME@@" />
+
+            <param key="mime.folder" value="application/vnd.google-apps.folder" />
+            <param key="file.fields" value="id, name, mimeType, webContentLink, webViewLink, createdTime, modifiedTime, originalFilename, fullFileExtension, size, trashed" />
+            <param key="list.fields" value="nextPageToken, files(id, name, mimeType, webContentLink, webViewLink, createdTime, modifiedTime, originalFilename, fullFileExtension, size, trashed)" />
+        </params>
+    </provider>
+    <!-- <provider name="LOCAL_FILE_SYSTEM" app-name="MySchool" direct-link="{0}" passport-link="{0}" thumbnail-link="{0}">
+        <params>
+            <param key="DATA_STORE_DIR" value="@@APPL.LOCAL.DIR@@/@@STORAGE.PROVIDER.DATA.STORE.DIR@@" />
+        </params>
+    </provider> -->
+
+    <hierarchy>
+        <directory id="LOGS_STORAGE" name="logs" />
+        <directory name="media">
+            <directory id="BROCHURE_STORAGE" name="brochure" />
+            <directory id="EMPLOYEE_STORAGE" name="employee" />
+            <directory id="FEATURE_STORAGE" name="feature" />
+            <directory id="GALLERY_STORAGE" name="gallery" />
+            <directory id="GREETING_STORAGE" name="greeting">
+                <directory name="birthday" />
+            </directory>
+            <directory id="ORGANIZATION_STORAGE" name="organization" />
+            <directory id="PRODUCT_STORAGE" name="product" />
+            <directory id="STUDENT_STORAGE" name="student" />
+        </directory>
+    </hierarchy>
+</storage-config>

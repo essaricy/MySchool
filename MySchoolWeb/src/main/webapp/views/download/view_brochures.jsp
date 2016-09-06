@@ -36,7 +36,7 @@ $(document).ready(function() {
       var selectedRow = oTable.fnGetData(anSelected);
       var brochureUrl = selectedRow[0];
       var brochureName = selectedRow[1];
-      openReportDialog(brochureUrl, brochureName, $(window).width()-100, $(window).height()-60);
+      openWindow(brochureUrl, brochureName, $(window).width()-100, $(window).height()-60);
     }
   }
 

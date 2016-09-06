@@ -23,7 +23,7 @@ function showProgress(mode) {
   <tr>
     <td colspan="3">
     <!-- GRID TABLE -->
-      <table border="0" cellpadding="6" cellspacing="0" align="center" class="formTable" width="100%" id="gridTable">
+      <table class="formTable_Data" id="gridTable">
         <thead>
           <tr>
             <th align="left">Exam Name</th>
@@ -73,7 +73,7 @@ function showProgress(mode) {
       </table>
 
       <!-- GRAPH TABLE -->
-      <table border="0" cellpadding="6" cellspacing="0" align="center" class="formTable" width="100%" id="graphTable" style="display:none;">
+      <table class="formTable_Data" id="graphTable" style="display:none;">
         <tbody>
           <tr>
             <td align="center">
@@ -94,9 +94,9 @@ function showProgress(mode) {
     </td>
   </tr>
   <tr>
-    <td align="right" width="49%"><input type="button" value="Table" class="formButton" onclick="showProgress(this.value)"/></td>
+    <td align="right" width="49%"><input type="button" value="Table" onclick="showProgress(this.value)"/></td>
     <td width="2%">&nbsp;</td>
-    <td align="left" width="49%"><input type="button" value="Graph" class="formButton" onclick="showProgress(this.value)"/></td>
+    <td align="left" width="49%"><input type="button" value="Graph" onclick="showProgress(this.value)"/></td>
   </tr>
 </table>
 </c:if>

@@ -10,14 +10,13 @@ import org.springframework.stereotype.Component;
 import com.myschool.application.assembler.GalleryDataAssembler;
 import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.application.dto.MySchoolProfileDto;
-import com.myschool.application.dto.ResourceDto;
 import com.myschool.common.exception.DataException;
+import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.infra.filesystem.util.FileUtil;
-import com.myschool.infra.image.agent.ImageScalingAgent;
-import com.myschool.infra.media.agent.MediaServerAgent;
-import com.myschool.infra.media.exception.ResourceException;
-import com.myschool.infra.middleware.agent.OutboundMessageAgent;
+import com.myschool.infra.storage.StorageAccessAgent;
+import com.myschool.infra.storage.exception.StorageAccessException;
+import com.myschool.storage.dto.StorageItem;
 
 /**
  * The Class GalleryManager.
@@ -25,21 +24,13 @@ import com.myschool.infra.middleware.agent.OutboundMessageAgent;
 @Component
 public class GalleryManager {
 
-    /** The media server agent. */
-    @Autowired
-    private MediaServerAgent mediaServerAgent;
-
-    /** The image scaling agent. */
-    @Autowired
-    private ImageScalingAgent imageScalingAgent;
-
     /** The profile manager. */
     @Autowired
     private ProfileManager profileManager;
 
-    /** The outbound message agent. */
+    /** The storage access agent. */
     @Autowired
-    private OutboundMessageAgent outboundMessageAgent;
+    private StorageAccessAgent storageAccessAgent;
 
     /**
      * Gets the gallery details.
@@ -51,12 +42,12 @@ public class GalleryManager {
         List<GalleryDetailDto> galleries = null;
         try {
             // Get the list of galleries
-            List<ResourceDto> galleryResources = mediaServerAgent.getGallery();
+            List<StorageItem> storageItems = storageAccessAgent.GALLERY_STORAGE.getAll();
             MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
             String pinnedGallery = myschoolProfile.getPinnedGallery();
-            galleries = GalleryDataAssembler.createGalleryDetails(galleryResources, pinnedGallery);
-        } catch (ResourceException resourceException) {
-            throw new DataException(resourceException.getMessage(), resourceException);
+            galleries = GalleryDataAssembler.createGalleryDetails(storageItems, pinnedGallery);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return galleries;
     }
@@ -111,13 +102,13 @@ public class GalleryManager {
      */
     public void pin(String galleryName) throws DataException {
         try {
-            List<ResourceDto> galleryResources = mediaServerAgent.getGallery();
-            if (galleryName == null || galleryResources == null || galleryResources.isEmpty()) {
+            List<StorageItem> storageItems  = storageAccessAgent.GALLERY_STORAGE.getAll();
+            if (galleryName == null || storageItems == null || storageItems.isEmpty()) {
                 throw new DataException("There are no galleries present to pin.");
             }
             boolean exists = false;
-            for (ResourceDto galleryResource : galleryResources) {
-                String name = galleryResource.getName();
+            for (StorageItem storageItem : storageItems) {
+                String name = storageItem.getName();
                 if (galleryName.equals(name)) {
                     exists = true;
                     break;
@@ -132,8 +123,8 @@ public class GalleryManager {
                         + "'. There are no images in this gallery.");
             }
             profileManager.pinGallery(galleryName);
-        } catch (ResourceException resourceException) {
-            throw new DataException(resourceException.getMessage(), resourceException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
     }
 
@@ -151,19 +142,18 @@ public class GalleryManager {
                 throw new DataException("Gallery Name cannot be empty");
             }
             galleryName = galleryName.trim();
-            List<GalleryDetailDto> galleryDetails = getAll();
-            if (galleryDetails != null && !galleryDetails.isEmpty()) {
-                for (GalleryDetailDto galleryDetail : galleryDetails) {
-                    if (galleryName.equalsIgnoreCase(galleryDetail.getGalleryName())) {
+
+            List<StorageItem> storageItems = storageAccessAgent.GALLERY_STORAGE.getAll();
+            if (storageItems != null && !storageItems.isEmpty()) {
+                for (StorageItem storageItem : storageItems) {
+                    if (galleryName.equalsIgnoreCase(storageItem.getName())) {
                         throw new DataException("Gallery '" + galleryName + "' already exists");
                     }
                 }
             }
-            // Send Command
-            outboundMessageAgent.sendMessage("Create Gallery: " + galleryName);
-        } catch (Exception fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(),
-                    fileSystemException);
+            success = storageAccessAgent.GALLERY_STORAGE.addStore(galleryName);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return success;
     }
@@ -213,8 +203,6 @@ public class GalleryManager {
             if (newGalleryPresent) {
                 throw new DataException("A Gallery exists with name '" + newGalleryName + "'");
             }
-            // Send Command
-            outboundMessageAgent.sendMessage("Update Gallery Name from: " + oldGalleryName + " to " + newGalleryName);
             success = true;
         } catch (Exception fileSystemException) {
             throw new DataException(fileSystemException.getMessage(),
@@ -258,12 +246,9 @@ public class GalleryManager {
             if (galleryName.equals(pinnedGallery)) {
                 profileManager.pinGallery(null);
             }
-            // Send Command
-            outboundMessageAgent.sendMessage("Delete Gallery: " + galleryName);
-            success = true;
-        } catch (Exception fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(),
-                    fileSystemException);
+            success = storageAccessAgent.GALLERY_STORAGE.delete(galleryName);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return success;
     }
@@ -276,8 +261,8 @@ public class GalleryManager {
      * @return true, if successful
      * @throws DataException the data exception
      */
-    public boolean add(String galleryName, File galleryItemFile) throws DataException {
-        boolean success = false;
+    public GalleryDetailDto add(String galleryName, File galleryItemFile) throws DataException {
+        GalleryDetailDto galleryDetail = null;
         try {
             if (StringUtil.isNullOrBlank(galleryName)) {
                 throw new DataException("Gallery Name cannot be empty");
@@ -293,29 +278,14 @@ public class GalleryManager {
             galleryName = galleryName.trim();
             galleryItemName = galleryItemName.trim();
 
-            // gallery name must exist
-            GalleryDetailDto existingGalleryDetail = null;
-            List<GalleryDetailDto> galleries = getAll();
-            if (galleries == null || galleries.isEmpty()) {
-                throw new DataException("There are no galleries present to add images");
-            }
-            for (int index = 0; index < galleries.size(); index++) {
-                existingGalleryDetail = galleries.get(index);
-                if (galleryName.equals(existingGalleryDetail.getGalleryName())) {
-                    break;
-                }
-            }
-            if (existingGalleryDetail == null) {
-                throw new DataException("Gallery '" + galleryName + "' does not exist");
-            }
-            // Send Command
-            outboundMessageAgent.sendMessage("Add Image " + galleryItemName + " to Gallery: " + galleryName);
-            success = true;
-        } catch (Exception fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(),
-                    fileSystemException);
+            StorageItem storageItem = storageAccessAgent.GALLERY_STORAGE.addStoreItem(galleryName, galleryItemFile);
+            galleryDetail = GalleryDataAssembler.createGalleryDetail(storageItem, null);
+        } catch (FileSystemException fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
-        return success;
+        return galleryDetail;
     }
 
     /**
@@ -355,11 +325,9 @@ public class GalleryManager {
                 throw new DataException("Gallery '" + galleryName + "' does not exist");
             }
             // Send Command
-            outboundMessageAgent.sendMessage("Delete Image " + galleryItemName + " from Gallery: " + galleryName);
-            success = true;
-        } catch (Exception fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(),
-                    fileSystemException);
+            success = storageAccessAgent.GALLERY_STORAGE.deleteStoreItem(galleryName, galleryItemName);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return success;
     }
@@ -404,15 +372,17 @@ public class GalleryManager {
             try {
                 if (StringUtil.isNullOrBlank(galleryItemName)) {
                     throw new DataException("Gallery Item Name is not present.");
+                }
+                boolean delete = delete(galleryName, galleryItemName);
+                if (delete) {
+                    result.add("Gallery Item is deleted.");
                 } else {
-                    result.add("Gallery Item will be deleted.");
+                    result.add("Failed: Gallery Item is not deleted.");
                 }
             } catch (Exception exception) {
                 result.add("Error: " + exception.getMessage());
             }
         }
-        // Send Command
-        outboundMessageAgent.sendMessage("Delete Images " + galleryItemNames + " from Gallery: " + galleryName);
         return result;
     }
 
@@ -426,10 +396,10 @@ public class GalleryManager {
     private List<GalleryDetailDto> getGalleryItems(String galleryName) throws DataException {
         List<GalleryDetailDto> galleryItems = null;
         try {
-            List<ResourceDto> galleryItemResources = mediaServerAgent.getGalleryItems(galleryName);
-            galleryItems = GalleryDataAssembler.createGalleryDetails(galleryItemResources, null);
-        } catch (ResourceException resourceException) {
-            throw new DataException(resourceException.getMessage(), resourceException);
+            List<StorageItem> galleryStorageItems = storageAccessAgent.GALLERY_STORAGE.getAll(galleryName);
+            galleryItems = GalleryDataAssembler.createGalleryDetails(galleryStorageItems, null);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return galleryItems;
     }

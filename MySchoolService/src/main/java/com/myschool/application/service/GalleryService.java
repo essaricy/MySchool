@@ -80,7 +80,7 @@ public interface GalleryService extends Servicable<GalleryDetailDto> {
      * @return true, if successful
      * @throws ServiceException the service exception
      */
-    boolean add(String galleryName, File galleryItem) throws ServiceException;
+    GalleryDetailDto add(String galleryName, File galleryItem) throws ServiceException;
 
     /**
      * Delete.

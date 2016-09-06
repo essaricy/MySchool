@@ -40,7 +40,7 @@ $(document).ready(function() {
     } else {
       var IssueId = $(oTable.fnGetData(anSelected)[0]).html();
       var subject = $(oTable.fnGetData(anSelected)[5]).html();
-      openDialog('<%=request.getContextPath()%>/issue/maintainIssue.htm?IssueId=' + IssueId + '&sid=' + new Date().getTime(),
+      openWindow('<%=request.getContextPath()%>/issue/maintainIssue.htm?IssueId=' + IssueId + '&sid=' + new Date().getTime(),
         'Issue# ' + subject, $(window).width()-100, $(window).height()-50);
     }
   });

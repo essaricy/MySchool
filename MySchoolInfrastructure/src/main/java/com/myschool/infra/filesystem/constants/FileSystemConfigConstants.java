@@ -23,4 +23,7 @@ public class FileSystemConfigConstants {
     /** The Constant ATTRIBUTE_NAME. */
     public static final String ATTRIBUTE_NAME = "name";
 
+    /** The Constant ATTRIBUTE_ID. */
+    public static final String ATTRIBUTE_ID = "id";
+
 }

@@ -12,8 +12,8 @@ $(document).ready(function() {
   });
 });
 </script>
-<table width="70%" class="userFormTable" align="center" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">About Organization</caption>
+<table class="formTable_Container">
+  <caption>About Organization</caption>
   <tr>
     <td>
       <img src="${RESOURCE_PROFILE.organization.passportUrl}" class="passportSizeImage SpecialContentImage" />

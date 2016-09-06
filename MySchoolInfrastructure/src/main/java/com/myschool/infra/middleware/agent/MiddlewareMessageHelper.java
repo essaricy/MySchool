@@ -3,11 +3,11 @@ package com.myschool.infra.middleware.agent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.infra.application.dto.CommandDto;
 import com.myschool.infra.middleware.constants.QueueCategory;
 import com.myschool.infra.middleware.constants.QueueType;
 import com.myschool.infra.middleware.exception.MessageException;
 import com.myschool.infra.oxo.agent.OxoAgent;
+import com.myschool.infra.remote.dto.CommandDto;
 
 @Component
 public class MiddlewareMessageHelper {

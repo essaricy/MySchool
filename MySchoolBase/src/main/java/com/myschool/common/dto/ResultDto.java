@@ -25,6 +25,8 @@ public class ResultDto implements Serializable {
     /** The reference number. */
     private String referenceNumber;
 
+    private Object reference;
+
     /**
      * Checks if is successful.
      *
@@ -80,6 +82,20 @@ public class ResultDto implements Serializable {
     }
 
     /**
+     * @return the reference
+     */
+    public Object getReference() {
+        return reference;
+    }
+
+    /**
+     * @param reference the reference to set
+     */
+    public void setReference(Object reference) {
+        this.reference = reference;
+    }
+
+    /**
      * To XML string.
      *
      * @return the string
@@ -94,23 +110,17 @@ public class ResultDto implements Serializable {
         return builder.toString();
     }
 
-    /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
-     *
-     * @return a <code>String</code> representation 
-     * of this object.
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("ResultDto ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("successful = ").append(this.successful).append(SEPARATOR)
-            .append("statusMessage = ").append(this.statusMessage).append(SEPARATOR)
-            .append("referenceNumber = ").append(this.referenceNumber).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append("ResultDto [successful=").append(successful)
+                .append(", statusMessage=").append(statusMessage)
+                .append(", referenceNumber=").append(referenceNumber)
+                .append(", reference=").append(reference).append("]");
+        return builder.toString();
     }
 
 }

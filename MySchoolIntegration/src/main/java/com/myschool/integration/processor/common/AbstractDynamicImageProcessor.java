@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.util.FileUtil;
-import com.myschool.infra.image.constants.ImageSize;
+import com.myschool.file.util.FileUtil;
+import com.myschool.image.constant.ImageSize;
+import com.myschool.infra.remote.ftp.exception.FtpException;
 import com.myschool.integration.agent.IntegrationImageResource;
 import com.myschool.integration.agent.IntegrationImageResourceFactory;
-import com.myschool.integration.common.exception.CommandExecutionException;
-import com.myschool.integration.common.exception.CommandProcessException;
-import com.myschool.integration.common.exception.MediaServerException;
+import com.myschool.integration.exception.CommandExecutionException;
+import com.myschool.integration.exception.CommandProcessException;
 
 /**
  * The Class AbstractDynamicImageProcessor.
@@ -73,7 +73,7 @@ public abstract class AbstractDynamicImageProcessor extends AbstractProcessor {
 
     protected void createDymanicImageResource(String mediaType,
             IntegrationImageResource integrationImageResource)
-            throws CommandExecutionException, MediaServerException {
+            throws CommandExecutionException, FtpException {
         // Create media in inbound
         createDymanicImageResource(integrationImageResource.getIntegrationInboundDynamic());
         createDymanicImageResource(integrationImageResource.getIntegrationInboundDynamicPassport());
@@ -90,7 +90,7 @@ public abstract class AbstractDynamicImageProcessor extends AbstractProcessor {
 
     protected void deleteDymanicImageResource(String mediaType,
             IntegrationImageResource integrationImageResource)
-            throws CommandExecutionException, MediaServerException {
+            throws CommandExecutionException, FtpException {
         // delete media in inbound
         deleteLocalImageResource(integrationImageResource.getIntegrationInboundDynamicPassport());
         deleteLocalImageResource(integrationImageResource.getIntegrationInboundDynamicThumbnail());
@@ -220,8 +220,8 @@ public abstract class AbstractDynamicImageProcessor extends AbstractProcessor {
 
             String thumbnailImage = mediaServerFTPClientProxy.getFileName(mediaType, mediaDynamicThumbnail, identity);
             mediaServerFTPClientProxy.deleteFile(mediaType, mediaDynamicThumbnail, thumbnailImage);
-        } catch (MediaServerException mediaServerException) {
-            throw new CommandExecutionException(mediaServerException.getMessage(), mediaServerException);
+        } catch (FtpException ftpException) {
+            throw new CommandExecutionException(ftpException.getMessage(), ftpException);
         }
     }
 
@@ -240,7 +240,7 @@ public abstract class AbstractDynamicImageProcessor extends AbstractProcessor {
             String fileName = mediaServerFTPClientProxy.getFileName(mediaType, mediaDynamic, identity);
             LOGGER.debug("fileName = " + fileName);
             if (fileName == null) {
-                throw new MediaServerException("Unable to find remote file: " + mediaDynamic + "/" + fileName);
+                throw new FtpException("Unable to find remote file: " + mediaDynamic + "/" + fileName);
             }
 
             // Move the file from remote to local directory
@@ -253,24 +253,24 @@ public abstract class AbstractDynamicImageProcessor extends AbstractProcessor {
             mediaServerFTPClientProxy.deleteFile(mediaType, mediaDynamicThumbnail, fileName);
             LOGGER.debug("Deleted file: " + mediaDynamicThumbnail + "/" + fileName);
             addDymanicImage(toImageResource, fileName);
-        } catch (MediaServerException mediaServerException) {
-            throw new CommandExecutionException(mediaServerException.getMessage(), mediaServerException);
+        } catch (FtpException ftpException) {
+            throw new CommandExecutionException(ftpException.getMessage(), ftpException);
         }
     }
 
     private void downloadFile(String mediaType, File downloadDirectory, String remoteDirectory,
-            String remoteFileName) throws MediaServerException {
+            String remoteFileName) throws FtpException {
         if (!downloadDirectory.exists()) {
             boolean success = downloadDirectory.mkdirs();
             if (!success) {
-                throw new MediaServerException("Source directory does not exist and unable to create: " + downloadDirectory.getAbsolutePath());
+                throw new FtpException("Source directory does not exist and unable to create: " + downloadDirectory.getAbsolutePath());
             }
         }
         File srcFile = new File(downloadDirectory, remoteFileName);
         LOGGER.debug("downloading file = " + remoteDirectory + "/" + remoteFileName);
         mediaServerFTPClientProxy.downloadFile(mediaType, srcFile, remoteDirectory, remoteFileName);
         if (!srcFile.exists()) {
-            throw new MediaServerException("File is not downloaded : " + srcFile.getAbsolutePath());
+            throw new FtpException("File is not downloaded : " + srcFile.getAbsolutePath());
         }
         LOGGER.debug("downloaded file = " + srcFile.getAbsolutePath());
     }

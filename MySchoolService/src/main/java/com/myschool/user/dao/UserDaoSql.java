@@ -32,11 +32,14 @@ public class UserDaoSql {
     /** The Constant UPDATE_PASSWORD_BY_ID. */
     public static final String UPDATE_PASSWORD_BY_ID;
 
+    /** The Constant SELECT_ALL_THEMES. */
+    public static final String SELECT_ALL_THEMES;
+
     /** The UPDATE_USER_PREFERENCES_BY_ID. */
-    public static String UPDATE_USER_PREFERENCES_BY_ID;
+    public static final String UPDATE_USER_PREFERENCES_BY_ID;
 
     /** The SELECT_LOGINS_BY_USER_TYPE. */
-    private static String SELECT_LOGINS_BY_USER_TYPE;
+    private static final String SELECT_LOGINS_BY_USER_TYPE;
 
     static {
         StringBuilder builder = new StringBuilder();
@@ -91,11 +94,14 @@ public class UserDaoSql {
         builder.setLength(0);
 
         builder.append("SELECT ");
-        builder.append("THEME_NAME, ");
+        builder.append("USER_THEME.CODE AS USER_THEME_CODE, ");
+        builder.append("USER_THEME.NAME AS USER_THEME_NAME, ");
         builder.append("RECORDS_PER_PAGE, ");
         builder.append("ALLOW_ADS ");
         builder.append("FROM ");
         builder.append("USER_PREFERENCES ");
+        builder.append("INNER JOIN USER_THEME ");
+        builder.append("ON USER_THEME.CODE = THEME_NAME ");
         builder.append("WHERE USER_ID=?");
         SELECT_USER_PREFERENCES_BY_ID = builder.toString();
         builder.setLength(0);
@@ -126,6 +132,12 @@ public class UserDaoSql {
         SELECT_LOGINS_BY_USER_TYPE = builder.toString();
         builder.setLength(0);
 
+        builder.append("SELECT ");
+        builder.append("CODE, ");
+        builder.append("NAME ");
+        builder.append("FROM USER_THEME ");
+        SELECT_ALL_THEMES = builder.toString();
+        builder.setLength(0);
     }
 
     /**

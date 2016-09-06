@@ -25,7 +25,7 @@ public class AuthenticationFilter implements Filter {
 	//private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
 
     /** The Constant LAUNCH_LOGIN_HTM. */
-    private static final String LAUNCH_LOGIN_HTM = "/launchLogin.htm";
+    private static final String LAUNCH_LOGIN_HTM = "/log/launch.htm";
 
 	/* (non-Javadoc)
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)

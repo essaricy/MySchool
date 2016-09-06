@@ -82,16 +82,25 @@
 </script>
 
 <div id="gallery">
-  <c:forEach var="feature" items="${features}" varStatus="featureStatus">
-    <c:if test="${featureStatus.count == 1}">
     <a href="#" class="show">
-    </c:if>
-    <c:if test="${featureStatus.count != 1}">
-    <a href="#">
-    </c:if>
-    <img src="${feature.imagePath}" alt="${feature.name}" width="600" height="360" rel="<h3>${feature.name}</h3>${feature.description}" border="1"/>
+        <img src="<%=request.getContextPath() %>/images/Universe/earth.jpg" alt="earth.jpg" width="600" height="360" rel="<h3>earth.jpg</h3>earth.jpg" border="1"/>
     </a>
-    </c:forEach>
+    <a href="#">
+        <img src="<%=request.getContextPath() %>/images/Universe/lion.jpg" alt="lion.jpg" width="600" height="360" rel="<h3>lion.jpg</h3>lion.jpg" border="1"/>
+    </a>
+    <a href="#">
+        <img src="<%=request.getContextPath() %>/images/Universe/lunar.jpg" alt="lunar.jpg" width="600" height="360" rel="<h3>lunar.jpg</h3>lunar.jpg" border="1"/>
+    </a>
+    <a href="#">
+        <img src="<%=request.getContextPath() %>/images/Universe/lynx.jpg" alt="lynx.jpg" width="600" height="360" rel="<h3>lynx.jpg</h3>lynx.jpg" border="1"/>
+    </a>
+    <a href="#">
+        <img src="<%=request.getContextPath() %>/images/Universe/space.jpg" alt="space.jpg" width="600" height="360" rel="<h3>space.jpg</h3>space.jpg" border="1"/>
+    </a>
+    <a href="#">
+        <img src="<%=request.getContextPath() %>/images/Universe/spiral.jpg" alt="spiral.jpg" width="600" height="360" rel="<h3>spiral.jpg</h3>spiral.jpg" border="1"/>
+    </a>
+
     <div class="caption"><div class="content"></div></div>
     <div class="clear"></div>
 </div>

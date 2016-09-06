@@ -96,7 +96,7 @@ jQuery(document).ready(function() {
   uploader.bind('FileUploaded', function(up, file, result) {
     var response = $.parseJSON(result.response);
     if (response.Successful) {
-      showSuccess('Image has been successfully uploaded and will be updated when saved.');
+      notifySuccess('Image has been successfully uploaded and will be updated when saved.');
       // Replace image with some fading effect
       var studentImage = $('#studentImage');
       var studentImageUrl = '<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
@@ -108,7 +108,7 @@ jQuery(document).ready(function() {
       });
       $('#ImageReferenceNumber').val(response.ReferenceNumber);
     } else {
-      showError('Unable to upload the image now. Please try again.');
+      attendError('Unable to upload the image now. Please try again.');
     }
   });
 
@@ -161,13 +161,13 @@ jQuery(document).ready(function() {
       if (result.Successful) {
         var message = result.StatusMessage;
         if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-          showSuccess(message);
+          notifySuccess(message);
           if (verify) {
               $('#Verified').val('YES');
               $('#save_verify').hide();
           }
         } else {
-          showSuccess('Data has been updated successfully.');
+          notifySuccess('Data has been updated successfully.');
         }
         var prevStudentId = $('#StudentId').val();
         // set Student id
@@ -189,9 +189,9 @@ jQuery(document).ready(function() {
       } else {
         var message = result.StatusMessage;
         if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-          showError(message);
+          attendError(message);
         } else {
-          showError("Server has sent an unexpected response. Please contact support for assistance.");
+          attendError("Server has sent an unexpected response. Please contact support for assistance.");
         }
       }
       $('#ImageReferenceNumber').val('');
@@ -223,8 +223,8 @@ jQuery(document).ready(function() {
   </c:if>
 </c:if>
 
-<table cellpadding="2" width="90%" align="center" cellspacing="0" border="0">
-  <caption class="dataTableCaption">
+<table class="formTable_Container">
+  <caption>
     Student Registration
     <c:if test="${RECORD_STATUS == 'UNVERIFIED'}"> (Portal) </c:if>
   </caption>
@@ -245,7 +245,7 @@ jQuery(document).ready(function() {
     <td width="15%" valign="top">
       <!-- Student Photo -->
       <c:if test="${Student == null}">
-      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
@@ -254,7 +254,7 @@ jQuery(document).ready(function() {
       </table>
       </c:if>
       <c:if test="${Student != null}">
-      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=${Student.admissionNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>

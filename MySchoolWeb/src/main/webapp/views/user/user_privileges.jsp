@@ -1,7 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
 
-<script src="<%=request.getContextPath()%>/widgets/chosen.ImageSelect/ImageSelect.jquery.js" type="text/javascript"></script>
 <script src="<%=request.getContextPath()%>/scripts/myschool-privileges.js" type="text/javascript"></script>
 
 <script type="text/javascript" charset="utf-8">
@@ -41,7 +40,7 @@ $(document).ready(function () {
   $('#UserTypeID').change();
 
   $('#CopyPrivileges').click(function() {
-    openDialog('<%=request.getContextPath()%>/privileges/launchCopyUserPrivileges.htm?UserTypeID=' + $('#UserTypeID').val(),
+    openWindow('<%=request.getContextPath()%>/privileges/launchCopyUserPrivileges.htm?UserTypeID=' + $('#UserTypeID').val(),
         'Copy Privileges', $(document).width()/2, $(document).height()/2);
   });
 
@@ -60,7 +59,7 @@ $(document).ready(function () {
         },
         context: this
       }).done(function(result) {
-        parseWholepageResponse(result, false);
+          handleServerResponseOnPage(result, false);
         setTimeout(function () { location.reload(); }, 3000);
       });
     }
@@ -95,14 +94,14 @@ $(document).ready(function () {
 });
 </script>
 
-<table cellpadding="5" cellspacing="0" width="60%" class="formTable">
-  <caption class="dataTableCaption">User Privileges</caption>
+<table class="formTable_Container" style="width: 70%; font-size: 1em; color: #555;">
+  <caption>User Privileges</caption>
   <c:if test="${UserTypes != null}">
   <tr>
     <td align="left" width="50%">
       <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
-          <td class="formLabel" width="50%">User Type</td>
+          <td class="label" width="50%">User Type</td>
           <td>
             <select id="UserTypeID" class="chosen-select">
             <c:forEach var="UserType" items="${UserTypes}">
@@ -124,7 +123,7 @@ $(document).ready(function () {
     <td align="left" width="50%">
       <table cellpadding="0" cellspacing="0" width="100%">
         <tr>
-          <td class="formLabel" width="50%">User</td>
+          <td class="label" width="50%">User</td>
           <td>
             <select id="UserID" class="chosen-select">
             </select> 
@@ -134,50 +133,44 @@ $(document).ready(function () {
     </td>
   </tr>
   <tr>
-    <td align="left" width="50%">
-      <table cellpadding="0" cellspacing="0" width="100%" id="PrivilegesMasterTable">
-        <tr>
-          <td colspan="2" valign="top">&nbsp;
-            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="display" valign="top">
-              <thead>
-                <tr>
-                  <th width="40px" align="left">
-                    <img src="<%=request.getContextPath()%>/images/icons/triangle_down.png" class="iconImage" id="ExpandAll" title="Expand All"/><img src="<%=request.getContextPath()%>/images/icons/triangle_up.png" class="iconImage" id="CollapseAll" title="Collapse All"/>
-                  </th>
-                  <th width="35%" align="left">Module</th>
-                  <th align="center">View</th>
-                  <th align="center">Create</th>
-                  <th align="center">Update</th>
-                  <th align="center">Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td width="100%" colspan="100%" id="PrivilegesDataContainer">
-                </tr>
-              </tbody>
-              <tfoot/>
-            </table>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="3" align="right">
-          <br/>
-          <c:choose>
-            <c:when test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
-              <input type="button" id="UpdatePrivileges" value="Update" class="formButton" />
-              <input type="button" id="RestoreDefaultPrivileges" value="Restore" class="formButton" />
-              <input type="button" id="CopyPrivileges" value="Copy" class="formButton" />
-            </c:when>
-            <c:otherwise>
-              <input type="button" value="Update" class="inactive" disabled />
-              <input type="button" value="Restore Default Privileges" class="inactive" />
-              <input type="button" value="Copy" class="inactive" disabled />
-            </c:otherwise>
-          </c:choose>
-          </td>
-        </tr>
+    <td colspan="2" valign="top">
+      <table width="100%" cellpadding="2" cellspacing="0">
+        <thead style="background: url('<%=request.getContextPath()%>/images/icons/blockdefault.gif') repeat-x left center;">
+          <tr>
+            <th width="5%" align="left">
+              &nbsp;
+            </th>
+            <th width="75%" align="left" style="color: white;">Module</th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/view.png" class="iconImage" title="View" /></th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Add" /></th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/update.png" class="iconImage" title="Update" /></th>
+            <th width="5%" align="left"><img src="<%=request.getContextPath()%>/images/icons/delete.png" class="iconImage" title="Delete" /></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td width="100%" colspan="100%" id="PrivilegesDataContainer">
+          </tr>
+        </tbody>
+        <tfoot/>
       </table>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="3" align="right">
+    <br/>
+    <c:choose>
+      <c:when test="${PAGE_ACCESS != null && PAGE_ACCESS.update}">
+        <input type="button" id="UpdatePrivileges" value="Update" />
+        <input type="button" id="RestoreDefaultPrivileges" value="Restore" />
+        <input type="button" id="CopyPrivileges" value="Copy" />
+      </c:when>
+      <c:otherwise>
+        <input type="button" value="Update" disabled />
+        <input type="button" value="Restore Default Privileges" />
+        <input type="button" value="Copy" disabled />
+      </c:otherwise>
+    </c:choose>
     </td>
   </tr>
 </table>

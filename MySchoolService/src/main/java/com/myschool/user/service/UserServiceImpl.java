@@ -18,6 +18,7 @@ import com.myschool.user.dto.ChangePasswordDto;
 import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserSession;
+import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -206,5 +207,18 @@ public class UserServiceImpl implements UserService {
                     dataException);
         }
 	}
+
+    /* (non-Javadoc)
+     * @see com.myschool.user.service.UserService#getThemes()
+     */
+    @Override
+    public List<UserTheme> getThemes() throws ServiceException {
+        try {
+            return userManager.getThemes();
+        } catch (DataException dataException) {
+            throw new ServiceException(dataException.getMessage(),
+                    dataException);
+        }
+    }
 
 }

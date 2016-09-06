@@ -27,8 +27,8 @@
 	});
 </script>
 
-<table cellpadding="0" cellspacing="0" border="0" width="60%">
-	<caption class="dataTableCaption"><spring:message code="forgotPassword.title"/></caption>
+<table class="formTable_Container">
+  <caption><spring:message code="forgotPassword.title"/></caption>
 	<tr>
 		<td colspan="3" class="error">
 			<c:if test="${result != null && result.statusMessage != null}">
@@ -49,7 +49,7 @@
 						<td width="30%" align="right"><spring:message code="forgotPassword.loginName"/><label class="mandatory">*</label></td>
 						<td width="20px">&nbsp;</td>
 						<td width="30%">
-							<input type="text" id="loginName" name="loginName" class="formInputText" maxlength="32" />
+							<input type="text" id="loginName" name="loginName" maxlength="32" />
 						</td>
 						<td width="20%">&nbsp;</td>
 					</tr>
@@ -71,7 +71,7 @@
 						<td width="30%" align="right"><spring:message code="forgotPassword.securityAnswer"/><label class="mandatory">*</label></td>
 						<td width="20px">&nbsp;</td>
 						<td width="30%">
-							<input type="password" id="securityAnswer" name="securityAnswer" class="formInputText" />
+							<input type="password" id="securityAnswer" name="securityAnswer" />
 						</td>
 						<td width="20%">&nbsp;</td>
 					</tr>
@@ -82,7 +82,7 @@
 						</td>
 						<td width="20px">&nbsp;</td>
 						<td width="30%">
-							<input type="button" id="loginButton" value='Goto Login' class="formButton" />&nbsp;<input type="button" id="resetPassword" value='<spring:message code="forgotPassword.resetPassword"/>' class="formButton" />
+							<input type="button" id="loginButton" value='Goto Login' />&nbsp;<input type="button" id="resetPassword" value='<spring:message code="forgotPassword.resetPassword"/>' />
 						</td>
 						<td width="20%">&nbsp;</td>
 					</tr>

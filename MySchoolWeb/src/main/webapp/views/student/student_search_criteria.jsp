@@ -92,8 +92,8 @@ $(document).ready(function() {
 </script>
 
 <input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">${TITLE}</caption>
+<table class="formTable_Data">
+  <caption>${TITLE}</caption>
   <tr>
     <td>
       <div id="SearchTabs">
@@ -106,11 +106,11 @@ $(document).ready(function() {
             <tr>
               <td align="right">Admission Number</td>
               <td>
-                <input type="text" id="Search_AdmissionNumber" class="formInputText" />
+                <input type="text" id="Search_AdmissionNumber" />
               </td>
               <td align="right">Student Name</td>
               <td>
-                <input type="text" id="Search_StudentName" class="formInputText" />
+                <input type="text" id="Search_StudentName" />
               </td>
             </tr>
             <tr>
@@ -157,7 +157,7 @@ $(document).ready(function() {
             </tr>
             <tr>
               <td align="right" colspan="4">
-                <input type="button" id="Search" value="Search" class="formButton" />
+                <input type="button" id="Search" value="Search" />
               </td>
             </tr>
           </table>
@@ -167,11 +167,11 @@ $(document).ready(function() {
             <tr>
               <td align="right">Admission Number</td>
               <td>
-                <input type="text" id="AdvancedSearch_AdmissionNumber" class="formInputText" />
+                <input type="text" id="AdvancedSearch_AdmissionNumber" />
               </td>
               <td align="right">Student Name</td>
               <td>
-                <input type="text" id="AdvancedSearch_StudentName" class="formInputText" />
+                <input type="text" id="AdvancedSearch_StudentName" />
               </td>
             </tr>
             <tr>
@@ -244,7 +244,7 @@ $(document).ready(function() {
             </tr>
             <tr>
               <td align="right" colspan="4">
-                <input type="button" id="AdvancedSearch" value="Search" class="formButton" />
+                <input type="button" id="AdvancedSearch" value="Search" />
               </td>
             </tr>
           </table>

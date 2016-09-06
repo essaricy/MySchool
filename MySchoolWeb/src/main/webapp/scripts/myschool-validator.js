@@ -83,7 +83,7 @@ function validateField(validationSettings) {
                 field.addClass(errorClass);
 
                 if (messageType == 'error') {
-                    showError(message);
+                    notifyError(message);
                 }
                 return false;
             }

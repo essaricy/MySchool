@@ -14,6 +14,7 @@ import com.myschool.user.dto.ChangePasswordDto;
 import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserSession;
+import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
 
 /**
@@ -111,5 +112,13 @@ public interface UserService extends Servicable<UsersDto> {
      * @throws ServiceException the service exception
      */
     boolean createUserActivities(String sessionId, List<UserActivity> userActivities) throws ServiceException;
+
+    /**
+     * Gets the themes.
+     *
+     * @return the themes
+     * @throws ServiceException the service exception
+     */
+    List<UserTheme> getThemes() throws ServiceException;
 
 }

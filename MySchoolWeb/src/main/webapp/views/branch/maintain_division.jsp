@@ -14,7 +14,7 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
 
@@ -29,7 +29,7 @@ $(document).ready(function() {
       }, 
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
  
@@ -40,7 +40,7 @@ $(document).ready(function() {
 </script>
 
 <c:if test="${division == null}">
-  <table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+  <table class="formTable_Data">
     <tr>
       <td class="label" width="40%"><spring:message code="division.code"/> <label class="mandatory">*</label></td>
       <td class="value" width="60%">
@@ -55,14 +55,14 @@ $(document).ready(function() {
     </tr>
     <tr>
       <td colspan="2" align="center">
-        <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+        <input type="button" id="create" value='<spring:message code="common.create"/>' />
       </td>
     </tr>
   </table>
 </c:if>
 
 <c:if test="${division != null}">
-  <table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+  <table class="formTable_Data">
     <tr>
       <td class="label" width="40%"><spring:message code="division.code"/> <label class="mandatory">*</label></td>
       <td class="value" width="60%">
@@ -78,7 +78,7 @@ $(document).ready(function() {
     <tr>
       <td colspan="2" align="center">
         <input type="hidden" id="divisionId" value="${division.divisionId}" />
-        <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
+        <input type="button" id="update" value='<spring:message code="common.update"/>' />
       </td>
     </tr>
   </table>

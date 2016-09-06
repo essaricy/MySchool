@@ -21,6 +21,7 @@
     <property file="build/server-mq.properties" />
     <property file="build/server-sms.properties" />
     <property file="build/server-smtp.properties" />
+    <property file="build/server-storage.properties" />
 
     <!-- stage.dir point the initial directory where the base copies are kept -->
     <property name="stage.dir" value="${app.build.dir}/stage" />
@@ -80,6 +81,7 @@
     </target>
 
     <target name="CleanCodeBases">
+        <ant antfile="build.xml" target="Clean" dir="${myschool.support}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.base}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.transformation}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.infrastructure}" />
@@ -103,6 +105,7 @@
     </target>
 
     <target name="BuildAll">
+    	<ant antfile="build.xml" target="Build" dir="${myschool.support}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.base}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.transformation}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.infrastructure}" />
@@ -114,6 +117,7 @@
     </target>
 
     <target name="DeployAll">
+        <ant antfile="build.xml" target="Deploy" dir="${myschool.support}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.base}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.transformation}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.infrastructure}" />
@@ -150,11 +154,21 @@
                 <include name="commons-logging-1.1.1.jar" />
                 <include name="concurrent-1.3.3.jar" />
                 <include name="dynamicreports-core-2.4.1.jar" />
+                <include name="google-api-client-1.22.0.jar" />
+                <include name="google-api-services-drive-v3-rev34-1.22.0.jar" />
+                <include name="google-http-client-1.22.0.jar" />
+                <include name="google-http-client-jackson2-1.22.0.jar" />
+                <include name="google-oauth-client-1.22.0.jar" />
+                <include name="google-oauth-client-java6-1.22.0.jar" />
+                <include name="google-oauth-client-jetty-1.22.0.jar" />
+                <include name="jackson-core-2.8.0.jar" />
                 <include name="jasperreports-4.5.1.jar" />
                 <include name="jcs-1.3.jar" />
                 <include name="jettison-1.3.3.jar" />
                 <include name="log4j.jar" />
                 <include name="mail.jar" />
+                <include name="org.mortbay.jetty.jar" />
+                <include name="org.mortbay.jetty.util.jar" />
                 <!-- Spring Jars -->
                 <include name="org.springframework.aop-3.0.5.RELEASE.jar" />
                 <include name="org.springframework.asm-3.0.5.RELEASE.jar" />

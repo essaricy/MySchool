@@ -67,10 +67,10 @@ $(document).ready(function() {
   $('#Class_Lookup').click(function() {
     var classId = $('#Class_Lookup_RegisteredClass').val();
     if (classId == '0') {
-      showError('Please select a class');
+      notifyError('Please select a class');
     } else {
       setRegisteredClass(getRegisteredClass());
-      modal.close();
+      closeCurrentWindow();
     }
   });
 
@@ -122,7 +122,7 @@ function getRegisteredClass() {
 <input type="hidden" id="Class_Lookup_SectionName" value="" />
 
 <c:if test="${RegisteredClass == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Branch<label class="mandatory">*</label></td>
     <td width="60%" class="value">
@@ -152,14 +152,14 @@ function getRegisteredClass() {
   <tr>
     <td colspan="2" align="center">
       <input type="hidden" id="Class_Lookup_RegisteredClassId" value="0" />
-      <input type="button" id="Class_Lookup" class="active" value='<spring:message code="common.create"/>' />
+      <input type="button" id="Class_Lookup" value='<spring:message code="common.create"/>' />
     </td>
   </tr>
 </table>
 </c:if>
 
 <c:if test="${RegisteredClass != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Branch<label class="mandatory">*</label></td>
     <td width="60%" class="value">
@@ -189,7 +189,7 @@ function getRegisteredClass() {
   <tr>
     <td colspan="2" align="center">
       <input type="hidden" id="Class_Lookup_RegisteredClassId" value="${RegisteredClass.classId}" />
-      <input type="button" id="Class_Lookup" class="active" value='<spring:message code="common.update"/>' />
+      <input type="button" id="Class_Lookup" value='<spring:message code="common.update"/>' />
     </td>
   </tr>
 </table>

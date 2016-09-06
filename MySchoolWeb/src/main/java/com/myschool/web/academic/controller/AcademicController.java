@@ -79,6 +79,8 @@ public class AcademicController {
                     data.put(row);
                 }
             }
+            // TODO: added for progress bar testing.
+            Thread.sleep(5*1000);
         } finally {
             HttpUtil.wrapAndWriteAsAAData(response, data);
         }

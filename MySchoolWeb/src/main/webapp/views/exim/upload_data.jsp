@@ -315,7 +315,7 @@ $(document).ready(function() {
 });
 
 function showRecordStatus(fileTrackerId) {
-    openDialog('<%=request.getContextPath()%>/upload/getUploadRecordTrackers.htm?fileTrackerId=' + fileTrackerId + '&sid=' + new Date().getTime(),
+    openWindow('<%=request.getContextPath()%>/upload/getUploadRecordTrackers.htm?fileTrackerId=' + fileTrackerId + '&sid=' + new Date().getTime(),
         'Upload File Status - Record Level', $(window).width() - 100, 500);
 }
 </script>
@@ -376,7 +376,7 @@ function showRecordStatus(fileTrackerId) {
         </select>
       </td>
       <td>
-        <input type="button" id="downloadTemplate" class="formButton" value="Download Template" />
+        <input type="button" id="downloadTemplate" value="Download Template" />
       </td>
     </tr>
   </table>

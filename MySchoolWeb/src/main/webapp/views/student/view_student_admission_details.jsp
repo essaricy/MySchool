@@ -5,7 +5,7 @@
 }
 </style>
 <c:if test="${Student != null}">
-<table width="80%" id="StudentAdmissionTable" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label"><spring:message code="student.admissionNumber"/></td>
     <td width="60%" class="value"><b>${Student.admissionNumber}</b></td>

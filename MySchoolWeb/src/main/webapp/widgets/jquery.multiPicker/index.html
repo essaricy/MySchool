@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Multi Picker</title>
+		<link rel="stylesheet" href="dist/multipicker.min.css">
+	    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Gudea">
+
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
+
+		<script type="text/javascript" src="dist/multipicker.min.js"></script>
+
+		<script type="text/javascript">
+			$(function() {
+				$("#days").multiPicker({ selector : "li" });
+
+				$("#days-single").multiPicker({
+					selector : "li",
+					isSingle : true
+				});
+
+				$("#days-prepopulated").multiPicker({
+					selector : "li",
+					prePopulate : ["Tuesday", "Friday"],
+					valueSource : "data-value"
+				});
+
+				$("#days-vertical").multiPicker({
+					selector   : "span",
+					cssOptions : {
+						vertical: true
+					}
+				});
+
+				$("#months").multiPicker({
+					selector    : "span",
+					inputName   : "months",
+					prePopulate : "Jan", // array or single value
+					valueSource : "text",
+					isSingle	: true,	 // default false
+					cssOptions : {
+						quadratic : true,
+						size	  : "small" // small, medium or large, default medium
+					}
+				});
+
+				$("#clubs").multiPicker({
+					selector    : "checkbox",
+					prePopulate : "1", // array or single value
+					isSingle	: true,
+					cssOptions 	: {
+						size	  : "large", // small, medium or large, default medium
+						element	  : {
+							"font-size"   : "11px",
+							"color" 	  : "#3a3a3a",
+							"font-weight" : "bold"
+						},
+						selected: {
+							"border-color" : "#ff4c4c",
+							"font-size"    : "14px"
+						},
+						picker: {
+							"border-color" : "#ff4c4c",
+						}
+					}
+				});
+
+				$("#languages").multiPicker({
+					selector	: "radio"
+				});
+
+				$("#programming-languages").multiPicker({
+					selector	: "checkbox",
+					cssOptions : {
+						size 	  : "large"
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<h1> Multipicker demo </h1>
+		<div>
+			<ul id="days">
+				<li>Su</li>
+				<li>Mo</li>
+				<li>Tu</li>
+				<li>We</li>
+				<li>Th</li>
+				<li>Fr</li>
+				<li>Sa</li>
+			</ul>
+		</div>
+		<div>
+			<ul id="days-single">
+				<li>Su</li>
+				<li>Mo</li>
+				<li>Tu</li>
+				<li>We</li>
+				<li>Th</li>
+				<li>Fr</li>
+				<li>Sa</li>
+			</ul>
+		</div>
+		<div>
+			<ul id="days-prepopulated">
+				<li data-value="Sunday">Su</li>
+				<li data-value="Monday">Mo</li>
+				<li data-value="Tuesday">Tu</li>
+				<li data-value="Wednesday">We</li>
+				<li data-value="Thursday">Th</li>
+				<li data-value="Friday">Fr</li>
+				<li data-value="Saturday">Sa</li>
+			</ul>
+		</div>
+		<div>
+			<div id="days-vertical">
+				<span>Su</span>
+				<span>Mo</span>
+				<span>Tu</span>
+				<span>We</span>
+				<span>Th</span>
+				<span>Fr</span>
+				<span>Sa</span>
+			</div>
+		</div>
+		<br>
+		<div>
+			<div id="clubs">
+				<label for="zero">JAN</label>
+				<input id="zero" type="checkbox" name="club" value="0">
+				<label for="one">FEB</label>
+				<input id="one" type="checkbox" name="club" value="1">
+				<label for="two">MAR</label>
+				<input id="two" type="checkbox" name="club" value="2">
+				<label for="three">APR</label>
+				<input id="three"type="checkbox" name="club" value="3">
+				<label for="four">MAY</label>
+				<input id="four" type="checkbox" name="club" value="4">
+				<label for="five">JUN</label>
+				<input id="five" type="checkbox" name="club" value="5">
+				<label for="six">JUL</label>
+				<input id="six" type="checkbox" name="club" value="6">
+				<label for="seven">AUG</label>
+				<input id="seven" type="checkbox" name="club" value="7">
+				<label for="eight">SEB</label>
+				<input id="eight" type="checkbox" name="club" value="8">
+				<label for="nine">OCT</label>
+				<input id="nine" type="checkbox" name="club" value="9">
+				<label for="ten">NOV</label>
+				<input id="ten" type="checkbox" name="club" value="10">
+				<label for="eleven">DEC</label>
+				<input id="eleven" type="checkbox" name="club" value="11">
+			</div>
+		</div>
+		<br>
+
+		<div>
+			<div id="programming-languages">
+				<input type="checkbox" name="lang" value="C">
+				<input type="checkbox" name="lang" value="JS">
+				<input type="checkbox" name="lang" value="Swift">
+				<input type="checkbox" name="lang" value="Java">
+				<input type="checkbox" name="lag" value="C#">
+				<input type="checkbox" name="lang" value="C++">
+				<input type="checkbox" name="lang" value="PHP">
+			</div>
+		</div>
+		<br>
+		<div>
+			<div id="languages">
+				<input type="checkbox" name="language" value="EN">
+				<input type="checkbox" name="language" value="HY">
+				<input type="checkbox" name="language" value="RU">
+				<input type="checkbox" name="language" value="EN">
+				<input type="checkbox" name="language" value="JP">
+				<input type="checkbox" name="language" value="DE">
+				<input type="checkbox" name="language" value="FR">
+			</div>
+		</div>
+		<style type="text/css">
+			h1 {
+				text-align: center;
+				font-family: "Gudea";
+			}
+			.checklist * {
+				font-family: "Gudea";
+			}
+		</style>
+	</body>
+</html>

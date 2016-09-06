@@ -35,7 +35,7 @@ function getContactDetails() {
 
 <c:set var="EmployeeNotificationToValues" value="<%=EmployeeNotificationTo.values()%>"/>
 <c:if test="${EmployeeContact == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Present Address<label class="mandatory">*</label></td>
     <td width="60%" class="value"><textarea id="PresentAddress" rows="5" maxlength="512" ></textarea></td>
@@ -104,7 +104,7 @@ function getContactDetails() {
 </c:if>
 
 <c:if test="${EmployeeContact != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Present Address<label class="mandatory">*</label></td>
     <td width="60%" class="value">

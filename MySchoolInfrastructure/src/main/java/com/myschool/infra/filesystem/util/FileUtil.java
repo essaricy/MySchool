@@ -9,8 +9,8 @@ import java.io.InputStream;
 
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.ResourceUtil;
-import com.myschool.infra.filesystem.constants.FileExtension;
-import com.myschool.infra.filesystem.filefilter.FileNameFilter;
+import com.myschool.file.constant.FileExtension;
+import com.myschool.file.filter.FileNameFilter;
 
 /**
  * The Class FileUtil.

@@ -79,6 +79,14 @@
         <field alias="IconUrl" name="iconUrl"/>
         <field alias="AccessUrl" name="accessUrl"/>
     </object-xml-mapping>
+    <object-xml-mapping name="GalleryDetail" type="com.myschool.application.dto.GalleryDetailDto">
+        <field alias="GalleryName" name="galleryName"/>
+        <field alias="Pinned" name="pinned"/>
+        <field alias="Url" name="url"/>
+        <field alias="PassportUrl" name="passportUrl"/>
+        <field alias="ThumbnailUrl" name="thumbnailUrl"/>
+        <field alias="GalleryItems" name="galleryItems" type="java.util.List"/>
+    </object-xml-mapping>
     <object-xml-mapping name="Issue" type="com.myschool.application.dto.IssueDto">
         <field alias="IssueId" name="issueId"/>
         <field alias="UserType" name="userType" type="com.myschool.user.constants.UserType"/>
@@ -134,6 +142,15 @@
         <field alias="FaxNumber" name="faxNumber"/>
         <field alias="MapUrl" name="mapUrl"/>
     </object-xml-mapping>
+    <object-xml-mapping name="Resource" type="com.myschool.application.dto.ResourceDto">
+        <field alias="Name" name="name"/>
+        <field alias="ParentUrl" name="parentUrl"/>
+        <field alias="ResourceUrl" name="resourceUrl"/>
+        <field alias="PassportUrl" name="passportUrl"/>
+        <field alias="ThumbnailUrl" name="thumbnailUrl"/>
+        <field alias="ShortDescription" name="shortDescription"/>
+        <field alias="LongDescription" name="longDescription"/>
+    </object-xml-mapping>
     <object-xml-mapping name="ResourceProfile" type="com.myschool.application.dto.ResourceProfile">
         <field alias="Brochures" name="brochures" type="com.myschool.application.dto.ResourceDto"/>
         <field alias="Features" name="features" type="com.myschool.application.dto.ResourceDto"/>
@@ -148,6 +165,9 @@
         <field alias="EmployeeRegistered" name="employeeRegistered" type="com.myschool.application.dto.ResourceDto"/>
         <field alias="StudentPortal" name="studentPortal" type="com.myschool.application.dto.ResourceDto"/>
         <field alias="StudentRegistered" name="studentRegistered" type="com.myschool.application.dto.ResourceDto"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Resources" type="com.myschool.application.dto.ResourcesDto">
+        <field alias="Resources" name="resources" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="AttendanceCode" type="com.myschool.attendance.dto.AttendanceCodeDto">
         <field alias="Code" name="code"/>
@@ -299,6 +319,7 @@
         <field alias="Successful" name="successful"/>
         <field alias="StatusMessage" name="statusMessage"/>
         <field alias="ReferenceNumber" name="referenceNumber"/>
+        <field alias="Reference" name="reference" type="java.lang.Object"/>
     </object-xml-mapping>
     <object-xml-mapping name="Status" type="com.myschool.common.dto.StatusDto">
         <field alias="SUCCESSFUL" name="SUCCESSFUL"/>
@@ -517,6 +538,25 @@
         <field alias="TotalFiles" name="totalFiles"/>
         <field alias="UploadedBy" name="uploadedBy"/>
     </object-xml-mapping>
+    <object-xml-mapping name="Directory" type="com.myschool.filesystem.dto.DirectoryDto">
+        <field alias="Id" name="id"/>
+        <field alias="Name" name="name"/>
+        <field alias="Path" name="path"/>
+        <field alias="ParentPath" name="parentPath"/>
+        <field alias="File" name="file" type="java.io.File"/>
+        <field alias="AbsenceCode" name="absenceCode" type="com.myschool.filesystem.dto.AbsenceCode"/>
+        <field alias="Directories" name="directories" type="java.util.List"/>
+        <field alias="Files" name="files" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="File" type="com.myschool.filesystem.dto.FileDto">
+        <field alias="Name" name="name"/>
+        <field alias="File" name="file" type="java.io.File"/>
+        <field alias="AbsenceCode" name="absenceCode" type="com.myschool.filesystem.dto.AbsenceCode"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="FileSystem" type="com.myschool.filesystem.dto.FileSystemDto">
+        <field alias="BaseDirectory" name="baseDirectory" type="java.io.File"/>
+        <field alias="Directories" name="directories" type="java.util.List"/>
+    </object-xml-mapping>
     <object-xml-mapping name="Axis" type="com.myschool.graph.dto.AxisDto">
         <field alias="Label" name="label"/>
         <field alias="Markers" name="markers" type="java.util.List"/>
@@ -526,6 +566,11 @@
         <field alias="YAxis" name="YAxis" type="com.myschool.graph.dto.AxisDto"/>
         <field alias="SeriesNames" name="seriesNames" type="java.util.List"/>
         <field alias="LineSeries" name="lineSeries" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="ImageResizingOption" type="com.myschool.image.dto.ImageResizingOptionDto">
+        <field alias="Width" name="width"/>
+        <field alias="Height" name="height"/>
+        <field alias="FolderName" name="folderName"/>
     </object-xml-mapping>
     <object-xml-mapping name="MessageDetail" type="com.myschool.middleware.dto.MessageDetail">
         <field alias="MessageId" name="messageId"/>
@@ -720,7 +765,7 @@
         <field alias="UserId" name="userId"/>
         <field alias="AllowAds" name="allowAds"/>
         <field alias="RecordsPerPage" name="recordsPerPage"/>
-        <field alias="UserTheme" name="userTheme" type="com.myschool.user.constants.UserTheme"/>
+        <field alias="UserTheme" name="userTheme" type="com.myschool.user.dto.UserTheme"/>
         <field alias="ColorSwatch" name="colorSwatch" type="com.myschool.user.constants.ColorSwatch"/>
     </object-xml-mapping>
     <object-xml-mapping name="UserSession" type="com.myschool.user.dto.UserSession">
@@ -762,10 +807,6 @@
         <field alias="Myschool" name="myschool" type="com.myschool.infra.application.dto.MySchoolDto"/>
         <field alias="AgentDtos" name="agentDtos" type="java.util.List"/>
     </object-xml-mapping>
-    <object-xml-mapping name="Command" type="com.myschool.infra.application.dto.CommandDto">
-        <field alias="CommandName" name="commandName" type="com.myschool.infra.application.constants.CommandName"/>
-        <field alias="CommandArguements" name="commandArguements" type="java.util.List"/>
-    </object-xml-mapping>
     <object-xml-mapping name="ConfigurationParameter" type="com.myschool.infra.application.dto.ConfigurationParameterDto">
         <field alias="Id" name="id"/>
         <field alias="Value" name="value"/>
@@ -774,23 +815,6 @@
         <field alias="MySchoolName" name="mySchoolName"/>
         <field alias="BaseDir" name="baseDir" type="java.io.File"/>
         <field alias="WebUrl" name="webUrl"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="Directory" type="com.myschool.infra.filesystem.dto.DirectoryDto">
-        <field alias="Name" name="name"/>
-        <field alias="Path" name="path"/>
-        <field alias="File" name="file" type="java.io.File"/>
-        <field alias="AbsenceCode" name="absenceCode" type="com.myschool.infra.filesystem.dto.AbsenceCode"/>
-        <field alias="Directories" name="directories" type="java.util.List"/>
-        <field alias="Files" name="files" type="java.util.List"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="File" type="com.myschool.infra.filesystem.dto.FileDto">
-        <field alias="Name" name="name"/>
-        <field alias="File" name="file" type="java.io.File"/>
-        <field alias="AbsenceCode" name="absenceCode" type="com.myschool.infra.filesystem.dto.AbsenceCode"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="FileSystem" type="com.myschool.infra.filesystem.dto.FileSystemDto">
-        <field alias="BaseDirectory" name="baseDirectory" type="java.io.File"/>
-        <field alias="Directories" name="directories" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="ImageResizingOption" type="com.myschool.infra.image.dto.ImageResizingOptionDto">
         <field alias="Width" name="width"/>
@@ -838,6 +862,20 @@
         <field alias="Name" name="name"/>
         <field alias="Type" name="type"/>
         <field alias="ObjectXmlFields" name="objectXmlFields" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Command" type="com.myschool.infra.remote.dto.CommandDto">
+        <field alias="Type" name="type"/>
+        <field alias="Content" name="content" type="java.lang.Object"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Message" type="com.myschool.infra.remote.dto.MessageDto">
+        <field alias="Id" name="id"/>
+        <field alias="Instruct" name="instruct"/>
+        <field alias="Content" name="content" type="java.lang.Object"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Transport" type="com.myschool.infra.remote.dto.TransportDto">
+        <field alias="Id" name="id"/>
+        <field alias="TrackerId" name="trackerId"/>
+        <field alias="Messages" name="messages" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="SchedulerConfig" type="com.myschool.infra.scheduler.dto.SchedulerConfigDto">
         <field alias="Name" name="name"/>

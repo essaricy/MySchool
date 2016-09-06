@@ -31,6 +31,39 @@
         </layout>
     </appender>
 
+    <appender name="FILE_SYSTEM_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="DatePattern" value="yyyy-MM-dd" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_file_system.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="STORAGE_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="DatePattern" value="yyyy-MM-dd" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_storage_acccess.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="DATATYPE_CONVERSION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="DatePattern" value="yyyy-MM-dd" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_object_conversions.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
+        </layout>
+    </appender>
+
     <appender name="WEB_USER_SESSION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="5MB"/>
@@ -54,16 +87,34 @@
         <priority value="FATAL" />
     </category>
 
+    <!-- Agent specific logging -->
+    <category name="com.myschool.infra.filesystem" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="FILE_SYSTEM_APPENDER" />
+    </category>
+    <category name="com.myschool.infra.storage" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="STORAGE_APPENDER" />
+    </category>
+    <category name="com.myschool.infra.ojo" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="DATATYPE_CONVERSION_APPENDER" />
+    </category>
+    <category name="com.myschool.infra.oxo" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="DATATYPE_CONVERSION_APPENDER" />
+    </category>
+
 	<!-- User session management and activity tracking logs category. -->
-	<category name="com.myschool.web.framework.filter.WebUserActivityLogFilter">
+	<category name="com.myschool.web.framework.filter.WebUserActivityLogFilter" additivity="false">
 		<priority value="DEBUG" />
 		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
 	</category>
-	<category name="com.myschool.web.framework.listener.WebUserSessionListener">
+	<category name="com.myschool.web.framework.listener.WebUserSessionListener" additivity="false">
 		<priority value="DEBUG" />
 		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
 	</category>
-	<category name="com.myschool.web.user.controller.LoginController">
+	<category name="com.myschool.web.user.controller.LoginController" additivity="false">
 		<priority value="DEBUG" />
 		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
 	</category>

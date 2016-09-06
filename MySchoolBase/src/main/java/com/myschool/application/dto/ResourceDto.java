@@ -1,11 +1,16 @@
 package com.myschool.application.dto;
 
+import java.io.Serializable;
+
 /**
  * The Class ResourceDto.
  */
-public class ResourceDto {
+public class ResourceDto implements Serializable {
 
-    /** The name. */
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
+ /** The name. */
     private String name;
 
     /** The parent url. */

@@ -22,7 +22,7 @@ var currentDataTable = null;
       width: "100%",
       border: 0,
       caption: null,
-      captionClass: 'dataTableCaption',
+      //captionClass: 'dataTableCaption',
       icon: null,
       columns: [],
       dataTableSettings: {},
@@ -139,7 +139,7 @@ var currentDataTable = null;
         var width = (typeof settings.width == 'undefined') ? defaultSettings.width : settings.width;
         var border = (typeof settings.border == 'undefined') ? defaultSettings.border : settings.border;
         var caption = (typeof settings.caption == 'undefined') ? defaultSettings.caption : settings.caption;
-        var captionClass = (typeof settings.captionClass == 'undefined') ? defaultSettings.captionClass : settings.captionClass;
+        //var captionClass = (typeof settings.captionClass == 'undefined') ? defaultSettings.captionClass : settings.captionClass;
 
         columns = defaultSettings.columns;
         if ((typeof settings.columns != 'undefined') && (settings.columns.length > 0)) {
@@ -151,9 +151,9 @@ var currentDataTable = null;
         }
 
         if (columns.length != 0) {
-          dataTableContent = '<table cellpadding="0" id="' + containerName + '_Outer" cellspacing="0" border="' + border + '" width="' + width + '">';
+          dataTableContent = '<table class="formTable_Container" id="' + containerName + '_Outer" cellspacing="0" border="' + border + '" width="' + width + '">';
           if (caption != null) {
-            dataTableContent += '<caption class="' + captionClass + '">' + caption + '</caption>';
+            dataTableContent += '<caption>' + caption + '</caption>';
           }
           dataTableContent += '<tr>';
           dataTableContent += '<td>';
@@ -174,6 +174,7 @@ var currentDataTable = null;
 
       innerTableContent += getInnerTableHeadContent();
       innerTableContent += '<tbody></tbody>';
+	  //innerTableContent += '<tbody><tr><td>1</td><td>A+</td><td>95</td></tr><tr><td>2</td><td>A</td><td>80</td></tr><tr><td>3</td><td>B</td><td>75</td></tr></tbody>';
       innerTableContent += getInnerTableFootContent();
       innerTableContent += '</table>';
       return innerTableContent;
@@ -246,14 +247,14 @@ var currentDataTable = null;
         var calendarName = (typeof calendar.calendarName == 'undefined') ? defaultSettings.calendar.calendarName : calendar.calendarName;
         var width = (typeof settings.width == 'undefined') ? defaultSettings.width : settings.width;
         var caption = (typeof settings.caption == 'undefined') ? defaultSettings.caption : settings.caption;
-        var captionClass = (typeof settings.captionClass == 'undefined') ? defaultSettings.captionClass : settings.captionClass;
+        //var captionClass = (typeof settings.captionClass == 'undefined') ? defaultSettings.captionClass : settings.captionClass;
         var buttonClass = (typeof settings.buttonClass == 'undefined') ? defaultSettings.buttonClass : settings.buttonClass;
         var footerIconsPosition = (typeof settings.footerIconsPosition == 'undefined') ? defaultSettings.footerIconsPosition : settings.footerIconsPosition;
 
-        var calendarContent = '<table cellpadding="0" id="' + calendarName + '_Outer" cellspacing="0" border="0" width="' + width + '">';
-            calendarContent += '<caption class="' + captionClass + '">' + caption + '</caption>';
+        var calendarContent = '<table class="formTable_Container" cellpadding="0" id="' + calendarName + '_Outer" cellspacing="0" border="0" width="' + width + '">';
+            calendarContent += '<caption>' + caption + '</caption>';
             calendarContent += '<tbody><tr>';
-            calendarContent += '<td><div id="' + calendarName + '"></div></td>';
+            calendarContent += '<td><div style="margin-top: 10px;" id="' + calendarName + '"></div></td>';
             calendarContent += '</tr></tbody>';
             calendarContent += '<tfoot>';
             calendarContent += '<tr>';
@@ -332,7 +333,7 @@ var currentDataTable = null;
           var width = getButtonAttribute('add', 'width');
           var height = getButtonAttribute('add', 'height');
           var sendParams = getButtonAttribute('add', 'sendParams');
-          modelDialog = openDialog(getUrl(url, sendParams), addTitle, width, height);
+          modelDialog = openWindow(getUrl(url, sendParams), addTitle, width, height);
         } else {
           var url = getButtonAttribute('add', 'url');
           submitPage(url, '');
@@ -358,13 +359,13 @@ var currentDataTable = null;
           var sendParams = getButtonAttribute('update', 'sendParams');
           var anSelected = fnGetSelected(oTable);
           if (anSelected == null) {
-            info_ac(selectRowMessage);
+            notifyInfo(selectRowMessage);
           } else {
-            modelDialog = openDialog(getUrl(url, sendParams), updateTitle, width, height);
+            modelDialog = openWindow(getUrl(url, sendParams), updateTitle, width, height);
           }
         } else {
           var noUpdateMessage = getButtonAttribute('update', 'noUpdateMessage');
-          info_ac(noUpdateMessage);
+          notifyInfo(noUpdateMessage);
         }
       });
     }
@@ -386,32 +387,30 @@ var currentDataTable = null;
           var confirmCallback = getButtonAttribute('delete', 'confirmCallback');
           var anSelected = fnGetSelected( oTable );
           if (anSelected == null) {
-            info_ac(selectRowMessage);
+            notifyInfo(selectRowMessage);
           } else {
-            confirm(confirmMessage, confirmCallback);
+            interactConfirm(confirmMessage, confirmCallback, null);
           }
         } else {
           var noDeleteMessage = getButtonAttribute('delete', 'noDeleteMessage');
-          info_ac(noDeleteMessage);
+          notifyInfo(noDeleteMessage);
         }
       });
     }
 
-    function deleteRow(result) {
-      if (result == "Yes") {
-        var url = getButtonAttribute('delete', 'url');
-        var sendParams = getButtonAttribute('delete', 'sendParams');
-        var anSelected = fnGetSelected( oTable );
-        $.ajax({
-          url: getUrl(url, sendParams),
-          context: document.body,
-          success: function(result){
-            $(this).addClass("done");
-            oTable.fnDeleteRow(anSelected);
-            parseWholepageResponse(result, false);
-          }
-        });
-      }
+    function deleteRow() {
+      var url = getButtonAttribute('delete', 'url');
+      var sendParams = getButtonAttribute('delete', 'sendParams');
+      var anSelected = fnGetSelected( oTable );
+	  $.ajax({
+        url: getUrl(url, sendParams),
+        context: document.body,
+        success: function(result){
+          $(this).addClass("done");
+          oTable.fnDeleteRow(anSelected);
+          handleServerResponseOnPage(result, false);
+        }
+      });
     }
 
     function activateExportButton() {
@@ -435,13 +434,13 @@ var currentDataTable = null;
         var height = getButtonAttribute('map', 'height');
         var anSelected = fnGetSelected(oTable);
         if (anSelected == null) {
-          info_ac(selectRowMessage);
+          notifyInfo(selectRowMessage);
         } else {
           var mapUrl = oTable.fnGetData(anSelected)[parseInt(mapUrlIndex)];
           if (mapUrl == null || mapUrl == '') {
-            info_ac('Map is currently not available for the selected ' + title);
+            notifyWarning('Map is currently not available for the selected ' + title);
           } else {
-            modelDialog = openDialog(mapUrl, title, width, height);
+            modelDialog = openWindow(mapUrl, title, width, height);
           }
         }
       });
@@ -457,7 +456,7 @@ var currentDataTable = null;
         var linkedContainerName = getButtonAttribute('linked', 'containerName');
         var anSelected = fnGetSelected(oTable);
         if (anSelected == null) {
-          info_ac(selectRowMessage);
+          notifyInfo(selectRowMessage);
         } else {
           // Create the nested datatable.
           var dataTableSettings = getButtonAttribute('linked', 'dataTableSettings');
@@ -524,10 +523,10 @@ var currentDataTable = null;
             var sendParams = getButtonAttribute('report', 'sendParams');
             var anSelected = fnGetSelected(oTable);
             if (anSelected == null) {
-              info_ac(selectRowMessage);
+              notifyInfo(selectRowMessage);
             } else {
               //modelDialog = openReportDialog(getUrl(url, sendParams), title, width, height);
-              modelDialog = openDialog(getUrl(url, sendParams), title, width, height);
+              modelDialog = openWindow(getUrl(url, sendParams), title, width, height);
             }
         } else {
             callback.call();
@@ -550,9 +549,9 @@ var currentDataTable = null;
         var sendParams = getButtonAttribute('report', 'sendParams');
         var anSelected = fnGetSelected(oTable);
         if (anSelected == null) {
-          info_ac(selectRowMessage);
+          notifyInfo(selectRowMessage);
         } else {
-          modelDialog = openDialog(getUrl(url, sendParams), title, width, height);
+          modelDialog = openWindow(getUrl(url, sendParams), title, width, height);
         }
       });
     }
@@ -571,13 +570,13 @@ var currentDataTable = null;
         // callback();
         var anSelected = fnGetSelected(oTable);
         if (anSelected == null) {
-          info_ac(selectRowMessage);
+          notifyInfo(selectRowMessage);
         } else {
           $.ajax({
             url: getUrl(url, sendParams),
             context: document.body,
             success: function(result) {
-              parseWholepageResponse(result, true);
+              handleServerResponseOnPage(result, true);
             }
           });
         }

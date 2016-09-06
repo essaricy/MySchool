@@ -31,8 +31,8 @@ public class ActiveMQMiddlewareAgent extends MiddlewareAgent {
             throws ConfigurationException {
         try {
             properties = PropertiesUtil.loadProperties(configFile);
-            activeMQConnectionFactory = new ActiveMQConnectionFactory();
-            activeMQConnectionFactory.setBrokerURL(properties.getProperty(MiddlwareConstants.PROVIDER_URL));
+            //activeMQConnectionFactory = new ActiveMQConnectionFactory();
+            //activeMQConnectionFactory.setBrokerURL(properties.getProperty(MiddlwareConstants.PROVIDER_URL));
         } catch (FileSystemException fileSystemException) {
             throw new ConfigurationException(fileSystemException.getMessage(), fileSystemException);
         }
@@ -43,11 +43,12 @@ public class ActiveMQMiddlewareAgent extends MiddlewareAgent {
      */
     @Override
     public Connection getConnection() throws ConnectionException {
-        try {
+        /*try {
             return activeMQConnectionFactory.createConnection();
         } catch (JMSException jmsException) {
             throw new ConnectionException(jmsException.getMessage(), jmsException);
-        }
+        }*/
+        return null;
     }
 
 }

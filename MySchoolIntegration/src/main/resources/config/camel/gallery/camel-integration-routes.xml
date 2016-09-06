@@ -56,7 +56,7 @@
                         </otherwise>
                     </choice>
                     <camel:doCatch>
-                        <camel:exception>com.myschool.integration.common.exception.CommandExecutionException</camel:exception>
+                        <camel:exception>com.myschool.integration.exception.CommandExecutionException</camel:exception>
                         <handled><constant>true</constant></handled>
                         <camel:log message="Exception occurred while processing command. ${exception.message}" />
                     </camel:doCatch>

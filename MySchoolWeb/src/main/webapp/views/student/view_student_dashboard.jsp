@@ -263,7 +263,7 @@ $(document).ready(function() {
           </td>
         </tr>
         <tr>
-          <td align="right"><a href="#" class="formLink">more...</a></td>
+          <td align="right"><a href="#">more...</a></td>
         </tr>
       </tbody>
     </table>

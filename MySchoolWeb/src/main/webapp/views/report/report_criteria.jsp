@@ -52,7 +52,7 @@ $(document).ready(function() {
       ReportData.ReportKey=$('#ReportKey').val();
       ReportData.ReportCriteriaTokens=ReportCriteriaTokens;
       var url = '<%=request.getContextPath()%>/reports/generateReport.htm?ReportData=' + encodeURI(JSON.stringify(ReportData).trim());
-      openReportDialog(url, $('#ReportName').val(), $(window).width()-100, $(window).height()-60);
+      openWindow(url, $('#ReportName').val(), $(window).width()-100, $(window).height()-60);
     </c:if>
 
     <c:if test="${REPORT.reportCriteriaTokens != null}">
@@ -209,10 +209,9 @@ $(document).ready(function() {
     //alert(JSON.stringify(ReportData).trim());
     //alert(encodeURIComponent(JSON.stringify(ReportData).trim()));
     var url = '<%=request.getContextPath()%>/reports/generateReport.htm?ReportData=' + encodeURIComponent(JSON.stringify(ReportData).trim());
-    if (modal != null) {
-      modal.close();
-    }
-    openReportDialog(url, $('#ReportName').val(), $(window).width()-100, $(window).height()-60);
+    closeCurrentWindow();
+
+    openWindow(url, $('#ReportName').val(), $(window).width()-100, $(window).height()-60);
   });
 });
 
@@ -225,8 +224,8 @@ There is no such report.
 <c:if test="${REPORT != null}">
 <input type="hidden" id="ReportKey" value="${REPORT.reportKey}" />
 <input type="hidden" id="ReportName" value="${REPORT.reportName}" />
-<table width="100%" border="0" cellpadding="4">
-  <caption class="dataTableCaption">${REPORT.reportName}</caption>
+<table class="formTable_Container">
+  <caption>${REPORT.reportName}</caption>
   <thead>
     <tr>
       <td width="50%"><b>Report Criteria</b></td>
@@ -326,7 +325,7 @@ There is no such report.
     </tr>
     <tr>
       <td colspan="2" align="right">
-        <input type="button" id="GenerateReport" value="Generate Report" class="formButton" />
+        <input type="button" id="GenerateReport" value="Generate Report" />
       </td>
     </tr>
   </body>

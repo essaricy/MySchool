@@ -34,15 +34,15 @@ function showImage() {
   <c:set var="StudentDocuments" value="${Student.documentsSubmitted}" />
 </c:if>
 
-<table cellpadding="2" width="90%" align="center" cellspacing="0" border="0">
-  <caption class="dataTableCaption">
+<table class="formTable_Container">
+  <caption>
     ${Student.admissionNumber} - ${StudentPersonalDetails.firstName} ${StudentPersonalDetails.middleName} ${StudentPersonalDetails.lastName} 
   </caption>
   <tr>
     <td width="15%" valign="top">
       <!-- Student Photo -->
       <c:if test="${Student == null}">
-      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
@@ -51,7 +51,7 @@ function showImage() {
       </table>
       </c:if>
       <c:if test="${Student != null}">
-      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=${Student.admissionNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>

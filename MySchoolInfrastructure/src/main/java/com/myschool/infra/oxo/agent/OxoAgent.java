@@ -1,5 +1,7 @@
 package com.myschool.infra.oxo.agent;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import com.myschool.infra.agent.AbstractAgent;
@@ -35,5 +37,25 @@ public abstract class OxoAgent extends AbstractAgent {
     public String getOxoMappingFileName() {
         return fileSystemProperties.getProperty(FileSystemConstants.CONFIG_OXO);
     }
+
+    /**
+     * To xml.
+     * 
+     * @param <T> the generic type
+     * @param list the list
+     * @param type the type
+     * @return the string
+     */
+    public abstract <T> String toXml(List<T> list, Class<T> type);
+
+    /**
+     * To xml.
+     * 
+     * @param <T> the generic type
+     * @param command the command
+     * @param type the type
+     * @return the string
+     *//*
+    public abstract <T> String toXml(CommandDto command, Class<T> type);*/
 
 }

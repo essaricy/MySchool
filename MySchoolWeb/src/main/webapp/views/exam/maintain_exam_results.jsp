@@ -92,7 +92,7 @@ $(document).ready(function() {
         data: { StudentsMarksData: JSON.stringify(StudentsMarksData) },
         context: this
       }).done(function(result) {
-        parseModelResponse(result);
+        handleServerResponseOnModal(result);
       });
     }
   });
@@ -113,7 +113,7 @@ $(document).ready(function() {
         },
         context: this
       }).done(function(result) {
-        parseModelResponse(result);
+        handleServerResponseOnModal(result);
       });
     }
   }
@@ -125,7 +125,7 @@ $(document).ready(function() {
 <c:set var="RegisteredClass" value="${ExamDetails.registeredClass}" />
 <input type="hidden" id="ExamId" value="${ExamDetails.examId}" />
 <input type="hidden" id="RegisteredClassId" value="${RegisteredClass.classId}" />
-<table width="80%" id="ExamDetailsTable" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td class="label">
       Exam Name
@@ -231,8 +231,8 @@ $(document).ready(function() {
   <tr>
     <c:if test="${SubjectExams != null && ExamDetails.examCompleted == 'false'}">
     <td align="center">
-      <input id="save" type="button" value="Save" class="formButton" />
-      <input id="complete" type="button" value="Mark as Complete" class="formButton" />
+      <input id="save" type="button" value="Save" />
+      <input id="complete" type="button" value="Mark as Complete" />
     </td>
     </c:if>
   </tr>

@@ -31,13 +31,13 @@ $(document).ready(function() {
       title: 'Create Document',
       url: '<%=request.getContextPath()%>/document/launch.htm',
       width: 420,
-      height: 240
+      height: 300
     },
     'update': {
       title: 'Update Document',
       url: '<%=request.getContextPath()%>/document/launch.htm',
       width: 420,
-      height: 240,
+      height: 300,
       sendParams: [ {
         refTable: 'self',
         columnIndex: 0,

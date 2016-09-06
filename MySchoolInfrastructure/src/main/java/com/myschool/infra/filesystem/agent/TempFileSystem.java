@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.SecureRandomGenerator;
-import com.myschool.infra.filesystem.constants.FileExtension;
-import com.myschool.infra.filesystem.dto.DirectoryDto;
+import com.myschool.file.constant.FileExtension;
+import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.image.agent.ImageScalingAgent;
 import com.myschool.infra.image.constants.ImageSize;
@@ -55,6 +55,13 @@ public class TempFileSystem extends AbstractSubFileSystem {
         studentDirectory = getChildDirectoryFile(STUDENT);
         notificationDirectory = getChildDirectoryFile(NOTIFICATION);
         uploadDirectory = getChildDirectoryFile(UPLOAD);
+
+        System.out.println("employeeDirectory=" +( (employeeDirectory == null) ? null : employeeDirectory.getAbsolutePath()));
+        System.out.println("importDirectory=" +( (importDirectory == null) ? null : importDirectory.getAbsolutePath()));
+        System.out.println("reportDirectory=" +( (reportDirectory == null) ? null : reportDirectory.getAbsolutePath()));
+        System.out.println("studentDirectory=" +( (studentDirectory == null) ? null : studentDirectory.getAbsolutePath()));
+        System.out.println("notificationDirectory=" +( (notificationDirectory == null) ? null : notificationDirectory.getAbsolutePath()));
+        System.out.println("uploadDirectory=" +( (uploadDirectory == null) ? null : uploadDirectory.getAbsolutePath()));
     }
 
     /* (non-Javadoc)

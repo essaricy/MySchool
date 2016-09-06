@@ -21,13 +21,12 @@ function validateEmployeeAttribute(operation, url, attributeName, attributeData,
     if (result.Successful) {
       var message = result.StatusMessage;
       if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-        showSuccess(message);
+        notifySuccess(message);
       } else {
-        showSuccess('Data has been updated successfully.');
+        notifySuccess('Data has been updated successfully.');
       }
-      if (modal != null) {
-        modal.close();
-      }
+      closeCurrentWindow();
+
       if (operation == 'CREATE') {
         addAttributeData(datatable, attributeData, attributeSequence);
       } else if (operation == 'UPDATE') {
@@ -36,9 +35,9 @@ function validateEmployeeAttribute(operation, url, attributeName, attributeData,
     } else {
       var message = result.StatusMessage;
       if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-        showError(message);
+        attendError(message);
       } else {
-        showError("Server has sent an unexpected response. Please contact support for assistance.");
+        attendError("Server has sent an unexpected response. Please contact support for assistance.");
       }
     }
   });

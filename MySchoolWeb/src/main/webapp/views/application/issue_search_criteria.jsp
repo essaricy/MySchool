@@ -42,8 +42,8 @@ $(document).ready(function() {
 
 <c:set var="userTypeOptions" value="<%=UserType.values()%>"/>
 <c:set var="issueStatusOptions" value="<%=IssueStatus.values()%>"/>
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">Search Issues</caption>
+<table class="formTable_Container">
+  <caption>Search Issues</caption>
   <tr>
     <td>
       <div id="SearchTabs">
@@ -51,7 +51,7 @@ $(document).ready(function() {
           <li><a href="#SearchCriteria">Search</a></li>
         </ul>
         <div id="SearchCriteria">
-          <table class="formDataTable" align="center" border="0" cellspacing="10" cellpadding="5" width="100%">
+          <table class="formTable_Data">
             <tr>
               <td align="right">Created By</td>
               <td>
@@ -75,32 +75,32 @@ $(document).ready(function() {
             <tr>
               <td align="right">Subject</td>
               <td>
-                <input type="text" id="Search_Subject" class="formInputText" />
+                <input type="text" id="Search_Subject" />
               </td>
               <td align="right">Description</td>
               <td>
-                <input type="text" id="Search_Description" class="formInputText" />
+                <input type="text" id="Search_Description" />
               </td>
             </tr>
             <tr>
               <td align="right">Reported Date</td>
               <td align="left" colspan="3">Between
-                <input type="text" id="Search_ReportedDateMin" class="datepicker" style="width: 100px;" class="formInputText" />
+                <input type="text" id="Search_ReportedDateMin" class="datepicker" style="width: 100px;" />
                 and
-                <input type="text" id="Search_ReportedDateMax" class="datepicker" style="width: 100px;" class="formInputText" />
+                <input type="text" id="Search_ReportedDateMax" class="datepicker" style="width: 100px;" />
               </td>
             </tr>
             <tr>
               <td align="right">Closed Date</td>
               <td align="left" colspan="3">Between
-                <input type="text" id="Search_ClosedDateMin" class="datepicker" style="width: 100px;" class="formInputText" />
+                <input type="text" id="Search_ClosedDateMin" class="datepicker" style="width: 100px;" />
                 and
-                <input type="text" id="Search_ClosedDateMax" class="datepicker" style="width: 100px;" class="formInputText" />
+                <input type="text" id="Search_ClosedDateMax" class="datepicker" style="width: 100px;" />
               </td>
             </tr>
             <tr>
               <td align="right" colspan="4">
-                <input type="button" id="Search" value="Search" class="formButton" />
+                <input type="button" id="Search" value="Search" />
               </td>
             </tr>
           </table>

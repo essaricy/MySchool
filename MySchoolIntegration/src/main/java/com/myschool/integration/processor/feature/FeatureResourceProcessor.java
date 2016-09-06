@@ -10,10 +10,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.ResourceDto;
-import com.myschool.integration.common.constant.IntegrationConstant;
-import com.myschool.integration.common.constant.IntegrationPropertiesConstant;
-import com.myschool.integration.common.exception.CommandExecutionException;
-import com.myschool.integration.common.exception.CommandProcessException;
+import com.myschool.integration.constant.IntegrationConstant;
+import com.myschool.integration.constant.IntegrationPropertiesConstant;
+import com.myschool.integration.exception.CommandExecutionException;
+import com.myschool.integration.exception.CommandProcessException;
 import com.myschool.integration.processor.common.AbstractResourceProcessor;
 
 /**
@@ -30,10 +30,10 @@ public class FeatureResourceProcessor extends AbstractResourceProcessor {
      */
     @PostConstruct
     private void init() {
-        integrationInbound = integrationAgent.getFile(IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_FEATURE);
-        integrationOutbound = integrationAgent.getFile(IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_FEATURE);
-        pathOnMediaServer = integrationAgent.getProperty(IntegrationPropertiesConstant.MEDIA_SERVER_FEATURE);
-        metaFileName = integrationAgent.getProperty(IntegrationPropertiesConstant.FEATURE_DESC);
+        integrationInbound = integrationProperties.getFile(IntegrationPropertiesConstant.INTEGRATION_SERVER_INBOUND_FEATURE);
+        integrationOutbound = integrationProperties.getFile(IntegrationPropertiesConstant.INTEGRATION_SERVER_OUTBOUND_FEATURE);
+        pathOnMediaServer = integrationProperties.getProperty(IntegrationPropertiesConstant.MEDIA_SERVER_FEATURE);
+        metaFileName = integrationProperties.getProperty(IntegrationPropertiesConstant.FEATURE_DESC);
         integrationInboundMetaFile = new File(integrationInbound, metaFileName);
         integrationOutboundMetaFile = new File(integrationOutbound, metaFileName);
 

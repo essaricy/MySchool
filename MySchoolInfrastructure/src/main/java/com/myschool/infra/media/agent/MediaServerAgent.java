@@ -12,6 +12,7 @@ import com.myschool.infra.media.exception.ResourceException;
 /**
  * The Class MediaServerAgent.
  */
+@Deprecated
 @Component
 public abstract class MediaServerAgent extends AbstractAgent {
 

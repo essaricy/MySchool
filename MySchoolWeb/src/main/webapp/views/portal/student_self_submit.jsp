@@ -45,7 +45,7 @@ jQuery(document).ready(function() {
   uploader.bind('FileUploaded', function(up, file, result) {
     var response = $.parseJSON(result.response);
     if (response.Successful) {
-      showSuccess('Image has been successfully uploaded and will be updated when saved.');
+      notifySuccess('Image has been successfully uploaded and will be updated when saved.');
       // Replace image with some fading effect
       var studentImage = $('#studentImage');
       var studentImageUrl = '<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
@@ -57,7 +57,7 @@ jQuery(document).ready(function() {
       });
       $('#ImageReferenceNumber').val(response.ReferenceNumber);
     } else {
-      showError('Unable to upload the image now. Please try again.');
+      attendError('Unable to upload the image now. Please try again.');
     }
   });
 
@@ -104,7 +104,7 @@ jQuery(document).ready(function() {
       } else {
         var message = result.StatusMessage;
         if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-          showError(message);
+          attendError(message);
         } else {
           error("Something really went wrong and we apologize for the inconvenience caused!!!");
         }
@@ -125,8 +125,8 @@ jQuery(document).ready(function() {
 
 <input type="hidden" id="Verified" value="NO" />
 <input type="hidden" id="StudentId" value="0" />
-<table cellpadding="2" width="90%" align="center" cellspacing="0" border="0">
-  <caption class="dataTableCaption">
+<table class="formTable_Container">
+  <caption>
     Student Registration (Self-Submit Service)
   </caption>
   <tr>
@@ -143,7 +143,7 @@ jQuery(document).ready(function() {
       <input type="hidden" id="ImageReferenceNumber" value="" />
       <!-- Student Photo -->
       <c:if test="${Student == null}">
-      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
@@ -151,13 +151,13 @@ jQuery(document).ready(function() {
         </tr>
         <tr>
           <td align="center">
-            <a href="#" id="uploadImage" class="formLink">Upload Photo</a>
+            <a href="#" id="uploadImage">Upload Photo</a>
           </td>
         </tr>
       </table>
       </c:if>
       <c:if test="${Student != null}">
-      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=${Student.studentNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>
@@ -191,7 +191,7 @@ jQuery(document).ready(function() {
           </tr>
           <tr>
             <td align="center" colspan="2">
-              <input type="button" class="formButton" id="save" value="Save" /><br/>
+              <input type="button" id="save" value="Save" /><br/>
             </td>
           </tr>
         </table>

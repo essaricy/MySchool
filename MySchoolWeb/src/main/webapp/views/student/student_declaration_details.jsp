@@ -1,5 +1,5 @@
 <c:if test="${student == null}">
-<table border="0" cellpadding="6" cellspacing="0" align="center" id="awarenessForm" class="formTable">
+<table class="formTable_Data">
 	<tr>
 		<td colspan="100%">
 			<h3><spring:message code="student.register.checklist.title"/></h3>
@@ -45,7 +45,7 @@
 
 
 <c:if test="${student != null}">
-<table border="0" cellpadding="6" cellspacing="0" align="center" id="awarenessForm" class="formTable">
+<table class="formTable_Data" id="awarenessForm">
 	<tr>
 		<td colspan="100%">
 			<h3><spring:message code="student.register.checklist.title"/></h3>

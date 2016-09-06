@@ -51,7 +51,7 @@ public abstract class MiddlewareAgent extends AbstractAgent {
      * @see com.myschool.infra.agent.Agent#validate()
      */
     public void validate() throws AgentException {
-        try {
+        /*try {
             Connection connection = getConnection();
             // Load this file during start up.
             if (mqConfiguration == null) {
@@ -64,7 +64,7 @@ public abstract class MiddlewareAgent extends AbstractAgent {
             throw new AgentException(jmsException.getMessage(), jmsException);
         } catch (ConfigurationException configurationException) {
             throw new AgentException(configurationException.getMessage(), configurationException);
-        }
+        }*/
     }
 
     /**

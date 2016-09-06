@@ -18,7 +18,7 @@ $(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
 
@@ -36,7 +36,7 @@ $(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   });
   $('#applicabilityForEmployee').chosen({"width": "93%"});
@@ -47,7 +47,7 @@ $(document).ready(function() {
 <c:set var="documentApplicabilityOptions" value="<%=DocumentApplicability.values()%>"/>
 
 <c:if test="${document == null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Document Name<label class="mandatory">*</label></td>
     <td width="60%" class="value">
@@ -82,14 +82,14 @@ $(document).ready(function() {
   </tr>
   <tr>
     <td colspan="2" align="center">
-        <input type="button" id="create" class="active" value='<spring:message code="common.create"/>' />
+        <input type="button" id="create" value='<spring:message code="common.create"/>' />
     </td>
   </tr>
 </table>
 </c:if>
 
 <c:if test="${document != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">Document Name<label class="mandatory">*</label></td>
     <td width="60%" class="value">
@@ -135,7 +135,7 @@ $(document).ready(function() {
   <tr>
     <td colspan="2" align="center">
         <input type="hidden" id="documentId" value="${document.documentId}" />
-        <input type="button" id="update" class="active" value='<spring:message code="common.update"/>' />
+        <input type="button" id="update" value='<spring:message code="common.update"/>' />
     </td>
   </tr>
 </table>

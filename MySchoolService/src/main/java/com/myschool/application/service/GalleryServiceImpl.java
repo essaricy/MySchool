@@ -191,7 +191,7 @@ public class GalleryServiceImpl implements GalleryService {
      * @see com.myschool.application.service.GalleryService#add(java.lang.String, java.io.File)
      */
     @Override
-    public boolean add(String galleryName, File galleryItem) throws ServiceException {
+    public GalleryDetailDto add(String galleryName, File galleryItem) throws ServiceException {
         try {
             return galleryManager.add(galleryName, galleryItem);
         } catch (DataException dataException) {

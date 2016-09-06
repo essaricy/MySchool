@@ -71,7 +71,7 @@
     </servlet-mapping>
 
     <welcome-file-list>
-        <welcome-file>/launchLogin.htm</welcome-file>
+        <welcome-file>/log/launch.htm</welcome-file>
     </welcome-file-list>
 
 </web-app>

@@ -10,12 +10,11 @@
         <put-attribute name="contact_info" value="/views/application/view_contact_info.jsp" />
     </definition>
 
-    <!-- Application related views -->
-    <definition name="dashboard_wholepage" extends="dashboard_layout">
-        <put-attribute name="notice_board" value="/views/application/view_notice_board.jsp" />
-        <put-attribute name="achievements" value="/views/application/view_achievements.jsp" />
+    <definition name="dashboard_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/application/view_dashboard.jsp" />
     </definition>
 
+    <!-- Application related views -->
     <definition name="view_locate_us_wholepage" extends="wholepage_layout">
         <put-attribute name="body" value="/views/application/view_locate_us.jsp" />
     </definition>

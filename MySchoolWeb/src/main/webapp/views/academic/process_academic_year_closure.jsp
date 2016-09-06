@@ -9,8 +9,8 @@ $(document).ready(function () {
 </script>
 
 <c:if test="${AcademicYearClosure != null}">
-<table width="70%" class="userFormTable" align="center" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption"><spring:message code="aye.closure" /></caption>
+<table width="70%" class="formTable_Container">
+  <caption><spring:message code="aye.closure" /></caption>
   <tr>
     <td width="100%" align="center">
       <c:set var="MySchoolProfile" value="${AcademicYearClosure.mySchoolProfile}" />
@@ -22,11 +22,11 @@ $(document).ready(function () {
         <font class="error"><spring:message code="aye.in.progress" /></font>
       </c:if>
       <!-- MySchool Configuration -->
-      <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+      <table class="formTable_Data">
           <tr>
             <td colspan="2" align="left">
               <b><spring:message code="aye.start.note" /></b><br/>
-              [<a href="<%=request.getContextPath()%>/profile/list.htm" class="formLink"><spring:message code="change.config" /></a>]
+              [<a href="<%=request.getContextPath()%>/profile/list.htm"><spring:message code="change.config" /></a>]
             </td>
           </tr>
           <!-- Email service configuration -->
@@ -89,12 +89,12 @@ $(document).ready(function () {
       </table>
 
       <!-- Academic Year information -->
-      <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5" width="100%">
+      <table class="formTable_Data">
           <tr>
             <td colspan="2" align="left">
               <b><spring:message code="aye.review" /></b><br/>
               <c:if test="${CurrentAcademic == null or NextAcademic == null}">
-                [<a href="<%=request.getContextPath()%>/academic/list.htm" class="formLink"><spring:message code="aye.setup" /></a>]
+                [<a href="<%=request.getContextPath()%>/academic/list.htm"><spring:message code="aye.setup" /></a>]
               </c:if>
             </td>
           </tr>
@@ -147,12 +147,12 @@ $(document).ready(function () {
           </c:if>
       </table>
 
-      <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5" width="100%">
+      <table class="formTable_Data">
           <tr>
             <td colspan="2" align="left">
               <b><spring:message code="aye.examGrade.note" /></b><br/>
               <c:if test="${ExamGrades == null}">
-                [<a href="<%=request.getContextPath()%>/academic/list.htm" class="formLink"><spring:message code="aye.examGrade.setup" /></a>]
+                [<a href="<%=request.getContextPath()%>/academic/list.htm"><spring:message code="aye.examGrade.setup" /></a>]
               </c:if>
             </td>
           </tr>
@@ -178,14 +178,14 @@ $(document).ready(function () {
       </table>
 
       <c:set var="canProcess" value="${PAGE_ACCESS != null && PAGE_ACCESS.update && MySchoolProfile.ayeInProgress != true and CurrentAcademic != null and NextAcademic != null}" />
-      <table class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5" width="100%">
+      <table class="formTable_Data">
         <tr>
           <td align="center">
             <c:if test="${canProcess}">
-              <input type="button" id="InitiateAYC" class="active" value='<spring:message code="aye.start" />' />
+              <input type="button" id="InitiateAYC" value='<spring:message code="aye.start" />' />
             </c:if>
             <c:if test="${not canProcess}">
-              <input type="button" class="inactive" value='<spring:message code="aye.start" />' disabled />
+              <input type="button" value='<spring:message code="aye.start" />' disabled />
             </c:if>
           </td>
         </tr>

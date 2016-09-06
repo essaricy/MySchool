@@ -78,8 +78,8 @@ $(document).ready(function() {
 </script>
 
 <input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
-  <caption class="dataTableCaption">${TITLE}</caption>
+<table class="formTable_Data">
+  <caption>${TITLE}</caption>
   <tr>
     <td>
       <div id="SearchTabs">
@@ -92,11 +92,11 @@ $(document).ready(function() {
             <tr>
               <td align="right"><spring:message code="employee.number"/></td>
               <td>
-                <input type="text" id="Search_EmployeeNumber" class="formInputText" />
+                <input type="text" id="Search_EmployeeNumber" />
               </td>
               <td align="right"><spring:message code="employee.name"/></td>
               <td>
-                <input type="text" id="Search_EmployeeName" class="formInputText" />
+                <input type="text" id="Search_EmployeeName" />
               </td>
             </tr>
             <tr>
@@ -129,7 +129,7 @@ $(document).ready(function() {
             </tr>
             <tr>
               <td align="right" colspan="4">
-                <input type="button" id="Search" value="Search" class="formButton" />
+                <input type="button" id="Search" value="Search" />
               </td>
             </tr>
           </table>
@@ -139,11 +139,11 @@ $(document).ready(function() {
             <tr>
               <td align="right"><spring:message code="employee.number"/></td>
               <td>
-                <input type="text" id="AdvancedSearch_EmployeeNumber" class="formInputText" />
+                <input type="text" id="AdvancedSearch_EmployeeNumber" />
               </td>
               <td align="right"><spring:message code="employee.name"/></td>
               <td>
-                <input type="text" id="AdvancedSearch_EmployeeName" class="formInputText" />
+                <input type="text" id="AdvancedSearch_EmployeeName" />
               </td>
             </tr>
             <tr>
@@ -208,7 +208,7 @@ $(document).ready(function() {
             </tr>
             <tr>
               <td align="right" colspan="4">
-                <input type="button" id="AdvancedSearch" value="Search" class="formButton" />
+                <input type="button" id="AdvancedSearch" value="Search" />
               </td>
             </tr>
           </table>

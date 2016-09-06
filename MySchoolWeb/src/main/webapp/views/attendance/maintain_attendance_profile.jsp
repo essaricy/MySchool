@@ -364,7 +364,7 @@ $(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     });
   }
 });
@@ -373,37 +373,41 @@ $(document).ready(function() {
 <c:if test="${AttendanceProfile == null}">
   <input type="hidden" id="AttendanceProfileId" value="" />
   <input type="hidden" id="EffectiveAcademicYearName" value="" />
-  <table width="100%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
-    <tr>
-      <td class="label">Profile Name<label class="mandatory">*</label></td>
-      <td class="value"><input type="text" id="ProfileName" maxlength="128" /></td>
-      <td class="label">Effective Academic Year<label class="mandatory">*</label></td>
-      <td class="value">
-        <select id="EffectiveAcademicYear">
-        </select>
-      </td>
-      <td align="right">
-        <input type="button" id="CreateAttendanceProfile" class="active" value='<spring:message code="common.create"/>' />
-      </td>
-    </tr>
+  <table class="formTable_Data" border="0">
+    <tbody>
+      <tr>
+        <td class="label" width="20%">Profile Name<label class="mandatory">*</label></td>
+        <td class="value" width="20%"><input type="text" id="ProfileName" maxlength="128" /></td>
+        <td class="label" width="20%">Effective Academic Year<label class="mandatory">*</label></td>
+        <td class="value" width="20%">
+          <select id="EffectiveAcademicYear">
+          </select>
+        </td>
+        <td align="right" width="20%">
+          <input type="button" id="CreateAttendanceProfile" value='<spring:message code="common.create"/>' />
+        </td>
+      </tr>
+    </tbody>
   </table>
 </c:if>
 <c:if test="${AttendanceProfile != null}">
   <input type="hidden" id="AttendanceProfileId" value="${AttendanceProfile.profileId}" />
   <input type="hidden" id="EffectiveAcademicYearName" value="${AttendanceProfile.effectiveAcademic.academicYearName}" />
-  <table width="100%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
-    <tr>
-      <td class="label">Profile Name<label class="mandatory">*</label></td>
-      <td class="value"><input type="text" id="ProfileName" value="${AttendanceProfile.profileName}" maxlength="128" /></td>
-      <td class="label">Effective Academic Year<label class="mandatory">*</label></td>
-      <td class="value">
-        <select id="EffectiveAcademicYear">
-        </select>
-      </td>
-      <td align="right">
-        <input type="button" id="UpdateAttendanceProfile" class="active" value='<spring:message code="common.update"/>' />
-      </td>
-    </tr>
+  <table class="formTable_Data">
+    <tbody>
+      <tr>
+        <td class="label" width="20%">Profile Name<label class="mandatory">*</label></td>
+        <td class="value" width="20%"><input type="text" id="ProfileName" value="${AttendanceProfile.profileName}" maxlength="128" /></td>
+        <td class="label" width="20%">Effective Academic Year<label class="mandatory">*</label></td>
+        <td class="value" width="20%">
+          <select id="EffectiveAcademicYear">
+          </select>
+        </td>
+        <td align="right" width="20%">
+          <input type="button" id="UpdateAttendanceProfile" value='<spring:message code="common.update"/>' />
+        </td>
+      </tr>
+    </tbody>
   </table>
 </c:if>
 
@@ -419,7 +423,7 @@ $(document).ready(function() {
     <br />
     <br />
 
-    <table id="AttendanceToolsTable" class="userFormTable" cellpadding="0" cellspacing="5" width="100%" style="font-size: 0.7em;" align="center">
+    <table class="formTable_Data">
       <tr>
         <td>
           Turn 
@@ -445,7 +449,7 @@ $(document).ready(function() {
             <option value="NF">Non-working Day</option>
             <option value="WH">Working Halfday</option>
           </select>
-          <input type="button" id="ChangeAttendace" class="active" value="Change" />
+          <input type="button" id="ChangeAttendace" value="Change" />
         </td>
       </tr>
     </table>
@@ -480,11 +484,11 @@ $(document).ready(function() {
   </div>
 
   <div id="AssignToSchools">
-    <table class="userFormTable" cellpadding="10" cellspacing="0" width="100%" style="font-size: 0.7em;" align="center">
+    <table class="formTable_Data">
       <tr>
         <td width="80%" valign="top">
           <span class="CircleText-GREEN">2</span>
-          <b style="font-size: 1em;">Assign this profile to the all the employees who belong to the following School(s)</b>
+          <b style="font-size: 0.7em;">Assign this profile to the all the employees who belong to the following School(s)</b>
         </td>
         <td width="20%" valign="top" align="right">
           <input type="button" value="Add All" data-dest="AssignedSchools" class="active AddAllAssignments" />
@@ -501,11 +505,11 @@ $(document).ready(function() {
   </div>
 
   <div id="AssignToClasses">
-    <table class="userFormTable" cellpadding="10" cellspacing="0" width="100%" style="font-size: 0.7em;" align="center">
+    <table class="formTable_Data">
       <tr>
         <td width="80%" valign="top">
           <span class="CircleText-GREEN">3</span>
-          <b style="font-size: 1em;">Assign this profile to the all the students who belong to the following Class(es)</b>
+          <b style="font-size: 0.7em;">Assign this profile to the all the students who belong to the following Class(es)</b>
         </td>
         <td width="20%" valign="top" align="right">
           <input type="button" value="Add All" data-dest="AssignedClasses" class="active AddAllAssignments" />

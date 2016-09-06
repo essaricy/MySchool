@@ -1,27 +1,22 @@
-<%@page import="com.myschool.user.constants.UserTheme"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 
 <style>
-#SettingAccordion p {
-  font-size: 0.8em;
-  font-weight: bold;
-  text-align: left;
-}
 .LastVisit {
   font-weight: bold;
   text-transform:capitalize;
 }
 </style>
 
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath() %>/widgets/password-strength/jquery.passstrength.js"></script>
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath() %>/widgets/jquery.passstrength/jquery.passstrength.js"></script>
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath() %>/widgets/jquery.dateFormat/jquery-dateFormat.min.js"></script>
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath() %>/widgets/jquery.timeago/jquery.timeago.js"></script>
 <script type="text/javascript" charset="utf-8">
 jQuery(document).ready(function() {
-  $(this).myAccordion({id: 'SettingAccordion'});
+  $('#SettingsContainer').tabs({id: 'SettingsContainer'});
+  $("#SettingsContainer").tabs("option", "active", 2);
+
   var formattedLastVisitDate = $.format.date($("#LastVisitOn").attr('title'), "yyyy-MM-ddTHH:mm:ss");
   $("#LastVisitOn").timeago();
 
@@ -41,14 +36,14 @@ jQuery(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-        parseWholepageResponse(result, false);
+        handleServerResponseOnPage(result, false);
     });
   });
 
   $('#ChangePreferences').click(function() {
     var ChangePreferenceDetails = new Object();
     ChangePreferenceDetails.UserId=$('#UserId').val();
-    ChangePreferenceDetails.ThemeName=$('#ThemeName').val();
+    ChangePreferenceDetails.ThemeCode=$('#ThemeCode').val();
     ChangePreferenceDetails.RecordsPerPage=$('#RecordsPerPage').val();
     ChangePreferenceDetails.AllowAds='' + $('#AllowAds').is(':checked');
 
@@ -61,7 +56,7 @@ jQuery(document).ready(function() {
       },
       context: this
     }).done(function(result) {
-      parseWholepageResponse(result, false);
+        handleServerResponseOnPage(result, false);
     });
   });
   $('#NewPassword').passStrengthify();
@@ -70,25 +65,29 @@ jQuery(document).ready(function() {
 </script>
 
 
-<c:set var="UserThemes" value="<%=UserTheme.values()%>"/>
-<table width="80%" align="center" border="0" cellspacing="10" cellpadding="5" class="userFormTable">
-  <caption class="dataTableCaption">Settings</caption>
+<table class="formTable_Data" style="width: 70%">
+  <caption>Settings</caption>
   <tr>
     <td>
-      <div id="SettingAccordion">
-        <p class="title"><spring:message code="user.account.details"/></p>
-        <div>
-          <table cellpadding="5" cellspacing="0" align="center" width="100%" class="formDataTable" border="0">
+      <div id="SettingsContainer">
+        <ul>
+          <li><a href="#UserAccountDetailsTab"><spring:message code="user.account.details"/></a></li>
+          <li><a href="#ChangePasswordTab"><spring:message code="password.change"/></a></li>
+          <li><a href="#DisplayPreferencesTab"><spring:message code="user.display.prefernces"/></a></li>
+        </ul>
+
+        <div id="UserAccountDetailsTab">
+          <table class="formTable_Data" style="font-size: 0.75em;">
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="user.login.name"/></td>
-              <td width="50%" align="left"><b>${USER_CONTEXT.login.loginId}</b></td>
+              <td width="50%" class="label"><spring:message code="user.login.name"/></td>
+              <td width="50%" class="left"><b>${USER_CONTEXT.login.loginId}</b></td>
             </tr>
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="user.type"/></td>
+              <td width="50%" class="label"><spring:message code="user.type"/></td>
               <td width="50%" align="left"><b>${USER_CONTEXT.userType}</b></td>
             </tr>
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="user.number.of.visits"/></td>
+              <td width="50%" class="label"><spring:message code="user.number.of.visits"/></td>
               <td width="50%" align="left">
                 <c:if test="${USER_CONTEXT.userStatistics.numberOfVisits == 0}">
                 <b>Welcome, This is your first login.</b>
@@ -99,7 +98,7 @@ jQuery(document).ready(function() {
               </td>
             </tr>
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="user.last.visit"/></td>
+              <td width="50%" class="label"><spring:message code="user.last.visit"/></td>
               <td width="50%" align="left">
                 <abbr id="LastVisitOn" title="${USER_CONTEXT.userStatistics.lastVisitOn}" class="LastVisit">
                   ${USER_CONTEXT.userStatistics.lastVisitOn}
@@ -108,72 +107,72 @@ jQuery(document).ready(function() {
             </tr>
           </table>
         </div>
-        <p class="title"><spring:message code="password.change"/></p>
-        <div>
+
+        <div id="ChangePasswordTab" style="font-size: 0.75em;">
           <input type="hidden" id="UserId" value="${USER_CONTEXT.login.id}" />
           <table cellpadding="5" cellspacing="0" align="center" width="70%" class="formDataTable" border="0">
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="password.current"/><label class="mandatory">*</label></td>
+              <td width="50%" class="label"><spring:message code="password.current"/><label class="mandatory">*</label></td>
               <td width="50%">
-                <input type="password" id="CurrentPassword" class="formInputText"/>
+                <input type="password" id="CurrentPassword"/>
               </td>
             </tr>
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="password.new"/><label class="mandatory">*</label></td>
+              <td width="50%" class="label"><spring:message code="password.new"/><label class="mandatory">*</label></td>
               <td width="50%">
-                <input type="password" id="NewPassword" class="formInputText" maxlength="128" />
+                <input type="password" id="NewPassword" maxlength="128" />
               </td>
             </tr>
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="password.confirm"/><label class="mandatory">*</label></td>
+              <td width="50%" class="label"><spring:message code="password.confirm"/><label class="mandatory">*</label></td>
               <td width="50%">
-                <input type="password" id="ConfirmedPassword" class="formInputText" maxlength="128" />
+                <input type="password" id="ConfirmedPassword" maxlength="128" />
               </td>
             </tr>
             <tr>
               <td width="50%">&nbsp;</td>
               <td width="50%" align="left">
-                <input type="button" id="ChangePassword" class="formButton" value='<spring:message code="password.change"/>' />
+                <input type="button" id="ChangePassword" value='<spring:message code="password.change"/>' />
               </td>
             </tr>
           </table>
         </div>
-		<!-- User preferences section -->
-        <p class="title"><spring:message code="user.display.prefernces"/></p>
-        <div>
+
+        <!-- User preferences section -->
+        <div id="DisplayPreferencesTab" style="font-size: 0.75em;">
           <table cellpadding="5" cellspacing="0" align="center" width="70%" class="formDataTable" border="0">
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="user.display.theme"/></td>
+              <td width="50%" class="label"><spring:message code="user.display.theme"/></td>
               <td width="50%" align="left">
-                <select id="ThemeName" class="chosen-select">
+                <select id="ThemeCode" class="chosen-select">
                   <c:forEach var="UserTheme" items="${UserThemes}">
-                    <c:if test="${USER_CONTEXT.userPreference.userTheme == UserTheme}">
-                      <option value="${UserTheme}" selected>${UserTheme}</option>
+                    <c:if test="${USER_CONTEXT.userPreference.userTheme.code == UserTheme.code}">
+                      <option value="${UserTheme.code}" selected>${UserTheme.name}</option>
                     </c:if>
-                    <c:if test="${USER_CONTEXT.userPreference.userTheme != UserTheme}">
-                      <option value="${UserTheme}">${UserTheme}</option>
+                    <c:if test="${USER_CONTEXT.userPreference.userTheme.code != UserTheme.code}">
+                      <option value="${UserTheme.code}">${UserTheme.name}</option>
                     </c:if>
                   </c:forEach>
                 </select>
               </td>
             </tr>
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="user.display.records.per.page"/></td>
+              <td width="50%" class="label"><spring:message code="user.display.records.per.page"/></td>
               <td width="50%" align="left">
                 <select id="RecordsPerPage" class="chosen-select">
-				  <c:forTokens items="10,25,50,100" delims="," var="recordsPerPage">
-				    <c:if test="${USER_CONTEXT.userPreference.recordsPerPage == recordsPerPage}">
-					<option value="${recordsPerPage}" selected>${recordsPerPage}</option>
-					</c:if>
-				    <c:if test="${USER_CONTEXT.userPreference.recordsPerPage != recordsPerPage}">
-					<option value="${recordsPerPage}">${recordsPerPage}</option>
-					</c:if>
+                  <c:forTokens items="10,25,50,100" delims="," var="recordsPerPage">
+                    <c:if test="${USER_CONTEXT.userPreference.recordsPerPage == recordsPerPage}">
+                    <option value="${recordsPerPage}" selected>${recordsPerPage}</option>
+                    </c:if>
+                    <c:if test="${USER_CONTEXT.userPreference.recordsPerPage != recordsPerPage}">
+                    <option value="${recordsPerPage}">${recordsPerPage}</option>
+                    </c:if>
                   </c:forTokens>
                 </select>
               </td>
             </tr>
             <tr>
-              <td width="50%" class="formLabel"><spring:message code="user.display.advertisements"/></td>
+              <td width="50%" class="label"><spring:message code="user.display.advertisements"/></td>
               <td width="50%" align="left" style="padding-left: 10px;">
                 <c:if test="${USER_CONTEXT.userPreference.allowAds == 'true'}">
                 <input type="checkbox" id="AllowAds" checked/>
@@ -186,11 +185,10 @@ jQuery(document).ready(function() {
             <tr>
               <td width="50%">&nbsp;</td>
               <td width="50%" align="left">
-                <input type="button" id="ChangePreferences" class="formButton" value='<spring:message code="user.display.change"/>' />
+                <input type="button" id="ChangePreferences" value='<spring:message code="user.display.change"/>' />
               </td>
             </tr>
           </table>
-          <br /><br /><br /><br /><br /><br /><br /><br />
         </div>
       </div>
     </td>

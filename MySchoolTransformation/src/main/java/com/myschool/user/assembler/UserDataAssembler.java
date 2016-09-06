@@ -12,12 +12,12 @@ import com.myschool.common.util.JsonUtil;
 import com.myschool.common.util.PasswordUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.student.dto.StudentDto;
-import com.myschool.user.constants.UserTheme;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.ChangePasswordDto;
 import com.myschool.user.dto.UserAccessDto;
 import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserStatistics;
+import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UserTypeDto;
 import com.myschool.user.dto.UsersDto;
 
@@ -110,8 +110,30 @@ public class UserDataAssembler {
         UserPreference userPreference = new UserPreference();
         userPreference.setAllowAds(ConversionUtil.toBoolean(resultSet.getString("ALLOW_ADS")));
         userPreference.setRecordsPerPage(resultSet.getInt("RECORDS_PER_PAGE"));
-        userPreference.setUserTheme(UserTheme.get(resultSet.getString("THEME_NAME")));
+        //userPreference.setUserTheme(createUserTheme(resultSet.getString("THEME_NAME")));
+        userPreference.setUserTheme(createUserTheme(resultSet, true));
         return userPreference;
+    }
+
+    /**
+     * Creates the user theme.
+     *
+     * @param resultSet the result set
+     * @param alias the alias
+     * @return the user theme
+     * @throws SQLException the SQL exception
+     */
+    public static UserTheme createUserTheme(ResultSet resultSet, boolean alias)
+            throws SQLException {
+        UserTheme userTheme = new UserTheme();
+        if (alias) {
+            userTheme.setCode(resultSet.getString("USER_THEME_CODE"));
+            userTheme.setName(resultSet.getString("USER_THEME_NAME"));
+        } else {
+            userTheme.setCode(resultSet.getString("CODE"));
+            userTheme.setName(resultSet.getString("NAME"));
+        }
+        return userTheme;
     }
 
     /**
@@ -151,7 +173,10 @@ public class UserDataAssembler {
      */
     public static UserPreference createUserPreference(JSONObject jsonObject) {
         UserPreference userPreference = new UserPreference();
-        userPreference.setUserTheme(UserTheme.get(JsonUtil.getString(jsonObject, "ThemeName")));
+
+        UserTheme userTheme = new UserTheme();
+        userTheme.setCode(JsonUtil.getString(jsonObject, "ThemeCode"));
+        userPreference.setUserTheme(userTheme);
         userPreference.setRecordsPerPage(JsonUtil.getInt(jsonObject, "RecordsPerPage"));
         userPreference.setAllowAds(ConversionUtil.toBoolean(JsonUtil.getString(jsonObject, "AllowAds")));
         userPreference.setUserId(JsonUtil.getInt(jsonObject, "UserId"));

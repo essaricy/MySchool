@@ -1,14 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- Full Calendar -->
-<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/themes/BLUE/css/dashboard.css" />
-<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/themes/BLUE/css/dashboard-${USER_CONTEXT.userType}.css" />
-<link type="text/css" rel="stylesheet" href="/demo/widgets/jquery.freewall/styles/style.css">
-
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.freewall/scripts/freewall.js"></script>
-
-<!-- jq plot -->
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/widgets/jquery.jqplot/dist/jquery.jqplot.min.css" />
+
 <script type="text/javascript" src="<%=request.getContextPath()%>/widgets/jquery.jqplot/dist/jquery.jqplot.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/widgets/jquery.jqplot/dist/plugins/jqplot.canvasTextRenderer.min.js"></script>
 <script type="text/javascript" src="<%=request.getContextPath()%>/widgets/jquery.jqplot/dist/plugins/jqplot.canvasAxisLabelRenderer.min.js"></script>
@@ -24,12 +17,8 @@
 
 <script>
 var unit=100;
-var colours = [/*"#FFDE00", "#6599FF",*/ "#FF9900", /*"#99FF00",*/ "#FFCC00", /*"#0099CC", /*"#CCFFCC",*/ "#66CCFF", "#99CCFF", /*"#99CC99",*/ "#CCCC99", "#666699"];
 
 $(document).ready(function() {
-  $('.brick').each(function (index, value) {
-      $(this).css("background-color", "" + colours[colours.length * Math.random() << 0]);
-  });
   var wall = new freewall("#freewall");
   wall.reset({
     selector: '.brick',
@@ -45,7 +34,7 @@ $(document).ready(function() {
 
 
   $('#ActiveSessionsTable').dataTable({
-	"sAjaxSource": '<%=request.getContextPath()%>/usage/getActiveSessions.htm',
+    "sAjaxSource": '<%=request.getContextPath()%>/usage/getActiveSessions.htm',
     "bPaginate": true,
     "bFilter": false,
     "bInfo": false,
@@ -62,7 +51,7 @@ $(document).ready(function() {
   });
 
   $('#UsageCountTable').dataTable({
-	"sAjaxSource": '<%=request.getContextPath()%>/usage/getUsageCount.htm',
+    "sAjaxSource": '<%=request.getContextPath()%>/usage/getUsageCount.htm',
     "bPaginate": true,
     "bFilter": false,
     "bInfo": false,
@@ -81,12 +70,12 @@ $(document).ready(function() {
   var LoginsByMonthGraphRef = '.size53';
   $(this).chart({
     id: 'LoginsByMonthGraph',
-	url: '<%=request.getContextPath()%>/usage/getLoginsTrend.htm?TrendType=MonthOfYear&sid=' + new Date().getTime(),
-	width: $('' + LoginsByMonthGraphRef).width()-20,
-	height: $('' + LoginsByMonthGraphRef).height()-40,
-	'X-Axis': { label: 'Month' },
-	'Y-Axis': { label: '# Logins' },
-	lineWidth: 2
+    url: '<%=request.getContextPath()%>/usage/getLoginsTrend.htm?TrendType=MonthOfYear&sid=' + new Date().getTime(),
+    width: $('' + LoginsByMonthGraphRef).width()-20,
+    height: $('' + LoginsByMonthGraphRef).height()-40,
+    'X-Axis': { label: 'Month' },
+    'Y-Axis': { label: '# Logins' },
+    lineWidth: 2
   });
 
   var LoginsByDOMGraphRef = '.size53'
@@ -159,7 +148,7 @@ $(document).ready(function() {
 </script>
 <div id="freewall">
   <!-- Web statistics -->
-  <div class="brick size94">
+  <div class="brick size03">
     <div class="TileHeader" align="left">
       <strong>Active Sessions</strong>
     </div>
@@ -167,15 +156,15 @@ $(document).ready(function() {
       <table id="ActiveSessionsTable" cellpadding="0" cellspacing="0" width="100%" class="display" border="0">
         <thead>
           <tr>
-			<th>Session ID</th>
+            <th>Session ID</th>
             <th>User Type</th>
-			<th>User ID</th>
-			<th>Ref User ID</th>
-			<th>User Name</th>
-			<th>Display Name</th>
+            <th>User ID</th>
+            <th>Ref User ID</th>
+            <th>User Name</th>
+            <th>Display Name</th>
             <th>Session Start Time</th>
-			<th>IP Address</th>
-			<th>Device</th>
+            <th>IP Address</th>
+            <th>Device</th>
             <th>Browser</th>
           </tr>
         </thead>
@@ -199,9 +188,9 @@ $(document).ready(function() {
       <table id="UsageCountTable" cellpadding="0" cellspacing="0" width="100%" class="display" border="0">
         <thead>
           <tr>
-			<th>User ID</th>
-			<th>User Type</th>
-			<th>User Name</th>
+            <th>User ID</th>
+            <th>User Type</th>
+            <th>User Name</th>
             <th>Number Of Visits</th>
             <th>Last Visited On</th>
           </tr>
@@ -228,7 +217,7 @@ $(document).ready(function() {
           <tr>
             <th>Resource</th>
             <th>ADMIN</th>
-			<th>EMPLOYEE</th>
+            <th>EMPLOYEE</th>
             <th>STUDENT</th>
           </tr>
         </thead>
@@ -254,7 +243,7 @@ $(document).ready(function() {
           <tr>
             <th>Resource</th>
             <th>ADMIN</th>
-			<th>EMPLOYEE</th>
+            <th>EMPLOYEE</th>
             <th>STUDENT</th>
           </tr>
         </thead>

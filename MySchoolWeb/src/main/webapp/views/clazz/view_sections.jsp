@@ -27,13 +27,13 @@ $(document).ready(function() {
             title: 'Create Section',
             url: '<%=request.getContextPath()%>/section/launchNew.htm',
             width: 400,
-            height: 100
+            height: 200
         },
         'update': {
             title: 'Update Section',
             url: '<%=request.getContextPath()%>/section/launchUpdate.htm',
             width: 400,
-            height: 100,
+            height: 200,
             selectRowMessage: '<spring:message code="common.selectRow.update"/>',
             sendParams: [ {
                 refTable: 'self',

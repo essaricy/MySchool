@@ -15,38 +15,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.service.ImageService;
-import com.myschool.application.service.ProfileService;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.Encryptor;
 import com.myschool.common.util.MessageUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.student.dto.StudentDto;
-import com.myschool.student.service.StudentService;
 import com.myschool.user.constants.UserActivityConstant;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.LoginDto;
 import com.myschool.user.dto.UserContext;
 import com.myschool.user.service.LoginService;
-import com.myschool.user.service.UserService;
 import com.myschool.user.util.ContextUtil;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class LoginController.
  */
 @Controller
+@RequestMapping("log")
 public class LoginController {
 
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(LoginController.class);
-
-    /** The user service. */
-    @Autowired
-    private UserService userService;
 
     /** The login service. */
     @Autowired
@@ -56,21 +49,9 @@ public class LoginController {
     @Autowired
     private ImageService imageService;
 
-    /** The student service. */
-    @Autowired
-    private StudentService studentService;
-
-    /** The view error handler. */
-    @Autowired
-    private ViewErrorHandler viewErrorHandler;
-
     /** The message util. */
     @Autowired
     private MessageUtil messageUtil;
-
-    /** The profile service. */
-    @Autowired
-    private ProfileService profileService;
 
     /**
      * Launch login.
@@ -80,9 +61,10 @@ public class LoginController {
      * @return the model and view
      * @throws Exception the exception
      */
-    @RequestMapping(value = "launchLogin")
-    public ModelAndView launchLogin(HttpServletRequest request,
+    @RequestMapping(value = "launch")
+    public ModelAndView launch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        System.out.println("/log/launch.htm reached");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("features", imageService.getFeatures());
         String errorKey = (String) request.getAttribute(ViewDelegationController.ERROR_KEY);
@@ -99,10 +81,10 @@ public class LoginController {
      * @param response the response
      * @return the model and view
      */
-    @RequestMapping(value = "login")
-    public ModelAndView login(HttpServletRequest request,
+    @RequestMapping(value = "in")
+    public ModelAndView in(HttpServletRequest request,
             HttpServletResponse response) {
-
+        System.out.println("/log/in.htm reached");
         Map<String, Object> map = new HashMap<String, Object>();
         ModelAndView modelAndView = null;
         UserContext context = null;
@@ -113,8 +95,9 @@ public class LoginController {
         try {
             HttpSession session = HttpUtil.getExistingSession(request);
             sessionId = session.getId();
-            loginId = request.getParameter("loginId");
-            password = request.getParameter("password");
+
+            loginId = request.getParameter("LoginId");
+            password = request.getParameter("Password");
             LOGGER.info(sessionId + " trying to use Login ID " + loginId);
 
             LoginDto login = new LoginDto();
@@ -180,9 +163,10 @@ public class LoginController {
      * @return the model and view
      * @throws Exception the exception
      */
-    @RequestMapping(value = "logout")
-    public ModelAndView logout(HttpServletRequest request,
+    @RequestMapping(value = "out")
+    public ModelAndView out(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
+        System.out.println("/log/out.htm reached");
         String loginId = null;
         String sessionId = null;
         HttpSession session = HttpUtil.getExistingSession(request);
@@ -197,7 +181,7 @@ public class LoginController {
         }
         LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGOUT_SUCCESS, sessionId, loginId));
         request.setAttribute(ViewDelegationController.ERROR_KEY, messageUtil.getMessage("logout.done"));
-        return launchLogin(request, response);
+        return launch(request, response);
     }
 
 }

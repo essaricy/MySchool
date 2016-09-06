@@ -8,11 +8,11 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.GalleryDetailDto;
+import com.myschool.infra.remote.ftp.exception.FtpException;
 import com.myschool.integration.agent.IntegrationImageResource;
-import com.myschool.integration.common.constant.IntegrationConstant;
-import com.myschool.integration.common.exception.CommandExecutionException;
-import com.myschool.integration.common.exception.CommandProcessException;
-import com.myschool.integration.common.exception.MediaServerException;
+import com.myschool.integration.constant.IntegrationConstant;
+import com.myschool.integration.exception.CommandExecutionException;
+import com.myschool.integration.exception.CommandProcessException;
 import com.myschool.integration.processor.common.AbstractDynamicImageProcessor;
 
 @Component("GalleryImageProcessor")
@@ -48,8 +48,8 @@ public class GalleryImageProcessor extends AbstractDynamicImageProcessor {
             integrationImageResource = integrationImageResourceFactory.getImageResource(
                     IntegrationConstant.GALLERY + galleryName, galleryName);
             createDymanicImageResource(IntegrationConstant.GALLERY, integrationImageResource);
-        } catch (MediaServerException mediaServerException) {
-            throw new CommandExecutionException(mediaServerException.getMessage(), mediaServerException);
+        } catch (FtpException ftpException) {
+            throw new CommandExecutionException(ftpException.getMessage(), ftpException);
         }
     }
 
@@ -74,8 +74,8 @@ public class GalleryImageProcessor extends AbstractDynamicImageProcessor {
             integrationImageResource = integrationImageResourceFactory.getImageResource(
                     IntegrationConstant.GALLERY + galleryName, galleryName);
             deleteDymanicImageResource(IntegrationConstant.GALLERY, integrationImageResource);
-        } catch (MediaServerException mediaServerException) {
-            throw new CommandExecutionException(mediaServerException.getMessage(), mediaServerException);
+        } catch (FtpException ftpException) {
+            throw new CommandExecutionException(ftpException.getMessage(), ftpException);
         }
     }
 

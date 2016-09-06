@@ -153,9 +153,11 @@ public class DesignationController {
      */
     private DesignationDto validateAndGetDesignation(HttpServletRequest request) throws DataException {
         DesignationDto designationDto = new DesignationDto();
-
+        String designationId = request.getParameter("designationId");
         String designation = request.getParameter("designation");
+        viewErrorHandler.validate(designation, "designationId", DataTypeValidator.INTEGER, true);
         viewErrorHandler.validate(designation, "designation", DataTypeValidator.ANY_CHARACTER, true);
+        designationDto.setDesignationId(Integer.parseInt(designationId));
         designationDto.setDesignation(designation);
         return designationDto;
     }
@@ -175,9 +177,8 @@ public class DesignationController {
         ResultDto result = new ResultDto();
 
         try {
-            String designationId = request.getParameter("designationId");
             DesignationDto designationDto = validateAndGetDesignation(request);
-            result.setSuccessful(designationService.update(Integer.parseInt(designationId), designationDto));
+            result.setSuccessful(designationService.update(designationDto.getDesignationId(), designationDto));
         } catch (DataException dataException) {
             result.setStatusMessage(viewErrorHandler.getMessage(dataException.getMessage()));
         } catch (ServiceException serviceException) {

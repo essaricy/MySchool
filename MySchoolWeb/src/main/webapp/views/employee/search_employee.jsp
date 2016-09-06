@@ -169,7 +169,7 @@ function showImage(employeeNumber) {
 }
 
 function showEmployee(employeNumber, firstName, middleName, lastName) {
-  openDialog('<%=request.getContextPath()%>/employee/viewEmployee.htm?employeeNumber=' + employeNumber + '&sid=' + new Date().getTime(),
+  openWindow('<%=request.getContextPath()%>/employee/viewEmployee.htm?employeeNumber=' + employeNumber + '&sid=' + new Date().getTime(),
   employeNumber + ' - ' + firstName + ' ' + middleName + ' ' + lastName,
   $(window).width()-100, $(window).height()-50);
 }

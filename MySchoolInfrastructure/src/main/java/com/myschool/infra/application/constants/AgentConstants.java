@@ -56,4 +56,7 @@ public class AgentConstants {
     /** The Constant OUTBOUND_MESSAGE. */
     public static final String OUTBOUND_MESSAGE = "outbound_message";
 
+    /** The Constant STORAGE_SERVER. */
+    public static final String STORAGE_SERVER = "storage_server";
+
 }

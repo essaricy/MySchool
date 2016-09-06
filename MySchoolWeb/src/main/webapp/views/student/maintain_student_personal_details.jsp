@@ -38,7 +38,7 @@ function getPersonalDetails() {
 </script>
 
 <c:if test="${Student == null}">
-<table width="80%" id="StudentPersonalDetailsTable" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">
       <spring:message code="common.firstName"/><label class="mandatory">*</label>
@@ -132,7 +132,7 @@ function getPersonalDetails() {
       <spring:message code="common.correspondenceAddress"/><label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <textarea id="CorrespondenceAddress" class="formInputText" rows="5" maxlength="128"></textarea>
+      <textarea id="CorrespondenceAddress" rows="5" maxlength="128"></textarea>
     </td>
   </tr>
   <tr>
@@ -140,7 +140,7 @@ function getPersonalDetails() {
       <spring:message code="common.permanentAddress"/><label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <textarea id="PermanentAddress" class="formInputText" rows="5" maxlength="128"></textarea>
+      <textarea id="PermanentAddress" rows="5" maxlength="128"></textarea>
     </td>
   </tr>
   <tr>
@@ -148,7 +148,7 @@ function getPersonalDetails() {
       <spring:message code="common.identificationMarks"/><label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <textarea id="IdentificationMarks" class="formInputText" rows="5" maxlength="64"></textarea>
+      <textarea id="IdentificationMarks" rows="5" maxlength="64"></textarea>
     </td>
   </tr>
 </table>
@@ -156,7 +156,7 @@ function getPersonalDetails() {
 
 <c:if test="${Student != null}">
 <c:set var="PersonalDetails" value="${Student.personalDetails}" />
-<table width="80%" id="StudentPersonalDetailsTable" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <tr>
     <td width="40%" class="label">
       <spring:message code="common.firstName"/><label class="mandatory">*</label>
@@ -250,7 +250,7 @@ function getPersonalDetails() {
       <spring:message code="common.correspondenceAddress"/><label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <textarea id="CorrespondenceAddress" class="formInputText" rows="5" maxlength="128">${PersonalDetails.correspondenceAddress}</textarea>
+      <textarea id="CorrespondenceAddress" rows="5" maxlength="128">${PersonalDetails.correspondenceAddress}</textarea>
     </td>
   </tr>
   <tr>
@@ -258,7 +258,7 @@ function getPersonalDetails() {
       <spring:message code="common.permanentAddress"/><label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <textarea id="PermanentAddress" class="formInputText" rows="5" maxlength="128">${PersonalDetails.permanentAddress}</textarea>
+      <textarea id="PermanentAddress" rows="5" maxlength="128">${PersonalDetails.permanentAddress}</textarea>
     </td>
   </tr>
   <tr>
@@ -266,7 +266,7 @@ function getPersonalDetails() {
       <spring:message code="common.identificationMarks"/><label class="mandatory">*</label>
     </td>
     <td width="60%" class="value">
-      <textarea id="IdentificationMarks" class="formInputText" rows="5" maxlength="64">${PersonalDetails.identificationMarks}</textarea>
+      <textarea id="IdentificationMarks" rows="5" maxlength="64">${PersonalDetails.identificationMarks}</textarea>
     </td>
   </tr>
 </table>

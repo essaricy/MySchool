@@ -3,7 +3,7 @@ package com.myschool.infra.filesystem.filefilter;
 import java.io.File;
 import java.io.FileFilter;
 
-import com.myschool.infra.filesystem.constants.FileExtension;
+import com.myschool.file.constant.FileExtension;
 import com.myschool.infra.filesystem.util.FileUtil;
 
 /**

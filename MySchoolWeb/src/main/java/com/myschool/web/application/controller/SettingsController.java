@@ -14,9 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.user.constants.SecurityQuestion;
 import com.myschool.user.dto.UserContext;
+import com.myschool.user.service.UserService;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.user.constants.UserViewNames;
 
@@ -27,9 +27,8 @@ import com.myschool.web.user.constants.UserViewNames;
 @RequestMapping("settings")
 public class SettingsController {
 
-    /** The resource bundle util. */
     @Autowired
-    private ViewErrorHandler viewErrorHandler;
+    private UserService userService;
 
     /**
      * Launch.
@@ -46,6 +45,7 @@ public class SettingsController {
         HttpSession session = HttpUtil.getExistingSession(request);
         UserContext userContext = (UserContext) session.getAttribute(WebConstants.USER_CONTEXT);
         map.put(WebConstants.USER_CONTEXT, userContext);
+        map.put("UserThemes", userService.getThemes());
         return ViewDelegationController.delegateWholePageView(request, UserViewNames.VIEW_SETTINGS, map);
     }
 

@@ -5,25 +5,14 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.infra.agent.AbstractAgent;
-import com.myschool.infra.cache.agent.InMemoryCacheAgent;
 
 /**
  * The Class WebServerAgent.
  */
 public abstract class WebServerAgent extends AbstractAgent {
-
-    /** The web resource helper. *//*
-    @Autowired
-    protected WebResourceHelper webResourceHelper;*/
-
-    /** The in memory cache agent. */
-    @Autowired
-    private InMemoryCacheAgent inMemoryCacheAgent;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.agent.Agent#loadConfiguration(java.io.File)

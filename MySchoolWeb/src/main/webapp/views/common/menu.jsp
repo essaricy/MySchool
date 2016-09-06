@@ -38,9 +38,11 @@ img.menuItemImage {
                             <c:forEach var="functionAccess" items="${moduleAccess.functionAccess}">
                                 <c:if test="${functionAccess.view == true}">
                                     <li>
-                                        <a href="<%=request.getContextPath()%>/${functionAccess.accessUrl}"><c:if
-                                        test="${MYSCHOOL_PROFILE.useMenuIcons == true && functionAccess.iconUrl != null}"><img 
-                                            src="<%=request.getContextPath()%>/images/icons/${functionAccess.iconUrl}" class="menuItemImage" />&nbsp;</c:if>${functionAccess.functionName}</a>
+                                        <c:if test="${MYSCHOOL_PROFILE.useMenuIcons == true && functionAccess.iconUrl != null}">
+                                        <img src="<%=request.getContextPath()%>/images/icons/${functionAccess.iconUrl}" class="menuItemImage" />
+                                        &nbsp;
+                                        </c:if>
+                                        <a href="<%=request.getContextPath()%>/${functionAccess.accessUrl}">${functionAccess.functionName}</a>
                                     </li>
                                 </c:if>
                             </c:forEach>

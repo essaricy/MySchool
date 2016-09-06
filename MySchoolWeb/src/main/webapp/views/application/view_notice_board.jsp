@@ -1,4 +1,4 @@
-<table cellpadding="0" cellspacing="0" class="formTable" width="98%" height="100px">
+<table cellpadding="0" cellspacing="0" class="formTable_Container" width="98%" height="100px">
 	<thead class="tableHeading">
 		<tr>
 			<th colspan="100%" class="box_title"><span>Notice</span> Board:

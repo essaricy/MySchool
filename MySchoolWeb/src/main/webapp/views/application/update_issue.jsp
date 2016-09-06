@@ -26,7 +26,7 @@ $(document).ready( function () {
       },
       context: this
     }).done(function(result) {
-      parseModelResponse(result);
+      handleServerResponseOnModal(result);
     }); 
   });
 });
@@ -35,7 +35,7 @@ $(document).ready( function () {
 
 <c:set var="issueStatusOptions" value="<%=IssueStatus.values()%>"/>
 <c:if test="${Issue != null}">
-<table width="80%" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
+<table class="formTable_Data">
   <input type="hidden" id="IssueId" value="${Issue.issueId}" />
   <tr>
     <td width="40%" class="label">Issue Created By</td>
@@ -97,7 +97,7 @@ $(document).ready( function () {
   </tr>
   <tr>
     <td colspan="2" align="center">
-      <input type="button" id="Update" value="Update" class="active" />
+      <input type="button" id="Update" value="Update" />
     </td>
   </tr>
 </table>

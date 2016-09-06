@@ -8,30 +8,13 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.application.dto.GalleryDetailDto;
-import com.myschool.application.dto.ResourceDto;
 import com.myschool.common.util.ConversionUtil;
+import com.myschool.storage.dto.StorageItem;
 
 /**
  * The Class GalleryDataAssembler.
  */
 public class GalleryDataAssembler {
-
-    /**
-     * Creates the.
-     * 
-     * @param galleryNames the gallery names
-     * @return the jSON array
-     */
-    public static JSONArray create(List<String> galleryNames) {
-        JSONArray jsonGalleryItems = null;
-        if (galleryNames != null && !galleryNames.isEmpty()) {
-            jsonGalleryItems = new JSONArray();
-            for (String galleryName : galleryNames) {
-                jsonGalleryItems.put(galleryName);
-            }
-        }
-        return jsonGalleryItems;
-    }
 
     /**
      * Creates the json.
@@ -98,18 +81,18 @@ public class GalleryDataAssembler {
 
     /**
      * Creates the gallery details.
-     * 
-     * @param resources the resources
+     *
+     * @param storageItems the storage items
      * @param pinnedGallery the pinned gallery
      * @return the list
      */
-    public static List<GalleryDetailDto> createGalleryDetails(List<ResourceDto> resources, String pinnedGallery) {
+    public static List<GalleryDetailDto> createGalleryDetails(List<StorageItem> storageItems, String pinnedGallery) {
         List<GalleryDetailDto> galleryDetails = null;
-        if (resources != null && !resources.isEmpty()) {
+        if (storageItems != null && !storageItems.isEmpty()) {
             galleryDetails = new ArrayList<GalleryDetailDto>();
 
-            for (ResourceDto resource : resources) {
-                GalleryDetailDto galleryDetail = createGalleryDetail(resource, pinnedGallery);
+            for (StorageItem storageItem : storageItems) {
+                GalleryDetailDto galleryDetail = createGalleryDetail(storageItem, pinnedGallery);
                 if (galleryDetail != null) {
                     galleryDetails.add(galleryDetail);
                 }
@@ -120,21 +103,21 @@ public class GalleryDataAssembler {
 
     /**
      * Creates the gallery detail.
-     * 
-     * @param resource the resource
+     *
+     * @param storageItem the storage item
      * @param pinnedGallery the pinned gallery
      * @return the gallery detail dto
      */
-    public static GalleryDetailDto createGalleryDetail(ResourceDto resource, String pinnedGallery) {
+    public static GalleryDetailDto createGalleryDetail(StorageItem storageItem, String pinnedGallery) {
         GalleryDetailDto galleryDetail = null;
-        if (resource != null) {
+        if (storageItem != null) {
             galleryDetail = new GalleryDetailDto();
-            String name = resource.getName();
+            String name = storageItem.getName();
             galleryDetail.setGalleryName(name);
             galleryDetail.setPinned(name.equals(pinnedGallery));
-            galleryDetail.setUrl(resource.getResourceUrl());
-            galleryDetail.setPassportUrl(resource.getPassportUrl());
-            galleryDetail.setThumbnailUrl(resource.getThumbnailUrl());
+            galleryDetail.setUrl(storageItem.getDirectLink());
+            galleryDetail.setPassportUrl(storageItem.getPassportLink());
+            galleryDetail.setThumbnailUrl(storageItem.getThumbnailLink());
         }
         return galleryDetail;
     }
