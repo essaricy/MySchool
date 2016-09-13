@@ -83,23 +83,21 @@ $(document).ready(function(){
     }
   });
 
-  function deleteEmployeeSubject(decision) {
-    if (decision == "Yes") {
-      var anSelected = fnGetSelected( currentDataTable );
-      if (anSelected != null) {
-        var selectedRow = currentDataTable.fnGetData(anSelected);
-        var registeredSubjectId = selectedRow[0];
-        if (registeredSubjectId > 0) {
-          $.ajax({
-            url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeeTeachingSubject&attributeId=" + registeredSubjectId,
-            context: document.body,
-            success: function(result) {
-              $(this).addClass("done");
-            }
-          });
-        }
-        currentDataTable.fnDeleteRow(anSelected);
+  function deleteEmployeeSubject() {
+    var anSelected = fnGetSelected( currentDataTable );
+    if (anSelected != null) {
+      var selectedRow = currentDataTable.fnGetData(anSelected);
+      var registeredSubjectId = selectedRow[0];
+      if (registeredSubjectId > 0) {
+        $.ajax({
+          url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeeTeachingSubject&attributeId=" + registeredSubjectId,
+          context: document.body,
+          success: function(result) {
+            $(this).addClass("done");
+          }
+        });
       }
+      currentDataTable.fnDeleteRow(anSelected);
     }
   }
 });

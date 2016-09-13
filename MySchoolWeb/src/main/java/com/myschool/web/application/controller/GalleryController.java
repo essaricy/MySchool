@@ -297,7 +297,7 @@ public class GalleryController {
                 throw new InsufficientInputException("There is no data to upload.");
             }
             // Create a temp file to transfer multipart contents.
-            File galleryItemTempFile = tempFileSystem.createTempFile(originalFilename);
+            File galleryItemTempFile = tempFileSystem.createGalleryTempFile(originalFilename);
             multipartFile.transferTo(galleryItemTempFile);
             if (galleryItemTempFile == null) {
                 throw new ServiceException("Unable to upload the image now.");

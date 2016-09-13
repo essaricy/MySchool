@@ -81,22 +81,20 @@ $(document).ready(function(){
   });
 
   function deleteEmployeeEducation(decision) {
-    if (decision == "Yes") {
-      var anSelected = fnGetSelected( currentDataTable );
-      if (anSelected != null) {
-        var selectedRow = currentDataTable.fnGetData(anSelected);
-        var employeeEducationId = selectedRow[0];
-        if (employeeEducationId > 0) {
-          $.ajax({
-            url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeeEducation&attributeId=" + employeeEducationId,
-            context: document.body,
-            success: function(result) {
-              $(this).addClass("done");
-            }
-          });
-        }
-        currentDataTable.fnDeleteRow(anSelected);
+    var anSelected = fnGetSelected( currentDataTable );
+    if (anSelected != null) {
+      var selectedRow = currentDataTable.fnGetData(anSelected);
+      var employeeEducationId = selectedRow[0];
+      if (employeeEducationId > 0) {
+        $.ajax({
+          url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeeEducation&attributeId=" + employeeEducationId,
+          context: document.body,
+          success: function(result) {
+            $(this).addClass("done");
+          }
+        });
       }
+      currentDataTable.fnDeleteRow(anSelected);
     }
   }
 });

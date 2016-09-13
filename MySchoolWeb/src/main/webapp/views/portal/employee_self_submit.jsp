@@ -74,10 +74,8 @@ jQuery(document).ready(function() {
     confirm('Please ensure that you have entered correct information.<br /> You cannot change the information after save is successful.', confirmSave);
   });
 
-  function confirmSave(result) {
-      if (result == "Yes") {
-          saveEmployee();
-      }
+  function confirmSave() {
+    saveEmployee();
   }
 
   function saveEmployee() {

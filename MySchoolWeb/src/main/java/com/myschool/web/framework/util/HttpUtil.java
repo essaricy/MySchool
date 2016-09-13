@@ -23,6 +23,8 @@ import net.sf.uadetector.service.UADetectorServiceFactory;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.myschool.application.dto.ImageAccessDto;
+import com.myschool.common.assembler.ImageDataAssembler;
 import com.myschool.common.assembler.ResultDataAssembler;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.FileSystemException;
@@ -338,6 +340,32 @@ public class HttpUtil {
      */
     public static HttpSession createNewSession(HttpServletRequest request) {
     	return request.getSession(true);
+    }
+
+    /**
+     * Write to response.
+     *
+     * @param response the response
+     * @param imageAccess the image access
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
+    public static void writeToResponse(HttpServletResponse response,
+            ImageAccessDto imageAccess) throws IOException {
+        PrintWriter writer = null;
+        JSONObject jsonObject = null;
+
+        try {
+            response.setContentType(MimeTypes.APPLICATION_JSON);
+            writer = response.getWriter();
+            jsonObject = ImageDataAssembler.create(imageAccess);
+            if (jsonObject != null) {
+                writer.write(jsonObject.toString());
+            }
+        } finally {
+            if (writer != null) {
+                writer.close();
+            }
+        }
     }
 
 }

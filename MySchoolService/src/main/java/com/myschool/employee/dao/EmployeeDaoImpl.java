@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.myschool.common.constants.MySchoolConstant;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.util.ConversionUtil;
@@ -314,10 +314,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
 	/* (non-Javadoc)
-	 * @see com.myschool.employee.dao.EmployeeDao#getNextEmployeeNumber(java.lang.String, java.lang.String)
+	 * @see com.myschool.employee.dao.EmployeeDao#getNextEmployeeNumber(java.lang.String, com.myschool.common.constants.RecordStatus)
 	 */
 	@Override
-	public String getNextEmployeeNumber(String employeeNumber, String type) throws DaoException {
+	public String getNextEmployeeNumber(String employeeNumber, RecordStatus recordStatus) throws DaoException {
 		String query = null;
         String nextEmployeeNumber = null;
         Connection connection = null;
@@ -326,7 +326,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try {
             connection = databaseAgent.getConnection();
-            if (type.equals(MySchoolConstant.VERIFIED)) {
+            if (recordStatus == RecordStatus.VERIFIED) {
             	query = EmployeeDaoSql.SELECT_NEXT_VERIFIED_EMPLOYEE_NUMBER;
             } else {
             	query = EmployeeDaoSql.SELECT_NEXT_UNVERIFIED_EMPLOYEE_NUMBER;
@@ -354,10 +354,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
 	/* (non-Javadoc)
-	 * @see com.myschool.employee.dao.EmployeeDao#getPreviousEmployeeNumber(java.lang.String, java.lang.String)
+	 * @see com.myschool.employee.dao.EmployeeDao#getPreviousEmployeeNumber(java.lang.String, com.myschool.common.constants.RecordStatus)
 	 */
 	@Override
-	public String getPreviousEmployeeNumber(String employeeNumber, String type) throws DaoException {
+	public String getPreviousEmployeeNumber(String employeeNumber, RecordStatus recordStatus) throws DaoException {
 		String query = null;
         String previousEmployeeNumber = null;
         Connection connection = null;
@@ -366,7 +366,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
         try {
             connection = databaseAgent.getConnection();
-            if (type.equals(MySchoolConstant.VERIFIED)) {
+            if (recordStatus == RecordStatus.VERIFIED) {
             	query = EmployeeDaoSql.SELECT_PREVIOUS_VERIFIED_EMPLOYEE_NUMBER;
             } else {
             	query = EmployeeDaoSql.SELECT_PREVIOUS_UNVERIFIED_EMPLOYEE_NUMBER;

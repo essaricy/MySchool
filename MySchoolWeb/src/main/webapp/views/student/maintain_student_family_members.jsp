@@ -142,28 +142,26 @@ $(document).ready(function(){
       title: 'Delete Family Member',
       url: '<%=request.getContextPath()%>/student-attribute/doDelete.htm',
       selectRowMessage: '<spring:message code="common.selectRow.delete"/>',
-      confirmMessage: '<spring:message code="branch.delete.warning"/>',
+      confirmMessage: 'Do you want to delete the selected family member data?',
       confirmCallback: deleteStudentFamilyMember
     }
   });
 
-  function deleteStudentFamilyMember(decision) {
-    if (decision == "Yes") {
-      var anSelected = fnGetSelected( currentDataTable );
-      if (anSelected != null) {
-        var selectedRow = currentDataTable.fnGetData(anSelected);
-        var studentFamilyMemberId = selectedRow[0];
-        if (studentFamilyMemberId > 0) {
-          $.ajax({
-            url: "<%=request.getContextPath()%>/student-attribute/doDelete.htm?attribute=StudentFamilyMember&attributeId=" + studentFamilyMemberId,
-            context: document.body,
-            success: function(result) {
-              $(this).addClass("done");
-            }
-          });
-        }
-        currentDataTable.fnDeleteRow(anSelected);
+  function deleteStudentFamilyMember() {
+    var anSelected = fnGetSelected( currentDataTable );
+    if (anSelected != null) {
+      var selectedRow = currentDataTable.fnGetData(anSelected);
+      var studentFamilyMemberId = selectedRow[0];
+      if (studentFamilyMemberId > 0) {
+        $.ajax({
+          url: "<%=request.getContextPath()%>/student-attribute/doDelete.htm?attribute=StudentFamilyMember&attributeId=" + studentFamilyMemberId,
+          context: document.body,
+          success: function(result) {
+            $(this).addClass("done");
+          }
+        });
       }
+      currentDataTable.fnDeleteRow(anSelected);
     }
   }
 });

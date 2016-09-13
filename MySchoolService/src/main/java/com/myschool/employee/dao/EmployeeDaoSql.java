@@ -3,6 +3,7 @@ package com.myschool.employee.dao;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.util.DatabaseUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
@@ -232,7 +233,12 @@ public class EmployeeDaoSql {
 
             // Actual where clause starts here.
             Map<String, String> whereClauseMap = new HashMap<String, String>();
-            whereClauseMap.put("EMPLOYEE.VERIFIED='?'", employeeSearchCriteria.getVerifiedStatus());
+            if (employeeSearchCriteria.getRecordStatus() == RecordStatus.VERIFIED) {
+                whereClauseMap.put("EMPLOYEE.VERIFIED='?'", "Y");
+            } else {
+                whereClauseMap.put("EMPLOYEE.VERIFIED='?'", "N");
+            }
+            
             whereClauseMap.put("EMPLOYEE.EMPLOYEE_NUMBER LIKE '%?%'", employeeSearchCriteria.getEmployeeNumber());
             whereClauseMap.put("(EMPLOYEE.FIRST_NAME LIKE '%?%' OR EMPLOYEE.MIDDLE_NAME LIKE '%?%' OR EMPLOYEE.LAST_NAME LIKE '%?%')", employeeSearchCriteria.getEmployeeName());
             int designationId = employeeSearchCriteria.getDesignationId();

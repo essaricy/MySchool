@@ -92,7 +92,7 @@ $(document).ready(function() {
 </script>
 
 <input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
-<table class="formTable_Data">
+<table class="formTable_Container">
   <caption>${TITLE}</caption>
   <tr>
     <td>

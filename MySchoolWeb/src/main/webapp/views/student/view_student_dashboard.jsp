@@ -175,7 +175,12 @@ $(document).ready(function() {
       </tr>
       <tr>
         <td colspan="2" align="center" valign="top">
-          <img src="<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=PASSPORT&contentId=${Student.admissionNumber}" class="passport" style="padding-top: 5px;"/>
+          <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.passportLink == null}">
+            <img src="<%=request.getContextPath()%>/images/icons/student.png" class="thumbnail" style="padding-top: 5px;"/>
+          </c:if>
+          <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.passportLink != null}">
+            <img src="${USER_CONTEXT.login.userDetails.imageAccess.passportLink}" class="passport" style="padding-top: 5px;"/>
+          </c:if>
         </td>
       </tr>
       <tr>

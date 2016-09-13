@@ -2,6 +2,7 @@ package com.myschool.employee.dao;
 
 import java.util.List;
 
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.DaoException;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
@@ -10,7 +11,7 @@ import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
  * The Interface EmployeeDao.
  */
 public interface EmployeeDao {
-    
+
     /**
      * Gets the.
      * 
@@ -78,20 +79,20 @@ public interface EmployeeDao {
      * Gets the next employee number.
      *
      * @param employeeNumber the employee number
-     * @param type the type
+     * @param recordStatus the record status
      * @return the next employee number
      * @throws DaoException the dao exception
      */
-    String getNextEmployeeNumber(String employeeNumber, String type) throws DaoException;
+    String getNextEmployeeNumber(String employeeNumber, RecordStatus recordStatus) throws DaoException;
 
 	/**
-	 * Gets the previous employee number.
-	 *
-	 * @param employeeNumber the employee number
-	 * @param type the type
-	 * @return the previous employee number
-	 * @throws DaoException the dao exception
-	 */
-	String getPreviousEmployeeNumber(String employeeNumber, String type) throws DaoException;
+     * Gets the previous employee number.
+     *
+     * @param employeeNumber the employee number
+     * @param recordStatus the record status
+     * @return the previous employee number
+     * @throws DaoException the dao exception
+     */
+	String getPreviousEmployeeNumber(String employeeNumber, RecordStatus recordStatus) throws DaoException;
 
 }

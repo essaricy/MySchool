@@ -3,17 +3,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %> 
 
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/widgets/jquery.magnific-popup/magnific-popup.css" />
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.magnific-popup/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" charset="utf-8">
 var oTable = null;
-var thumbUrl = null;
-var resourceUrl = null;
-if ('${RECORD_STATUS}' == 'VERIFIED') {
-  thumbUrl='${RESOURCE_PROFILE.employeeRegistered.thumbnailUrl}'.replace("@RESOURCE_NAME@", "");
-  resourceUrl='${RESOURCE_PROFILE.employeeRegistered.resourceUrl}';
-} else {
-  thumbUrl='${RESOURCE_PROFILE.employeePortal.thumbnailUrl}'.replace("@RESOURCE_NAME@", "");
-  resourceUrl='${RESOURCE_PROFILE.employeePortal.resourceUrl}';
-}
 
 $(document).ready(function() {
   activateActionButtons(actionButtons);
@@ -35,8 +28,15 @@ $(document).ready(function() {
     "aoColumns": [
       {
         "fnRender": function ( o, val ) {
-          var imagePath = thumbUrl + o.aData[1];
-          var linkedImage ='<a href="javascript: showImage(' + o.aData[1] + ')"><img src="' + imagePath + '" class="thumbnail" /></a>';
+          var linkedImage = null;
+          var profilePic = o.aData[16];
+          if (profilePic == null || profilePic == '') {
+            linkedImage ='<img src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" class="thumbnail" style="cursor: default"/>';
+          } else {
+            linkedImage ='<img src="' + o.aData[17] + '" class="thumbnail" onClick="showImage(this)"'
+              + 'data-direct-link="' + o.aData[15] + '" '
+              + 'data-thumb-link="' + o.aData[17] + '" />';
+          }
           return linkedImage;
         }
       }, { 
@@ -159,15 +159,14 @@ function activateActionButtons(actionButtons) {
   }
 }
 
-function showImage(employeeNumber) {
+function showImage(imgObj) {
   $.magnificPopup.open({
     items: {
-      src: resourceUrl + "/" + employeeNumber
+      src: $(imgObj).attr('data-direct-link')
     },
-    type: 'image' // this is default type
+    type: 'image', // this is default type
   });
 }
-
 function showEmployee(employeNumber, firstName, middleName, lastName) {
   openWindow('<%=request.getContextPath()%>/employee/viewEmployee.htm?employeeNumber=' + employeNumber + '&sid=' + new Date().getTime(),
   employeNumber + ' - ' + firstName + ' ' + middleName + ' ' + lastName,

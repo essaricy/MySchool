@@ -1,8 +1,7 @@
 package com.myschool.web.application.controller;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +16,12 @@ import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.application.service.GalleryService;
 import com.myschool.application.service.ImageService;
 import com.myschool.common.util.StringUtil;
+import com.myschool.employee.service.EmployeeService;
+import com.myschool.image.constant.ImageSize;
+import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
+import com.myschool.web.framework.util.HttpUtil;
 
 /**
  * The Class ImageController.
@@ -34,6 +37,12 @@ public class ImageController {
     /** The gallery service. */
     @Autowired
     private GalleryService galleryService;
+
+    @Autowired
+    private EmployeeService employeeService;
+
+    @Autowired
+    private StudentService studentService;
 
     /**
      * Slideshow.
@@ -63,6 +72,29 @@ public class ImageController {
         }
         return ViewDelegationController.delegateModelPageView(request,
                 ApplicationViewNames.VIEW_SLIDE_SHOW, map);
+    }
+
+    @RequestMapping(value = "getEvanescentImage")
+    public ModelAndView getEvanescentImage(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        File file = null;
+        String type = request.getParameter("type");
+        String contentId = request.getParameter("contentId");
+        String imageSize = request.getParameter("imageSize");
+
+        if (type != null) {
+            if (type.equalsIgnoreCase("employee")) {
+                file = employeeService.getEvanescentImage(contentId, ImageSize.getImageType(imageSize));
+            } else if (type.equalsIgnoreCase("student")) {
+                file = studentService.getEvanescentImage(contentId, ImageSize.getImageType(imageSize));
+            }
+            System.out.println("file=" + file);
+            if (file != null) {
+                HttpUtil.writeToResponse(response, file);
+            }
+        }
+        return null;
     }
 
     /**

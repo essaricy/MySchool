@@ -15,7 +15,7 @@
 <script type="text/javascript" charset="utf-8">
 jQuery(document).ready(function() {
   $('#SettingsContainer').tabs({id: 'SettingsContainer'});
-  $("#SettingsContainer").tabs("option", "active", 2);
+  $("#SettingsContainer").tabs("option", "active", 0);
 
   var formattedLastVisitDate = $.format.date($("#LastVisitOn").attr('title'), "yyyy-MM-ddTHH:mm:ss");
   $("#LastVisitOn").timeago();
@@ -69,26 +69,39 @@ jQuery(document).ready(function() {
   <caption>Settings</caption>
   <tr>
     <td>
-      <div id="SettingsContainer">
-        <ul>
-          <li><a href="#UserAccountDetailsTab"><spring:message code="user.account.details"/></a></li>
-          <li><a href="#ChangePasswordTab"><spring:message code="password.change"/></a></li>
-          <li><a href="#DisplayPreferencesTab"><spring:message code="user.display.prefernces"/></a></li>
-        </ul>
-
-        <div id="UserAccountDetailsTab">
-          <table class="formTable_Data" style="font-size: 0.75em;">
+      <table>
+        <tr>
+          <td width="20%">
+          <c:if test="${USER_CONTEXT.userType == 'EMPLOYEE'}">
+            <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.passportLink == null}">
+              <img src="<%=request.getContextPath()%>/images/icons/student.png" width="30px" height="30x" border="0"/>
+            </c:if>
+            <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.thumbnailLink != null}">
+              <img class="img-round" src="${USER_CONTEXT.login.userDetails.imageAccess.passportLink}" width="50px" height="50x" />
+            </c:if>
+          </c:if>
+          <c:if test="${USER_CONTEXT.userType == 'STUDENT'}">
+            <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.passportLink == null}">
+              <img src="<%=request.getContextPath()%>/images/icons/student.png" width="30px" height="30x" border="0"/>
+            </c:if>
+            <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.directLink != null}">
+              <img class="img-round" src="${USER_CONTEXT.login.userDetails.imageAccess.directLink}" width="140px" height="160x" style="float: left; margin: 0px 15px 15px 0px;"/>
+            </c:if>
+          </c:if>
+          </td>
+          <td align="left">
+          <table style="font-size: 0.85em; font-family: Verdana,Arial,sans-serif;" align="left" width="100%">
             <tr>
-              <td width="50%" class="label"><spring:message code="user.login.name"/></td>
-              <td width="50%" class="left"><b>${USER_CONTEXT.login.loginId}</b></td>
+              <td width="30%" class="label" align="left"><spring:message code="user.login.name"/></td>
+              <td width="70%"><b>${USER_CONTEXT.login.loginId}</b></td>
             </tr>
             <tr>
-              <td width="50%" class="label"><spring:message code="user.type"/></td>
-              <td width="50%" align="left"><b>${USER_CONTEXT.userType}</b></td>
+              <td width="30%" class="label"><spring:message code="user.type"/></td>
+              <td width="70%"><b>${USER_CONTEXT.userType}</b></td>
             </tr>
             <tr>
-              <td width="50%" class="label"><spring:message code="user.number.of.visits"/></td>
-              <td width="50%" align="left">
+              <td width="30%" class="label"><spring:message code="user.number.of.visits"/></td>
+              <td width="50%">
                 <c:if test="${USER_CONTEXT.userStatistics.numberOfVisits == 0}">
                 <b>Welcome, This is your first login.</b>
                 </c:if>
@@ -98,16 +111,22 @@ jQuery(document).ready(function() {
               </td>
             </tr>
             <tr>
-              <td width="50%" class="label"><spring:message code="user.last.visit"/></td>
-              <td width="50%" align="left">
+              <td width="30%" class="label"><spring:message code="user.last.visit"/></td>
+              <td width="70%">
                 <abbr id="LastVisitOn" title="${USER_CONTEXT.userStatistics.lastVisitOn}" class="LastVisit">
                   ${USER_CONTEXT.userStatistics.lastVisitOn}
                 </abbr>
               </td>
             </tr>
           </table>
-        </div>
-
+          </td>
+        </tr>
+      </table>
+      <div id="SettingsContainer">
+        <ul>
+          <li><a href="#ChangePasswordTab"><spring:message code="password.change"/></a></li>
+          <li><a href="#DisplayPreferencesTab"><spring:message code="user.display.prefernces"/></a></li>
+        </ul>
         <div id="ChangePasswordTab" style="font-size: 0.75em;">
           <input type="hidden" id="UserId" value="${USER_CONTEXT.login.id}" />
           <table cellpadding="5" cellspacing="0" align="center" width="70%" class="formDataTable" border="0">

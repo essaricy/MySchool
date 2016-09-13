@@ -19,6 +19,8 @@ import com.myschool.infra.filesystem.util.FileUtil;
 @Component
 public abstract class AbstractSubFileSystem implements FileSystem {
 
+    protected static final String GALLERY = "gallery";
+
     /** The Constant EMPLOYEE. */
     protected static final String EMPLOYEE = "employee";
 

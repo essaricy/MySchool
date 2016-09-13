@@ -4,69 +4,66 @@
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
 <style>
-#EmployeeAccordion p {
-  font-size: 0.7em;
-  font-weight: bold;
-  text-align: left;
+#EmployeeRegistrationTabs {
+    font-size: 1.1em;
 }
 </style>
 
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/widgets/jquery.magnific-popup/magnific-popup.css" />
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.magnific-popup/jquery.magnific-popup.min.js"></script>
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-employee-attributes.js"></script>
 <script>
 jQuery(document).ready(function() {
-  $(this).myAccordion({id: 'EmployeeAccordion'});
-  $("#EmployeeAccordion").accordion( "option", "active", 0);
+  $('#EmployeeRegistrationTabs').tabs({id: 'EmployeeRegistrationTabs'});
+  $("#EmployeeRegistrationTabs").tabs("option", "active", 0);
 
   var searchUrl = null;
-  var resourceUrl = null;
   if ($('#RECORD_STATUS').val() == 'VERIFIED') {
       searchUrl='<%=request.getContextPath()%>/employee/launchVerifiedEmployeesSearch.htm';
-      resourceUrl='${RESOURCE_PROFILE.employeeRegistered.resourceUrl}';
   } else if ($('#RECORD_STATUS').val() == 'UNVERIFIED') {
       searchUrl='<%=request.getContextPath()%>/employee/launchUnverifiedEmployeesSearch.htm';
-      resourceUrl='${RESOURCE_PROFILE.employeePortal.resourceUrl}';
   }
 
-  $('#add').click(function () {
+  $('#AddEmployee').click(function () {
     document.forms[0].action='<%=request.getContextPath()%>/employee/launch.htm';
     document.forms[0].submit();
   });
 
-  $('#search').click(function () {
+  $('#SearchEmployees').click(function () {
     document.forms[0].action=searchUrl;
     document.forms[0].submit();
   });
 
-  $('#previous').click(function () {
+  $('#ShowPreviousEmployee').click(function () {
     document.forms[0].action='<%=request.getContextPath()%>/employee/getPreviousEmployee.htm?EmployeeNumber=' + $('#EmployeeNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
-  $('#next').click(function () {
+  $('#ShowNextEmployee').click(function () {
     document.forms[0].action='<%=request.getContextPath()%>/employee/getNextEmployee.htm?EmployeeNumber=' + $('#EmployeeNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
   if ($('#EmployeeId').val() == '0') {
-      $('#add').hide();
-      $('#previous').hide();
-      $('#next').hide();
+      $('#AddEmployee').hide();
+      $('#ShowPreviousEmployee').hide();
+      $('#ShowNextEmployee').hide();
       $('#uploadImage').attr('title', 'Add Picture');
-      $('#print').hide();
+      $('#PrintEmployeeData').hide();
   } else {
       $('#uploadImage').attr('title', 'Update Picture');
       if ($('#Verified').val() == 'YES') {
-          $('#save_verify').hide();
+          $('#VerifyEmployeeData').hide();
       }
   }
-  $('#add').tooltipster();
-  $('#search').tooltipster();
-  $('#next').tooltipster();
-  $('#previous').tooltipster();
+  $('#AddEmployee').tooltipster();
+  $('#SearchEmployees').tooltipster();
+  $('#ShowNextEmployee').tooltipster();
+  $('#ShowPreviousEmployee').tooltipster();
   $('#uploadImage').tooltipster();
-  $('#save').tooltipster();
-  $('#save_verify').tooltipster();
-  $('#print').tooltipster();
+  $('#SaveEmployeeData').tooltipster();
+  $('#VerifyEmployeeData').tooltipster();
+  $('#PrintEmployeeData').tooltipster();
 
   var uploader = new plupload.Uploader({
     // General settings
@@ -98,11 +95,12 @@ jQuery(document).ready(function() {
       notifySuccess('Image has been successfully uploaded and will be updated when saved.');
       // Replace image with some fading effect
       var employeeImage = $('#employeeImage');
-      var employeeImageUrl = resourceUrl + '/' + response.ReferenceNumber;
+      var originalImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=employee&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var passportImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=employee&imageSize=PASSPORT&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
       employeeImage.fadeOut(1000, function () {
-        employeeImage.attr('src', employeeImageUrl);
+        employeeImage.attr('src', passportImageUrl);
         // Magnify image on click
-        employeeImage.click(function() {$.magnificPopup.open({ items: { src: employeeImageUrl }, type: 'image' })});
+        employeeImage.click(function() {$.magnificPopup.open({ items: { src: originalImageUrl }, type: 'image' })});
         employeeImage.fadeIn(3000);
       });
       $('#ImageReferenceNumber').val(response.ReferenceNumber);
@@ -126,11 +124,11 @@ jQuery(document).ready(function() {
     });
   });
 
-  jQuery('#save').click(function () {
+  jQuery('#SaveEmployeeData').click(function () {
       saveEmployee(false);
   });
 
-  jQuery('#save_verify').click(function () {
+  jQuery('#VerifyEmployeeData').click(function () {
       saveEmployee(true);
   });
 
@@ -149,9 +147,11 @@ jQuery(document).ready(function() {
     EmployeeData.ReportingTo = EmploymentData.ReportingTo;
     EmployeeData.Remarks = EmploymentData.Remarks;
     if (verify) {
-        EmployeeData.Verified = 'YES';
+        //EmployeeData.Verified = 'YES';
+        EmployeeData.Verify = 'YES';
     } else {
-        EmployeeData.Verified = $('#Verified').val();
+        EmployeeData.Verify = 'NO';
+        //EmployeeData.Verified = $('#Verified').val();
     }
 
     EmployeeData.EmployeeContact = getContactDetails();
@@ -176,7 +176,7 @@ jQuery(document).ready(function() {
           notifySuccess(message);
           if (verify) {
               $('#Verified').val('YES');
-              $('#save_verify').hide();
+              $('#VerifyEmployeeData').hide();
           }
         } else {
           notifySuccess('Data has been updated successfully.');
@@ -189,14 +189,26 @@ jQuery(document).ready(function() {
               $('#EmployeeNumber').attr('disabled', true);
               $('#LastEmployeeNumber').hide();
               // enable add icon
-              $('#add').show();
+              $('#AddEmployee').show();
               // update picture icon
               $('#uploadImage').attr('title', 'Update Picture');
               $('#uploadImage').tooltipster();
               // enable print icon
-              $('#print').show();
+              $('#PrintEmployeeData').show();
             }
             prevEmployeeId = result.ReferenceNumber;
+        }
+        var Reference = result.Reference;
+        if (Reference != null && typeof(Reference) != 'undefined') {
+          var ImageAccess = Reference.ImageAccess;
+          if (ImageAccess != null && typeof(ImageAccess) != 'undefined') {
+            var employeeImage = $('#employeeImage');
+            console.log('ImageAccess.PassportLink=' + ImageAccess.PassportLink);
+            employeeImage.fadeOut(1000, function () {
+              employeeImage.attr('src', ImageAccess.PassportLink);
+              employeeImage.fadeIn(3000);
+            });
+          }
         }
       } else {
         var message = result.StatusMessage;
@@ -215,6 +227,7 @@ jQuery(document).ready(function() {
 <input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
 <c:if test="${Employee == null}">
   <input type="hidden" id="EmployeeId" value="0" />
+  <input type="hidden" id="Verified" value="NO" />
 </c:if>
 <c:if test="${Employee != null}">
   <input type="hidden" id="EmployeeId" value="${Employee.employeeId}" />
@@ -224,12 +237,6 @@ jQuery(document).ready(function() {
   <c:set var="EmployeeExperiences" value="${Employee.employeeExperiences}" />
   <c:set var="EmployeePromotions" value="${Employee.employeePromotions}" />
   <c:set var="EmployeeTeachingSubjects" value="${Employee.employeeSubjects}" />
-</c:if>
-
-<c:if test="${Employee == null}">
-  <input type="hidden" id="Verified" value="NO" />
-</c:if>
-<c:if test="${Employee != null}">
   <c:if test="${Employee.verified}">
     <input type="hidden" id="Verified" value="YES" />
   </c:if>
@@ -239,21 +246,18 @@ jQuery(document).ready(function() {
 </c:if>
 
 <table class="formTable_Container">
-  <caption>
-    Employee Registration
-    <c:if test="${RECORD_STATUS == 'UNVERIFIED'}"> (Portal) </c:if>
-  </caption>
+  <caption>Employee Registration<c:if test="${RECORD_STATUS == 'UNVERIFIED'}"> (Portal) </c:if></caption>
   <tr>
     <td colspan="2" align="right" valign="middle" style="padding-top: 8px;">
       <input type="hidden" id="ImageReferenceNumber" value="" />
-      <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Create Employee" />
-      <img id="search" src="<%=request.getContextPath()%>/images/icons/magnifier.png" class="iconImage" title="Search Employees" />
-      <img id="previous" src="<%=request.getContextPath()%>/images/icons/back.png" class="iconImage" title="Previous Employee" />
-      <img id="next" src="<%=request.getContextPath()%>/images/icons/forward.png" class="iconImage" title="Next Employee" />
+      <img id="AddEmployee" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Create Employee" />
+      <img id="SearchEmployees" src="<%=request.getContextPath()%>/images/icons/magnifier.png" class="iconImage" title="Search Employees" />
+      <img id="ShowPreviousEmployee" src="<%=request.getContextPath()%>/images/icons/back.png" class="iconImage" title="Previous Employee" />
+      <img id="ShowNextEmployee" src="<%=request.getContextPath()%>/images/icons/forward.png" class="iconImage" title="Next Employee" />
       <img id="uploadImage" src="<%=request.getContextPath()%>/images/icons/picture_edit.png" class="iconImage" title="" />
-      <img id="save" src="<%=request.getContextPath()%>/images/icons/save.png" class="iconImage" title="Save Employee" />
-      <img id="save_verify" src="<%=request.getContextPath()%>/images/icons/save_accept.png" class="iconImage" title="Save & Verify Employee" />
-      <img id="print" src="<%=request.getContextPath()%>/images/icons/print.png" class="iconImage" title="Print Employee" />
+      <img id="SaveEmployeeData" src="<%=request.getContextPath()%>/images/icons/save.png" class="iconImage" title="Save Employee" />
+      <img id="VerifyEmployeeData" src="<%=request.getContextPath()%>/images/icons/save_accept.png" class="iconImage" title="Save & Verify Employee" />
+      <img id="PrintEmployeeData" src="<%=request.getContextPath()%>/images/icons/print.png" class="iconImage" title="Print Employee" />
     </td>
   </tr>
   <tr>
@@ -263,7 +267,7 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.noImage.resourceUrl}" border="1" width="150px" height="180px"/>
+            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
           </td>
         </tr>
       </table>
@@ -272,11 +276,11 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <c:if test="${RECORD_STATUS == 'VERIFIED'}">
-            <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeeRegistered.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            <c:if test="${Employee.imageAccess == null || Employee.imageAccess.passportLink == null}">
+              <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
             </c:if>
-            <c:if test="${RECORD_STATUS == 'UNVERIFIED'}">
-            <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeePortal.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            <c:if test="${Employee.imageAccess != null && Employee.imageAccess.passportLink != null}">
+              <img id="employeeImage" name="employeeImage" src="${Employee.imageAccess.passportLink}" border="1" width="150px" height="180px"/>
             </c:if>
           </td>
         </tr>
@@ -284,23 +288,26 @@ jQuery(document).ready(function() {
       </c:if>
     </td>
     <td width="85%" valign="top">
-      <div id="EmployeeAccordion">
-        <p class="title">Employment Details</p>
-        <div><%@ include file="/views/employee/maintain_employment_details.jsp" %></div>
-        <p class="title">Personal Details</p>
-        <div><%@ include file="/views/employee/maintain_employee_personal_details.jsp" %></div>
-        <p class="title">Employee Contact Details</p>
-        <div><%@ include file="/views/employee/maintain_employee_contact_details.jsp" %></div>
-        <p class="title">Employee Documents</p>
-        <div><%@ include file="/views/employee/maintain_employee_document_details.jsp" %></div>
-        <p class="title">Employee Education</p>
-        <div><%@ include file="/views/employee/maintain_employee_education_details.jsp" %></div>
-        <p class="title">Employee Experience</p>
-        <div><%@ include file="/views/employee/maintain_employee_experience_details.jsp" %></div>
-        <p class="title">Employee Promotions</p>
-        <div><%@ include file="/views/employee/maintain_employee_promotion_details.jsp" %></div>
-        <p class="title">Employee Teaching Subjects</p>
-        <div><%@ include file="/views/employee/maintain_employee_teaching_subjects.jsp" %></div>
+      <div id="EmployeeRegistrationTabs">
+        <ul>
+          <li><a href="#EmploymentDetailsTab">Employment</a></li>
+          <li><a href="#EmployeePersonalDetailsTab">Personal</a></li>
+          <li><a href="#EmployeeFamilyDetailsTab">Contacts</a></li>
+          <li><a href="#EmployeeDocumentDetailsTab">Documents</a></li>
+          <li><a href="#EmployeeEducationDetailsTab">Education</a></li>
+          <li><a href="#EmployeeExperienceDetailsTab">Experience</a></li>
+          <li><a href="#EmployeePromotionDetailsTab">Promotions</a></li>
+          <li><a href="#EmployeeTeachingSubjectsDetailsTab">Teaching Subjects</a></li>
+        </ul>
+
+        <div id="EmploymentDetailsTab"><%@ include file="/views/employee/maintain_employment_details.jsp" %></div>
+        <div id="EmployeePersonalDetailsTab"><%@ include file="/views/employee/maintain_employee_personal_details.jsp" %></div>
+        <div id="EmployeeFamilyDetailsTab"><%@ include file="/views/employee/maintain_employee_contact_details.jsp" %></div>
+        <div id="EmployeeDocumentDetailsTab"><%@ include file="/views/employee/maintain_employee_document_details.jsp" %></div>
+        <div id="EmployeeEducationDetailsTab"><%@ include file="/views/employee/maintain_employee_education_details.jsp" %></div>
+        <div id="EmployeeExperienceDetailsTab"><%@ include file="/views/employee/maintain_employee_experience_details.jsp" %></div>
+        <div id="EmployeePromotionDetailsTab"><%@ include file="/views/employee/maintain_employee_promotion_details.jsp" %></div>
+        <div id="EmployeeTeachingSubjectsDetailsTab"><%@ include file="/views/employee/maintain_employee_teaching_subjects.jsp" %></div>
       </div>
     </td>
   </tr>

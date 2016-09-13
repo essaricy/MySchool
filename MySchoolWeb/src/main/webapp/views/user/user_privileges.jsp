@@ -48,21 +48,19 @@ $(document).ready(function () {
     confirm('Do you want to restore previleges of the user (' + $('#UserID option:selected').text() + ') to default?', RestoreDefaultPrivileges);
   });
 
-  function RestoreDefaultPrivileges(result) {
-    if (result == "Yes") {
-      $.ajax({
-        type: "POST",
-        url: '<%=request.getContextPath()%>/privileges/restoreToDefaultPrivileges.htm',
-        data: {
-          UserID: $('#UserID').val(),
-          sid: new Date().getTime()
-        },
-        context: this
-      }).done(function(result) {
-          handleServerResponseOnPage(result, false);
-        setTimeout(function () { location.reload(); }, 3000);
-      });
-    }
+  function RestoreDefaultPrivileges() {
+    $.ajax({
+      type: "POST",
+      url: '<%=request.getContextPath()%>/privileges/restoreToDefaultPrivileges.htm',
+      data: {
+        UserID: $('#UserID').val(),
+        sid: new Date().getTime()
+      },
+      context: this
+    }).done(function(result) {
+        handleServerResponseOnPage(result, false);
+      setTimeout(function () { location.reload(); }, 3000);
+    });
   }
 
   function loadUsers(UserTypeID) {

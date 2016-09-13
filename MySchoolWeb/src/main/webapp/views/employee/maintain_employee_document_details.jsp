@@ -79,23 +79,21 @@ $(document).ready(function(){
     }
   });
 
-  function deleteEmployeeDocument(decision) {
-    if (decision == "Yes") {
-      var anSelected = fnGetSelected( currentDataTable );
-      if (anSelected != null) {
-        var selectedRow = currentDataTable.fnGetData(anSelected);
-        var employeeDocumentId = selectedRow[0];
-        if (employeeDocumentId > 0) {
-          $.ajax({
-            url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeeDocument&attributeId=" + employeeDocumentId,
-            context: document.body,
-            success: function(result) {
-              $(this).addClass("done");
-            }
-          });
-        }
-        currentDataTable.fnDeleteRow(anSelected);
+  function deleteEmployeeDocument() {
+    var anSelected = fnGetSelected( currentDataTable );
+    if (anSelected != null) {
+      var selectedRow = currentDataTable.fnGetData(anSelected);
+      var employeeDocumentId = selectedRow[0];
+      if (employeeDocumentId > 0) {
+        $.ajax({
+          url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeeDocument&attributeId=" + employeeDocumentId,
+          context: document.body,
+          success: function(result) {
+            $(this).addClass("done");
+          }
+        });
       }
+      currentDataTable.fnDeleteRow(anSelected);
     }
   }
 });

@@ -4,7 +4,7 @@
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
 <style>
-#EmployeeAccordion p {
+#EmployeeRegistrationTabs p {
   font-size: 0.7em;
   font-weight: bold;
   text-align: left;
@@ -14,8 +14,8 @@
 <script>
 
 jQuery(document).ready(function() {
-  $(this).myAccordion({id: 'EmployeeAccordion'});
-  $("#EmployeeAccordion").accordion( "option", "active", 0);
+  $('#EmployeeRegistrationTabs').tabs({id: 'EmployeeRegistrationTabs'});
+  $("#EmployeeRegistrationTabs").tabs("option", "active", 0);
 });
 </script>
 
@@ -36,34 +36,38 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <c:if test="${Employee.verified}">
-              <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeeRegistered.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            <c:if test="${Employee.imageAccess == null || Employee.imageAccess.passportLink == null}">
+              <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.noImage.resourceUrl}" border="1" width="150px" height="180px"/>
             </c:if>
-            <c:if test="${! Employee.verified}">
-              <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.employeePortal.resourceUrl}/${Employee.employeeNumber}" border="1" width="150px" height="180px"/>
+            <c:if test="${Employee.imageAccess != null && Employee.imageAccess.passportLink != null}">
+              <img id="employeeImage" name="employeeImage" src="${Employee.imageAccess.passportLink}" border="1" width="150px" height="180px"/>
             </c:if>
           </td>
         </tr>
       </table>
     </td>
     <td width="85%" valign="top">
-      <div id="EmployeeAccordion">
-        <p class="title">Employment Details</p>
-        <div><%@ include file="/views/employee/view_employment_details.jsp" %></div>
-        <p class="title">Personal Details</p>
-        <div><%@ include file="/views/employee/view_employee_personal_details.jsp" %></div>
-        <p class="title">Employee Contact Details</p>
-        <div><%@ include file="/views/employee/view_employee_contact_details.jsp" %></div>
-        <p class="title">Employee Documents</p>
-        <div><%@ include file="/views/employee/view_employee_document_details.jsp" %></div>
-        <p class="title">Employee Education</p>
-        <div><%@ include file="/views/employee/view_employee_education_details.jsp" %></div>
-        <p class="title">Employee Experience</p>
-        <div><%@ include file="/views/employee/view_employee_experience_details.jsp" %></div>
-        <p class="title">Employee Promotions</p>
-        <div><%@ include file="/views/employee/view_employee_promotion_details.jsp" %></div>
-        <p class="title">Employee Teaching Subjects</p>
-        <div><%@ include file="/views/employee/view_employee_teaching_subjects.jsp" %></div>
+      <div id="EmployeeRegistrationTabs">
+        <ul>
+          <li><a href="#EmploymentDetailsTab">Employment</a></li>
+          <li><a href="#EmployeePersonalDetailsTab">Personal</a></li>
+          <li><a href="#EmployeeFamilyDetailsTab">Contacts</a></li>
+          <li><a href="#EmployeeDocumentDetailsTab">Documents</a></li>
+          <li><a href="#EmployeeEducationDetailsTab">Education</a></li>
+          <li><a href="#EmployeeExperienceDetailsTab">Experience</a></li>
+          <li><a href="#EmployeePromotionDetailsTab">Promotions</a></li>
+          <li><a href="#EmployeeTeachingSubjectsDetailsTab">Teaching Subjects</a></li>
+        </ul>
+
+        <div id="EmploymentDetailsTab"><%@ include file="/views/employee/view_employment_details.jsp" %></div>
+        <div id="EmployeePersonalDetailsTab"><%@ include file="/views/employee/view_employee_personal_details.jsp" %></div>
+        <div id="EmployeeFamilyDetailsTab"><%@ include file="/views/employee/view_employee_contact_details.jsp" %></div>
+        <div id="EmployeeDocumentDetailsTab"><%@ include file="/views/employee/view_employee_document_details.jsp" %></div>
+        <div id="EmployeeEducationDetailsTab"><%@ include file="/views/employee/view_employee_education_details.jsp" %></div>
+        <div id="EmployeeExperienceDetailsTab"><%@ include file="/views/employee/view_employee_experience_details.jsp" %></div>
+        <div id="EmployeePromotionDetailsTab"><%@ include file="/views/employee/view_employee_promotion_details.jsp" %></div>
+        <div id="EmployeeTeachingSubjectsDetailsTab"><%@ include file="/views/employee/view_employee_teaching_subjects.jsp" %></div>
+
       </div>
     </td>
   </tr>

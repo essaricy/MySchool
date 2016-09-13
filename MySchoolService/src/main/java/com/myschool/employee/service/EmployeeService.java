@@ -1,11 +1,14 @@
 package com.myschool.employee.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.myschool.application.service.Servicable;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
+import com.myschool.image.constant.ImageSize;
 
 /**
  * The Interface EmployeeService.
@@ -20,15 +23,6 @@ public interface EmployeeService extends Servicable<EmployeeDto> {
      * @throws ServiceException the service exception
      */
     EmployeeDto get(String employeeNumber) throws ServiceException;
-
-    /**
-     * Update employee image.
-     *
-     * @param secureToken the secure token
-     * @param employeeNumber the employee number
-     * @throws ServiceException the service exception
-     */
-    void updateEmployeeImage(String secureToken, String employeeNumber) throws ServiceException;
 
     /**
      * Delete.
@@ -61,20 +55,30 @@ public interface EmployeeService extends Servicable<EmployeeDto> {
      * Gets the next.
      *
      * @param employeeNumber the employee number
-     * @param type the type
+     * @param recordStatus the record status
      * @return the next
      * @throws ServiceException the service exception
      */
-    EmployeeDto getNext(String employeeNumber, String type) throws ServiceException;
+    EmployeeDto getNext(String employeeNumber, RecordStatus recordStatus) throws ServiceException;
 
 	/**
-	 * Gets the previous.
-	 *
-	 * @param employeeNumber the employee number
-	 * @param type the type
-	 * @return the previous
-	 * @throws ServiceException the service exception
-	 */
-	EmployeeDto getPrevious(String employeeNumber, String type) throws ServiceException;
+     * Gets the previous.
+     *
+     * @param employeeNumber the employee number
+     * @param recordStatus the record status
+     * @return the previous
+     * @throws ServiceException the service exception
+     */
+	EmployeeDto getPrevious(String employeeNumber, RecordStatus recordStatus) throws ServiceException;
+
+    /**
+     * Gets the evanescent image.
+     *
+     * @param referenceNumber the reference number
+     * @param imageSize the image size
+     * @return the evanescent image
+     * @throws ServiceException the service exception
+     */
+    File getEvanescentImage(String referenceNumber, ImageSize imageSize) throws ServiceException;
 
 }

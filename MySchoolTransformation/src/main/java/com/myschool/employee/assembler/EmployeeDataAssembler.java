@@ -8,6 +8,8 @@ import org.json.JSONObject;
 
 import com.myschool.branch.assembler.BranchDataAssembler;
 import com.myschool.branch.dto.BranchDto;
+import com.myschool.common.assembler.ImageDataAssembler;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
 import com.myschool.common.util.StringUtil;
@@ -117,7 +119,8 @@ public class EmployeeDataAssembler {
             employee.setWeddingDay(StringUtil.getValue(JsonUtil.getString(employeeData, "WeddingDay")));
             employee.setEmploymentStartDate(StringUtil.getValue(JsonUtil.getString(employeeData, "EmploymentStartDate")));
             employee.setEmploymentEndDate(StringUtil.getValue(JsonUtil.getString(employeeData, "EmploymentEndDate")));
-            employee.setVerified(ConversionUtil.toBoolean(JsonUtil.getString(employeeData, "Verified")));
+            //employee.setVerified(ConversionUtil.toBoolean(JsonUtil.getString(employeeData, "Verified")));
+            employee.setVerify(ConversionUtil.toBoolean(JsonUtil.getString(employeeData, "Verify")));
             // load reporting to
             EmployeeDto reportingTo = new EmployeeDto();
             reportingTo.setEmployeeId(JsonUtil.getInt(employeeData, "ReportingTo"));
@@ -196,10 +199,34 @@ public class EmployeeDataAssembler {
                     reportCriteriaValues, ReportCriteriaTokenConstants.GENDER));
             employeeSearchCriteria.setReportingToEmployeeNumber(ReportDataAssembler.getString(
                     reportCriteriaValues, ReportCriteriaTokenConstants.REPORTING_TO));
-            employeeSearchCriteria.setVerifiedStatus(ReportDataAssembler.getString(
-                    reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS));
+            String verifiedStatus = ReportDataAssembler.getString(reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS);
+            System.out.println("ReportDataAssembler.getString(reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS)=" + verifiedStatus);
+            if (ConversionUtil.toBoolean(verifiedStatus)) {
+                employeeSearchCriteria.setRecordStatus(RecordStatus.VERIFIED);
+            } else {
+                employeeSearchCriteria.setRecordStatus(RecordStatus.UNVERIFIED);
+            }
+            System.out.println("employeeSearchCriteria.getRecordStatus()=" + employeeSearchCriteria.getRecordStatus());
         }
         return employeeSearchCriteria;
+    }
+
+    /**
+     * Creates the.
+     *
+     * @param employee the employee
+     * @return the JSON object
+     */
+    public static JSONObject create(EmployeeDto employee) {
+        JSONObject jsonObject = null;
+        if (employee != null) {
+            jsonObject = new JSONObject();
+            jsonObject.put("EmployeeId", employee.getEmployeeId());
+            jsonObject.put("EmployeeNumber", employee.getEmployeeNumber());
+            jsonObject.put("ImageAccess", ImageDataAssembler.create(employee.getImageAccess()));
+            
+        }
+        return jsonObject;
     }
 
 }

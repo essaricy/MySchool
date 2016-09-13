@@ -3,6 +3,7 @@ package com.myschool.student.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.myschool.application.dto.ImageAccessDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.PersonalDetailsDto;
@@ -46,11 +47,17 @@ public class StudentDto implements Serializable {
     /** The family members. */
     private List<FamilyMemberDto> familyMembers;
 
+    /** The verify. */
+    private boolean verify;
+
     /** The verified. */
     private boolean verified;
 
     /** The image name. */
     private String imageName;
+
+    /** The image access. */
+    private ImageAccessDto imageAccess;
 
     /**
      * Gets the student id.
@@ -233,6 +240,24 @@ public class StudentDto implements Serializable {
     }
 
     /**
+     * Checks if is verify.
+     *
+     * @return the verify
+     */
+    public boolean isVerify() {
+        return verify;
+    }
+
+    /**
+     * Sets the verify.
+     *
+     * @param verify the verify to set
+     */
+    public void setVerify(boolean verify) {
+        this.verify = verify;
+    }
+
+    /**
      * Checks if is verified.
      * 
      * @return true, if is verified
@@ -269,31 +294,54 @@ public class StudentDto implements Serializable {
     }
 
     /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
+     * Gets the image access.
      *
-     * @return a <code>String</code> representation 
-     * of this object.
+     * @return the imageAccess
      */
+    public ImageAccessDto getImageAccess() {
+        return imageAccess;
+    }
+
+    /**
+     * Sets the image access.
+     *
+     * @param imageAccess the imageAccess to set
+     */
+    public void setImageAccess(ImageAccessDto imageAccess) {
+        this.imageAccess = imageAccess;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
     public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("StudentDto ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("studentId = ").append(this.studentId).append(SEPARATOR)
-            .append("admissionNumber = ").append(this.admissionNumber).append(SEPARATOR)
-            .append("dateOfJoining = ").append(this.dateOfJoining).append(SEPARATOR)
-            .append("remarks = ").append(this.remarks).append(SEPARATOR)
-            .append("admissionStatus = ").append(this.admissionStatus).append(SEPARATOR)
-            .append("documentsSubmitted = ").append(this.documentsSubmitted).append(SEPARATOR)
-            .append("awarenessTrainings = ").append(this.awarenessTrainings).append(SEPARATOR)
-            .append("registeredClassDto = ").append(this.registeredClassDto).append(SEPARATOR)
-            .append("personalDetails = ").append(this.personalDetails).append(SEPARATOR)
-            .append("familyMembers = ").append(this.familyMembers).append(SEPARATOR)
-            .append("verified = ").append(this.verified).append(SEPARATOR)
-            .append("imageName = ").append(this.imageName).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
+        final int maxLen = 10;
+        StringBuilder builder = new StringBuilder();
+        builder.append("StudentDto [studentId=").append(studentId)
+                .append(", admissionNumber=").append(admissionNumber)
+                .append(", dateOfJoining=").append(dateOfJoining)
+                .append(", remarks=").append(remarks)
+                .append(", admissionStatus=").append(admissionStatus)
+                .append(", documentsSubmitted=")
+                .append(documentsSubmitted != null
+                        ? documentsSubmitted.subList(0,
+                                Math.min(documentsSubmitted.size(), maxLen))
+                        : null)
+                .append(", awarenessTrainings=")
+                .append(awarenessTrainings != null
+                        ? awarenessTrainings.subList(0,
+                                Math.min(awarenessTrainings.size(), maxLen))
+                        : null)
+                .append(", registeredClassDto=").append(registeredClassDto)
+                .append(", personalDetails=").append(personalDetails)
+                .append(", familyMembers=")
+                .append(familyMembers != null ? familyMembers.subList(0,
+                        Math.min(familyMembers.size(), maxLen)) : null)
+                .append(", verify=").append(verify).append(", verified=")
+                .append(verified).append(", imageName=").append(imageName)
+                .append(", imageAccess=").append(imageAccess).append("]");
+        return builder.toString();
     }
 
 }

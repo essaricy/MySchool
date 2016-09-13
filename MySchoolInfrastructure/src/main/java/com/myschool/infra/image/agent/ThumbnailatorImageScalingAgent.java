@@ -3,13 +3,13 @@ package com.myschool.infra.image.agent;
 import java.io.File;
 import java.io.IOException;
 
-import net.coobird.thumbnailator.Thumbnails;
-
 import org.springframework.stereotype.Component;
 
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.filesystem.util.FileUtil;
-import com.myschool.infra.image.constants.ImageSize;
 import com.myschool.infra.image.dto.ImageResizingOptionDto;
+
+import net.coobird.thumbnailator.Thumbnails;
 
 /**
  * The Class ThumbnailatorImageScalingAgent.

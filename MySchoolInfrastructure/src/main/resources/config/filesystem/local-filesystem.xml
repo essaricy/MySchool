@@ -80,6 +80,7 @@
         <directory name="cache" absence="CREATE" />
         <directory name="logs" absence="CREATE" />
         <directory name="tmp" absence="CREATE" id="TMP_FILE_SYSTEM">
+            <directory name="gallery" absence="CREATE" />
             <directory name="employee" absence="CREATE" />
             <directory name="import" absence="CREATE" />
             <directory name="report" absence="CREATE" />

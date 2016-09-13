@@ -347,7 +347,18 @@ input[type=button]:disabled, .formButton:disabled {
     text-decoration: none;
     letter-spacing: 1px;
 }
-
+input[type=text] {
+    width: 200px;
+}
+textArea {
+    width: 200px;
+}
+.chosen-container {
+    width: 208px;
+}
+.chosen-select {
+    width: 208px;
+}
 /** ####################################### LINK STYLES ####################################### **/
 a:link, a:visited {
   color: @@Link::Color@@;
@@ -888,6 +899,7 @@ img.thumbnail {
     width: 65px;
     height: 78px;
     border: 0px solid red;
+    cursor: pointer;
 }
 img.passport {
     margin: 2px 2px 2px 2px;
@@ -901,7 +913,12 @@ img.passport {
     left: -24px;
     background-color: black;
 }
-
+.no-image {
+  margin-left: 5px;
+  margin-right: 5px;
+  border:1px solid #888;
+  box-shadow: 5px 5px 5px #888;
+}
 /** ####################################### TOOLTIP STYLES ####################################### **/
 .tooltipster-default {
     /*border-radius: 5px; 

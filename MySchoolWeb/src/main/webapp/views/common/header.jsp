@@ -7,8 +7,12 @@ img.headerIcon {
   height: 18px;
   padding-right: 5px;
 }
+.img-round {
+    float: right;
+}
 </style>
 
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.roundImage/jquery.roundimage.js"></script>
 <script>
 $(document).ready(function() {
   $('#goup').goup({
@@ -41,54 +45,6 @@ $(document).ready(function() {
       });
     });
   }
-/*
-$(document).ajaxStart($.blockUI(
-    {
-      css: { 
-        border: 'none', 
-        padding: 0, 
-        margin: 0, 
-        backgroundColor: '#FFF',
-        '-webkit-border-radius': '10px', 
-        '-moz-border-radius': '10px', 
-        opacity: 1, 
-        // for circular
-        //border: "5px solid #dadada",
-        //height: '70px',
-        //color: '#999' ,
-        //"letter-spacing": "5px",
-
-        //for horizontal
-        border: "2px solid #dadada",
-        //"background-image": "url('<%=request.getContextPath()%>/images/background/loading9.gif')",
-        //height: '20px',
-        //"background-image": "url('<%=request.getContextPath()%>/images/background/loading10.gif')",
-        //height: '30px',
-        //"background-image": "url('<%=request.getContextPath()%>/images/background/loading14.gif')",
-        //height: '24px',
-        //"background-image": "url('<%=request.getContextPath()%>/images/background/loading15.gif')",
-        //height: '34px',
-        "background-image": "url('<%=request.getContextPath()%>/images/background/loading16.gif')",
-        height: '78px',
-        "background-repeat": 'repeat-x',
-        "border-radius": "10px",
-        color: '#FFF' ,
-        "background-size":"100%",
-        "letter-spacing": "5px",
-      },
-      fadeIn:  1000, 
-      // fadeOut time in millis; set to 0 to disable fadeOut on unblock 
-      fadeOut:  400,
-      //message: '<h2><img src="<%=request.getContextPath()%>/images/background/loading21.gif" /> Loading</h2>' }));
-      //message: '<h2><img src="<%=request.getContextPath()%>/images/background/loading5.gif" width="30px" /> Loading</h2>' }));
-      //message: '<h2><img src="<%=request.getContextPath()%>/images/background/loading6.gif" width="30px" /> Loading</h2>' }));
-      //message: '<h2>Loading<img src="<%=request.getContextPath()%>/images/background/loading8.gif" width="30px" /></h2>' }));
-      //message: '<h2><img src="<%=request.getContextPath()%>/images/background/loading17.gif" width="30px" /> Loading</h2>' }));
-      //message: '<h2>Loading...</h2>' }));
-      message: '<h2></h2>'
-    })
-  ).ajaxStop($.unblockUI);
-*/
   // Display menu if user has logged in.
   <c:if test="${USER_CONTEXT != null}">
   ddmegamenu.docinit({
@@ -101,6 +57,9 @@ $(document).ajaxStart($.blockUI(
   $('#Product').click(function() {
       var modelDialog = openWindow('<%=request.getContextPath()%>/views/common/credits.jsp', 'About Product', $(document).width()-20, $(document).height()-10);
   });
+
+  $('.img-round').roundImage();
+  //$('.img-round').tooltipster();
 });
 <c:if test="${USER_CONTEXT != null && USER_CONTEXT.userPreference != null}">
   var recordsPerPage = ${USER_CONTEXT.userPreference.recordsPerPage};
@@ -136,24 +95,27 @@ var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPag
           </td>
         </tr>
         <tr>
-          <td>
-            <table border="0" cellpadding="0" cellspacing="0" width="100%" valign="top">
-              <tr>
-                <td align="right" class="headerLabel">Welcome,&nbsp;${USER_CONTEXT.login.loginId}</td>
-                <td width="60px" align="center">&nbsp;
-                  <!-- Values are equal to the constants used in com.myschool.common.dto.UserTypeDto class-->
-                  <c:if test="${USER_CONTEXT.userType == 'ADMIN'}">
-                  <img src="<%=request.getContextPath()%>/images/icons/admin.png" width="30px" height="30x" border="0"/>
-                  </c:if>
-                  <c:if test="${USER_CONTEXT.userType == 'EMPLOYEE'}">
-                  <img src="<%=request.getContextPath()%>/images/icons/employee.png" width="30px" height="30x" border="0"/>
-                  </c:if>
-                  <c:if test="${USER_CONTEXT.userType == 'STUDENT'}">
+          <td align="right" style="padding-right: 5px;">
+              <!-- Values are equal to the constants used in com.myschool.common.dto.UserTypeDto class-->
+              <c:if test="${USER_CONTEXT.userType == 'ADMIN'}">
+              <img src="<%=request.getContextPath()%>/images/icons/admin.png" width="30px" height="30x" border="0"/>
+              </c:if>
+              <c:if test="${USER_CONTEXT.userType == 'EMPLOYEE'}">
+                <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.thumbnailLink == null}">
                   <img src="<%=request.getContextPath()%>/images/icons/student.png" width="30px" height="30x" border="0"/>
-                  </c:if>
-                </td>
-              </tr>
-            </table>
+                </c:if>
+                <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.thumbnailLink != null}">
+                  <img class="img-round" src="${USER_CONTEXT.login.userDetails.imageAccess.thumbnailLink}" width="30px" height="40x" title="${USER_CONTEXT.login.loginId}" />
+                </c:if>
+              </c:if>
+              <c:if test="${USER_CONTEXT.userType == 'STUDENT'}">
+                <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.thumbnailLink == null}">
+                  <img src="<%=request.getContextPath()%>/images/icons/student.png" width="30px" height="30x" border="0"/>
+                </c:if>
+                <c:if test="${USER_CONTEXT.login.userDetails.imageAccess.thumbnailLink != null}">
+                  <img class="img-round" src="${USER_CONTEXT.login.userDetails.imageAccess.thumbnailLink}" width="30px" height="40x"title="Welcome, ${USER_CONTEXT.login.loginId}" />
+                </c:if>
+              </c:if>
           </td>
         </tr>
         <tr>

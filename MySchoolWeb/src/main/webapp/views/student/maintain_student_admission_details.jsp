@@ -2,7 +2,7 @@
 
 <style>
 #StudentAdmissionTable {
-  font-size: 0.65em;
+  font-size: 0.50em;
 }
 </style>
 <script>
@@ -34,7 +34,7 @@ jQuery(document).ready(function() {
   $('#Remarks').textcounter({id: 'Remarks'});
 
   jQuery('#LookupClass').click(function () {
-    openWindow('<%=request.getContextPath()%>/class/lookupClass.htm?sid=' + new Date().getTime(), 'Lookup Class', 400, 300);
+    openDialog('<%=request.getContextPath()%>/class/lookupClass.htm?sid=' + new Date().getTime(), 'Lookup Class', 400, 300);
   });
 });
 
@@ -57,7 +57,7 @@ function setRegisteredClass(RegisteredClass) {
 </script>
 
 <c:if test="${Student == null}">
-<table class="formTable_Data">
+<table width="80%" id="StudentAdmissionTable" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
   <tr>
     <td width="40%" class="label">
       <spring:message code="student.admissionNumber"/><label class="mandatory">*</label>
@@ -109,7 +109,7 @@ function setRegisteredClass(RegisteredClass) {
 
 <c:if test="${Student != null}">
 <c:set var="RegisteredClass" value="${Student.registeredClassDto}" />
-<table class="formTable_Data">
+<table width="80%" id="StudentAdmissionTable" class="userFormTable" align="center" border="0" cellspacing="10" cellpadding="5">
   <tr>
     <td width="40%" class="label">
       <spring:message code="student.admissionNumber"/><label class="mandatory">*</label>

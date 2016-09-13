@@ -1,9 +1,12 @@
 package com.myschool.student.service;
 
+import java.io.File;
 import java.util.List;
 
 import com.myschool.application.service.Servicable;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.ServiceException;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentPerformaceDto;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
@@ -26,21 +29,21 @@ public interface StudentService extends Servicable<StudentDto> {
      * Gets the next.
      *
      * @param admissionNumber the admission number
-     * @param type the type
+     * @param recordStatus the record status
      * @return the next
      * @throws ServiceException the service exception
      */
-    StudentDto getNext(String admissionNumber, String type) throws ServiceException;
+    StudentDto getNext(String admissionNumber, RecordStatus recordStatus) throws ServiceException;
 
     /**
      * Gets the previous.
      *
      * @param admissionNumber the admission number
-     * @param type the type
+     * @param recordStatus the record status
      * @return the previous
      * @throws ServiceException the service exception
      */
-    StudentDto getPrevious(String admissionNumber, String type) throws ServiceException;
+    StudentDto getPrevious(String admissionNumber, RecordStatus recordStatus) throws ServiceException;
 
     /**
      * Gets the student.
@@ -50,15 +53,6 @@ public interface StudentService extends Servicable<StudentDto> {
      * @throws ServiceException the service exception
      */
     StudentDto get(int studentId) throws ServiceException;
-
-    /**
-     * Update student image.
-     *
-     * @param secureToken the secure token
-     * @param admissionNumber the admission number
-     * @throws ServiceException the service exception
-     */
-    void updateStudentImage(String secureToken, String admissionNumber) throws ServiceException;
 
     /**
      * Delete.
@@ -112,5 +106,15 @@ public interface StudentService extends Servicable<StudentDto> {
      * @throws ServiceException the service exception
      */
     List<StudentDto> getAll(StudentSearchCriteriaDto studentSearchCriteriaDto) throws ServiceException;
+
+    /**
+     * Gets the evanescent image.
+     *
+     * @param referenceNumber the reference number
+     * @param imageSize the image size
+     * @return the evanescent image
+     * @throws ServiceException the service exception
+     */
+    File getEvanescentImage(String referenceNumber, ImageSize imageSize) throws ServiceException;
 
 }

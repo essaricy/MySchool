@@ -1,19 +1,11 @@
-<style>
-.userFormTable td.label,
-.userFormTable td.value {
-    font-size: 0.8em;
-}
-</style>
-
 <script type="text/javascript">
 $(document).ready(function(){
-  $('#Gender').chosen({width: "92%"});
-  $('#BloodGroup').chosen({width: "92%"});
-  $('#Nationality').chosen({width: "92%"});
+  $('#Gender').chosen({width: "208px"});
+  $('#BloodGroup').chosen({width: "208px"});
+  $('#Nationality').chosen({width: "208px"});
 
-  $('#MaritalStatus').chosen({
-    width: "92%"
-  }).change(function(index, value) {
+  $('#MaritalStatus').chosen({width: "208px"})
+  .change(function(index, value) {
     setWeddingDateOption(value.selected);
   });
   $(this).datePicker({

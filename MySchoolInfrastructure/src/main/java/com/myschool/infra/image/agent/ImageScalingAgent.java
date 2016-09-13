@@ -11,10 +11,10 @@ import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.PropertiesUtil;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.agent.AbstractAgent;
 import com.myschool.infra.filesystem.filefilter.ImageResizingFileFilter;
 import com.myschool.infra.image.constants.ImageScalingConstants;
-import com.myschool.infra.image.constants.ImageSize;
 import com.myschool.infra.image.dto.ImageResizingOptionDto;
 
 /**

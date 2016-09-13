@@ -78,23 +78,21 @@ $(document).ready(function(){
     }
   });
 
-  function deleteStudentDocument(decision) {
-    if (decision == "Yes") {
-      var anSelected = fnGetSelected( currentDataTable );
-      if (anSelected != null) {
-        var selectedRow = currentDataTable.fnGetData(anSelected);
-        var studentDocumentId = selectedRow[0];
-        if (studentDocumentId > 0) {
-          $.ajax({
-            url: "<%=request.getContextPath()%>/student-attribute/doDelete.htm?attribute=StudentDocument&attributeId=" + studentDocumentId,
-            context: document.body,
-            success: function(result) {
-              $(this).addClass("done");
-            }
-          });
-        }
-        currentDataTable.fnDeleteRow(anSelected);
+  function deleteStudentDocument() {
+    var anSelected = fnGetSelected( currentDataTable );
+    if (anSelected != null) {
+      var selectedRow = currentDataTable.fnGetData(anSelected);
+      var studentDocumentId = selectedRow[0];
+      if (studentDocumentId > 0) {
+        $.ajax({
+          url: "<%=request.getContextPath()%>/student-attribute/doDelete.htm?attribute=StudentDocument&attributeId=" + studentDocumentId,
+          context: document.body,
+          success: function(result) {
+            $(this).addClass("done");
+          }
+        });
       }
+      currentDataTable.fnDeleteRow(anSelected);
     }
   }
 });

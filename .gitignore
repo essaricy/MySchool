@@ -47,9 +47,18 @@ Temporary Items
 *.classpath
 *.project
 .metadata*
+.recommenders*
 true
 
-DataLoaders/
+CloudAccess
+DataLoaders
+
+MyschoolDataRouting/bin
+MyschoolDataRouting/target
+MyschoolIntegration/bin
+MyschoolIntegration/target
+MyschoolIntegration/src/main/resources/samples
+
 MySchoolBase/bin
 MySchoolBase/target
 MySchoolInfrastructure/bin
@@ -63,3 +72,7 @@ MySchoolService/target
 MySchoolTransformation/target
 MySchoolWeb/bin
 MySchoolWeb/target
+
+MySchoolWeb/src/main/webapp/images/organization
+MySchoolWeb/src/main/webapp/images/Universe
+MySchoolWeb/src/main/webapp/themes

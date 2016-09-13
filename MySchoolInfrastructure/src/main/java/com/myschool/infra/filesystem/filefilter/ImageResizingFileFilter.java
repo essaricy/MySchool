@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.myschool.infra.image.constants.ImageSize;
+import com.myschool.image.constant.ImageSize;
 
 /**
  * The Class ImageResizingFileFilter.

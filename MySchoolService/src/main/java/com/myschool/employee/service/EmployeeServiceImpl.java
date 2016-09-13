@@ -1,15 +1,18 @@
 package com.myschool.employee.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.employee.domain.EmployeeManager;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
+import com.myschool.image.constant.ImageSize;
 
 /**
  * The Class EmployeeServiceImpl.
@@ -91,20 +94,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.service.interfaces.EmployeeService#updateEmployeeImage(java.lang.String, java.lang.String)
-     */
-    @Override
-    public void updateEmployeeImage(String secureToken, String employeeNumber)
-            throws ServiceException {
-        try {
-            employeeManager.updateEmployeeImage(secureToken, employeeNumber);
-       } catch (DataException dataException) {
-           throw new ServiceException(dataException.getMessage(),
-                   dataException);
-       }
-    }
-
-    /* (non-Javadoc)
      * @see com.myschool.service.interfaces.EmployeeService#delete(java.lang.String)
      */
     @Override
@@ -141,12 +130,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.employee.service.EmployeeService#getNext(java.lang.String, java.lang.String)
+     * @see com.myschool.employee.service.EmployeeService#getNext(java.lang.String, com.myschool.common.constants.RecordStatus)
      */
     @Override
-	public EmployeeDto getNext(String employeeNumber, String type) throws ServiceException {
+	public EmployeeDto getNext(String employeeNumber, RecordStatus recordStatus) throws ServiceException {
         try {
-            return employeeManager.getNext(employeeNumber, type);
+            return employeeManager.getNext(employeeNumber, recordStatus);
        } catch (DataException dataException) {
            throw new ServiceException(dataException.getMessage(),
                    dataException);
@@ -154,12 +143,26 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
 	/* (non-Javadoc)
-	 * @see com.myschool.employee.service.EmployeeService#getPrevious(java.lang.String, java.lang.String)
+	 * @see com.myschool.employee.service.EmployeeService#getPrevious(java.lang.String, com.myschool.common.constants.RecordStatus)
 	 */
 	@Override
-	public EmployeeDto getPrevious(String employeeNumber, String type) throws ServiceException {
+	public EmployeeDto getPrevious(String employeeNumber, RecordStatus recordStatus) throws ServiceException {
         try {
-            return employeeManager.getPrevious(employeeNumber, type);
+            return employeeManager.getPrevious(employeeNumber, recordStatus);
+       } catch (DataException dataException) {
+           throw new ServiceException(dataException.getMessage(),
+                   dataException);
+       }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.employee.service.EmployeeService#getEvanescentImage(java.lang.String, com.myschool.image.constant.ImageSize)
+     */
+    @Override
+    public File getEvanescentImage(String referenceNumber,
+            ImageSize imageSize) throws ServiceException {
+        try {
+            return employeeManager.getEvanescentImage(referenceNumber, imageSize);
        } catch (DataException dataException) {
            throw new ServiceException(dataException.getMessage(),
                    dataException);

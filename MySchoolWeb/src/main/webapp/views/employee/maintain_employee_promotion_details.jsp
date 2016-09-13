@@ -79,23 +79,21 @@ $(document).ready(function(){
     }
   });
 
-  function deleteEmployeePromotion(decision) {
-    if (decision == "Yes") {
-      var anSelected = fnGetSelected( currentDataTable );
-      if (anSelected != null) {
-        var selectedRow = currentDataTable.fnGetData(anSelected);
-        var employeePromotionId = selectedRow[0];
-        if (employeePromotionId > 0) {
-          $.ajax({
-            url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeePromotion&attributeId=" + employeePromotionId,
-            context: document.body,
-            success: function(result) {
-              $(this).addClass("done");
-            }
-          });
-        }
-        currentDataTable.fnDeleteRow(anSelected);
+  function deleteEmployeePromotion() {
+    var anSelected = fnGetSelected( currentDataTable );
+    if (anSelected != null) {
+      var selectedRow = currentDataTable.fnGetData(anSelected);
+      var employeePromotionId = selectedRow[0];
+      if (employeePromotionId > 0) {
+        $.ajax({
+          url: "<%=request.getContextPath()%>/employee-attribute/doDelete.htm?attribute=EmployeePromotion&attributeId=" + employeePromotionId,
+          context: document.body,
+          success: function(result) {
+            $(this).addClass("done");
+          }
+        });
       }
+      currentDataTable.fnDeleteRow(anSelected);
     }
   }
 });

@@ -2,6 +2,7 @@ package com.myschool.student.dao;
 
 import java.util.List;
 
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.DaoException;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
@@ -107,20 +108,20 @@ public interface StudentDao {
      * Gets the next admission number.
      *
      * @param admissionNumber the admission number
-     * @param type the type
+     * @param recordStatus the record status
      * @return the next admission number
      * @throws DaoException the dao exception
      */
-    String getNextAdmissionNumber(String admissionNumber, String type) throws DaoException;
+    String getNextAdmissionNumber(String admissionNumber, RecordStatus recordStatus) throws DaoException;
 
 	/**
-	 * Gets the previous admission number.
-	 *
-	 * @param admissionNumber the admission number
-	 * @param type the type
-	 * @return the previous admission number
-	 * @throws DaoException the dao exception
-	 */
-	String getPreviousAdmissionNumber(String admissionNumber, String type) throws DaoException;
+     * Gets the previous admission number.
+     *
+     * @param admissionNumber the admission number
+     * @param recordStatus the record status
+     * @return the previous admission number
+     * @throws DaoException the dao exception
+     */
+	String getPreviousAdmissionNumber(String admissionNumber, RecordStatus recordStatus) throws DaoException;
 
 }

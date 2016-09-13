@@ -11,6 +11,8 @@ import com.myschool.clazz.assembler.MediumDataAssembler;
 import com.myschool.clazz.assembler.RegisteredClassDataAssembler;
 import com.myschool.clazz.assembler.SectionDataAssembler;
 import com.myschool.clazz.dto.RegisteredClassDto;
+import com.myschool.common.assembler.ImageDataAssembler;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
@@ -45,6 +47,7 @@ public class StudentDataAssembler {
             jsonObject.put("PersonalDetails", createPersonalDetails(student.getPersonalDetails()));
             jsonObject.put("RegisteredClass", RegisteredClassDataAssembler.create(student.getRegisteredClassDto()));
             jsonObject.put("Remarks", student.getRemarks());
+            jsonObject.put("ImageAccess", ImageDataAssembler.create(student.getImageAccess()));
         }
         return jsonObject;
     }
@@ -92,6 +95,7 @@ public class StudentDataAssembler {
             student.setImageName(StringUtil.getValue(JsonUtil.getString(studentData, "ImageName")));
             student.setStudentId(Integer.parseInt(StringUtil.getValue(JsonUtil.getString(studentData, "StudentId"))));
             student.setVerified(ConversionUtil.toBoolean(JsonUtil.getString(studentData, "Verified")));
+            student.setVerify(ConversionUtil.toBoolean(JsonUtil.getString(studentData, "Verify")));
             // Admission Details
             JSONObject admissionDataJsonObject = JsonUtil.getObject(studentData, "AdmissionDetails");
             if (admissionDataJsonObject != null) {
@@ -277,8 +281,14 @@ public class StudentDataAssembler {
                     reportCriteriaValues, ReportCriteriaTokenConstants.SECTION));
             studentSearchCriteria.setStudentName(ReportDataAssembler.getString(
                     reportCriteriaValues, ReportCriteriaTokenConstants.STUDENT_NAME));
-            studentSearchCriteria.setVerifiedStatus(ReportDataAssembler.getString(
-                    reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS));
+            String verifiedStatus = ReportDataAssembler.getString(reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS);
+            System.out.println("ReportDataAssembler.getString(reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS)=" + verifiedStatus);
+            if (ConversionUtil.toBoolean(verifiedStatus)) {
+                studentSearchCriteria.setRecordStatus(RecordStatus.VERIFIED);
+            } else {
+                studentSearchCriteria.setRecordStatus(RecordStatus.UNVERIFIED);
+            }
+            System.out.println("studentSearchCriteria.getRecordStatus()=" + studentSearchCriteria.getRecordStatus());
         }
         return studentSearchCriteria;
     }

@@ -14,15 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.application.constants.ApplicationConstants;
-import com.myschool.application.service.HolidayService;
+import com.myschool.application.dto.ImageAccessDto;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
 import com.myschool.clazz.dto.ClassDto;
 import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.SectionDto;
-import com.myschool.common.constants.MySchoolConstant;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
@@ -32,10 +31,8 @@ import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
 import com.myschool.student.service.StudentService;
-import com.myschool.user.service.LoginService;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.student.constants.StudentViewNames;
 
@@ -50,18 +47,6 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
-    /** The login service. */
-    @Autowired
-    private LoginService loginService;
-
-    /** The holiday service. */
-    @Autowired
-    private HolidayService holidayService;
-
-    /** The view error handler. */
-    @Autowired
-    private ViewErrorHandler viewErrorHandler;
-
     /**
      * Launch verified students search.
      * 
@@ -74,7 +59,7 @@ public class StudentController {
     public ModelAndView launchVerifiedStudentsSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.VERIFIED);
+        map.put(WebConstants.RECORD_STATUS, RecordStatus.VERIFIED.toString());
         map.put("TITLE", "Search Students");
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.SEARCH_STUDENT, map);
@@ -92,7 +77,7 @@ public class StudentController {
     public ModelAndView launchUnverifiedStudentsSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.UNVERIFIED);
+        map.put(WebConstants.RECORD_STATUS, RecordStatus.UNVERIFIED.toString());
         map.put("TITLE", "Search Students (Portal)");
         return ViewDelegationController.delegateWholePageView(
                 request, StudentViewNames.SEARCH_STUDENT, map);
@@ -130,7 +115,7 @@ public class StudentController {
    @RequestMapping(value="searchVerifiedStudents")
    public ModelAndView searchVerifiedStudents(HttpServletRequest request,
            HttpServletResponse response) throws Exception {
-       searchStudents(request, response, ApplicationConstants.Y);
+       searchStudents(request, response, RecordStatus.VERIFIED);
        return null;
    }
 
@@ -145,7 +130,7 @@ public class StudentController {
    @RequestMapping(value="searchUnverifiedStudents")
    public ModelAndView searchUnverifiedStudents(HttpServletRequest request,
            HttpServletResponse response) throws Exception {
-       searchStudents(request, response, ApplicationConstants.N);
+       searchStudents(request, response, RecordStatus.UNVERIFIED);
        return null;
    }
 
@@ -213,8 +198,9 @@ public class StudentController {
     	Map<String, Object> map = new HashMap<String, Object>();
         String admissionNumber = request.getParameter("AdmissionNumber");
         String type = request.getParameter("Type");
-        if (!StringUtil.isNullOrBlank(admissionNumber) && !StringUtil.isNullOrBlank(type)) {
-        	nextStudent = studentService.getNext(admissionNumber, type);
+        RecordStatus recordStatus = RecordStatus.get(type);
+        if (recordStatus != null) {
+        	nextStudent = studentService.getNext(admissionNumber, recordStatus);
         }
         if (nextStudent == null) {
         	nextStudent = studentService.get(admissionNumber);
@@ -240,8 +226,9 @@ public class StudentController {
     	Map<String, Object> map = new HashMap<String, Object>();
         String admissionNumber = request.getParameter("AdmissionNumber");
         String type = request.getParameter("Type");
-        if (!StringUtil.isNullOrBlank(admissionNumber) && !StringUtil.isNullOrBlank(type)) {
-        	nextStudent = studentService.getPrevious(admissionNumber, type);
+        RecordStatus recordStatus = RecordStatus.get(type);
+        if (recordStatus != null) {
+        	nextStudent = studentService.getPrevious(admissionNumber, recordStatus);
         }
         if (nextStudent == null) {
         	nextStudent = studentService.get(admissionNumber);
@@ -272,21 +259,25 @@ public class StudentController {
             if (!StringUtil.isNullOrBlank(studentDataValue)) {
                 JSONObject studentData = new JSONObject(studentDataValue);
                 student = StudentDataAssembler.create(studentData);
+                System.out.println("student=" + student);
                 if (student != null) {
                     int studentId = student.getStudentId();
                     String admissionNumber = student.getAdmissionNumber();
                     if (studentId == 0) {
                         // Create a new Student
                         studentService.create(student);
-                        StudentDto studentDto = studentService.get(admissionNumber);
-                        result.setSuccessful(true);
                         result.setStatusMessage("Student (" + admissionNumber + ") has been created successfully.");
-                        result.setReferenceNumber(String.valueOf(studentDto.getStudentId()));
                     } else {
                         // Update existing Student
                         studentService.update(studentId, student);
-                        result.setSuccessful(true);
                         result.setStatusMessage("Student (" + admissionNumber + ") has been updated successfully.");
+                    }
+                    StudentDto studentDto = studentService.get(admissionNumber);
+                    System.out.println("registered student=" + studentDto);
+                    if (studentDto != null) {
+                        result.setSuccessful(true);
+                        result.setReferenceNumber(String.valueOf(studentDto.getStudentId()));
+                        result.setReference(studentDto);
                     }
                 }
             }
@@ -303,12 +294,11 @@ public class StudentController {
      *
      * @param request the request
      * @param response the response
-     * @param verifiedStatus the verified status
      * @return the model and view
      * @throws Exception the exception
      */
     private ModelAndView searchStudents(HttpServletRequest request,
-            HttpServletResponse response, String verifiedStatus) throws Exception {
+            HttpServletResponse response, RecordStatus recordStatus) throws Exception {
 
         JSONArray data = new JSONArray();
         try {
@@ -317,7 +307,7 @@ public class StudentController {
             if (!StringUtil.isNullOrBlank(studentSearchCriteriaValue)) {
                 JSONObject studentSearchCriteria = new JSONObject(studentSearchCriteriaValue);
                 StudentSearchCriteriaDto studentSearchCriteriaDto = StudentDataAssembler.createStudentSearchCriteriaDto(studentSearchCriteria);
-                studentSearchCriteriaDto.setVerifiedStatus(verifiedStatus);
+                studentSearchCriteriaDto.setRecordStatus(recordStatus);
                 List<StudentDto> students = studentService.getAll(studentSearchCriteriaDto);
                 if (students != null && !students.isEmpty()) {
                     for (StudentDto student : students) {
@@ -357,13 +347,24 @@ public class StudentController {
                         row.put(school.getSchoolId());
                         row.put(school.getSchoolName());
                         row.put(classDto.getClassId());
-                        row.put(classDto.getClassName());
+                        row.put(classDto.getClassName()); // 25
                         row.put(medium.getMediumId());
                         row.put(medium.getDescription());
                         row.put(section.getSectionId());
                         row.put(section.getSectionName());
 
-                        row.put(student.getDateOfJoining());
+                        row.put(student.getDateOfJoining());  // 30
+
+                        ImageAccessDto imageAccess = student.getImageAccess();
+                        if (imageAccess == null) {
+                            row.put("");
+                            row.put("");
+                            row.put("");
+                        } else {
+                            row.put(imageAccess.getDirectLink());
+                            row.put(imageAccess.getPassportLink());
+                            row.put(imageAccess.getThumbnailLink());
+                        }
                         data.put(row);
                     }
                 }

@@ -3,17 +3,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
+<link type="text/css" rel="stylesheet" href="<%=request.getContextPath()%>/widgets/jquery.magnific-popup/magnific-popup.css" />
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.magnific-popup/jquery.magnific-popup.min.js"></script>
+
 <script type="text/javascript" charset="utf-8">
 var oTable = null;
-var thumbUrl = null;
-var resourceUrl = null;
-if ('${RECORD_STATUS}' == 'VERIFIED') {
-  thumbUrl='${RESOURCE_PROFILE.studentRegistered.thumbnailUrl}'.replace("@RESOURCE_NAME@", "");
-  resourceUrl='${RESOURCE_PROFILE.studentRegistered.resourceUrl}';
-} else {
-  thumbUrl='${RESOURCE_PROFILE.studentPortal.thumbnailUrl}'.replace("@RESOURCE_NAME@", "");
-  resourceUrl='${RESOURCE_PROFILE.studentPortal.resourceUrl}';
-}
+
 $(document).ready(function() {
   activateActionButtons(actionButtons);
   $('#add').tooltipster();
@@ -35,8 +30,15 @@ $(document).ready(function() {
       {
         // Image
         "fnRender": function ( o, val ) {
-          var imagePath = thumbUrl + o.aData[1];
-          var linkedImage ='<a href="javascript: showImage(' + o.aData[1] + ')"><img src="' + imagePath + '" class="thumbnail" /></a>';
+          var linkedImage = null;
+          var profilePic = o.aData[32];
+          if (profilePic == null || profilePic == '') {
+            linkedImage ='<img src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" class="thumbnail" style="cursor: default"/>';
+          } else {
+            linkedImage ='<img src="' + o.aData[32] + '" class="thumbnail" onClick="showImage(this)"'
+              + 'data-direct-link="' + o.aData[30] + '" '
+              + 'data-thumb-link="' + o.aData[32] + '" />';
+          }
           return linkedImage;
         }
       }, { 
@@ -131,7 +133,6 @@ $(document).ready(function() {
     }
     return selected;
   }
-
 });
 
 function reloadStudentsTable(url) {
@@ -172,12 +173,12 @@ function activateActionButtons(actionButtons) {
   }
 }
 
-function showImage(admissionNumber) {
+function showImage(imgObj) {
   $.magnificPopup.open({
     items: {
-      src: resourceUrl + "/" + admissionNumber
+      src: $(imgObj).attr('data-direct-link')
     },
-    type: 'image' // this is default type
+    type: 'image', // this is default type
   });
 }
 

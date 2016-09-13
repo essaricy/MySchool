@@ -1,25 +1,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix='fn' uri='http://java.sun.com/jsp/jstl/functions' %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
 <style>
-#StudentAccordion p {
-  font-size: 0.7em;
-  font-weight: bold;
-  text-align: left;
+#StudentRegistrationTabs {
+    font-size: 1.1em;
 }
 </style>
-
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-student-attributes.js"></script>
 <script>
 jQuery(document).ready(function() {
-  $(this).myAccordion({id: 'StudentAccordion'});
-  $("#StudentAccordion").accordion( "option", "active", 0);
+  $('#StudentRegistrationTabs').tabs({id: 'StudentRegistrationTabs'});
+  $("#StudentRegistrationTabs").tabs("option", "active", 0);
 
   var searchUrl = null;
   if ($('#RECORD_STATUS').val() == 'VERIFIED') {
@@ -28,46 +21,46 @@ jQuery(document).ready(function() {
     searchUrl = '<%=request.getContextPath()%>/student/launchUnverifiedStudentsSearch.htm';
   }
 
-  $('#add').click(function () {
+  $('#AddStudent').click(function () {
     document.forms[0].action='<%=request.getContextPath()%>/student/launch.htm';
     document.forms[0].submit();
   });
 
-  $('#search').click(function () {
+  $('#SearchStudents').click(function () {
     document.forms[0].action=searchUrl;
     document.forms[0].submit();
   });
 
-  $('#previous').click(function () {
+  $('#ShowPreviousStudent').click(function () {
     document.forms[0].action='<%=request.getContextPath()%>/student/getPreviousStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
-  $('#next').click(function () {
+  $('#ShowNextStudent').click(function () {
     document.forms[0].action='<%=request.getContextPath()%>/student/getNextStudent.htm?AdmissionNumber=' + $('#AdmissionNumber').val() + "&Type=" + $('#RECORD_STATUS').val();;
     document.forms[0].submit();
   });
 
   if ($('#StudentId').val() == '0') {
-      $('#add').hide();
-	  $('#previous').hide();
-	  $('#next').hide();
+      $('#AddStudent').hide();
+      $('#ShowPreviousStudent').hide();
+      $('#ShowNextStudent').hide();
       $('#uploadImage').attr('title', 'Add Picture');
-      $('#print').hide();
+      $('#PrintStudentData').hide();
   } else {
       $('#uploadImage').attr('title', 'Update Picture');
       if ($('#Verified').val() == 'YES') {
-          $('#save_verify').hide();
+          $('#VerifyStudentData').hide();
       }
   }
-  $('#add').tooltipster();
-  $('#search').tooltipster();
-  $('#next').tooltipster();
-  $('#previous').tooltipster();
+  $('#AddStudent').tooltipster();
+  $('#SearchStudents').tooltipster();
+  $('#ShowNextStudent').tooltipster();
+  $('#ShowPreviousStudent').tooltipster();
   $('#uploadImage').tooltipster();
-  $('#save').tooltipster();
-  $('#save_verify').tooltipster();
-  $('#print').tooltipster();
+  $('#SaveStudentData').tooltipster();
+  $('#VerifyStudentData').tooltipster();
+  $('#PrintStudentData').tooltipster();
 
   var uploader = new plupload.Uploader({
     // General settings
@@ -127,11 +120,11 @@ jQuery(document).ready(function() {
     });
   });
 
-  jQuery('#save').click(function () {
+  jQuery('#SaveStudentData').click(function () {
       saveStudent(false);
   });
 
-  jQuery('#save_verify').click(function () {
+  jQuery('#VerifyStudentData').click(function () {
       saveStudent(true);
   });
 
@@ -161,13 +154,13 @@ jQuery(document).ready(function() {
       if (result.Successful) {
         var message = result.StatusMessage;
         if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-          notifySuccess(message);
+          attendSuccess(message);
           if (verify) {
               $('#Verified').val('YES');
-              $('#save_verify').hide();
+              $('#VerifyStudentData').hide();
           }
         } else {
-          notifySuccess('Data has been updated successfully.');
+          attendSuccess('Data has been updated successfully.');
         }
         var prevStudentId = $('#StudentId').val();
         // set Student id
@@ -177,12 +170,12 @@ jQuery(document).ready(function() {
               $('#AdmissionNumber').attr('disabled', true);
               $('#LastAdmissionNumber').hide();
               // enable add icon
-              $('#add').show();
+              $('#AddStudent').show();
               // update picture icon
               $('#uploadImage').attr('title', 'Update Picture');
               $('#uploadImage').tooltipster();
               // enable print icon
-              $('#print').show();
+              $('#PrintStudentData').show();
             }
             prevStudentId = result.ReferenceNumber;
         }
@@ -203,18 +196,14 @@ jQuery(document).ready(function() {
 <input type="hidden" id="RECORD_STATUS" name="RECORD_STATUS" value="${RECORD_STATUS}" />
 <c:if test="${Student == null}">
   <input type="hidden" id="StudentId" value="0" />
+  <input type="hidden" id="Verified" value="NO" />
 </c:if>
 <c:if test="${Student != null}">
   <input type="hidden" id="StudentId" value="${Student.studentId}" />
   <c:set var="StudentPersonalDetails" value="${Student.personalDetails}" />
   <c:set var="StudentDocuments" value="${Student.documentsSubmitted}" />
   <c:set var="StudentFamilyMembers" value="${Student.familyMembers}" />
-</c:if>
 
-<c:if test="${Student == null}">
-  <input type="hidden" id="Verified" value="NO" />
-</c:if>
-<c:if test="${Student != null}">
   <c:if test="${Student.verified}">
     <input type="hidden" id="Verified" value="YES" />
   </c:if>
@@ -223,56 +212,61 @@ jQuery(document).ready(function() {
   </c:if>
 </c:if>
 
-<table class="formTable_Container">
-  <caption>
-    Student Registration
-    <c:if test="${RECORD_STATUS == 'UNVERIFIED'}"> (Portal) </c:if>
-  </caption>
+<table class="formTable_Data">
+  <caption>Student Registration <c:if test="${RECORD_STATUS == 'UNVERIFIED'}"> (Portal) </c:if></caption>
   <tr>
     <td colspan="2" align="right" valign="top" style="padding-top: 8px;">
       <input type="hidden" id="ImageReferenceNumber" value="" />
-      <img id="add" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Create Student" />
-      <img id="search" src="<%=request.getContextPath()%>/images/icons/magnifier.png" class="iconImage" title="Search Students" />
-	  <img id="previous" src="<%=request.getContextPath()%>/images/icons/back.png" class="iconImage" title="Previous Student" />
-	  <img id="next" src="<%=request.getContextPath()%>/images/icons/forward.png" class="iconImage" title="Next Student" />
+      <img id="AddStudent" src="<%=request.getContextPath()%>/images/icons/add.png" class="iconImage" title="Create Student" />
+      <img id="SearchStudents" src="<%=request.getContextPath()%>/images/icons/magnifier.png" class="iconImage" title="Search Students" />
+      <img id="ShowPreviousStudent" src="<%=request.getContextPath()%>/images/icons/back.png" class="iconImage" title="Previous Student" />
+      <img id="ShowNextStudent" src="<%=request.getContextPath()%>/images/icons/forward.png" class="iconImage" title="Next Student" />
       <img id="uploadImage" src="<%=request.getContextPath()%>/images/icons/picture_edit.png" class="iconImage" title="" />
-      <img id="save" src="<%=request.getContextPath()%>/images/icons/save.png" class="iconImage" title="Save Student" />
-      <img id="save_verify" src="<%=request.getContextPath()%>/images/icons/save_accept.png" class="iconImage" title="Save & Verify Student" />
-      <img id="print" src="<%=request.getContextPath()%>/images/icons/print.png" class="iconImage" title="Print Student" />
+      <img id="SaveStudentData" src="<%=request.getContextPath()%>/images/icons/save.png" class="iconImage" title="Save Student" />
+      <img id="VerifyStudentData" src="<%=request.getContextPath()%>/images/icons/save_accept.png" class="iconImage" title="Save & Verify Student" />
+      <img id="PrintStudentData" src="<%=request.getContextPath()%>/images/icons/print.png" class="iconImage" title="Print Student" />
     </td>
   </tr>
   <tr>
     <td width="15%" valign="top">
       <!-- Student Photo -->
       <c:if test="${Student == null}">
-      <table class="formTable_Data">
+      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
         <tr>
           <td align="center">
-            <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
+            <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
           </td>
         </tr>
       </table>
       </c:if>
       <c:if test="${Student != null}">
-      <table class="formTable_Data">
+      <table cellpadding="5" cellspacing="0" border="0" width="100%" height="100%" class="formTable">
         <tr>
           <td align="center">
-            <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=${Student.admissionNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>
+            <c:if test="${Student.imageAccess == null || Student.imageAccess.passportLink == null}">
+              <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
+            </c:if>
+            <c:if test="${Student.imageAccess != null && Student.imageAccess.passportLink != null}">
+              <img id="studentImage" name="studentImage" src="${Student.imageAccess.passportLink}" border="1" width="150px" height="180px"/>
+            </c:if>
           </td>
         </tr>
       </table>
       </c:if>
     </td>
     <td width="85%" valign="top">
-      <div id="StudentAccordion">
-        <p class="title"><spring:message code="student.admission.details"/></p>
-        <div><%@ include file="/views/student/maintain_student_admission_details.jsp" %></div>
-        <p class="title"><spring:message code="student.personal.details"/></p>
-        <div><%@ include file="/views/student/maintain_student_personal_details.jsp" %></div>
-        <p class="title"><spring:message code="student.family.details"/></p>
-        <div><%@ include file="/views/student/maintain_student_family_members.jsp" %></div>
-        <p class="title">Student Documents</p>
-        <div><%@ include file="/views/student/maintain_student_documents.jsp" %></div>
+      <div id="StudentRegistrationTabs">
+        <ul>
+          <li><a href="#StudentAdmissionDetailsTab">Admission</a></li>
+          <li><a href="#StudentPersonalDetailsTab">Personal</a></li>
+          <li><a href="#StudentFamilyDetailsTab">Family</a></li>
+          <li><a href="#StudentDocumentDetailsTab">Documents</a></li>
+        </ul>
+
+        <div id="StudentAdmissionDetailsTab"><%@ include file="/views/student/maintain_student_admission_details.jsp" %></div>
+        <div id="StudentPersonalDetailsTab"><%@ include file="/views/student/maintain_student_personal_details.jsp" %></div>
+        <div id="StudentFamilyDetailsTab"><%@ include file="/views/student/maintain_student_family_members.jsp" %></div>
+        <div id="StudentDocumentDetailsTab"><%@ include file="/views/student/maintain_student_documents.jsp" %></div>
       </div>
     </td>
   </tr>

@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <style>
-.userFormTable {
+.formTable_Data {
   font-size: 1.2em;
 }
 </style>

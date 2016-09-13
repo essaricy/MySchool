@@ -3,6 +3,7 @@ package com.myschool.employee.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import com.myschool.application.dto.ImageAccessDto;
 import com.myschool.branch.dto.BranchDto;
 
 /**
@@ -88,8 +89,14 @@ public class EmployeeDto implements Serializable {
     /** The employee subjects. */
     private List<EmployeeSubjectDto> employeeSubjects;
 
+    /** The verify. */
+    private boolean verify;
+
     /** The verified. */
     private boolean verified;
+
+    /** The image access. */
+    private ImageAccessDto imageAccess;
 
     /**
      * Gets the employee id.
@@ -543,6 +550,24 @@ public class EmployeeDto implements Serializable {
     }
 
     /**
+     * Checks if is verify.
+     *
+     * @return the verify
+     */
+    public boolean isVerify() {
+        return verify;
+    }
+
+    /**
+     * Sets the verify.
+     *
+     * @param verify the verify to set
+     */
+    public void setVerify(boolean verify) {
+        this.verify = verify;
+    }
+
+    /**
      * Checks if is verified.
      * 
      * @return true, if is verified
@@ -561,45 +586,77 @@ public class EmployeeDto implements Serializable {
     }
 
     /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
+     * Gets the image access.
      *
-     * @return a <code>String</code> representation 
-     * of this object.
+     * @return the imageAccess
      */
+    public ImageAccessDto getImageAccess() {
+        return imageAccess;
+    }
+
+    /**
+     * Sets the image access.
+     *
+     * @param imageAccess the imageAccess to set
+     */
+    public void setImageAccess(ImageAccessDto imageAccess) {
+        this.imageAccess = imageAccess;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
     public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("EmployeeDto ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("employeeId = ").append(this.employeeId).append(SEPARATOR)
-            .append("employeeNumber = ").append(this.employeeNumber).append(SEPARATOR)
-            .append("imageName = ").append(this.imageName).append(SEPARATOR)
-            .append("firstName = ").append(this.firstName).append(SEPARATOR)
-            .append("middleName = ").append(this.middleName).append(SEPARATOR)
-            .append("lastName = ").append(this.lastName).append(SEPARATOR)
-            .append("gender = ").append(this.gender).append(SEPARATOR)
-            .append("dateOfBirth = ").append(this.dateOfBirth).append(SEPARATOR)
-            .append("bloodGroup = ").append(this.bloodGroup).append(SEPARATOR)
-            .append("nationality = ").append(this.nationality).append(SEPARATOR)
-            .append("maritalStatus = ").append(this.maritalStatus).append(SEPARATOR)
-            .append("weddingDay = ").append(this.weddingDay).append(SEPARATOR)
-            .append("employedAtBranch = ").append(this.employedAtBranch).append(SEPARATOR)
-            .append("designation = ").append(this.designation).append(SEPARATOR)
-            .append("employmentStatus = ").append(this.employmentStatus).append(SEPARATOR)
-            .append("employmentStartDate = ").append(this.employmentStartDate).append(SEPARATOR)
-            .append("employmentEndDate = ").append(this.employmentEndDate).append(SEPARATOR)
-            .append("reportingTo = ").append(this.reportingTo).append(SEPARATOR)
-            .append("remarks = ").append(this.remarks).append(SEPARATOR)
-            .append("employeeContact = ").append(this.employeeContact).append(SEPARATOR)
-            .append("employeeDocuments = ").append(this.employeeDocuments).append(SEPARATOR)
-            .append("employeeEducations = ").append(this.employeeEducations).append(SEPARATOR)
-            .append("employeeExperiences = ").append(this.employeeExperiences).append(SEPARATOR)
-            .append("employeePromotions = ").append(this.employeePromotions).append(SEPARATOR)
-            .append("employeeSubjects = ").append(this.employeeSubjects).append(SEPARATOR)
-            .append("verified = ").append(this.verified).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
+        final int maxLen = 10;
+        StringBuilder builder = new StringBuilder();
+        builder.append("EmployeeDto [employeeId=").append(employeeId)
+                .append(", employeeNumber=").append(employeeNumber)
+                .append(", imageName=").append(imageName).append(", firstName=")
+                .append(firstName).append(", middleName=").append(middleName)
+                .append(", lastName=").append(lastName).append(", gender=")
+                .append(gender).append(", dateOfBirth=").append(dateOfBirth)
+                .append(", bloodGroup=").append(bloodGroup)
+                .append(", nationality=").append(nationality)
+                .append(", maritalStatus=").append(maritalStatus)
+                .append(", weddingDay=").append(weddingDay)
+                .append(", employedAtBranch=").append(employedAtBranch)
+                .append(", designation=").append(designation)
+                .append(", employmentStatus=").append(employmentStatus)
+                .append(", employmentStartDate=").append(employmentStartDate)
+                .append(", employmentEndDate=").append(employmentEndDate)
+                .append(", reportingTo=").append(reportingTo)
+                .append(", remarks=").append(remarks)
+                .append(", employeeContact=").append(employeeContact)
+                .append(", employeeDocuments=")
+                .append(employeeDocuments != null
+                        ? employeeDocuments.subList(0,
+                                Math.min(employeeDocuments.size(), maxLen))
+                        : null)
+                .append(", employeeEducations=")
+                .append(employeeEducations != null
+                        ? employeeEducations.subList(0,
+                                Math.min(employeeEducations.size(), maxLen))
+                        : null)
+                .append(", employeeExperiences=")
+                .append(employeeExperiences != null
+                        ? employeeExperiences.subList(0,
+                                Math.min(employeeExperiences.size(), maxLen))
+                        : null)
+                .append(", employeePromotions=")
+                .append(employeePromotions != null
+                        ? employeePromotions.subList(0,
+                                Math.min(employeePromotions.size(), maxLen))
+                        : null)
+                .append(", employeeSubjects=")
+                .append(employeeSubjects != null
+                        ? employeeSubjects.subList(0,
+                                Math.min(employeeSubjects.size(), maxLen))
+                        : null)
+                .append(", verify=").append(verify).append(", verified=")
+                .append(verified).append(", imageAccess=").append(imageAccess)
+                .append("]");
+        return builder.toString();
     }
 
 }

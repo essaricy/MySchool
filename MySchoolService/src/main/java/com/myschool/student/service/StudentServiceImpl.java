@@ -1,12 +1,15 @@
 package com.myschool.student.service;
 
+import java.io.File;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.student.domain.StudentManager;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentPerformaceDto;
@@ -97,12 +100,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.student.service.StudentService#getNext(java.lang.String, java.lang.String)
+     * @see com.myschool.student.service.StudentService#getNext(java.lang.String, com.myschool.common.constants.RecordStatus)
      */
     @Override
-    public StudentDto getNext(String admissionNumber, String type) throws ServiceException {
+    public StudentDto getNext(String admissionNumber, RecordStatus recordStatus) throws ServiceException {
         try {
-            return studentManager.getNext(admissionNumber, type);
+            return studentManager.getNext(admissionNumber, recordStatus);
        } catch (DataException dataException) {
            throw new ServiceException(dataException.getMessage(),
                    dataException);
@@ -110,26 +113,12 @@ public class StudentServiceImpl implements StudentService {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.student.service.StudentService#getPrevious(java.lang.String, java.lang.String)
+     * @see com.myschool.student.service.StudentService#getPrevious(java.lang.String, com.myschool.common.constants.RecordStatus)
      */
     @Override
-    public StudentDto getPrevious(String admissionNumber, String type) throws ServiceException {
+    public StudentDto getPrevious(String admissionNumber, RecordStatus recordStatus) throws ServiceException {
         try {
-            return studentManager.getPrevious(admissionNumber, type);
-       } catch (DataException dataException) {
-           throw new ServiceException(dataException.getMessage(),
-                   dataException);
-       }
-    }
-
-    /* (non-Javadoc)
-     * @see com.myschool.service.interfaces.StudentService#updateStudentImage(java.lang.String, java.lang.String)
-     */
-    @Override
-    public void updateStudentImage(String secureToken, String admissionNumber)
-            throws ServiceException {
-        try {
-            studentManager.updateStudentImage(secureToken, admissionNumber);
+            return studentManager.getPrevious(admissionNumber, recordStatus);
        } catch (DataException dataException) {
            throw new ServiceException(dataException.getMessage(),
                    dataException);
@@ -212,6 +201,20 @@ public class StudentServiceImpl implements StudentService {
             throw new ServiceException(dataException.getMessage(),
                     dataException);
         }
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.student.service.StudentService#getEvanescentImage(java.lang.String, com.myschool.image.constant.ImageSize)
+     */
+    @Override
+    public File getEvanescentImage(String referenceNumber,
+            ImageSize imageSize) throws ServiceException {
+        try {
+            return studentManager.getEvanescentImage(referenceNumber, imageSize);
+       } catch (DataException dataException) {
+           throw new ServiceException(dataException.getMessage(),
+                   dataException);
+       }
     }
 
 }

@@ -2,6 +2,8 @@ package com.myschool.student.dto;
 
 import java.io.Serializable;
 
+import com.myschool.common.constants.RecordStatus;
+
 /**
  * The Class StudentSearchCriteriaDto.
  */
@@ -55,8 +57,7 @@ public class StudentSearchCriteriaDto implements Serializable {
     /** The date of joining max. */
     private String dateOfJoiningMax;
 
-    /** The verified status. */
-    private String verifiedStatus;
+    private RecordStatus recordStatus;
 
     /**
      * Gets the branch id.
@@ -329,53 +330,40 @@ public class StudentSearchCriteriaDto implements Serializable {
     }
 
     /**
-     * Gets the verified status.
-     * 
-     * @return the verified status
+     * @return the recordStatus
      */
-    public String getVerifiedStatus() {
-        return verifiedStatus;
+    public RecordStatus getRecordStatus() {
+        return recordStatus;
     }
 
     /**
-     * Sets the verified status.
-     * 
-     * @param verifiedStatus the new verified status
+     * @param recordStatus the recordStatus to set
      */
-    public void setVerifiedStatus(String verifiedStatus) {
-        this.verifiedStatus = verifiedStatus;
+    public void setRecordStatus(RecordStatus recordStatus) {
+        this.recordStatus = recordStatus;
     }
 
-    /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
-     *
-     * @return a <code>String</code> representation 
-     * of this object.
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
      */
+    @Override
     public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("StudentSearchCriteriaDto ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("branchId = ").append(this.branchId).append(SEPARATOR)
-            .append("divisionId = ").append(this.divisionId).append(SEPARATOR)
-            .append("schoolId = ").append(this.schoolId).append(SEPARATOR)
-            .append("classId = ").append(this.classId).append(SEPARATOR)
-            .append("mediumId = ").append(this.mediumId).append(SEPARATOR)
-            .append("sectionId = ").append(this.sectionId).append(SEPARATOR)
-            .append("admissionNumber = ").append(this.admissionNumber).append(SEPARATOR)
-            .append("studentName = ").append(this.studentName).append(SEPARATOR)
-            .append("gender = ").append(this.gender).append(SEPARATOR)
-            .append("religion = ").append(this.religion).append(SEPARATOR)
-            .append("bloodGroup = ").append(this.bloodGroup).append(SEPARATOR)
-            .append("dateOfBirthMin = ").append(this.dateOfBirthMin).append(SEPARATOR)
-            .append("dateOfBirthMax = ").append(this.dateOfBirthMax).append(SEPARATOR)
-            .append("dateOfJoiningMin = ").append(this.dateOfJoiningMin).append(SEPARATOR)
-            .append("dateOfJoiningMax = ").append(this.dateOfJoiningMax).append(SEPARATOR)
-            .append("verifiedStatus = ").append(this.verifiedStatus).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append("StudentSearchCriteriaDto [branchId=").append(branchId)
+                .append(", divisionId=").append(divisionId)
+                .append(", schoolId=").append(schoolId).append(", classId=")
+                .append(classId).append(", mediumId=").append(mediumId)
+                .append(", sectionId=").append(sectionId)
+                .append(", admissionNumber=").append(admissionNumber)
+                .append(", studentName=").append(studentName)
+                .append(", gender=").append(gender).append(", religion=")
+                .append(religion).append(", bloodGroup=").append(bloodGroup)
+                .append(", dateOfBirthMin=").append(dateOfBirthMin)
+                .append(", dateOfBirthMax=").append(dateOfBirthMax)
+                .append(", dateOfJoiningMin=").append(dateOfJoiningMin)
+                .append(", dateOfJoiningMax=").append(dateOfJoiningMax)
+                .append(", recordStatus=").append(recordStatus).append("]");
+        return builder.toString();
     }
 
 }

@@ -3,8 +3,8 @@
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
 <style>
-.userFormTable {
-  font-size: 0.8em;
+.formTable_Data {
+  font-size: 1.1em;
 }
 </style>
 <script type="text/javascript" charset="utf-8">
@@ -16,8 +16,8 @@ $(document).ready(function() {
     changeCallback: branchChange,
     //selectOnCode: $('#Class_Lookup_BranchId').val()
   });
-  $('#Class_Lookup_School').chosen({width: "100%"});
-  $('#Class_Lookup_RegisteredClass').chosen({width: "100%"});
+  $('#Class_Lookup_School').chosen();
+  $('#Class_Lookup_RegisteredClass').chosen();
 
   function branchChange() {
     var branchId = $('#Class_Lookup_Branch').val();

@@ -4,11 +4,10 @@ $(document).ready(function(){
   $('#PresentAddress').textcounter({id: 'PresentAddress'});
   $('#PermanentAddress').textcounter({id: 'PermanentAddress'});
 
-  $('#EmailNotificationTo').chosen({width: "94%"});
-  $('#SmsNotificationTo').chosen({width: "94%"});
+  $('#EmailNotificationTo').chosen({width: "208px"});
+  $('#SmsNotificationTo').chosen({width: "208px"});
   $("#EmergencyContactRelationship").lazySelect({
     id: "EmergencyContactRelationship",
-    width: "94%",
     url: '<%=request.getContextPath()%>/relationship/jsonList.htm',
     selectOnCode: $('#EmergencyContactRelationshipCode').val()
   });
@@ -61,7 +60,7 @@ function getContactDetails() {
     <td width="60%" class="value">
       <select id="EmergencyContactRelationship" class="chosen-select">
       </select>
-	</td>
+    </td>
   </tr>
   <tr>
     <td width="40%" class="label">Office Desk Phone Number</td>
@@ -141,7 +140,7 @@ function getContactDetails() {
       <input type="hidden" id="EmergencyContactRelationshipCode" value="${EmployeeContact.emergencyContactRelationship.code}" />
       <select id="EmergencyContactRelationship" class="chosen-select">
       </select>
-	</td>
+    </td>
   </tr>
   <tr>
     <td width="40%" class="label">Office Desk Phone Number</td>

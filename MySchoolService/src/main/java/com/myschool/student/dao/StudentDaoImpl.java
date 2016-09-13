@@ -11,7 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.myschool.common.constants.MySchoolConstant;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
@@ -409,10 +409,10 @@ public class StudentDaoImpl implements StudentDao {
     }
 
 	/* (non-Javadoc)
-	 * @see com.myschool.student.dao.StudentDao#getNextAdmissionNumber(java.lang.String, java.lang.String)
+	 * @see com.myschool.student.dao.StudentDao#getNextAdmissionNumber(java.lang.String, com.myschool.common.constants.RecordStatus)
 	 */
 	@Override
-	public String getNextAdmissionNumber(String admissionNumber, String type) throws DaoException {
+	public String getNextAdmissionNumber(String admissionNumber, RecordStatus recordStatus) throws DaoException {
 		String query = null;
         String nextAdmissionNumber = null;
         Connection connection = null;
@@ -421,7 +421,7 @@ public class StudentDaoImpl implements StudentDao {
 
         try {
             connection = databaseAgent.getConnection();
-            if (type.equals(MySchoolConstant.VERIFIED)) {
+            if (recordStatus == RecordStatus.VERIFIED) {
             	query = StudentDaoSql.SELECT_NEXT_VERIFIED_ADMISSION_NUMBER;
             } else {
             	query = StudentDaoSql.SELECT_NEXT_UNVERIFIED_ADMISSION_NUMBER;
@@ -449,10 +449,10 @@ public class StudentDaoImpl implements StudentDao {
     }
 
 	/* (non-Javadoc)
-	 * @see com.myschool.student.dao.StudentDao#getPreviousAdmissionNumber(java.lang.String, java.lang.String)
+	 * @see com.myschool.student.dao.StudentDao#getPreviousAdmissionNumber(java.lang.String, com.myschool.common.constants.RecordStatus)
 	 */
 	@Override
-	public String getPreviousAdmissionNumber(String admissionNumber, String type) throws DaoException {
+	public String getPreviousAdmissionNumber(String admissionNumber, RecordStatus recordStatus) throws DaoException {
 		String query = null;
         String previousAdmissionNumber = null;
         Connection connection = null;
@@ -461,7 +461,7 @@ public class StudentDaoImpl implements StudentDao {
 
         try {
             connection = databaseAgent.getConnection();
-            if (type.equals(MySchoolConstant.VERIFIED)) {
+            if (recordStatus == RecordStatus.VERIFIED) {
             	query = StudentDaoSql.SELECT_PREVIOUS_VERIFIED_ADMISSION_NUMBER;
             } else {
             	query = StudentDaoSql.SELECT_PREVIOUS_UNVERIFIED_ADMISSION_NUMBER;

@@ -4,16 +4,14 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 <style>
-#StudentAccordion p {
-  font-size: 0.7em;
-  font-weight: bold;
-  text-align: left;
+#StudentRegistrationTabs {
+    font-size: 1.1em;
 }
 </style>
 <script type="text/javascript" charset="utf-8">
 jQuery(document).ready(function() {
-  $(this).myAccordion({id: 'StudentAccordion'});
-  $("#StudentAccordion").accordion( "option", "active", 0);
+  $('#StudentRegistrationTabs').tabs({id: 'StudentRegistrationTabs'});
+  $("#StudentRegistrationTabs").tabs("option", "active", 0);
 });
 </script>
 <c:if test="${Student != null}">
@@ -30,26 +28,29 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <c:if test="${Student.verified}">
-              <img id="studentImage" name="studentImage" src="${RESOURCE_PROFILE.studentRegistered.resourceUrl}/${Student.admissionNumber}" border="1" width="150px" height="180px"/>
+            <c:if test="${Student.imageAccess == null || Student.imageAccess.passportLink == null}">
+              <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image" />
             </c:if>
-            <c:if test="${! Student.verified}">
-              <img id="studentImage" name="studentImage" src="${RESOURCE_PROFILE.studentPortal.resourceUrl}/${Student.admissionNumber}" border="1" width="150px" height="180px"/>
+            <c:if test="${Student.imageAccess != null && Student.imageAccess.passportLink != null}">
+              <img id="studentImage" name="studentImage" src="${Student.imageAccess.passportLink}" border="1" width="150px" height="180px"/>
             </c:if>
           </td>
         </tr>
       </table>
     </td>
     <td width="85%" valign="top">
-      <div id="StudentAccordion">
-        <p class="title"><spring:message code="student.admission.details"/></p>
-        <div><%@ include file="/views/student/view_student_admission_details.jsp" %></div>
-        <p class="title"><spring:message code="student.personal.details"/></p>
-        <div><%@ include file="/views/student/view_student_personal_details.jsp" %></div>
-        <p class="title"><spring:message code="student.family.details"/></p>
-        <div><%@ include file="/views/student/view_student_family_details.jsp" %></div>
-        <p class="title">Documents</p>
-        <div><%@ include file="/views/student/view_student_document_details.jsp" %></div>
+      <div id="StudentRegistrationTabs">
+        <ul>
+          <li><a href="#StudentAdmissionDetailsTab"><spring:message code="student.admission.details"/></a></li>
+          <li><a href="#StudentPersonalDetailsTab"><spring:message code="student.personal.details"/></a></li>
+          <li><a href="#StudentFamilyDetailsTab"><spring:message code="student.family.details"/></a></li>
+          <li><a href="#StudentDocumentDetailsTab">Student Documents</a></li>
+        </ul>
+
+        <div id="StudentAdmissionDetailsTab"><%@ include file="/views/student/view_student_admission_details.jsp" %></div>
+        <div id="StudentPersonalDetailsTab"><%@ include file="/views/student/view_student_personal_details.jsp" %></div>
+        <div id="StudentFamilyDetailsTab"><%@ include file="/views/student/view_student_family_details.jsp" %></div>
+        <div id="StudentDocumentDetailsTab"><%@ include file="/views/student/view_student_document_details.jsp" %></div>
       </div>
     </td>
   </tr>

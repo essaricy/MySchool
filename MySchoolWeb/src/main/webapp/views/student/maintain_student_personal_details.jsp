@@ -10,10 +10,10 @@ $(document).ready(function(){
   $('#CorrespondenceAddress').textcounter({id: 'CorrespondenceAddress'});
   $('#PermanentAddress').textcounter({id: 'PermanentAddress'});
   $('#IdentificationMarks').textcounter({id: 'IdentificationMarks'});
-  $('#Gender').chosen({width: "95%"});
-  $('#Religion').chosen({width: "95%"});
-  $('#Nationality').chosen({width: "95%"});
-  $('#BloodGroup').chosen({width: "95%"});
+  $('#Gender').chosen();
+  $('#Religion').chosen();
+  $('#Nationality').chosen();
+  $('#BloodGroup').chosen();
   $(this).datePicker({id: 'DateOfBirth', future: false});
 });
 

@@ -4,12 +4,14 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.domain.ProfileManager;
 import com.myschool.application.dto.MySchoolProfileDto;
-import com.myschool.common.constants.MySchoolConstant;
+import com.myschool.common.assembler.ImageDataAssembler;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.FileSystemException;
@@ -32,12 +34,14 @@ import com.myschool.employee.dto.EmployeeExperience;
 import com.myschool.employee.dto.EmployeePromotion;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
 import com.myschool.employee.dto.EmployeeSubjectDto;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
-import com.myschool.infra.image.constants.ImageSize;
-import com.myschool.infra.middleware.agent.OutboundMessageAgent;
+import com.myschool.infra.storage.StorageAccessAgent;
+import com.myschool.infra.storage.exception.StorageAccessException;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationType;
 import com.myschool.notification.domain.NotificationManager;
+import com.myschool.storage.dto.StorageItem;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.domain.UserManager;
 import com.myschool.user.dto.UsersDto;
@@ -47,6 +51,8 @@ import com.myschool.user.dto.UsersDto;
  */
 @Component
 public class EmployeeManager {
+
+    private static final Logger LOGGER = Logger.getLogger(EmployeeManager.class);
 
     /** The employee dao. */
     @Autowired
@@ -96,8 +102,9 @@ public class EmployeeManager {
     @Autowired
     private EmployeeSubjectDao employeeSubjectDao;
 
+    /** The storage access agent. */
     @Autowired
-    private OutboundMessageAgent outboundMessageAgent;
+    private StorageAccessAgent storageAccessAgent;
 
     /**
      * Gets the.
@@ -112,9 +119,13 @@ public class EmployeeManager {
             employee = employeeDao.get(employeeId);
             if (employee != null) {
                 employee.setEmployeeContact(employeeContactDao.get(employeeId));
+                StorageItem storageItem = storageAccessAgent.EMPLOYEE_STORAGE.get(RecordStatus.get(employee.isVerified()), employee.getEmployeeNumber());
+                employee.setImageAccess(ImageDataAssembler.create(storageItem));
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return employee;
     }
@@ -132,83 +143,97 @@ public class EmployeeManager {
             employee = employeeDao.get(employeeNumber);
             if (employee != null) {
                 employee.setEmployeeContact(employeeContactDao.get(employee.getEmployeeId()));
+                StorageItem storageItem = storageAccessAgent.EMPLOYEE_STORAGE.get(RecordStatus.get(employee.isVerified()), employee.getEmployeeNumber());
+                employee.setImageAccess(ImageDataAssembler.create(storageItem));
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return employee;
     }
 
 	/**
-	 * Gets the next.
-	 *
-	 * @param employeeNumber the employee number
-	 * @param type the type
-	 * @return the next
-	 * @throws DataException the data exception
-	 */
-	public EmployeeDto getNext(String employeeNumber, String type) throws DataException {
+     * Gets the next.
+     *
+     * @param employeeNumber the employee number
+     * @param recordStatus the record status
+     * @return the next
+     * @throws DataException the data exception
+     */
+	public EmployeeDto getNext(String employeeNumber, RecordStatus recordStatus) throws DataException {
 		EmployeeDto employee = null;
         try {
-        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
-        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	if (recordStatus == null) {
+        		throw new DataException("Search type must be either " + RecordStatus.VERIFIED + " or " + RecordStatus.UNVERIFIED);
         	}
-            String nextEmployeeNumber = employeeDao.getNextEmployeeNumber(employeeNumber, type);
+            String nextEmployeeNumber = employeeDao.getNextEmployeeNumber(employeeNumber, recordStatus);
             if (nextEmployeeNumber != null) {
             	employee = employeeDao.get(nextEmployeeNumber);
             	if (employee != null) {
             		employee.setEmployeeContact(employeeContactDao.get(employee.getEmployeeId()));
+            		StorageItem storageItem = storageAccessAgent.EMPLOYEE_STORAGE.get(RecordStatus.get(employee.isVerified()), employee.getEmployeeNumber());
+                    employee.setImageAccess(ImageDataAssembler.create(storageItem));
             	}
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return employee;
     }
 
 	/**
-	 * Gets the previous.
-	 *
-	 * @param employeeNumber the employee number
-	 * @param type the type
-	 * @return the previous
-	 * @throws DataException the data exception
-	 */
-	public EmployeeDto getPrevious(String employeeNumber, String type) throws DataException {
+     * Gets the previous.
+     *
+     * @param employeeNumber the employee number
+     * @param recordStatus the record status
+     * @return the previous
+     * @throws DataException the data exception
+     */
+	public EmployeeDto getPrevious(String employeeNumber, RecordStatus recordStatus) throws DataException {
 		EmployeeDto employee = null;
         try {
-        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
-        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	if (recordStatus == null) {
+        		throw new DataException("Search type must be either " + RecordStatus.VERIFIED + " or " + RecordStatus.UNVERIFIED);
         	}
-            String previousEmployeeNumber = employeeDao.getPreviousEmployeeNumber(employeeNumber, type);
+            String previousEmployeeNumber = employeeDao.getPreviousEmployeeNumber(employeeNumber, recordStatus);
             if (previousEmployeeNumber != null) {
             	employee = employeeDao.get(previousEmployeeNumber);
             	if (employee != null) {
             		employee.setEmployeeContact(employeeContactDao.get(employee.getEmployeeId()));
+            		StorageItem storageItem = storageAccessAgent.EMPLOYEE_STORAGE.get(RecordStatus.get(employee.isVerified()), employee.getEmployeeNumber());
+                    employee.setImageAccess(ImageDataAssembler.create(storageItem));
             	}
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return employee;
     }
 
     /**
      * Update employee image.
-     * 
+     *
      * @param referenceNumber the reference number
      * @param employeeNumber the employee number
+     * @param verified the verified
      * @throws DataException the data exception
      */
-    public void updateEmployeeImage(String referenceNumber, String employeeNumber) throws DataException {
+    public void updateEmployeeImage(String referenceNumber, String employeeNumber, boolean verified) throws DataException {
         try {
             if (referenceNumber != null && employeeNumber != null) {
-                File fromFile = tempFileSystem.getEmployeeImage(referenceNumber, ImageSize.ORIGINAL);
-                //imageFileSystem.createEmployeeImage(employeeNumber, fromFile);
-                outboundMessageAgent.sendMessage("Will assign image " + fromFile + " to the employee: " + employeeNumber);
+                File file = tempFileSystem.getEmployeeImage(referenceNumber, ImageSize.ORIGINAL);
+                storageAccessAgent.EMPLOYEE_STORAGE.update(file, RecordStatus.get(verified), employeeNumber);
             }
         } catch (FileSystemException fileSystemException) {
             throw new DataException(fileSystemException.getMessage(), fileSystemException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
     }
 
@@ -230,7 +255,13 @@ public class EmployeeManager {
             if (existingEmployee != null) {
                 throw new DataException("Employee with Employee Number (" + employeeNumber + ") already exists.");
             }
-            boolean verified = employee.isVerified();
+            //boolean verified = employee.isVerified();
+            boolean verify = employee.isVerify();
+            if (verify) {
+                employee.setVerified(true);
+            } else {
+                employee.setVerified(false);
+            }
             employeeId = employeeDao.create(employee);
             if (employeeId == 0) {
                 throw new DataException("Unable to create Employee now.");
@@ -242,15 +273,15 @@ public class EmployeeManager {
             employeeExperienceDao.create(employeeId, employee.getEmployeeExperiences());
             employeePromotionDao.create(employeeId, employee.getEmployeePromotions());
             employeeSubjectDao.create(employeeId, employee.getEmployeeSubjects());
+            // If employee information is verified then create login and notification.
+            if (verify) {
+                employee.setEmployeeId(employeeId);
+                createEmployeeProfile(employee);
+            }
             // Update employee Image
             String referenceNumber = employee.getImageName();
             if (!StringUtil.isNullOrBlank(referenceNumber)) {
-                updateEmployeeImage(referenceNumber, employeeNumber);
-            }
-            // If employee information is verified then create login and notification.
-            if (verified) {
-                employee.setEmployeeId(employeeId);
-                createEmployeeProfile(employee);
+                updateEmployeeImage(referenceNumber, employeeNumber, employee.isVerified());
             }
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
@@ -283,14 +314,25 @@ public class EmployeeManager {
             // Validate the employee
             employeeValidator.validate(employee);
             employeeNumber = employee.getEmployeeNumber();
+            System.out.println("employeeNumber=" + employeeNumber);
             EmployeeDto existingEmployee = employeeDao.get(employeeNumber);
             if (existingEmployee == null) {
                 throw new DataException("Employee with Employee Number (" + employeeNumber + ") does not exist.");
             }
+            boolean verify = employee.isVerify();
+            boolean alreadyVerified = existingEmployee.isVerified();
             employeeId = existingEmployee.getEmployeeId();
+            if (verify) {
+                System.out.println("Set to verified");
+                employee.setVerified(true);
+            } else {
+                employee.setVerified(alreadyVerified);
+            }
             employeeDao.update(existingEmployee.getEmployeeId(), employee);
+            System.out.println("Updated employee info");
             // Update employee attributes.
             employeeContactDao.update(employeeId, employee.getEmployeeContact());
+            System.out.println("Updated employee contact info");
 
             // Update employee documents
             List<EmployeeDocument> employeeDocuments = employee.getEmployeeDocuments();
@@ -304,6 +346,7 @@ public class EmployeeManager {
                     }
                 }
             }
+            System.out.println("Updated employee documents");
             // Update employee educations
             List<EmployeeEducation> employeeEducations = employee.getEmployeeEducations();
             if (employeeEducations != null && !employeeEducations.isEmpty()) {
@@ -316,6 +359,7 @@ public class EmployeeManager {
                     }
                 }
             }
+            System.out.println("Updated employee education");
             // Update employee experiences
             List<EmployeeExperience> employeeExperiences = employee.getEmployeeExperiences();
             if (employeeExperiences != null && !employeeExperiences.isEmpty()) {
@@ -328,6 +372,7 @@ public class EmployeeManager {
                     }
                 }
             }
+            System.out.println("Updated employee experience");
             // Update employee Promotions
             List<EmployeePromotion> employeePromotions = employee.getEmployeePromotions();
             if (employeePromotions != null && !employeePromotions.isEmpty()) {
@@ -340,6 +385,7 @@ public class EmployeeManager {
                     }
                 }
             }
+            System.out.println("Updated employee promotion");
             // Update employee subjects
             List<EmployeeSubjectDto> employeeSubjects = employee.getEmployeeSubjects();
             if (employeeSubjects != null && !employeeSubjects.isEmpty()) {
@@ -352,21 +398,46 @@ public class EmployeeManager {
                     }
                 }
             }
-            String referenceNumber = employee.getImageName();
-            if (!StringUtil.isNullOrBlank(referenceNumber)) {
-                updateEmployeeImage(referenceNumber, employeeNumber);
+            System.out.println("Updated employee subjects info");
+            // If the employee data is verified
+            if (verify) {
+                if (alreadyVerified) {
+                    // This employee is already verified. nothing to do.
+                } else {
+                    System.out.println("Employee data has been verified. Moving to VERIFIED.");
+                    // This employee data has not been verified before. so create employee profile
+                    employee.setEmployeeId(employeeId);
+                    createEmployeeProfile(employee);
+                    System.out.println("Creted employee proifile for login");
+
+                    // Update the employee image if one is provided now. update to UNVERIFIED
+                    String imageName = employee.getImageName();
+                    if (!StringUtil.isNullOrBlank(imageName)) {
+                        System.out.println("Updating employee image with " + imageName);
+                        updateEmployeeImage(imageName, employeeNumber, false);
+                        System.out.println("Updated employee image provided now.");
+                    }
+                    // Now the employee image has been updated. Move the image to verified images.
+                    storageAccessAgent.EMPLOYEE_STORAGE.verify(employeeNumber);
+                    System.out.println("Moved employee image to VERIFIED, if one did exist.");
+                }
+            } else {
+                // This is just save. could be VERIFIED or UNVERIFIED.
+                // Update the employee image if one is provided now
+                String imageName = employee.getImageName();
+                if (!StringUtil.isNullOrBlank(imageName)) {
+                    System.out.println("Updating employee image with " + imageName);
+                    updateEmployeeImage(imageName, employeeNumber, alreadyVerified);
+                    System.out.println("Updated employee image to " + RecordStatus.get(alreadyVerified));
+                }
             }
-            // If employee is not verified already and verified now then create user profile and a notification.
-            boolean verified = employee.isVerified();
-            boolean alreadyVerified = existingEmployee.isVerified();
-            if (!alreadyVerified && verified) {
-                employee.setEmployeeId(employeeId);
-                createEmployeeProfile(employee);
-            }
+            System.out.println("EVERYTHING completed.");
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
         } catch (DaoException daoException) {
             throw new DataException("Unable to update employee now. Please try again.");
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return true;
     }
@@ -380,10 +451,17 @@ public class EmployeeManager {
      */
     public boolean delete(String employeeNumber) throws DataException {
         try {
-            return employeeDao.delete(employeeNumber);
+            EmployeeDto employee = employeeDao.get(employeeNumber);
+            if (employee != null) {
+                storageAccessAgent.EMPLOYEE_STORAGE.delete(RecordStatus.get(employee.isVerified()), employeeNumber);
+                return employeeDao.delete(employeeNumber);
+            }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
+        return true;
     }
 
     /**
@@ -420,11 +498,19 @@ public class EmployeeManager {
                     if (reportingTo != null && reportingTo.getEmployeeId() != 0) {
                         employee.setReportingTo(employeeDao.get(reportingTo.getEmployeeId()));
                     }
+                    try {
+                        StorageItem storageItem = storageAccessAgent.EMPLOYEE_STORAGE.get(RecordStatus.get(employee.isVerified()), employee.getEmployeeNumber());
+                        employee.setImageAccess(ImageDataAssembler.create(storageItem));
+                    } catch (StorageAccessException storageAccessException) {
+                        LOGGER.error(storageAccessException.getMessage(), storageAccessException);
+                    }
                 }
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
-        }
+        }/* catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
+        }*/
         return employees;
     }
 
@@ -529,6 +615,26 @@ public class EmployeeManager {
                         smsNotifyingIds);
             }
         }
+    }
+
+    /**
+     * Gets the evanescent image.
+     *
+     * @param referenceNumber the reference number
+     * @param imageSize the image size
+     * @return the evanescent image
+     * @throws DataException the data exception
+     */
+    public File getEvanescentImage(String referenceNumber,
+            ImageSize imageSize) throws DataException {
+        File file = null;
+        try {
+            System.out.println("getEvanescentImage(" + referenceNumber + ", " + imageSize + ")");
+            file = tempFileSystem.getEmployeeImage(referenceNumber, imageSize);
+        } catch (FileSystemException fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+        }
+        return file;
     }
 
 }

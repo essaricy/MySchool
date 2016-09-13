@@ -101,21 +101,19 @@ $(document).ready(function() {
     confirm('You will not be able to enter or modify marks for any student in this exam if you mark it complete. SMS and/or e-mail will be sent to the configured students. Would you like to proceed?', completeExam);
   });
 
-  function completeExam(result) {
-    if (result == "Yes") {
-      $.ajax({
-        type: "POST",
-        url: '<%=request.getContextPath()%>/exam/freezeExam.htm',
-        data: {
-          examId: $('#examId').val(),
-          //classId: $('#classId').val(),
-          sid: new Date().getTime()
-        },
-        context: this
-      }).done(function(result) {
-        handleServerResponseOnModal(result);
-      });
-    }
+  function completeExam() {
+    $.ajax({
+      type: "POST",
+      url: '<%=request.getContextPath()%>/exam/freezeExam.htm',
+      data: {
+        examId: $('#examId').val(),
+        //classId: $('#classId').val(),
+        sid: new Date().getTime()
+      },
+      context: this
+    }).done(function(result) {
+      handleServerResponseOnModal(result);
+    });
   }
 });
 

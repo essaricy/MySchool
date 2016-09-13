@@ -2,6 +2,8 @@ package com.myschool.employee.dto;
 
 import java.io.Serializable;
 
+import com.myschool.common.constants.RecordStatus;
+
 /**
  * The Class EmployeeSearchCriteriaDto.
  */
@@ -52,8 +54,8 @@ public class EmployeeSearchCriteriaDto implements Serializable {
     /** The employment start date max. */
     private String employmentStartDateMax;
 
-    /** The verified status. */
-    private String verifiedStatus;
+    /** The record status. */
+    private RecordStatus recordStatus;
 
     /**
      * Gets the employee number.
@@ -308,52 +310,48 @@ public class EmployeeSearchCriteriaDto implements Serializable {
     }
 
     /**
-     * Gets the verified status.
-     * 
-     * @return the verified status
-     */
-    public String getVerifiedStatus() {
-        return verifiedStatus;
-    }
-
-    /**
-     * Sets the verified status.
-     * 
-     * @param verifiedStatus the new verified status
-     */
-    public void setVerifiedStatus(String verifiedStatus) {
-        this.verifiedStatus = verifiedStatus;
-    }
-
-    /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
+     * Gets the record status.
      *
-     * @return a <code>String</code> representation 
-     * of this object.
+     * @return the recordStatus
      */
+    public RecordStatus getRecordStatus() {
+        return recordStatus;
+    }
+
+    /**
+     * Sets the record status.
+     *
+     * @param recordStatus the recordStatus to set
+     */
+    public void setRecordStatus(RecordStatus recordStatus) {
+        this.recordStatus = recordStatus;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
     public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("EmployeeSearchCriteriaDto ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("employeeNumber = ").append(this.employeeNumber).append(SEPARATOR)
-            .append("employeeName = ").append(this.employeeName).append(SEPARATOR)
-            .append("designationId = ").append(this.designationId).append(SEPARATOR)
-            .append("reportingToEmployeeNumber = ").append(this.reportingToEmployeeNumber).append(SEPARATOR)
-            .append("employedAtBranchCode = ").append(this.employedAtBranchCode).append(SEPARATOR)
-            .append("employmentStatusId = ").append(this.employmentStatusId).append(SEPARATOR)
-            .append("gender = ").append(this.gender).append(SEPARATOR)
-            .append("bloodGroup = ").append(this.bloodGroup).append(SEPARATOR)
-            .append("experienceInMonthsMin = ").append(this.experienceInMonthsMin).append(SEPARATOR)
-            .append("experienceInMonthsMax = ").append(this.experienceInMonthsMax).append(SEPARATOR)
-            .append("dateOfBirthMin = ").append(this.dateOfBirthMin).append(SEPARATOR)
-            .append("dateOfBirthMax = ").append(this.dateOfBirthMax).append(SEPARATOR)
-            .append("employmentStartDateMin = ").append(this.employmentStartDateMin).append(SEPARATOR)
-            .append("employmentStartDateMax = ").append(this.employmentStartDateMax).append(SEPARATOR)
-            .append("verifiedStatus = ").append(this.verifiedStatus).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append("EmployeeSearchCriteriaDto [employeeNumber=")
+                .append(employeeNumber).append(", employeeName=")
+                .append(employeeName).append(", designationId=")
+                .append(designationId).append(", reportingToEmployeeNumber=")
+                .append(reportingToEmployeeNumber)
+                .append(", employedAtBranchCode=").append(employedAtBranchCode)
+                .append(", employmentStatusId=").append(employmentStatusId)
+                .append(", gender=").append(gender).append(", bloodGroup=")
+                .append(bloodGroup).append(", experienceInMonthsMin=")
+                .append(experienceInMonthsMin)
+                .append(", experienceInMonthsMax=")
+                .append(experienceInMonthsMax).append(", dateOfBirthMin=")
+                .append(dateOfBirthMin).append(", dateOfBirthMax=")
+                .append(dateOfBirthMax).append(", employmentStartDateMin=")
+                .append(employmentStartDateMin)
+                .append(", employmentStartDateMax=")
+                .append(employmentStartDateMax).append(", recordStatus=")
+                .append(recordStatus).append("]");
+        return builder.toString();
     }
 
 }

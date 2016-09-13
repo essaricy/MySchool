@@ -87,6 +87,13 @@
         <field alias="ThumbnailUrl" name="thumbnailUrl"/>
         <field alias="GalleryItems" name="galleryItems" type="java.util.List"/>
     </object-xml-mapping>
+    <object-xml-mapping name="ImageAccess" type="com.myschool.application.dto.ImageAccessDto">
+        <field alias="Id" name="id"/>
+        <field alias="Name" name="name"/>
+        <field alias="DirectLink" name="directLink"/>
+        <field alias="ThumbnailLink" name="thumbnailLink"/>
+        <field alias="PassportLink" name="passportLink"/>
+    </object-xml-mapping>
     <object-xml-mapping name="Issue" type="com.myschool.application.dto.IssueDto">
         <field alias="IssueId" name="issueId"/>
         <field alias="UserType" name="userType" type="com.myschool.user.constants.UserType"/>
@@ -390,7 +397,9 @@
         <field alias="EmployeeExperiences" name="employeeExperiences" type="java.util.List"/>
         <field alias="EmployeePromotions" name="employeePromotions" type="java.util.List"/>
         <field alias="EmployeeSubjects" name="employeeSubjects" type="java.util.List"/>
+        <field alias="Verify" name="verify"/>
         <field alias="Verified" name="verified"/>
+        <field alias="ImageAccess" name="imageAccess" type="com.myschool.application.dto.ImageAccessDto"/>
     </object-xml-mapping>
     <object-xml-mapping name="EmployeeEducation" type="com.myschool.employee.dto.EmployeeEducation">
         <field alias="EducationId" name="educationId"/>
@@ -433,7 +442,7 @@
         <field alias="DateOfBirthMax" name="dateOfBirthMax"/>
         <field alias="EmploymentStartDateMin" name="employmentStartDateMin"/>
         <field alias="EmploymentStartDateMax" name="employmentStartDateMax"/>
-        <field alias="VerifiedStatus" name="verifiedStatus"/>
+        <field alias="RecordStatus" name="recordStatus" type="com.myschool.common.constants.RecordStatus"/>
     </object-xml-mapping>
     <object-xml-mapping name="EmployeeSubject" type="com.myschool.employee.dto.EmployeeSubjectDto">
         <field alias="EmployeeSubjectId" name="employeeSubjectId"/>
@@ -671,8 +680,10 @@
         <field alias="RegisteredClass" name="registeredClassDto" type="com.myschool.clazz.dto.RegisteredClassDto"/>
         <field alias="PersonalDetails" name="personalDetails" type="com.myschool.common.dto.PersonalDetailsDto"/>
         <field alias="FamilyMembers" name="familyMembers" type="java.util.List"/>
+        <field alias="Verify" name="verify"/>
         <field alias="Verified" name="verified"/>
         <field alias="ImageName" name="imageName"/>
+        <field alias="ImageAccess" name="imageAccess" type="com.myschool.application.dto.ImageAccessDto"/>
     </object-xml-mapping>
     <object-xml-mapping name="StudentPerformace" type="com.myschool.student.dto.StudentPerformaceDto">
         <field alias="Exam" name="exam" type="com.myschool.exam.dto.ExamDto"/>
@@ -694,7 +705,7 @@
         <field alias="DateOfBirthMax" name="dateOfBirthMax"/>
         <field alias="DateOfJoiningMin" name="dateOfJoiningMin"/>
         <field alias="DateOfJoiningMax" name="dateOfJoiningMax"/>
-        <field alias="VerifiedStatus" name="verifiedStatus"/>
+        <field alias="RecordStatus" name="recordStatus" type="com.myschool.common.constants.RecordStatus"/>
     </object-xml-mapping>
     <object-xml-mapping name="ChangePassword" type="com.myschool.user.dto.ChangePasswordDto">
         <field alias="UserId" name="userId"/>

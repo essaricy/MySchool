@@ -8,6 +8,10 @@ import org.json.JSONObject;
 import com.myschool.application.assembler.GalleryDataAssembler;
 import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.common.dto.ResultDto;
+import com.myschool.employee.assembler.EmployeeDataAssembler;
+import com.myschool.employee.dto.EmployeeDto;
+import com.myschool.student.assembler.StudentDataAssembler;
+import com.myschool.student.dto.StudentDto;
 
 /**
  * The Class ResultDataAssembler.
@@ -63,6 +67,10 @@ public class ResultDataAssembler {
             Object reference = result.getReference();
             if (reference instanceof GalleryDetailDto) {
                 jsonObject.put("Reference", GalleryDataAssembler.createJSON((GalleryDetailDto)reference));
+            } else if (reference instanceof EmployeeDto) {
+                jsonObject.put("Reference", EmployeeDataAssembler.create((EmployeeDto)reference));
+            } else if (reference instanceof StudentDto) {
+                jsonObject.put("Reference", StudentDataAssembler.create((StudentDto)reference));
             }
         }
         return jsonObject;

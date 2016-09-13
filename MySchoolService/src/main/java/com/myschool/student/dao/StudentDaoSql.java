@@ -3,6 +3,7 @@ package com.myschool.student.dao;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.util.DatabaseUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
@@ -340,7 +341,13 @@ public class StudentDaoSql {
         queryBuffer.append(SELECT_ALL);
         if (studentSearchCriteria != null) {
             Map<String, String> whereClauseMap = new HashMap<String, String>();
-            whereClauseMap.put("STUDENT.VERIFIED='?'", studentSearchCriteria.getVerifiedStatus());
+            RecordStatus recordStatus = studentSearchCriteria.getRecordStatus();
+            if (recordStatus == RecordStatus.VERIFIED) {
+                whereClauseMap.put("STUDENT.VERIFIED='?'", "Y");
+            } else {
+                whereClauseMap.put("STUDENT.VERIFIED='?'", "N");
+            }
+            
             whereClauseMap.put("STUDENT.ADMISSION_NUMBER LIKE '%?%'", studentSearchCriteria.getAdmissionNumber());
             whereClauseMap.put("(STUDENT.FIRST_NAME LIKE '%?%' OR STUDENT.MIDDLE_NAME LIKE '%?%' OR STUDENT.LAST_NAME LIKE '%?%')",
                     studentSearchCriteria.getStudentName());

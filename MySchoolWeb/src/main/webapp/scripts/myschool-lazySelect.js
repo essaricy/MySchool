@@ -2,7 +2,6 @@
 jQuery.lazySelect plugin 
 modified by Srikanth Kumar, 2013.
 */
-
 (function($, window, document) {
   $.fn.lazySelect = function(settings) {
     var prefixCode = null;
@@ -20,7 +19,7 @@ modified by Srikanth Kumar, 2013.
       dataholder: 'aaData',
       codeIndex: 0,
       valueIndices: [1],
-      width: "100%",
+      width: "208px",
       changeCallback: null
     };
 

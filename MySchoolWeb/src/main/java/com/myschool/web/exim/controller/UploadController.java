@@ -151,7 +151,7 @@ public class UploadController {
                 throw new ServiceException("Unable to upload the image now.");
             }
             String referenceNumber = imageTempFile.getName();
-            System.out.println("referenceNumber " + referenceNumber);
+            System.out.println("ReferenceNumber " + referenceNumber);
             result.setSuccessful(ResultDto.SUCCESS);
             result.setReferenceNumber(String.valueOf(referenceNumber));
         } catch (DataException dataException) {

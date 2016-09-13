@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import com.myschool.infra.image.constants.ImageSize;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.storage.StorageAccessAgent;
 import com.myschool.infra.storage.exception.StorageAccessException;
 import com.myschool.storage.dto.StorageItem;

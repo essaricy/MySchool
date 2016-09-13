@@ -31,7 +31,7 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import com.google.api.services.drive.model.Permission;
-import com.myschool.infra.image.constants.ImageSize;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.storage.StorageAccessAgent;
 import com.myschool.infra.storage.exception.StorageAccessException;
 import com.myschool.storage.dto.StorageItem;

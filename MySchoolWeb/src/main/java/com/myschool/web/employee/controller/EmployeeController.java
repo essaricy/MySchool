@@ -14,9 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.application.constants.ApplicationConstants;
-import com.myschool.application.service.DocumentService;
-import com.myschool.common.constants.MySchoolConstant;
+import com.myschool.application.dto.ImageAccessDto;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
@@ -29,7 +28,6 @@ import com.myschool.employee.service.EmployeeService;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.employee.constants.EmployeeViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
 
 /**
@@ -39,17 +37,9 @@ import com.myschool.web.framework.util.HttpUtil;
 @RequestMapping("employee")
 public class EmployeeController {
 
-    /** The document service. */
-    @Autowired
-    private DocumentService documentService;
-
     /** The employee service. */
     @Autowired
     private EmployeeService employeeService;
-
-    /** The view error handler. */
-    @Autowired
-    private ViewErrorHandler viewErrorHandler;
 
     /**
      * Launch verified employees search.
@@ -63,7 +53,7 @@ public class EmployeeController {
     public ModelAndView launchVerifiedEmployeesSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.VERIFIED);
+        map.put(WebConstants.RECORD_STATUS, RecordStatus.VERIFIED.toString());
         map.put("TITLE", "Search Employees");
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.SEARCH_EMPLOYEE, map);
@@ -81,7 +71,7 @@ public class EmployeeController {
     public ModelAndView launchUnverifiedEmployeesSearch(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put(WebConstants.RECORD_STATUS, MySchoolConstant.UNVERIFIED);
+        map.put(WebConstants.RECORD_STATUS, RecordStatus.UNVERIFIED.toString());
         map.put("TITLE", "Search Employees (Portal)");
         return ViewDelegationController.delegateWholePageView(
                 request, EmployeeViewNames.SEARCH_EMPLOYEE, map);
@@ -98,7 +88,7 @@ public class EmployeeController {
     @RequestMapping(value="verifiedEmployeesJSONList")
     public ModelAndView verifiedEmployeesJSONList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        employeesJSONList(request, response, ApplicationConstants.Y);
+        employeesJSONList(request, response, RecordStatus.VERIFIED);
         return null;
     }
 
@@ -113,7 +103,7 @@ public class EmployeeController {
     @RequestMapping(value="unverifiedEmployeesJSONList")
     public ModelAndView unverifiedEmployeesJSONList(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        employeesJSONList(request, response, ApplicationConstants.N);
+        employeesJSONList(request, response, RecordStatus.UNVERIFIED);
         return null;
     }
 
@@ -201,8 +191,9 @@ public class EmployeeController {
     	Map<String, Object> map = new HashMap<String, Object>();
         String employeeNumber = request.getParameter("EmployeeNumber");
         String type = request.getParameter("Type");
-        if (!StringUtil.isNullOrBlank(employeeNumber) && !StringUtil.isNullOrBlank(type)) {
-        	nextEmployee = employeeService.getNext(employeeNumber, type);
+        RecordStatus recordStatus = RecordStatus.get(type);
+        if (recordStatus != null) {
+        	nextEmployee = employeeService.getNext(employeeNumber, recordStatus);
         }
         if (nextEmployee == null) {
         	nextEmployee = employeeService.get(employeeNumber);
@@ -228,8 +219,9 @@ public class EmployeeController {
     	Map<String, Object> map = new HashMap<String, Object>();
         String employeeNumber = request.getParameter("EmployeeNumber");
         String type = request.getParameter("Type");
-        if (!StringUtil.isNullOrBlank(employeeNumber) && !StringUtil.isNullOrBlank(type)) {
-        	nextEmployee = employeeService.getPrevious(employeeNumber, type);
+        RecordStatus recordStatus = RecordStatus.get(type);
+        if (recordStatus != null) {
+        	nextEmployee = employeeService.getPrevious(employeeNumber, recordStatus);
         }
         if (nextEmployee == null) {
         	nextEmployee = employeeService.get(employeeNumber);
@@ -266,15 +258,17 @@ public class EmployeeController {
                     if (employeeId == 0) {
                         // Create a new employee
                         employeeService.create(employee);
-                        EmployeeDto employeeDto = employeeService.get(employeeNumber);
-                        result.setSuccessful(true);
                         result.setStatusMessage("Employee (" + employeeNumber + ") has been created successfully.");
-                        result.setReferenceNumber(String.valueOf(employeeDto.getEmployeeId()));
                     } else {
                         // Update existing employee
                         employeeService.update(employeeId, employee);
-                        result.setSuccessful(true);
                         result.setStatusMessage("Employee (" + employeeNumber + ") has been updated successfully.");
+                    }
+                    EmployeeDto employeeDto = employeeService.get(employeeNumber);
+                    if (employeeDto != null) {
+                        result.setSuccessful(true);
+                        result.setReferenceNumber(String.valueOf(employeeDto.getEmployeeId()));
+                        result.setReference(employeeDto);
                     }
                 }
             }
@@ -320,7 +314,7 @@ public class EmployeeController {
     @RequestMapping(value="searchVerifiedEmployees")
     public ModelAndView searchVerifiedEmployees(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        searchEmployees(request, response, ApplicationConstants.Y);
+        searchEmployees(request, response, RecordStatus.VERIFIED);
         return null;
     }
 
@@ -335,7 +329,7 @@ public class EmployeeController {
     @RequestMapping(value="searchUnverifiedEmployees")
     public ModelAndView searchUnverifiedEmployees(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
-        searchEmployees(request, response, ApplicationConstants.N);
+        searchEmployees(request, response, RecordStatus.UNVERIFIED);
         return null;
     }
 
@@ -344,12 +338,11 @@ public class EmployeeController {
      * 
      * @param request the request
      * @param response the response
-     * @param verifiedStatus the verified status
      * @return the model and view
      * @throws Exception the exception
      */
     private ModelAndView searchEmployees(HttpServletRequest request,
-            HttpServletResponse response, String verifiedStatus) throws Exception {
+            HttpServletResponse response, RecordStatus recordStatus) throws Exception {
 
         JSONArray data = new JSONArray();
         try {
@@ -357,7 +350,7 @@ public class EmployeeController {
             if (!StringUtil.isNullOrBlank(employeeSearchCriteriaValue)) {
                 JSONObject employeeSearchCriteria = new JSONObject(employeeSearchCriteriaValue);
                 EmployeeSearchCriteriaDto employeeSearchCriteriaDto = EmployeeDataAssembler.createEmployeeSearchCriteriaDto(employeeSearchCriteria);
-                employeeSearchCriteriaDto.setVerifiedStatus(verifiedStatus);
+                employeeSearchCriteriaDto.setRecordStatus(recordStatus);
                 List<EmployeeDto> employees = employeeService.getAll(employeeSearchCriteriaDto);
                 if (employees != null && !employees.isEmpty()) {
                     for (EmployeeDto employee : employees) {
@@ -408,6 +401,18 @@ public class EmployeeController {
                                 row.put(lastName);
                             }
                         }
+
+                        ImageAccessDto imageAccess = employee.getImageAccess();
+                        if (imageAccess == null) {
+                            row.put("");
+                            row.put("");
+                            row.put("");
+                        } else {
+                            row.put(imageAccess.getDirectLink());
+                            row.put(imageAccess.getPassportLink());
+                            row.put(imageAccess.getThumbnailLink());
+                        }
+
                         data.put(row);
                     }
                 }
@@ -423,17 +428,16 @@ public class EmployeeController {
      * 
      * @param request the request
      * @param response the response
-     * @param verifiedStatus the verified status
      * @throws Exception the exception
      */
     private void employeesJSONList(HttpServletRequest request,
-            HttpServletResponse response, String verifiedStatus) throws Exception {
+            HttpServletResponse response, RecordStatus recordStatus) throws Exception {
         JSONArray data = new JSONArray();
         try {
             EmployeeSearchCriteriaDto employeeSearchCriteria = new EmployeeSearchCriteriaDto();
-            employeeSearchCriteria.setVerifiedStatus(verifiedStatus);
+            employeeSearchCriteria.setRecordStatus(recordStatus);
             List<EmployeeDto> employees = employeeService.getAll(employeeSearchCriteria);
-            
+
             if (employees != null) {
                 for (EmployeeDto employee : employees) {
                     JSONArray row = new JSONArray();

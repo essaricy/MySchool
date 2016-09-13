@@ -11,9 +11,9 @@ import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.SecureRandomGenerator;
 import com.myschool.file.constant.FileExtension;
 import com.myschool.filesystem.dto.DirectoryDto;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.image.agent.ImageScalingAgent;
-import com.myschool.infra.image.constants.ImageSize;
 
 /**
  * The Class TempFileSystem.
@@ -27,6 +27,9 @@ public class TempFileSystem extends AbstractSubFileSystem {
 
     /** The employee directory. */
     private static File employeeDirectory;
+
+    /** The gallery directory. */
+    private static File galleryDirectory;
 
     /** The import directory. */
     private static File importDirectory;
@@ -49,6 +52,7 @@ public class TempFileSystem extends AbstractSubFileSystem {
     @Override
     public void init(DirectoryDto directory) throws FileSystemException {
         super.init(directory);
+        galleryDirectory = getChildDirectoryFile(GALLERY);
         employeeDirectory = getChildDirectoryFile(EMPLOYEE);
         importDirectory = getChildDirectoryFile(IMPORT);
         reportDirectory = getChildDirectoryFile(REPORT);
@@ -56,6 +60,7 @@ public class TempFileSystem extends AbstractSubFileSystem {
         notificationDirectory = getChildDirectoryFile(NOTIFICATION);
         uploadDirectory = getChildDirectoryFile(UPLOAD);
 
+        System.out.println("galleryDirectory=" +( (galleryDirectory == null) ? null : galleryDirectory.getAbsolutePath()));
         System.out.println("employeeDirectory=" +( (employeeDirectory == null) ? null : employeeDirectory.getAbsolutePath()));
         System.out.println("importDirectory=" +( (importDirectory == null) ? null : importDirectory.getAbsolutePath()));
         System.out.println("reportDirectory=" +( (reportDirectory == null) ? null : reportDirectory.getAbsolutePath()));
@@ -105,6 +110,17 @@ public class TempFileSystem extends AbstractSubFileSystem {
      */
     public File createTempFile(String fileName) throws FileSystemException {
         return FileUtil.createFile(getDirectory(), fileName);
+    }
+
+    /**
+     * Creates the gallery temp file.
+     *
+     * @param fileName the file name
+     * @return the file
+     * @throws FileSystemException the file system exception
+     */
+    public File createGalleryTempFile(String fileName) throws FileSystemException {
+        return FileUtil.createFile(galleryDirectory, fileName);
     }
 
     /**

@@ -4,15 +4,16 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.domain.ProfileManager;
 import com.myschool.application.dto.MySchoolProfileDto;
-import com.myschool.clazz.dao.ClassDao;
 import com.myschool.clazz.dao.RegisteredClassDao;
 import com.myschool.clazz.dto.RegisteredClassDto;
-import com.myschool.common.constants.MySchoolConstant;
+import com.myschool.common.assembler.ImageDataAssembler;
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
@@ -27,12 +28,14 @@ import com.myschool.exam.dto.ExamGradeDto;
 import com.myschool.exam.dto.StudentExamDto;
 import com.myschool.exam.dto.StudentInExamDto;
 import com.myschool.exim.dao.StudentExamDao;
-import com.myschool.infra.filesystem.agent.ImageFileSystem;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
-import com.myschool.infra.image.constants.ImageSize;
+import com.myschool.infra.storage.StorageAccessAgent;
+import com.myschool.infra.storage.exception.StorageAccessException;
 import com.myschool.notification.constants.NotificationEndPoint;
 import com.myschool.notification.constants.NotificationType;
 import com.myschool.notification.domain.NotificationManager;
+import com.myschool.storage.dto.StorageItem;
 import com.myschool.student.dao.StudentDao;
 import com.myschool.student.dao.StudentDocumentDao;
 import com.myschool.student.dao.StudentFamilyDao;
@@ -50,6 +53,9 @@ import com.myschool.user.dto.UsersDto;
  */
 @Component
 public class StudentManager {
+
+    /** The Constant LOGGER. */
+    private static final Logger LOGGER = Logger.getLogger(StudentManager.class);
 
     /** The user manager. */
     @Autowired
@@ -75,10 +81,6 @@ public class StudentManager {
     @Autowired
     private StudentFamilyDao studentFamilyDao;
 
-    /** The class dao. */
-    @Autowired
-    private ClassDao classDao;
-
     /** The registered class dao. */
     @Autowired
     private RegisteredClassDao registeredClassDao;
@@ -99,13 +101,38 @@ public class StudentManager {
     @Autowired
     private TempFileSystem tempFileSystem;
 
-    /** The image file system. */
-    @Autowired
-    private ImageFileSystem imageFileSystem;
-
     /** The student validator. */
     @Autowired
     private StudentValidator studentValidator;
+
+    /** The storage access agent. */
+    @Autowired
+    private StorageAccessAgent storageAccessAgent;
+
+    /**
+     * Gets the.
+     * 
+     * @param studentId the student id
+     * @return the student
+     * @throws DataException the data exception
+     */
+    public StudentDto get(int studentId) throws DataException {
+        StudentDto student = null;
+        try {
+            student = studentDao.get(studentId);
+            if (student != null) {
+                student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
+                student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
+                StorageItem storageItem = storageAccessAgent.STUDENT_STORAGE.get(RecordStatus.get(student.isVerified()), student.getAdmissionNumber());
+                student.setImageAccess(ImageDataAssembler.create(storageItem));
+            }
+        } catch (DaoException daoException) {
+            throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
+        }
+        return student;
+    }
 
     /**
      * Gets the student.
@@ -121,9 +148,13 @@ public class StudentManager {
             if (student != null) {
                 student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
                 student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
+                StorageItem storageItem = storageAccessAgent.STUDENT_STORAGE.get(RecordStatus.get(student.isVerified()), student.getAdmissionNumber());
+                student.setImageAccess(ImageDataAssembler.create(storageItem));
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return student;
     }
@@ -132,26 +163,30 @@ public class StudentManager {
      * Gets the next.
      *
      * @param admissionNumber the admission number
-     * @param type the type
+     * @param recordStatus the record status
      * @return the next
      * @throws DataException the data exception
      */
-    public StudentDto getNext(String admissionNumber, String type) throws DataException {
+    public StudentDto getNext(String admissionNumber, RecordStatus recordStatus) throws DataException {
         StudentDto student = null;
         try {
-        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
-        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	if (recordStatus == null) {
+        		throw new DataException("Search type must be either " + RecordStatus.VERIFIED + " or " + RecordStatus.UNVERIFIED);
         	}
-            String nextAdmissionNumber = studentDao.getNextAdmissionNumber(admissionNumber, type);
+            String nextAdmissionNumber = studentDao.getNextAdmissionNumber(admissionNumber, recordStatus);
             if (nextAdmissionNumber != null) {
             	student = studentDao.get(nextAdmissionNumber);
             	if (student != null) {
             		student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
             		student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
+            		StorageItem storageItem = storageAccessAgent.STUDENT_STORAGE.get(RecordStatus.get(student.isVerified()), student.getAdmissionNumber());
+                    student.setImageAccess(ImageDataAssembler.create(storageItem));
             	}
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return student;
     }
@@ -160,26 +195,30 @@ public class StudentManager {
      * Gets the previous.
      *
      * @param admissionNumber the admission number
-     * @param type the type
+     * @param recordStatus the record status
      * @return the previous
      * @throws DataException the data exception
      */
-    public StudentDto getPrevious(String admissionNumber, String type) throws DataException {
+    public StudentDto getPrevious(String admissionNumber, RecordStatus recordStatus) throws DataException {
     	StudentDto student = null;
         try {
-        	if (type == null || !(type.equals(MySchoolConstant.VERIFIED) || type.equals(MySchoolConstant.UNVERIFIED))) {
-        		throw new DataException("Search type must be either " + MySchoolConstant.VERIFIED + " or " + MySchoolConstant.UNVERIFIED);
+        	if (recordStatus == null) {
+        		throw new DataException("Search type must be either " + RecordStatus.VERIFIED + " or " + RecordStatus.UNVERIFIED);
         	}
-            String previousAdmissionNumber = studentDao.getPreviousAdmissionNumber(admissionNumber, type);
+            String previousAdmissionNumber = studentDao.getPreviousAdmissionNumber(admissionNumber, recordStatus);
             if (previousAdmissionNumber != null) {
             	student = studentDao.get(previousAdmissionNumber);
             	if (student != null) {
             		student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
             		student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
+            		StorageItem storageItem = storageAccessAgent.STUDENT_STORAGE.get(RecordStatus.get(student.isVerified()), student.getAdmissionNumber());
+                    student.setImageAccess(ImageDataAssembler.create(storageItem));
             	}
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return student;
     }
@@ -202,7 +241,13 @@ public class StudentManager {
             if (existingStudent != null) {
                 throw new DataException("Student with Admission Number (" + admissionNumber + ") already exists.");
             }
-            boolean verified = student.isVerified();
+            boolean verify = student.isVerify();
+            System.out.println("verify=" + verify);
+            if (verify) {
+                student.setVerified(true);
+            } else {
+                student.setVerified(false);
+            }
             studentId = studentDao.create(student);
             if (studentId == 0) {
                 throw new DataException("Unable to create Student now.");
@@ -210,15 +255,17 @@ public class StudentManager {
             // Create student attributes.
             studentFamilyDao.create(studentId, student.getFamilyMembers());
             studentDocumentDao.create(studentId, student.getDocumentsSubmitted());
-            // Update student Image
-            String referenceNumber = student.getImageName();
-            if (!StringUtil.isNullOrBlank(referenceNumber)) {
-                updateStudentImage(referenceNumber, admissionNumber);
-            }
             // If student information is verified then create login and notification.
-            if (verified) {
+            if (verify) {
                 student.setStudentId(studentId);
                 createStudentProfile(student);
+                System.out.println("Created student login profile.");
+            }
+            // Update student Image
+            String referenceNumber = student.getImageName();
+            System.out.println("referenceNumber=" + referenceNumber);
+            if (!StringUtil.isNullOrBlank(referenceNumber)) {
+                updateStudentImage(referenceNumber, admissionNumber, student.isVerified());
             }
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
@@ -251,12 +298,24 @@ public class StudentManager {
             // Validate the student
             studentValidator.validate(student);
             admissionNumber = student.getAdmissionNumber();
+            System.out.println("admissionNumber=" + admissionNumber);
             StudentDto existingStudent = studentDao.get(admissionNumber);
             if (existingStudent == null) {
                 throw new DataException("Student with Admission Number (" + admissionNumber + ") does not exist.");
             }
+            boolean verify = student.isVerify();
+            boolean alreadyVerified = existingStudent.isVerified();
             studentId = existingStudent.getStudentId();
+            System.out.println("verify=" + verify);
+            System.out.println("alreadyVerified=" + alreadyVerified);
+            if (verify) {
+                System.out.println("Set to verified");
+                student.setVerified(true);
+            } else {
+                student.setVerified(alreadyVerified);
+            }
             studentDao.update(existingStudent.getStudentId(), student);
+            System.out.println("Updated student info");
 
             // Update student family details.
             List<FamilyMemberDto> familyMembers = student.getFamilyMembers();
@@ -270,6 +329,7 @@ public class StudentManager {
                     }
                 }
             }
+            System.out.println("Updated student family info");
             // Update student documents
             List<StudentDocument> studentDocuments = student.getDocumentsSubmitted();
             if (studentDocuments != null && !studentDocuments.isEmpty()) {
@@ -282,21 +342,46 @@ public class StudentManager {
                     }
                 }
             }
-            String referenceNumber = student.getImageName();
-            if (!StringUtil.isNullOrBlank(referenceNumber)) {
-                updateStudentImage(referenceNumber, admissionNumber);
+            System.out.println("Updated student documents info");
+            // If the student data is verified
+            if (verify) {
+                if (alreadyVerified) {
+                    // This student is already verified. nothing to do.
+                } else {
+                    System.out.println("Student data has been verified. Moving to VERIFIED.");
+                    // This student data has not been verified before. so create student profile
+                    student.setStudentId(studentId);
+                    createStudentProfile(student);
+                    System.out.println("Creted student proifile for login");
+
+                    // Update the student image if one is provided now. update to UNVERIFIED
+                    String imageName = student.getImageName();
+                    if (!StringUtil.isNullOrBlank(imageName)) {
+                        System.out.println("Updating student image with " + imageName);
+                        updateStudentImage(imageName, admissionNumber, false);
+                        System.out.println("Updated student image provided now.");
+                    }
+                    // Now the student image has been updated. Move the image to verified images.
+                    storageAccessAgent.STUDENT_STORAGE.verify(admissionNumber);
+                    System.out.println("Moved student image to VERIFIED, if one did exist.");
+                }
+            } else {
+                // This is just save. could be VERIFIED or UNVERIFIED.
+                // Update the student image if one is provided now
+                String imageName = student.getImageName();
+                if (!StringUtil.isNullOrBlank(imageName)) {
+                    System.out.println("Updating student image with " + imageName);
+                    updateStudentImage(imageName, admissionNumber, alreadyVerified);
+                    System.out.println("Updated student image to " + RecordStatus.get(alreadyVerified));
+                }
             }
-            // If student is not verified already and verified now then create user profile and a notification.
-            boolean verified = student.isVerified();
-            boolean alreadyVerified = existingStudent.isVerified();
-            if (!alreadyVerified && verified) {
-                student.setStudentId(studentId);
-                createStudentProfile(student);
-            }
+            System.out.println("EVERYTHING completed.");
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
         } catch (DaoException daoException) {
             throw new DataException("Unable to update student now. Please try again.");
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return true;
     }
@@ -306,16 +391,20 @@ public class StudentManager {
      *
      * @param secureToken the secure token
      * @param admissionNumber the admission number
+     * @param verified the verified
      * @throws DataException the data exception
      */
-    public void updateStudentImage(String secureToken, String admissionNumber) throws DataException {
+    public void updateStudentImage(String secureToken, String admissionNumber, boolean verified) throws DataException {
         try {
             if (secureToken != null && admissionNumber != null) {
-                File fromFile = tempFileSystem.getStudentImage(secureToken, ImageSize.ORIGINAL);
-                imageFileSystem.createStudentImage(admissionNumber, fromFile);
+                File file = tempFileSystem.getStudentImage(secureToken, ImageSize.ORIGINAL);
+                System.out.println("updateStudentImage() file=" + file);
+                storageAccessAgent.STUDENT_STORAGE.update(file, RecordStatus.get(verified), admissionNumber);
             }
         } catch (FileSystemException fileSystemException) {
             throw new DataException(fileSystemException.getMessage(), fileSystemException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
     }
 
@@ -327,9 +416,15 @@ public class StudentManager {
      */
     public void delete(String admissionNumber) throws DataException {
         try {
-            studentDao.delete(admissionNumber);
+            StudentDto student = studentDao.get(admissionNumber);
+            if (student != null) {
+                studentDao.delete(admissionNumber);
+                storageAccessAgent.STUDENT_STORAGE.delete(RecordStatus.get(student.isVerified()), admissionNumber);
+            }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
     }
 
@@ -411,27 +506,6 @@ public class StudentManager {
     }
 
     /**
-     * Gets the.
-     * 
-     * @param studentId the student id
-     * @return the student
-     * @throws DataException the data exception
-     */
-    public StudentDto get(int studentId) throws DataException {
-        StudentDto student = null;
-        try {
-            student = studentDao.get(studentId);
-            if (student != null) {
-                student.setFamilyMembers(studentFamilyDao.getByStudent(student.getAdmissionNumber()));
-                student.setDocumentsSubmitted(studentDocumentDao.getByStudent(student.getAdmissionNumber()));
-            }
-        } catch (DaoException daoException) {
-            throw new DataException(daoException.getMessage(), daoException);
-        }
-        return student;
-    }
-
-    /**
      * Gets the current ay students.
      *
      * @param classId the class id
@@ -493,6 +567,19 @@ public class StudentManager {
         List<StudentDto> students = null;
         try {
             students = studentDao.search(studentSearchCriteriaDto);
+            if (students != null && !students.isEmpty()) {
+                for (StudentDto student : students) {
+                    if (student != null) {
+                        StorageItem storageItem = null;
+                        try {
+                            storageItem = storageAccessAgent.STUDENT_STORAGE.get(RecordStatus.get(student.isVerified()), student.getAdmissionNumber());
+                            student.setImageAccess(ImageDataAssembler.create(storageItem));
+                        } catch (StorageAccessException storageAccessException) {
+                            LOGGER.error(storageAccessException.getMessage(), storageAccessException);
+                        }
+                    }
+                }
+            }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);
         }
@@ -643,6 +730,28 @@ public class StudentManager {
             }
         }
         return false;
+    }
+
+
+    /**
+     * Gets the evanescent image.
+     *
+     * @param referenceNumber the reference number
+     * @param imageSize the image size
+     * @return the evanescent image
+     * @throws DataException the data exception
+     */
+    public File getEvanescentImage(String referenceNumber,
+            ImageSize imageSize) throws DataException {
+        File file = null;
+        try {
+            System.out.println("getEvanescentImage(" + referenceNumber + ", " + imageSize + ")");
+            file = tempFileSystem.getStudentImage(referenceNumber, imageSize);
+            System.out.println("file===" + file);
+        } catch (FileSystemException fileSystemException) {
+            throw new DataException(fileSystemException.getMessage(), fileSystemException);
+        }
+        return file;
     }
 
 }

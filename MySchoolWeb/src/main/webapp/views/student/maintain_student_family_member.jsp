@@ -4,15 +4,17 @@
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
 <style>
-.userFormTable {
-  font-size: 0.8em;
+.formTable_Data {
+  font-size: 1.20em;
 }
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
+  $("#StudentFamilyMember_AvailSMS").toggleSwitch();
+  $("#StudentFamilyMember_AvailEMail").toggleSwitch();
+
   $("#StudentFamilyMember_Relationship").lazySelect({
     id: "StudentFamilyMember_Relationship",
-    width: "94%",
     url: '<%=request.getContextPath()%>/relationship/jsonList.htm',
     selectOnCode: $('#StudentFamilyMember_RelationshipCode').val(),
     excludeCodes: ['D', 'H', 'O', 'W']
@@ -40,8 +42,8 @@ function getStudentFamilyMember() {
     StudentFamilyMember.Occupation=$('#StudentFamilyMember_Occupation').val();
     StudentFamilyMember.MobileNumber=$('#StudentFamilyMember_MobileNumber').val();
     StudentFamilyMember.EmailID=$('#StudentFamilyMember_EmailId').val();
-    StudentFamilyMember.AvailSMS=$('#StudentFamilyMember_AvailSMS').val();
-    StudentFamilyMember.AvailEmail=$('#StudentFamilyMember_AvailEMail').val();
+    StudentFamilyMember.AvailSMS='' + $('#StudentFamilyMember_AvailSMS').is(":checked");
+    StudentFamilyMember.AvailEmail='' + $('#StudentFamilyMember_AvailEMail').is(":checked");
   return StudentFamilyMember;
 }
 </script>
@@ -95,7 +97,7 @@ function getStudentFamilyMember() {
       <spring:message code="common.avail.sms"/>
     </td>
     <td width="60%" class="value">
-      <myschool:checkbox id="StudentFamilyMember_AvailSMS" value="false" />
+      <input type="checkbox" id="StudentFamilyMember_AvailSMS" />
     </td>
   </tr>
   <tr>
@@ -103,7 +105,7 @@ function getStudentFamilyMember() {
       <spring:message code="common.avail.email"/>
     </td>
     <td width="60%" class="value">
-      <myschool:checkbox id="StudentFamilyMember_AvailEMail" value="false" />
+      <input type="checkbox" id="StudentFamilyMember_AvailEMail" />
     </td>
   </tr>
   <tr>
@@ -164,7 +166,12 @@ function getStudentFamilyMember() {
       <spring:message code="common.avail.sms"/>
     </td>
     <td width="60%" class="value">
-      <myschool:checkbox id="StudentFamilyMember_AvailSMS" value="${StudentFamilyMember.availSMS}" />
+      <c:if test="${StudentFamilyMember.availSMS}">
+        <input type="checkbox" id="StudentFamilyMember_AvailSMS" checked />
+      </c:if>
+      <c:if test="${!StudentFamilyMember.availSMS}">
+        <input type="checkbox" id="StudentFamilyMember_AvailSMS" />
+      </c:if>
     </td>
   </tr>
   <tr>
@@ -172,7 +179,12 @@ function getStudentFamilyMember() {
       <spring:message code="common.avail.email"/>
     </td>
     <td width="60%" class="value">
-      <myschool:checkbox id="StudentFamilyMember_AvailEMail" value="${StudentFamilyMember.availEmail}" />
+      <c:if test="${StudentFamilyMember.availEmail}">
+        <input type="checkbox" id="StudentFamilyMember_AvailEMail" checked />
+      </c:if>
+      <c:if test="${!StudentFamilyMember.availEmail}">
+        <input type="checkbox" id="StudentFamilyMember_AvailEMail" />
+      </c:if>
     </td>
   </tr>
   <tr>

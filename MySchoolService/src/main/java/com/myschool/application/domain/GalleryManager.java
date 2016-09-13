@@ -279,7 +279,12 @@ public class GalleryManager {
             galleryItemName = galleryItemName.trim();
 
             StorageItem storageItem = storageAccessAgent.GALLERY_STORAGE.addStoreItem(galleryName, galleryItemFile);
-            galleryDetail = GalleryDataAssembler.createGalleryDetail(storageItem, null);
+            if (storageItem != null) {
+                galleryDetail = GalleryDataAssembler.createGalleryDetail(storageItem, null);
+                if (galleryItemFile.exists() && galleryItemFile.isFile()) {
+                    //TODO: delete file after processing. galleryItemFile.delete();
+                }
+            }
         } catch (FileSystemException fileSystemException) {
             throw new DataException(fileSystemException.getMessage(), fileSystemException);
         } catch (StorageAccessException storageAccessException) {

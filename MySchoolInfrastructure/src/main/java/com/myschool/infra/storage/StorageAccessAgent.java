@@ -14,13 +14,14 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.filesystem.dto.DirectoryDto;
+import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.agent.AbstractAgent;
 import com.myschool.infra.image.agent.ImageScalingAgent;
-import com.myschool.infra.image.constants.ImageSize;
 import com.myschool.infra.storage.exception.StorageAccessException;
 import com.myschool.infra.storage.reader.StorageConfigReader;
 import com.myschool.storage.constant.StorageAccessConstant;
@@ -479,8 +480,36 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
          * @return the storage path
          * @throws StorageAccessException the storage access exception
          */
+        protected T getStorage(RecordStatus recordStatus) throws StorageAccessException {
+            return StorageAccessAgent.this.getFile(getStoragePath() + FILE_SEPARATOR + recordStatus.toString());
+        }
+
+        /**
+         * Gets the storage path.
+         *
+         * @param recordStatus the record status
+         * @return the storage path
+         * @throws StorageAccessException the storage access exception
+         */
         protected String getStoragePath(RecordStatus recordStatus) throws StorageAccessException {
             return getStoragePath() + FILE_SEPARATOR + recordStatus.toString();
+        }
+
+        /**
+         * Gets the.
+         *
+         * @param recordStatus the record status
+         * @param identifier the identifier
+         * @return the storage item
+         * @throws StorageAccessException the storage access exception
+         */
+        public StorageItem get(RecordStatus recordStatus, String identifier) throws StorageAccessException {
+            System.out.println("recordStatus=" + recordStatus + ", identifier=" + identifier);
+            T storeFile = getStorage(recordStatus);
+            System.out.println("storeFile=" + storeFile);
+            T file = StorageAccessAgent.this.getFile(storeFile, identifier);
+            System.out.println("file=" + file);
+            return createStorageItem(file);
         }
 
         /**
@@ -524,25 +553,25 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
         /**
          * Verify.
          *
-         * @param employeeNumber the employee number
+         * @param id the id
          * @return true, if successful
          * @throws StorageAccessException the storage access exception
          */
-        public boolean verify(String employeeNumber) throws StorageAccessException {
+        public boolean verify(String id) throws StorageAccessException {
             return moveImageStoreItem(getStoragePath(RecordStatus.UNVERIFIED),
-                    getStoragePath(RecordStatus.VERIFIED), employeeNumber);
+                    getStoragePath(RecordStatus.VERIFIED), id);
         }
-        
+
         /**
          * Unverify.
          *
-         * @param employeeNumber the employee number
+         * @param id the id
          * @return true, if successful
          * @throws StorageAccessException the storage access exception
          */
-        public boolean unverify(String employeeNumber) throws StorageAccessException {
+        public boolean unverify(String id) throws StorageAccessException {
             return moveImageStoreItem(getStoragePath(RecordStatus.VERIFIED),
-                    getStoragePath(RecordStatus.UNVERIFIED), employeeNumber);
+                    getStoragePath(RecordStatus.UNVERIFIED), id);
         }
 
     }
@@ -729,6 +758,7 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
             WriteMode writeMode) throws StorageAccessException {
         StorageItem storageItem = null;
         try {
+            System.out.println("addImageStoreItem(" + path + ", " + file + ", " + name + ", " + writeMode + ")");
             T imageStore = getFile(path);
             T passportStore = getFile(path + FILE_SEPARATOR + ImageSize.PASSPORT);
             T thumbnailStore = getFile(path + FILE_SEPARATOR + ImageSize.THUMBNAIL);
@@ -753,6 +783,7 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
         } catch (FileSystemException fileSystemException) {
             throw new StorageAccessException(fileSystemException.getMessage(), fileSystemException);
         }
+        System.out.println("storageItem=" + storageItem);
         return storageItem;
     }
 
@@ -1113,14 +1144,19 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
     public boolean moveFile(T from, T to, String fileName) throws StorageAccessException {
         boolean status = false;
         T srcFile = getFile(from, fileName);
-        if (srcFile == null) {
-            throw new StorageAccessException("Cannot move. Could not find the file " + fileName);
-        }
-        String path = getStoragePath(srcFile);
-        T movedFile = moveFileInStorage(from, to, srcFile);
-        if (movedFile != null) {
-            status = true;
-            FILE_PATH_IMAGE_MAP.put(path, movedFile);
+        if (srcFile != null) {
+            String path = getStoragePath(srcFile);
+            T movedFile = moveFileInStorage(from, to, srcFile);
+            if (movedFile != null) {
+                FILE_PATH_IMAGE_MAP.remove(path);
+
+                String newPath = getStoragePath(to);
+                setStorageLocation(movedFile, newPath);
+                setStoragePath(movedFile, newPath + FILE_SEPARATOR + fileName);
+
+                FILE_PATH_IMAGE_MAP.put(getStoragePath(movedFile), movedFile);
+                status = true;
+            }
         }
         return status;
     }
@@ -1196,19 +1232,6 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
             FILE_PATH_IMAGE_MAP.remove(path);
         }
         return deleted;
-    }
-
-    /**
-     * The Enum RecordStatus.
-     */
-    public enum RecordStatus {
-
-        /** The verified. */
-        VERIFIED, 
-
-        /** The unverified. */
-        UNVERIFIED;
-
     }
 
 }
