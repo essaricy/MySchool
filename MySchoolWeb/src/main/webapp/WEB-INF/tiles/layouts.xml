@@ -12,7 +12,7 @@
     </definition>
 
     <definition name="wholepage_layout" extends="base_layout">
-        <put-attribute name="icon_help" value="/views/common/icon_help.jsp" />
+        <!-- <put-attribute name="icon_help" value="/views/common/icon_help.jsp" /> -->
         <put-attribute name="command_name" value="" />
         <put-list-attribute name="css_imports">
             <add-attribute value="styles/font-awesome/css/font-awesome.min.css" />
@@ -21,7 +21,6 @@
             <add-attribute value="widgets/jquery-ui-1.10.2/themes/base/minified/jquery-ui.min.css" />
 
             <add-attribute value="widgets/jquery.chosen/chosen.min.css" />
-            <!-- <add-attribute value="widgets/jquery.fullcalendar/cupertino/theme.css" /> -->
             <add-attribute value="widgets/jquery.freewall/styles/style.css" />
             <add-attribute value="widgets/jquery.fullcalendar/fullcalendar.css" />
             <add-attribute value="widgets/jquery.lobibox/css/lobibox.css" />
@@ -69,46 +68,10 @@
         </put-list-attribute>
     </definition>
 
-    <!-- This layout should be used for JSP segments/tiles  -->
-    <definition name="tile_layout" template="/views/common/tile_layout.jsp">
-        <put-attribute name="body" value="" />
-    </definition>
-
     <!-- This layout should be used for model pop up -->
     <definition name="model_layout" template="/views/common/model_layout.jsp">
         <put-list-attribute name="css_imports"></put-list-attribute>
         <put-list-attribute name="script_imports"></put-list-attribute>
     </definition>
 
-    <!-- Used for login screen. This is abstract layout and should be customized for different login screens -->
-    <definition name="login_layout" template="/views/user/login.jsp">
-        <put-attribute name="title" value="Welcome to MySchool" />
-        <put-attribute name="header" value="/views/common/header.jsp" />
-        <put-attribute name="menu" value="/views/common/menu.jsp" />
-        <put-attribute name="features" value="" />
-        <put-attribute name="notice_board" value="" />
-        <put-attribute name="achievements" value="" />
-        <put-attribute name="about_director" value="" />
-        <put-attribute name="contact_info" value="" />
-        <put-attribute name="login_box" value="" />
-        <put-attribute name="footer" value="/views/common/footer.jsp" />
-
-        <put-list-attribute name="css_imports">
-            <add-attribute value="widgets/jquery.freewall/styles/style.css" />
-            <add-attribute value="widgets/jquery.social-likes/social-likes_birman.css" />
-            <add-attribute value="widgets/jquery.tooltipster/css/tooltipster.css" />
-            <add-attribute value="themes/${current_theme}.css" />
-        </put-list-attribute>
-        <put-list-attribute name="script_imports">
-            <!-- JQuery UI -->
-            <add-attribute value="widgets/jquery-ui-1.10.2/jquery-1.9.1.min.js" />
-            <add-attribute value="widgets/jquery-ui-1.10.2/ui/minified/jquery-ui.min.js" />
-            <add-attribute value="widgets/jquery.dateFormat/jquery-dateFormat.min.js" />
-            <add-attribute value="widgets/jquery.freewall/scripts/freewall.js" />
-            <add-attribute value="widgets/jquery.goup/jquery.goup.min.js" />
-            <add-attribute value="widgets/jquery.social-likes/social-likes.min.js" />
-            <add-attribute value="scripts/myschool-messages.js" />
-            <add-attribute value="scripts/myschool-social.js" />
-        </put-list-attribute>
-    </definition>
 </tiles-definitions>

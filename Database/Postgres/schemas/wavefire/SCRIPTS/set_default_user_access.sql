@@ -29,11 +29,9 @@ $BODY$
           IF (curRecord.module_name = 'Admin')
             OR (curRecord.module_name = 'Master')
             OR (curRecord.module_name = 'Notifications')
-            OR (curRecord.module_name = 'Notice Board')
             OR (curRecord.module_name = 'Downloads')
             OR (curRecord.module_name = 'Privileges')
             OR (curRecord.module_name = 'Statistics')
-            OR (curRecord.module_name = 'Find Us')
             OR (curRecord.module_name = 'Web Admin')
           THEN
             can_view := 'Y';
@@ -58,10 +56,8 @@ $BODY$
             OR (curRecord.module_name = 'Master')
             OR (curRecord.module_name = 'Employee')
             OR (curRecord.module_name = 'Notifications')
-            OR (curRecord.module_name = 'Notice Board')
             OR (curRecord.module_name = 'Downloads')
             OR (curRecord.module_name = 'Statistics')
-            OR (curRecord.module_name = 'Find Us')
             OR (curRecord.module_name = 'Web Admin')
           THEN
             can_view := 'Y';
@@ -82,9 +78,7 @@ $BODY$
         -- STUDENT default access
         IF (curUserType.user_type_desc = 'Student') THEN
           IF (curRecord.module_name = 'Student')
-            OR (curRecord.module_name = 'Notice Board')
             OR (curRecord.module_name = 'Downloads')
-            OR (curRecord.module_name = 'Find Us')
           THEN
             can_view := 'Y';
             can_create := 'N';

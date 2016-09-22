@@ -12,9 +12,6 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class ViewDelegationController {
 
-    /** The Constant ERROR_KEY. */
-    public static final String ERROR_KEY = "error";
-
     /**
      * Delegate whole page view.
      *

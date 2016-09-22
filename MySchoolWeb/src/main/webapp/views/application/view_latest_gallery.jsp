@@ -56,7 +56,7 @@ $(document).ready(function() {
 </script>
 <div class="TileHeader" align="left">
   <strong id="GalleryName"></strong>
-  <a href="<%=request.getContextPath()%>/gallery/launchGallery.htm"><img src="<%=request.getContextPath()%>/images/icons/more.png" title="Findout more..." style="cursor: pointer;"/></a>
+  <a href="<%=request.getContextPath()%>/public/gallery.htm"><img src="<%=request.getContextPath()%>/images/icons/more.png" title="Findout more..." style="cursor: pointer;"/></a>
 </div>
 <div class="TileContent" align="left">
   <div id="galleria"></div>

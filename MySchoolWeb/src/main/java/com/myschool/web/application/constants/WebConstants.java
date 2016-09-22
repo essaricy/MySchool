@@ -5,6 +5,9 @@ package com.myschool.web.application.constants;
  */
 public class WebConstants {
 
+    /** The Constant PUBLIC_DASHBOARD. */
+    public static final String PUBLIC_DASHBOARD = "/public/dashboard.htm";
+
     /** The Constant USER_CONTEXT. */
     public static final String USER_CONTEXT = "USER_CONTEXT";
 
@@ -37,5 +40,10 @@ public class WebConstants {
 
     /** The Constant RECORD_STATUS. */
     public static final String RECORD_STATUS = "RECORD_STATUS";
+
+    /** The Constant MESSAGE. */
+    public static final String MESSAGE = "MESSAGE";
+
+    public static final String USER_TYPE = "USER_TYPE";
 
 }

@@ -7,18 +7,23 @@ public class Excludes {
     /** The GLOBAL_EXCLUDES. */
     private static String[] GLOBAL_EXCLUDES = {
         // Common excludes
-        "/themes", "/scripts", "/image", "/images", "/widgets", "/jcaptcha",
-        // login excludes
-        "/log",
+        "/themes", "/scripts", "/styles", "/image", "/images", "/widgets", "/jcaptcha",
     };
 
     /** The PUBLIC_EXCLUDES. */
     private static String[] PUBLIC_EXCLUDES = {
         // screens that login does not require
-        "/noticeBoard", "/findus", "/download", "/portal",
+        "/public", "/acl",
+        // Gallery Excludes
+        "/gallery/getLatestGallery.htm", "/gallery/jsonListGalleries.htm",
+        // login excludes
+        //"/log",
+
+        // TODO below all are deprecated
+        "/download", "/portal",
         "/announcement",
         // Gallery related excludes
-        "/gallery/launchGallery.htm", "/gallery/jsonListGalleries.htm", "/gallery/jsonGalleryDetail.htm", "/gallery/getLatestGallery.htm",
+        //"/gallery/launchGallery.htm", "/gallery/jsonListGalleries.htm", "/gallery/jsonGalleryDetail.htm", "/gallery/getLatestGallery.htm",
         // Issue related excludes
         "/issue/launchIssue.htm", "/issue/doCreate.htm",
         // Portal excludes
@@ -28,7 +33,7 @@ public class Excludes {
 
     /** The FUNCTIONAL_URL. */
     private static String[] FUNCTIONAL_URL = {
-        "admission-status/jsonList.htm",
+        "/admission-status/jsonList.htm",
         // Branch related excludes
         "/branch/jsonList.htm",
         // Class related excludes
@@ -53,11 +58,6 @@ public class Excludes {
         "/portal-student/doDelete.htm",
         // Upload image excludes
         "/upload/uploadImage.htm",
-        /*
-        // Student related excludes
-        "/student/launchParent.htm", "/student/validateFamilyMember.htm", "/student/launchSibling.htm",*/
-        // Issue related excludes
-        //"/issue/launchIssue.htm", "/issue/doCreate.htm"
     };
 
     public static boolean isGlobalExclude(HttpServletRequest request) {

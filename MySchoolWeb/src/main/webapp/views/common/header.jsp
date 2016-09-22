@@ -54,10 +54,6 @@ $(document).ready(function() {
   });
   </c:if>
 
-  $('#Product').click(function() {
-      var modelDialog = openWindow('<%=request.getContextPath()%>/views/common/credits.jsp', 'About Product', $(document).width()-20, $(document).height()-10);
-  });
-
   $('.img-round').roundImage();
   //$('.img-round').tooltipster();
 });
@@ -73,25 +69,23 @@ var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPag
     <td width="109px" style="padding-left:8px;padding-top:2px;">
       <a href="<%=request.getContextPath()%>"><img src="<%=request.getContextPath()%>/images/organization/LOGO.png" class="logo"/></a>
     </td>
-    <td colspan="2">&nbsp;</td>
-    <td>
-      <table cellpadding="0" cellspacing="0" width="100%" border="0">
-        <tr>
-          <td style="color:white;font-size:30px;letter-spacing:2px;word-spacing:4px;text-transform:uppercase;">
-          Your School Name Here
-          </td>
-        </tr>
-      </table>
-    </td>
+    <td style="color:white;font-size:30px;letter-spacing:2px;word-spacing:4px;text-transform:uppercase;">Your School Name Here</td>
+
     <c:if test="${USER_CONTEXT == null}">
-    <td width="*" style="color:white;font-size:14px;font-weight:bold;" valign="bottom" align="right"><spring:message code="product.name"/></td>
+    <td align="right" valign="top" style="color: white;padding-top: 3px; padding-right: 3px;">
+        <a href="<%=request.getContextPath()%>" class="headerLink">Home</a>
+        | <a href="<%=request.getContextPath()%>/acl/employee.htm" class="headerLink">Employee Login</a>
+        | <a href="<%=request.getContextPath()%>/acl/student.htm" class="headerLink">Student Login</a>
+        | <a href="<%=request.getContextPath()%>/acl/assistance.htm" class="headerLink">New Users</a>
+    </td>
     </c:if>
+
     <c:if test="${USER_CONTEXT != null}">
     <td width="30%" valign="top">
       <table border="0" cellpadding="0" cellspacing="0" width="100%" height="100%">
         <tr>
           <td style="color:white;font-size:14px;font-weight:bold;" valign="bottom" align="right">
-            <a href="#" id="Product" style="color: white;"><spring:message code="product.name" /></a>
+            <a href="#" id="Product" style="color: white;">&nbsp;</a>
           </td>
         </tr>
         <tr>
@@ -130,7 +124,7 @@ var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPag
                   <a href="<%=request.getContextPath()%>/settings/launch.htm"><img src="<%=request.getContextPath()%>/images/icons/cog.png" id="settings" title='<spring:message code="user.settings"/>' class="headerIcon" /></a>
                 </td>
                 <td width="16px" align="center">
-                  <a href="<%=request.getContextPath()%>/log/out.htm"><img src="<%=request.getContextPath()%>/images/icons/door_open.png" id="logout" title='<spring:message code="user.logout"/>' class="headerIcon" /></a>
+                  <a href="<%=request.getContextPath()%>/acl/signout.htm"><img src="<%=request.getContextPath()%>/images/icons/door_open.png" id="logout" title='<spring:message code="user.logout"/>' class="headerIcon" /></a>
                 </td>
               </tr>
             </table>

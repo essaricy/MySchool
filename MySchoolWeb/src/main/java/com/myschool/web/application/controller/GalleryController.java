@@ -45,20 +45,6 @@ public class GalleryController {
     private TempFileSystem tempFileSystem;
 
     /**
-     * Launch gallery.
-     * 
-     * @param request the request
-     * @param response the response
-     * @return the model and view
-     * @throws Exception the exception
-     */
-    @RequestMapping(value = "launchGallery")
-    public ModelAndView launchGallery(HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        return new ModelAndView(ApplicationViewNames.VIEW_GALLERY);
-    }
-
-    /**
      * Launch manage gallery.
      * 
      * @param request the request
@@ -102,7 +88,7 @@ public class GalleryController {
      * @return the model and view
      * @throws Exception the exception
      */
-    @RequestMapping(value = "jsonGalleryDetail")
+    /*@RequestMapping(value = "jsonGalleryDetail")
     public ModelAndView jsonGalleryDetail(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         JSONObject data = null;
@@ -116,7 +102,7 @@ public class GalleryController {
             HttpUtil.wrapAndWriteJson(response, "Gallery", data);
         }
         return null;
-    }
+    }*/
 
     /**
      * Gets the latest gallery.
@@ -156,7 +142,7 @@ public class GalleryController {
             if (!StringUtil.isNullOrBlank(galleryName)) {
                 galleryService.pin(galleryName);
                 result.setSuccessful(ResultDto.SUCCESS);
-                result.setStatusMessage("Gallery '" + galleryName + "' is pinned to the notice board and will be shown on the dashboard.");
+                result.setStatusMessage("Gallery '" + galleryName + "' is pinned and will be shown on the dashboard.");
             }
         } catch (ServiceException serviceException) {
             result.setStatusMessage(serviceException.getMessage());

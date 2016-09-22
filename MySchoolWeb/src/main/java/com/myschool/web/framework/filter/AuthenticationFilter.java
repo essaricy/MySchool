@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.myschool.web.application.constants.WebConstants;
-import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
 
 /**
@@ -23,9 +22,6 @@ public class AuthenticationFilter implements Filter {
 
 	/** The Constant LOGGER. */
 	//private static final Logger LOGGER = Logger.getLogger(AuthenticationFilter.class);
-
-    /** The Constant LAUNCH_LOGIN_HTM. */
-    private static final String LAUNCH_LOGIN_HTM = "/log/launch.htm";
 
 	/* (non-Javadoc)
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -51,15 +47,14 @@ public class AuthenticationFilter implements Filter {
         if (!anyExclude) {
             HttpSession session = HttpUtil.getExistingSession(request);
             if (session == null) {
-                response.sendRedirect(contextPath + LAUNCH_LOGIN_HTM);
+                response.sendRedirect(contextPath + WebConstants.PUBLIC_DASHBOARD);
             } else {
                 Object userContext = session.getAttribute(WebConstants.USER_CONTEXT);
                 if (userContext == null) {
                     if (!requestURI.equals(contextPath + "/")) {
-                    	
-                        request.setAttribute(ViewDelegationController.ERROR_KEY, "Your login session has expired.");
+                        request.setAttribute(WebConstants.MESSAGE, "Your session has expired.");
                     }
-                    request.getRequestDispatcher(LAUNCH_LOGIN_HTM).forward(request, response);
+                    request.getRequestDispatcher(WebConstants.PUBLIC_DASHBOARD).forward(request, response);
                 } else {
                     filterChain.doFilter(request, response);
                 }

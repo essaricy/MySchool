@@ -54,12 +54,6 @@
             <tiles:insertAttribute name="features" ignore="true" />
           </div>
           <div class="brick size32">
-            <%-- <div class="TileHeader" align="left">
-              <strong>LOGIN</strong>
-            </div>
-            <div class="TileContent" align="left">
-              <tiles:insertAttribute name="login_box" ignore="true" />
-            </div> --%>
             <tiles:insertAttribute name="login_box" ignore="true" />
           </div>
           <div class="brick size31">

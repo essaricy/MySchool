@@ -140,7 +140,8 @@ public class IssueController {
         if (!StringUtil.isNullOrBlank(issueId)) {
             map.put("issue", issueService.get(Integer.parseInt(issueId)));
         }
-        return ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.REPORT_AN_ISSUE, map);
+        //return ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.REPORT_AN_ISSUE, map);
+        return null;
     }
 
     /**

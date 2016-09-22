@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN" "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <definition name="public_dashboard_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_public_dashboard.jsp" />
+    </definition>
+
+    <definition name="view_about_organization_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_about_organization.jsp" />
+    </definition>
+
+    <definition name="view_about_leadership_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_about_leadership.jsp" />
+    </definition>
+
+    <definition name="view_achievements_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_achievements.jsp" />
+    </definition>
+
+    <definition name="view_brochures_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_brochures.jsp" />
+    </definition>
+
+    <definition name="view_calendar_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_calendar.jsp" />
+    </definition>
+
+    <definition name="contact_us_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_contact_us.jsp" />
+    </definition>
+
+    <definition name="view_gallery_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_gallery.jsp" />
+    </definition>
+
+    <definition name="view_holidays_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_holidays.jsp" />
+    </definition>
+
+    <definition name="view_locate_us_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_locate_us.jsp" />
+    </definition>
+
+    <definition name="view_timetable_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_timetable.jsp" />
+    </definition>
+
+    <definition name="view_upcoming_events_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_upcoming_events.jsp" />
+    </definition>
+
+    <definition name="view_upcoming_exams_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/public/view_upcoming_exams.jsp" />
+    </definition>
+
+</tiles-definitions>
