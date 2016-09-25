@@ -12,14 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import net.sf.uadetector.OperatingSystem;
-import net.sf.uadetector.ReadableDeviceCategory;
-import net.sf.uadetector.ReadableUserAgent;
-import net.sf.uadetector.UserAgentFamily;
-import net.sf.uadetector.UserAgentStringParser;
-import net.sf.uadetector.VersionNumber;
-import net.sf.uadetector.service.UADetectorServiceFactory;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -32,6 +24,14 @@ import com.myschool.common.util.ResourceUtil;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.user.dto.UserSession;
+
+import net.sf.uadetector.OperatingSystem;
+import net.sf.uadetector.ReadableDeviceCategory;
+import net.sf.uadetector.ReadableUserAgent;
+import net.sf.uadetector.UserAgentFamily;
+import net.sf.uadetector.UserAgentStringParser;
+import net.sf.uadetector.VersionNumber;
+import net.sf.uadetector.service.UADetectorServiceFactory;
 
 /**
  * The Class HttpUtil.

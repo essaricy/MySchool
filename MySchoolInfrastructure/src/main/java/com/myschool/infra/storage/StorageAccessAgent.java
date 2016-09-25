@@ -427,6 +427,18 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
             return deleteFile(getStorage(), fileName);
         }
 
+        /**
+         * Gets the all.
+         *
+         * @return the all
+         * @throws StorageAccessException the storage access exception
+         */
+        public List<StorageItem> getAll() throws StorageAccessException {
+            String storagePath = getStoragePath();
+            T file = getFile(storagePath);
+            return StorageAccessAgent.this.getAllFromCache(file, Boolean.FALSE);
+        }
+
     }
 
     /**
@@ -504,11 +516,8 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
          * @throws StorageAccessException the storage access exception
          */
         public StorageItem get(RecordStatus recordStatus, String identifier) throws StorageAccessException {
-            System.out.println("recordStatus=" + recordStatus + ", identifier=" + identifier);
             T storeFile = getStorage(recordStatus);
-            System.out.println("storeFile=" + storeFile);
             T file = StorageAccessAgent.this.getFile(storeFile, identifier);
-            System.out.println("file=" + file);
             return createStorageItem(file);
         }
 
@@ -758,7 +767,6 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
             WriteMode writeMode) throws StorageAccessException {
         StorageItem storageItem = null;
         try {
-            System.out.println("addImageStoreItem(" + path + ", " + file + ", " + name + ", " + writeMode + ")");
             T imageStore = getFile(path);
             T passportStore = getFile(path + FILE_SEPARATOR + ImageSize.PASSPORT);
             T thumbnailStore = getFile(path + FILE_SEPARATOR + ImageSize.THUMBNAIL);
@@ -783,7 +791,6 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
         } catch (FileSystemException fileSystemException) {
             throw new StorageAccessException(fileSystemException.getMessage(), fileSystemException);
         }
-        System.out.println("storageItem=" + storageItem);
         return storageItem;
     }
 
@@ -890,7 +897,6 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
         StorageItem storageItem = null;
         List<StorageItem> storageItems = null;
         String storagePath = getStoragePath(store);
-        System.out.println("storagePath=" + storagePath);
 
         if (storagePath != null) {
             Set<Entry<String, T>> entrySet = FILE_PATH_IMAGE_MAP.entrySet();
@@ -918,9 +924,7 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
                         storageItems = new ArrayList<StorageItem>();
                     }
                     String name = key.substring(storagePath.length() + 1);
-                    System.out.println("name=" + name);
                     storageItem = createStorageItem(file);
-                    System.out.println("storageItem=" + storageItem);
                     storageItems.add(storageItem);
                 } catch (StorageAccessException storageAccessException) {
                     LOGGER.error(storageAccessException.getMessage(), storageAccessException);
@@ -988,7 +992,6 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
                 if (parentFile == null) {
                     throw new StorageAccessException("Parent File '" + parentPath + "' does not exists. You must create it before adding childs.");
                 }
-                //LOGGER.info("Creating '" + filePath + "'");
                 file = addFolderToStorage(parentFile, folderName);
             } else {
                 file = addFolderToStorage(null, filePath);

@@ -193,7 +193,7 @@ public class ThemesGenerator {
         tokens.put("@@Input::Button:Background@@", theme.getSecondary());
         tokens.put("@@Input::Button:Hover@@", theme.getSecondaryVariant());
         
-        tokens.put("@@Link::Color@@", theme.getPrimary());
+        tokens.put("@@Link::Color@@", "#55ABDA");
 
         tokens.put("@@Input::Calendar:Title@@", theme.getSecondary());
         tokens.put("@@Input::Select:Hover@@", theme.getSecondary());

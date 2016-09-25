@@ -10,8 +10,8 @@ $(document).ready( function () {
   });
 
   $('#Submit').click(function() {
-    var VerificationCode = $('#g-recaptcha-response').val();
-    if (VerificationCode == '') {
+    var verificationCode = $('#g-recaptcha-response').val();
+    if (verificationCode == '') {
       notifyError('Click on "I\'m not a robot"');
       return false;
     }
@@ -21,7 +21,7 @@ $(document).ready( function () {
     IssueData.EmailID=$('#EmailID').val();
     IssueData.Subject=$('#Subject').val();
     IssueData.Description=$('#Description').val();
-    IssueData.VerificationCode=VerificationCode;
+    IssueData.CaptchaResponse=verificationCode;
 
     jQuery.ajax({
       type: "POST",
@@ -31,7 +31,6 @@ $(document).ready( function () {
       },
       context: this
     }).done(function(result) {
-      $('#Captcha_ReloadImage').click();
       if (result.Successful) {
         info('Issue has been successfully recorded by us.<br/>You will be notified with the status of the issue through email.<br/>We thank you for your initiative and support.');
         $('#Reset').click();

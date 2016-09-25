@@ -7,7 +7,7 @@ public class Excludes {
     /** The GLOBAL_EXCLUDES. */
     private static String[] GLOBAL_EXCLUDES = {
         // Common excludes
-        "/themes", "/scripts", "/styles", "/image", "/images", "/widgets", "/jcaptcha",
+        "/themes", "/scripts", "/styles", "/image", "/images", "/widgets",
     };
 
     /** The PUBLIC_EXCLUDES. */
@@ -16,14 +16,10 @@ public class Excludes {
         "/public", "/acl",
         // Gallery Excludes
         "/gallery/getLatestGallery.htm", "/gallery/jsonListGalleries.htm",
-        // login excludes
-        //"/log",
 
         // TODO below all are deprecated
         "/download", "/portal",
         "/announcement",
-        // Gallery related excludes
-        //"/gallery/launchGallery.htm", "/gallery/jsonListGalleries.htm", "/gallery/jsonGalleryDetail.htm", "/gallery/getLatestGallery.htm",
         // Issue related excludes
         "/issue/launchIssue.htm", "/issue/doCreate.htm",
         // Portal excludes

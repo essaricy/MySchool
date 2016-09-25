@@ -5,57 +5,14 @@ import java.util.List;
 
 import org.json.JSONArray;
 
-import com.myschool.application.dto.ResourceDto;
-import com.myschool.common.util.StringUtil;
 import com.myschool.download.dto.BrochureDto;
+import com.myschool.file.util.FileUtil;
+import com.myschool.storage.dto.StorageItem;
 
 /**
  * The Class BrochureDataAssembler.
  */
 public class BrochureDataAssembler {
-
-    /**
-     * Creates the.
-     * 
-     * @param resources the resources
-     * @return the list
-     */
-    public static List<BrochureDto> create(List<ResourceDto> resources) {
-        List<BrochureDto> brochures = null;
-        if (resources != null && !resources.isEmpty()) {
-            brochures = new ArrayList<BrochureDto>();
-            for (ResourceDto resource : resources) {
-                BrochureDto brochure = create(resource);
-                if (brochure != null) {
-                    brochures.add(brochure);
-                }
-            }
-        }
-        return brochures;
-    }
-
-    /**
-     * Creates the brochure.
-     * 
-     * @param brochureResource the brochure resource
-     * @return the brochure dto
-     */
-    public static BrochureDto create(ResourceDto brochureResource) {
-        BrochureDto brochure = null;
-        if (brochureResource != null) {
-            brochure = new BrochureDto();
-            String name = brochureResource.getName();
-            String shortDescription = brochureResource.getShortDescription();
-            if (StringUtil.isNullOrBlank(shortDescription)) {
-                brochure.setBrochureName(name);
-            } else {
-                brochure.setBrochureName(shortDescription);
-            }
-            brochure.setBrochureType(name);
-            brochure.setUrl(brochureResource.getResourceUrl());
-        }
-        return brochure;
-    }
 
     /**
      * Creates the json array.
@@ -75,6 +32,44 @@ public class BrochureDataAssembler {
             }
         }
         return array;
+    }
+
+    /**
+     * Creates the.
+     *
+     * @param storageItems the storage items
+     * @return the list
+     */
+    public static List<BrochureDto> create(List<StorageItem> storageItems) {
+        List<BrochureDto> brochures = null;
+        if (storageItems != null && !storageItems.isEmpty()) {
+            brochures = new ArrayList<BrochureDto>();
+            for (StorageItem storageItem : storageItems) {
+                BrochureDto brochure = create(storageItem);
+                if (brochure != null) {
+                    brochures.add(brochure);
+                }
+            }
+        }
+        return brochures;
+    }
+
+    /**
+     * Creates the.
+     *
+     * @param storageItem the storage item
+     * @return the brochure dto
+     */
+    public static BrochureDto create(StorageItem storageItem) {
+        BrochureDto brochure = null;
+        if (storageItem != null) {
+            brochure = new BrochureDto();
+            String name = storageItem.getName();
+            brochure.setBrochureName(FileUtil.getFileName(name));
+            brochure.setBrochureType(FileUtil.getExtension(name));
+            brochure.setUrl(storageItem.getDirectLink());
+        }
+        return brochure;
     }
 
 }

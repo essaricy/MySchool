@@ -14,9 +14,6 @@ public class WebConstants {
     /** The Constant MYSCHOOL_PROFILE. */
     public static final String MYSCHOOL_PROFILE = "MYSCHOOL_PROFILE";
 
-    /** The Constant RESOURCE_PROFILE. */
-    public static final String RESOURCE_PROFILE = "RESOURCE_PROFILE";
-
     /** The Constant VIEW_ONLY. */
     public static final String VIEW_ONLY = "VIEW_ONLY";
 
@@ -44,6 +41,13 @@ public class WebConstants {
     /** The Constant MESSAGE. */
     public static final String MESSAGE = "MESSAGE";
 
-    public static final String USER_TYPE = "USER_TYPE";
+    /** The Constant USER_TYPE. */
+    public static final String USER_TYPE = "UserType";
+
+    /** The Constant CAPTCHA_RESPONSE. */
+    public static final String CAPTCHA_RESPONSE = "CaptchaResponse";
+
+    /** The Constant SIGNIN_SECURITY. */
+    public static final String SIGNIN_SECURITY = "SIGNIN_SECURITY";
 
 }

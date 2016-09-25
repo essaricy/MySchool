@@ -10,9 +10,6 @@ img.menuItemImage {
 }
 </style>
 
-<c:set var="ORGANIZATION_PROFILE" value="${sessionScope.ORGANIZATION_PROFILE}"/>
-<c:set var="MYSCHOOL_PROFILE" value="${sessionScope.MYSCHOOL_PROFILE}"/>
-
 <c:if test="${USER_CONTEXT != null && MYSCHOOL_PROFILE != null}">
     <c:if test="${USER_CONTEXT.moduleAccess != null}">
         <ul id="solidmenu" class="solidblockmenu">

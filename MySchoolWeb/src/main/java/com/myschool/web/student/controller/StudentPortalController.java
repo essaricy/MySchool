@@ -12,13 +12,14 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
+import com.myschool.infra.captcha.agent.CaptchaAgent;
 import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.PortalViewNames;
+import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
-import com.myschool.web.framework.util.JCaptchaUtil;
 
 /**
  */
@@ -31,6 +32,10 @@ public class StudentPortalController {
 
     @Autowired
     private StudentService studentService;
+
+    /** The captcha agent. */
+    @Autowired
+    private CaptchaAgent captchaAgent;
 
     /**
      * Launch self submit.
@@ -62,8 +67,13 @@ public class StudentPortalController {
 
         try {
             // Verify CAPTCHA
-            String userCaptchaResponse = request.getParameter("Captcha_UserFeed");
-            JCaptchaUtil.validateCaptcha(request, userCaptchaResponse);
+            String userCaptchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
+            boolean valid = captchaAgent.isValid(userCaptchaResponse);
+            System.out.println("valid? " + valid);
+            if (!valid) {
+                throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
+            }
+
             String studentDataValue = request.getParameter("StudentData");
             if (!StringUtil.isNullOrBlank(studentDataValue)) {
                 JSONObject studentData = new JSONObject(studentDataValue);

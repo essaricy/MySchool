@@ -11,7 +11,6 @@ import com.myschool.infra.email.factory.EmailServerAgentFactory;
 import com.myschool.infra.filesystem.factory.FileSystemAgentFactory;
 import com.myschool.infra.graph.factory.GraphAgentFactory;
 import com.myschool.infra.image.factory.ImageScalingAgentFactory;
-import com.myschool.infra.media.factory.MediaServerAgentFactory;
 import com.myschool.infra.middleware.factory.MiddlewareAgentFactory;
 import com.myschool.infra.middleware.factory.OutboundMessageAgentFactory;
 import com.myschool.infra.ojo.factory.OjoAgentFactory;
@@ -84,10 +83,6 @@ public class AgentFactoryFactory {
     @Autowired
     private WebserverAgentFactory webserverAgentFactory;
 
-    /** The media server agent factory. */
-    @Autowired
-    private MediaServerAgentFactory mediaServerAgentFactory;
-
     /** The outbound message agent factory. */
     @Autowired
     private OutboundMessageAgentFactory outboundMessageAgentFactory;
@@ -134,8 +129,6 @@ public class AgentFactoryFactory {
                 agentFactory = schedulerAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.SMS)) {
                 agentFactory = smsServerAgentFactory;
-            } else if (agentKeyName.equals(AgentConstants.MEDIA_SERVER)) {
-                agentFactory = mediaServerAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.OUTBOUND_MESSAGE)) {
                 agentFactory = outboundMessageAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.STORAGE_SERVER)) {

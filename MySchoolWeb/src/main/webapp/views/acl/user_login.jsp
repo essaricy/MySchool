@@ -18,9 +18,19 @@ $(document).ready(function () {
   });
 
   $('#Login').click(function() {
+    var capthaAnswered = false;
+
     var loginId = $('#LoginId');
     var password = $('#Password');
-    var verificationCode = $('#g-recaptcha-response').val();
+
+    if ($('#CurrentSecurityLevel').val() == 'USE_CAPTCHA') {
+      var verificationCode = $('#g-recaptcha-response').val();
+      if (verificationCode != '') {
+        capthaAnswered = true;
+      }
+    } else {
+      capthaAnswered = true;
+    }
 
     if (loginId.val() == '') {
       $('#error_message').text('Enter Username');
@@ -28,9 +38,10 @@ $(document).ready(function () {
     } else if (password.val() == '') {
       $('#error_message').text('Enter password');
       password.focus();
-    } else if (verificationCode == '') {
+    } else if (!capthaAnswered) {
         $('#error_message').text('Click on "I\'m not a robot"');
     } else {
+      $('#CaptchaResponse').val($('#g-recaptcha-response').val());
       document.forms[0].action = '<%=request.getContextPath() %>/acl/signin.htm';
       document.forms[0].submit();
     }
@@ -55,18 +66,20 @@ $(document).ready(function () {
 </script>
 
 <form method="POST">
+<input type="hidden" id="UserType" name="UserType" value="${UserType}" />
+<input type="hidden" id="CurrentSecurityLevel" value="${SIGNIN_SECURITY.currentSecurityLevel}" />
+<input type="hidden" id="CaptchaResponse" name="CaptchaResponse" value="" />
 
-<input type="hidden" name="USER_TYPE" value="${USER_TYPE}" />
 <table class="formTable_Container" style="width: 50%; margin-top: 40px; box-shadow: 0px 0px 50px 5px #888; border-radius: 4px;" cellpadding="10px">
   <caption>
     <c:choose>
-      <c:when test="${USER_TYPE eq 'EMPLOYEE'}">
+      <c:when test="${UserType eq 'EMPLOYEE'}">
         <img src="<%=request.getContextPath()%>/images/icons/employee.png"/>&nbsp;Employee Login
       </c:when>
-      <c:when test="${USER_TYPE eq 'STUDENT'}">
+      <c:when test="${UserType eq 'STUDENT'}">
         <img src="<%=request.getContextPath()%>/images/icons/student.png"/>&nbsp;Student Login
       </c:when>
-      <c:when test="${USER_TYPE eq 'ADMIN'}">
+      <c:when test="${UserType eq 'ADMIN'}">
         <img src="<%=request.getContextPath()%>/images/icons/admin.png"/>&nbsp;Admin Login
       </c:when>
       <c:otherwise>
@@ -88,7 +101,11 @@ $(document).ready(function () {
     <td align="center" valign="top">
       <input type="text" id="LoginId" name="LoginId" style="width:90%; height:38px; font-size: 14pt;" placeholder="Enter Username"><br/>
       <input type="password" id="Password" name="Password" style="width: 90%; height:38px; font-size: 14pt;" placeholder="Enter Password"><br/>
-      <div class="g-recaptcha" data-sitekey="6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-"></div><br/>
+
+      <c:if test="${SIGNIN_SECURITY.currentSecurityLevel == 'USE_CAPTCHA'}">
+        <div class="g-recaptcha" data-sitekey="6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-"></div><br/>
+      </c:if>
+
       <input type="button" id="Login" value="Sign In" style="width: 95%;height:38px; font-size: 14pt;"/><br/>
       <c:if test="${USER_TYPE != 'ADMIN'}">
       <a href="<%=request.getContextPath() %>/acl/forgotPassword.htm">Forgot Password?</a><br/><br/>

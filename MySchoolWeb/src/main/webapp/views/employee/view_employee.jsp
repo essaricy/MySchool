@@ -37,7 +37,7 @@ jQuery(document).ready(function() {
         <tr>
           <td align="center">
             <c:if test="${Employee.imageAccess == null || Employee.imageAccess.passportLink == null}">
-              <img id="employeeImage" name="employeeImage" src="${RESOURCE_PROFILE.noImage.resourceUrl}" border="1" width="150px" height="180px"/>
+              <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" border="1" width="150px" height="180px"/>
             </c:if>
             <c:if test="${Employee.imageAccess != null && Employee.imageAccess.passportLink != null}">
               <img id="employeeImage" name="employeeImage" src="${Employee.imageAccess.passportLink}" border="1" width="150px" height="180px"/>

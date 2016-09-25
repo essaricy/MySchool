@@ -16,7 +16,6 @@
             </directory>
             <directory name="filesystem" absence="ERROR">
                 <file name="local-filesystem.xml" absence="ERROR" />
-                <file name="web-hosted-media-server.xml" absence="ERROR" />
             </directory>
             <directory name="image" absence="ERROR">
                 <file name="image-scaling.properties" absence="ERROR" />
@@ -97,19 +96,6 @@
                 <directory name="import" absence="CREATE" />
             </directory>
             <directory name="logs" absence="CREATE" />
-            <directory name="media" absence="CREATE">
-                <directory name="brochure" absence="CREATE" />
-                <directory name="employee" absence="CREATE">
-                    <directory name="portal" absence="CREATE" />
-                    <directory name="registered" absence="CREATE" />
-                </directory>
-                <directory name="features" absence="CREATE" />
-                <directory name="gallery" absence="CREATE" />
-                <directory name="student" absence="CREATE">
-                    <directory name="portal" absence="CREATE" />
-                    <directory name="registered" absence="CREATE" />
-                </directory>
-            </directory>
         </directory>
     </directory>
 </file-system>

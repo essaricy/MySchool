@@ -15,10 +15,11 @@ import com.myschool.common.util.StringUtil;
 import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.service.EmployeeService;
+import com.myschool.infra.captcha.agent.CaptchaAgent;
 import com.myschool.web.application.constants.PortalViewNames;
+import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
-import com.myschool.web.framework.util.JCaptchaUtil;
 
 /**
  * The Class EmployeePortalController.
@@ -34,6 +35,10 @@ public class EmployeePortalController {
     /** The employee service. */
     @Autowired
     private EmployeeService employeeService;
+
+    /** The captcha agent. */
+    @Autowired
+    private CaptchaAgent captchaAgent;
 
     /**
      * Launch self submit.
@@ -66,8 +71,13 @@ public class EmployeePortalController {
 
         try {
             // Verify CAPTCHA
-            String userCaptchaResponse = request.getParameter("Captcha_UserFeed");
-            JCaptchaUtil.validateCaptcha(request, userCaptchaResponse);
+            String userCaptchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
+            boolean valid = captchaAgent.isValid(userCaptchaResponse);
+            System.out.println("valid? " + valid);
+            if (!valid) {
+                throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
+            }
+
             String employeeDataValue = request.getParameter("EmployeeData");
             if (!StringUtil.isNullOrBlank(employeeDataValue)) {
                 JSONObject employeeData = new JSONObject(employeeDataValue);

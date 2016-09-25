@@ -26,8 +26,7 @@ public class LoginServiceImpl implements LoginService {
         try {
             loginDetails = loginManager.login(login);
         } catch (DataException dataException) {
-            throw new ServiceException(dataException.getMessage(),
-                    dataException);
+            throw new ServiceException(dataException.getMessage(), dataException);
         }
         return loginDetails;
     }

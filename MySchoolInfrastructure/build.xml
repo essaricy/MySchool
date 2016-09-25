@@ -27,10 +27,8 @@
         <copy file="${target.dir}/${myschool.infrastructure}.jar" todir="${stage.dir}/${deploy.lib}" />
         <!-- Deploy config items -->
         <copy todir="${stage.dir}/${deploy.config}">
-            <fileset dir="${src.main.resources.config}" excludes="**/*media-server*"/>
+            <fileset dir="${src.main.resources.config}" />
         </copy>
-        <echo message="Copying ${src.main.resources.config.filesystem}/${@@MEDIA.FILE@@} to ${stage.dir}/${deploy.config.filesystem}/${media-server.file}" />
-        <copy file="${src.main.resources.config.filesystem}/${@@MEDIA.FILE@@}" tofile="${stage.dir}/${deploy.config.filesystem}/${media-server.file}" />
         <!-- Rename jboss-ds.xml to ${myschool.name}-ds.xml -->
         <move file="${stage.dir}/${deploy.config.database}/${jboss.ds.file}"
             tofile="${stage.dir}/${deploy.config.database}/${jboss.ds.ultimate}" />

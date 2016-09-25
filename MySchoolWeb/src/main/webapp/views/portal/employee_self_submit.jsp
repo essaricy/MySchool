@@ -3,6 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
+<script src='https://www.google.com/recaptcha/api.js'></script>
 <style>
 #EmployeeAccordion p {
   font-size: 0.8em;
@@ -62,13 +63,14 @@ jQuery(document).ready(function() {
   });
 
   jQuery('#save').click(function () {
-    var Captcha_UserFeed = $('#Captcha_UserFeed').val();
-    if (Captcha_UserFeed == '') {
-      warn_ac('Please type the letters in the image into the textbox and prove that you are not a Robot!!!');
+    var verificationCode = $('#g-recaptcha-response').val();
+    if (verificationCode == '') {
+      notifyError('Click on "I\'m not a robot"');
       return false;
     }
+
     if (!$('#Agree').is(':checked')) {
-      warn_ac('Please agree to the declaration.');
+      notifyError('Please agree to the declaration.');
       return false;
     }
     confirm('Please ensure that you have entered correct information.<br /> You cannot change the information after save is successful.', confirmSave);
@@ -105,7 +107,7 @@ jQuery(document).ready(function() {
       url: "<%=request.getContextPath()%>/portal-employee/submitEmployee.htm",
       data: {
         EmployeeData: JSON.stringify(EmployeeData),
-        Captcha_UserFeed: $('#Captcha_UserFeed').val()
+        CaptchaResponse: $('#g-recaptcha-response').val()
       },
       context: this
     }).done(function(result) {
@@ -119,7 +121,6 @@ jQuery(document).ready(function() {
           error("Something really went wrong and we apologize for the inconvenience caused!!!");
         }
       }
-      $('#Captcha_ReloadImage').click();
     });
   }
 
@@ -200,7 +201,7 @@ jQuery(document).ready(function() {
     <td width="15%" valign="top">&nbsp;</td>
     <td width="85%" valign="top">
       <div id="EmployeeFormActionButtons" style="margin-top: 10px; margin-bottom: 40px; text-align: center;">
-        <%@ include file="/views/common/captcha.jsp" %>
+        <div class="g-recaptcha" data-sitekey="6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-"></div><br/>
         <table>
           <tr>
             <td align="left" colspan="2">

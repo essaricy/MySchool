@@ -64,6 +64,11 @@ var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPag
 
 </script>
 <div id="goup"></div>
+
+<c:set var="ORGANIZATION_PROFILE" value="${sessionScope.ORGANIZATION_PROFILE}"/>
+<c:set var="MYSCHOOL_PROFILE" value="${sessionScope.MYSCHOOL_PROFILE}"/>
+<c:set var="SIGNIN_SECURITY" value="${sessionScope.SIGNIN_SECURITY}"/>
+
 <table cellpadding="0" cellspacing="0" class="headerTable" border="0">
   <tr>
     <td width="109px" style="padding-left:8px;padding-top:2px;">

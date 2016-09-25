@@ -1,5 +1,6 @@
 /** ####################################### BODY STYLES ####################################### **/
 html, body {
+    font-family: Georgia, "Times New Roman", Times, serif;
     background-color: @@Page::Background@@;
     padding: 0px;
     height: 100%;
@@ -26,12 +27,13 @@ html, body {
     bottom:0;
     width:100%;
     height:20px;
+    padding-top: 5px;
 
     background-color: @@Footer::Background@@;
     color: @@Footer::Color@@;
     letter-spacing: 1px;
 
-    font-size: 0.80em;
+    font-size: 0.90em;
     font-weight: bold;
     text-align: center;
 }
@@ -43,57 +45,11 @@ table.headerTable {
     width: 100%;
 }
 
-table.headerTable .schoolName {
+table.headerTable .headerLink {
     color: white;
-    font-size: 2em;
-    letter-spacing: 2px;
-    word-spacing: 4px;
-    text-transform: uppercase;
-}
-
-/** ####################################### Footer Links STYLES ####################################### **/
-#PageFooterLinks table {
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-#PageFooterLinks div.row {
-  width: 100%;
-  background-color: @@FooterLink::Row:Background@@;
-  color: #EEEEEE;
-
-  font-size: 0.8em;
-  font-weight: bold;
-  text-align: left;
-  letter-spacing: 1px;
-}
-
-#PageFooterLinks div.row span.title {
-  display: inline-block;
-  width: 120px;
-  font-size: 1em;
-  margin: 0;
-  padding: 3px 10px 2px 3px;
-  margin: 2px 5px 2px 3px;
-}
-
-#PageFooterLinks div.row span.odd {
-  background-color: @@FooterLink::Title-Odd:Background@@;
-}
-#PageFooterLinks div.row span.even {
-  background-color: @@FooterLink::Title-Even:Background@@;
-}
-#PageFooterLinks div.odd a:link, #PageFooterLinks div.even a:link,
-#PageFooterLinks div.odd a:visited, #PageFooterLinks div.even a:visited {
-  color: @@FooterLink::Link:Color@@;
-  text-decoration: none;
-  font-weight: bold;
-  padding: 2px 5px 5px 2px;
-  border-right: 3px solid @@FooterLink::Link:Seperator@@;
-}
-#PageFooterLinks div.odd a:hover, #PageFooterLinks div.even a:hover {
-  text-decoration: underline;
+    font-size: 0.70em;
+    font-weight: normal;
+    padding: 0px;
 }
 /** ####################################### MENU STYLES ####################################### **/
 .mega {
@@ -229,7 +185,21 @@ table.headerTable .schoolName {
     padding-bottom: 8px;
     box-shadow: 5px 5px 5px #888;
 }
+.formHeading {
+  font-size: 14px;
+  color: #888;
+  text-align: left;
 
+  border-color: #D7D7D7;
+  border-top-color: rgb(215, 215, 215);
+  border-right-color: rgb(215, 215, 215);
+  border-bottom-color: rgb(215, 215, 215);
+  border-left-color: rgb(215, 215, 215);
+  padding-bottom: 8px; 
+  border-bottom: 1px solid; 
+  border-bottom-width: 1px; 
+  border-bottom-style: solid;
+}
 .formTable_Data {
     margin: 0 auto;
     width: 100%;
@@ -362,9 +332,12 @@ textArea {
 /** ####################################### LINK STYLES ####################################### **/
 a:link, a:visited {
   color: @@Link::Color@@;
+  outline: none;
   text-decoration: none;
+  font-size: 12px;
   font-weight: bold;
   padding: 2px 5px 5px 2px;
+
 }
 a:hover {
   text-decoration: underline;
@@ -534,23 +507,23 @@ table.display td.center {
  */
 
 .sorting_asc {
-    background: url('demo/images/icons/sort_asc.png') no-repeat center right;
+    background: url('../images/icons/sort_asc.png') no-repeat center right;
 }
 
 .sorting_desc {
-    background: url('demo/images/icons/sort_desc.png') no-repeat center right;
+    background: url('../images/icons/sort_desc.png') no-repeat center right;
 }
 
 .sorting {
-    background: url('demo/images/icons/sort_both.png') no-repeat center right;
+    background: url('../images/icons/sort_both.png') no-repeat center right;
 }
 
 .sorting_asc_disabled {
-    background: url('demo/images/icons/sort_asc_disabled.png') no-repeat center right;
+    background: url('../images/icons/sort_asc_disabled.png') no-repeat center right;
 }
 
 .sorting_desc_disabled {
-    background: url('demo/images/icons/sort_desc_disabled.png') no-repeat center right;
+    background: url('../images/icons/sort_desc_disabled.png') no-repeat center right;
 }
 
 
@@ -907,6 +880,14 @@ img.passport {
     height: 180px;
     border: 0px solid red;
 }
+img.badge {
+    border: 1px dotted #333;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    width: 200px;
+    height: 200px;
+}
 .thumbnailCheck {
     position: relative;
     top: -20px;
@@ -918,6 +899,12 @@ img.passport {
   margin-right: 5px;
   border:1px solid #888;
   box-shadow: 5px 5px 5px #888;
+}
+img.left {
+    float: left;
+}
+img.right {
+    float: right;
 }
 /** ####################################### TOOLTIP STYLES ####################################### **/
 .tooltipster-default {

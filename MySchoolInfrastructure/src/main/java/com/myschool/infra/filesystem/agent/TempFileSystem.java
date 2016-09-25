@@ -59,14 +59,6 @@ public class TempFileSystem extends AbstractSubFileSystem {
         studentDirectory = getChildDirectoryFile(STUDENT);
         notificationDirectory = getChildDirectoryFile(NOTIFICATION);
         uploadDirectory = getChildDirectoryFile(UPLOAD);
-
-        System.out.println("galleryDirectory=" +( (galleryDirectory == null) ? null : galleryDirectory.getAbsolutePath()));
-        System.out.println("employeeDirectory=" +( (employeeDirectory == null) ? null : employeeDirectory.getAbsolutePath()));
-        System.out.println("importDirectory=" +( (importDirectory == null) ? null : importDirectory.getAbsolutePath()));
-        System.out.println("reportDirectory=" +( (reportDirectory == null) ? null : reportDirectory.getAbsolutePath()));
-        System.out.println("studentDirectory=" +( (studentDirectory == null) ? null : studentDirectory.getAbsolutePath()));
-        System.out.println("notificationDirectory=" +( (notificationDirectory == null) ? null : notificationDirectory.getAbsolutePath()));
-        System.out.println("uploadDirectory=" +( (uploadDirectory == null) ? null : uploadDirectory.getAbsolutePath()));
     }
 
     /* (non-Javadoc)

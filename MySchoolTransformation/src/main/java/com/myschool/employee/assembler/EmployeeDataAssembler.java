@@ -200,13 +200,11 @@ public class EmployeeDataAssembler {
             employeeSearchCriteria.setReportingToEmployeeNumber(ReportDataAssembler.getString(
                     reportCriteriaValues, ReportCriteriaTokenConstants.REPORTING_TO));
             String verifiedStatus = ReportDataAssembler.getString(reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS);
-            System.out.println("ReportDataAssembler.getString(reportCriteriaValues, ReportCriteriaTokenConstants.VERIFIED_STATUS)=" + verifiedStatus);
             if (ConversionUtil.toBoolean(verifiedStatus)) {
                 employeeSearchCriteria.setRecordStatus(RecordStatus.VERIFIED);
             } else {
                 employeeSearchCriteria.setRecordStatus(RecordStatus.UNVERIFIED);
             }
-            System.out.println("employeeSearchCriteria.getRecordStatus()=" + employeeSearchCriteria.getRecordStatus());
         }
         return employeeSearchCriteria;
     }

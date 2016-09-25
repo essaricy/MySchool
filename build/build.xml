@@ -17,7 +17,6 @@
     <!-- Load all the server properties -->
     <property file="build/build.properties" />
     <property file="build/server-database.properties" />
-    <property file="build/server-media.properties" />
     <property file="build/server-mq.properties" />
     <property file="build/server-sms.properties" />
     <property file="build/server-smtp.properties" />

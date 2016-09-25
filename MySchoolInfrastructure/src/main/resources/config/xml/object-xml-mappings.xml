@@ -149,33 +149,6 @@
         <field alias="FaxNumber" name="faxNumber"/>
         <field alias="MapUrl" name="mapUrl"/>
     </object-xml-mapping>
-    <object-xml-mapping name="Resource" type="com.myschool.application.dto.ResourceDto">
-        <field alias="Name" name="name"/>
-        <field alias="ParentUrl" name="parentUrl"/>
-        <field alias="ResourceUrl" name="resourceUrl"/>
-        <field alias="PassportUrl" name="passportUrl"/>
-        <field alias="ThumbnailUrl" name="thumbnailUrl"/>
-        <field alias="ShortDescription" name="shortDescription"/>
-        <field alias="LongDescription" name="longDescription"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="ResourceProfile" type="com.myschool.application.dto.ResourceProfile">
-        <field alias="Brochures" name="brochures" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="Features" name="features" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="Logo" name="logo" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="NoImage" name="noImage" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="Organization" name="organization" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="Director" name="director" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="Greetings" name="greetings" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="Product" name="product" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="Gallery" name="gallery" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="EmployeePortal" name="employeePortal" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="EmployeeRegistered" name="employeeRegistered" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="StudentPortal" name="studentPortal" type="com.myschool.application.dto.ResourceDto"/>
-        <field alias="StudentRegistered" name="studentRegistered" type="com.myschool.application.dto.ResourceDto"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="Resources" type="com.myschool.application.dto.ResourcesDto">
-        <field alias="Resources" name="resources" type="java.util.List"/>
-    </object-xml-mapping>
     <object-xml-mapping name="AttendanceCode" type="com.myschool.attendance.dto.AttendanceCodeDto">
         <field alias="Code" name="code"/>
         <field alias="ShortDescription" name="shortDescription"/>
@@ -831,18 +804,6 @@
         <field alias="Width" name="width"/>
         <field alias="Height" name="height"/>
         <field alias="FolderName" name="folderName"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="MediaServerConfig" type="com.myschool.infra.media.dto.MediaServerConfigDto">
-        <field alias="BaseUrl" name="baseUrl"/>
-        <field alias="PassportUrlPattern" name="passportUrlPattern"/>
-        <field alias="ThumbnailUrlPattern" name="thumbnailUrlPattern"/>
-        <field alias="ResourcesMap" name="resourcesMap" type="java.util.Map"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="ResourceConfig" type="com.myschool.infra.media.dto.ResourceConfigDto">
-        <field alias="Id" name="id"/>
-        <field alias="Url" name="url"/>
-        <field alias="Name" name="name"/>
-        <field alias="Excludes" name="excludes" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="Message" type="com.myschool.infra.middleware.dto.MessageDto">
         <field alias="NotificationEndPoint" name="notificationEndPoint" type="com.myschool.notification.constants.NotificationEndPoint"/>

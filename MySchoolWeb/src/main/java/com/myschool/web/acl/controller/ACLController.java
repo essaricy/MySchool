@@ -14,10 +14,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.myschool.acl.constant.SigninSecurityLevel;
+import com.myschool.acl.dto.SigninSecurity;
+import com.myschool.common.exception.InsufficientInputException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.Encryptor;
 import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmployeeDto;
+import com.myschool.infra.captcha.agent.CaptchaAgent;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.user.constants.UserActivityConstant;
 import com.myschool.user.constants.UserType;
@@ -31,21 +35,39 @@ import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
 
+/**
+ * The Class ACLController.
+ */
 @Controller
 @RequestMapping("acl")
 public class ACLController {
 
 
+    /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(ACLController.class);
 
+    /** The Constant LOGIN_FAILED. */
     private static final String LOGIN_FAILED = "Username or password is invalid.";
 
+    /** The Constant LOGOUT_SUCCESS_MESSAGE. */
     private static final String LOGOUT_SUCCESS_MESSAGE = "You are successfully logged out.";
 
     /** The login service. */
     @Autowired
     private LoginService loginService;
 
+    /** The captcha agent. */
+    @Autowired
+    private CaptchaAgent captchaAgent;
+
+    /**
+     * Admin.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
     @RequestMapping(value = "admin")
     public ModelAndView admin(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -55,6 +77,14 @@ public class ACLController {
         return ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
     }
 
+    /**
+     * Employee.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
     @RequestMapping(value = "employee")
     public ModelAndView employee(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -64,6 +94,14 @@ public class ACLController {
         return ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
     }
 
+    /**
+     * Student.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
     @RequestMapping(value = "student")
     public ModelAndView student(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -73,6 +111,14 @@ public class ACLController {
         return ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
     }
 
+    /**
+     * Forgot password.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
     @RequestMapping(value = "forgotPassword")
     public ModelAndView forgotPassword(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -82,6 +128,14 @@ public class ACLController {
         return ViewDelegationController.delegateWholePageView(request, ACLViewNames.FORGOT_PASSWORD, map);
     }
 
+    /**
+     * Assistance.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     * @throws Exception the exception
+     */
     @RequestMapping(value = "assistance")
     public ModelAndView assistance(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
@@ -93,95 +147,131 @@ public class ACLController {
         return ViewDelegationController.delegateWholePageView(request, ACLViewNames.ASSISTANCE, map);
     }
 
+    /**
+     * Signin.
+     *
+     * @param request the request
+     * @param response the response
+     * @return the model and view
+     */
     @RequestMapping(value = "signin")
-    public ModelAndView in(HttpServletRequest request,
+    public ModelAndView signin(HttpServletRequest request,
             HttpServletResponse response) {
         System.out.println("/acl/signin.htm reached");
-        Map<String, Object> map = new HashMap<String, Object>();
-        ModelAndView modelAndView = null;
-        UserContext context = null;
 
-        boolean loginSuccessful = false;
-        String userTypeValue = null;
         String loginId = null;
-        String password;
         String sessionId = null;
-        String message = null;
+        Map<String, Object> map = new HashMap<String, Object>();
+
+        ModelAndView modelAndView = null;
         UserType userType = null;
+        HttpSession session = null;
+
         try {
-            HttpSession session = HttpUtil.getExistingSession(request);
+            session = HttpUtil.getExistingSession(request);
             sessionId = session.getId();
 
-            userTypeValue = request.getParameter("UserType");
             loginId = request.getParameter("LoginId");
-            password = request.getParameter("Password");
+            String userTypeValue = request.getParameter(WebConstants.USER_TYPE);
+            String password = request.getParameter("Password");
+            String captchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
             LOGGER.info(sessionId + " trying to use Login ID " + loginId);
+            System.out.println("captchaResponse=" + captchaResponse);
 
+            // Check if all fields have data
             userType = UserType.get(userTypeValue);
             System.out.println("userType=" + userType);
-            if (userType == null) {
-                message = LOGIN_FAILED;
-            } else if (StringUtil.isNullOrBlank(loginId)) {
-                message = LOGIN_FAILED;
-            } else if (StringUtil.isNullOrBlank(password)) {
-                message = LOGIN_FAILED;
-            } else {
-                LoginDto login = new LoginDto();
-                login.setLoginId(loginId);
-                login.setPassword(Encryptor.getInstance().encrypt(password));
-                login.setUserType(userType);
-                LoginDto loginDetails = loginService.login(login);
-                if (loginDetails == null) {
-                    LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_NOT_IN_SYSTEM, sessionId, loginId));
-                    message = LOGIN_FAILED;
-                } else {
-                    LOGGER.info(MessageFormat.format(
-                            UserActivityConstant.USER_LOGIN_SUCCESS, sessionId,
-                            loginId, userType));
-                    context = ContextUtil.createUserContext(loginDetails);
-                    if (userType == UserType.STUDENT) {
-                        StudentDto student = (StudentDto) loginDetails.getUserDetails();
-                        session.setAttribute(WebConstants.STUDENT, student);
-                        map.put(WebConstants.STUDENT, student);
-                    } else if (userType == UserType.EMPLOYEE) {
-                        EmployeeDto employee = (EmployeeDto) loginDetails.getUserDetails();
-                        session.setAttribute(WebConstants.EMPLOYEE, employee);
-                        map.put(WebConstants.EMPLOYEE, employee);
-                    }
-                    session.setAttribute(WebConstants.USER_CONTEXT, context);
-                    map.put(WebConstants.USER_CONTEXT, context);
+            if (userType == null || StringUtil.isNullOrBlank(loginId) || StringUtil.isNullOrBlank(password)) {
+                throw new InsufficientInputException(LOGIN_FAILED);
+            }
 
-                    loginSuccessful = true;
+            // Validate CAPTHCA, if used
+            SigninSecurity signinSecurity = (SigninSecurity) session.getAttribute(WebConstants.SIGNIN_SECURITY);
+            SigninSecurityLevel currentSecurityLevel = signinSecurity.getCurrentSecurityLevel();
+            System.out.println("signinSecurity=" + signinSecurity);
+            if (currentSecurityLevel == SigninSecurityLevel.USE_CAPTCHA) {
+                if (StringUtil.isNullOrBlank(captchaResponse)
+                        || !captchaAgent.isValid(captchaResponse)) {
+                    throw new InsufficientInputException("You are required to answer to CAPTCHA.");
                 }
             }
-        } catch (ServiceException serviceException) {
-            message = serviceException.getMessage();
-            LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_FAILED, sessionId, loginId, message));
-        }
-        map.put(WebConstants.USER_TYPE, userType);
-        if (message != null) {
-            System.out.println("Login message = " + message);
+
+            // Check if this user account is present in the system.
+            LoginDto login = new LoginDto();
+            login.setLoginId(loginId);
+            login.setPassword(Encryptor.getInstance().encrypt(password));
+            login.setUserType(userType);
+            LoginDto loginDetails = loginService.login(login);
+            if (loginDetails == null) {
+                throw new ServiceException(LOGIN_FAILED);
+            }
+            // User account is present in our system
+            System.out.println("loginSuccessful");
+            LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_SUCCESS, sessionId, loginId, userType));
+            UserContext context = ContextUtil.createUserContext(loginDetails);
+            if (userType == UserType.STUDENT) {
+                StudentDto student = (StudentDto) loginDetails.getUserDetails();
+                session.setAttribute(WebConstants.STUDENT, student);
+                map.put(WebConstants.STUDENT, student);
+            } else if (userType == UserType.EMPLOYEE) {
+                EmployeeDto employee = (EmployeeDto) loginDetails.getUserDetails();
+                session.setAttribute(WebConstants.EMPLOYEE, employee);
+                map.put(WebConstants.EMPLOYEE, employee);
+            }
+            map.put(WebConstants.USER_CONTEXT, context);
+            session.setAttribute(WebConstants.USER_CONTEXT, context);
+
+            trackLoginAttempt(session, true);
+            // Send the user to dashboard page.
+            modelAndView = ViewDelegationController.delegateWholePageView(request, ApplicationViewNames.DASH_BOARD, map);
+        } catch (InsufficientInputException insufficientInputException) {
+            String message = insufficientInputException.getMessage();
             map.put(WebConstants.MESSAGE, message);
-        }
-        System.out.println("loginSuccessful? " + loginSuccessful);
-        if (loginSuccessful) {
-            // Return to dash board screen
-            modelAndView = ViewDelegationController.delegateWholePageView(
-                    request, ApplicationViewNames.DASH_BOARD, map);
-        } else if (userType == null) {
-            System.out.println("Ideally should not come here. but sending to public dashboard");
-            modelAndView = ViewDelegationController.delegateWholePageView(
-                    request, WebConstants.PUBLIC_DASHBOARD, map);
-        } else {
-            System.out.println("sending back to " + userType + " login screen.");
+            map.put(WebConstants.USER_TYPE, userType);
+
+            LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_FAILED, sessionId, loginId, message));
+            modelAndView = ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
+        } catch (ServiceException serviceException) {
+            String message = serviceException.getMessage();
+
+            trackLoginAttempt(session, false);
+            map.put(WebConstants.MESSAGE, message);
+            map.put(WebConstants.USER_TYPE, userType);
+
+            LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_FAILED, sessionId, loginId, message));
             modelAndView = ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
         }
         return modelAndView;
     }
 
     /**
-     * Logout.
-     * 
+     * Track login attempt.
+     *
+     * @param session the session
+     * @param success the success
+     */
+    private void trackLoginAttempt(HttpSession session, boolean success) {
+        System.out.println("trackLoginAttempt, success=" + success);
+        int numberOfFailedAttempts = 0;
+        SigninSecurity signinSecurity = (SigninSecurity) session.getAttribute(WebConstants.SIGNIN_SECURITY);
+        if (success) {
+            signinSecurity.setCurrentSecurityLevel(SigninSecurityLevel.CREDENTIALS);
+        } else {
+            numberOfFailedAttempts = signinSecurity.getNumberOfFailedAttempts();
+            ++numberOfFailedAttempts;
+            if (numberOfFailedAttempts >= 2) {
+                signinSecurity.setCurrentSecurityLevel(SigninSecurityLevel.USE_CAPTCHA);
+            }
+            signinSecurity.setLastFailedAttempt(System.currentTimeMillis());
+        }
+        signinSecurity.setNumberOfFailedAttempts(numberOfFailedAttempts);
+        //session.getAttribute(WebConstants.SIGNIN_SECURITY)
+        System.out.println("signinSecurity=" + signinSecurity);
+    }
+
+    /**
+     * Signout.
+     *
      * @param request the request
      * @param response the response
      * @return the model and view

@@ -8,6 +8,21 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import com.myschool.application.dto.OrganizationProfileDto;
+import com.myschool.common.exception.FileSystemException;
+import com.myschool.common.util.ConversionUtil;
+import com.myschool.infra.filesystem.agent.TempFileSystem;
+import com.myschool.infra.report.builders.ReportBuilder;
+import com.myschool.infra.report.constants.ReportStyles;
+import com.myschool.infra.report.exception.ReportException;
+import com.myschool.report.dto.ReportCriteria;
+import com.myschool.report.dto.ReportCriteriaToken;
+import com.myschool.report.dto.ReportDto;
+
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.component.ComponentBuilders;
@@ -18,25 +33,6 @@ import net.sf.dynamicreports.report.builder.component.TextFieldBuilder;
 import net.sf.dynamicreports.report.constant.ComponentPositionType;
 import net.sf.dynamicreports.report.constant.HorizontalAlignment;
 import net.sf.dynamicreports.report.exception.DRException;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import com.myschool.application.dto.OrganizationProfileDto;
-import com.myschool.application.dto.ResourceDto;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.StringUtil;
-import com.myschool.infra.filesystem.agent.TempFileSystem;
-import com.myschool.infra.media.agent.MediaServerAgent;
-import com.myschool.infra.media.exception.ResourceException;
-import com.myschool.infra.report.builders.ReportBuilder;
-import com.myschool.infra.report.constants.ReportStyles;
-import com.myschool.infra.report.exception.ReportException;
-import com.myschool.report.dto.ReportCriteria;
-import com.myschool.report.dto.ReportCriteriaToken;
-import com.myschool.report.dto.ReportDto;
 
 /**
  * The Class JasperAbstractReportBuilder.
@@ -50,10 +46,6 @@ public abstract class JasperAbstractReportBuilder implements ReportBuilder {
     /** The temp file system. */
     @Autowired
     private TempFileSystem tempFileSystem;
-
-    /** The media server agent. */
-    @Autowired
-    private MediaServerAgent mediaServerAgent;
 
     /**
      * Gets the base report.
@@ -190,9 +182,10 @@ public abstract class JasperAbstractReportBuilder implements ReportBuilder {
      * @return the logo
      */
     private String getLogo() {
-        String thumbnailUrl = null;
+        return null;
+        // TODO add code to get the logo
+        /*String thumbnailUrl = null;
         try {
-            ResourceDto logo = mediaServerAgent.getLogo();
             if (logo == null || logo.getThumbnailUrl() == null) {
                 throw new ResourceException("LOGO resource is null");
             }
@@ -203,6 +196,6 @@ public abstract class JasperAbstractReportBuilder implements ReportBuilder {
         } catch (ResourceException resourceException) {
             LOGGER.warn("Unable to load the logo into the report. " + resourceException.getMessage());
         }
-        return thumbnailUrl;
+        return thumbnailUrl;*/
     }
 }

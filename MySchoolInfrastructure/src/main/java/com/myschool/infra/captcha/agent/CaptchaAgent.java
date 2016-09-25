@@ -29,4 +29,12 @@ public abstract class CaptchaAgent extends AbstractAgent {
     @Override
     public abstract void validate() throws AgentException;
 
+    /**
+     * Checks if is valid.
+     *
+     * @param captchaResponse the captcha response
+     * @return true, if is valid
+     */
+    public abstract boolean isValid(String captchaResponse);
+
 }

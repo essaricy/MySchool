@@ -22,11 +22,11 @@ import com.myschool.application.service.IssueService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
+import com.myschool.infra.captcha.agent.CaptchaAgent;
 import com.myschool.web.application.constants.ApplicationViewNames;
+import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
-import com.myschool.web.framework.util.JCaptchaUtil;
 
 /**
  * The Class IssueController.
@@ -39,9 +39,9 @@ public class IssueController {
     @Autowired
     private IssueService issueService;
 
-    /** The view error handler. */
+    /** The captcha agent. */
     @Autowired
-    private ViewErrorHandler viewErrorHandler;
+    private CaptchaAgent captchaAgent;
 
     /**
      * List.
@@ -161,8 +161,12 @@ public class IssueController {
             String issueDataValue = request.getParameter("IssueData");
             if (!StringUtil.isNullOrBlank(issueDataValue)) {
                 JSONObject issueJsonObject = new JSONObject(issueDataValue);
-                String userCaptchaResponse = issueJsonObject.getString("Captcha_UserFeed");
-                JCaptchaUtil.validateCaptcha(request, userCaptchaResponse);
+                String userCaptchaResponse = issueJsonObject.getString(WebConstants.CAPTCHA_RESPONSE);
+                boolean valid = captchaAgent.isValid(userCaptchaResponse);
+                System.out.println("valid? " + valid);
+                if (!valid) {
+                    throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
+                }
                 IssueDto issue = IssueDataAssembler.create(issueJsonObject);
                 result.setSuccessful(issueService.create(issue));
             }

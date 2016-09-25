@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.application.service.GalleryService;
-import com.myschool.application.service.ImageService;
 import com.myschool.common.util.StringUtil;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.image.constant.ImageSize;
@@ -29,10 +28,6 @@ import com.myschool.web.framework.util.HttpUtil;
 @Controller
 @RequestMapping("image")
 public class ImageController {
-
-    /** The image service. */
-    @Autowired
-    private ImageService imageService;
 
     /** The gallery service. */
     @Autowired

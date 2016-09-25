@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.application.service.ImageService;
 import com.myschool.common.util.StringUtil;
 import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.report.assembler.ReportDataAssembler;
@@ -36,10 +35,6 @@ public class ReportController {
     /** The report service. */
     @Autowired
     private ReportService reportService;
-
-    /** The image service. */
-    @Autowired
-    private ImageService imageService;
 
     /**
      * List.

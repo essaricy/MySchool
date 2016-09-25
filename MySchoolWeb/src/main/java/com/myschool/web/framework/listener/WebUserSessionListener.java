@@ -11,6 +11,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.myschool.acl.constant.SigninSecurityLevel;
+import com.myschool.acl.dto.SigninSecurity;
 import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.application.dto.OrganizationProfileDto;
 import com.myschool.application.service.ProfileService;
@@ -59,7 +61,12 @@ public class WebUserSessionListener implements HttpSessionListener {
             MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
             session.setAttribute(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
             session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-            session.setAttribute(WebConstants.RESOURCE_PROFILE, profileService.getResourceProfile());
+            // Attributes related to restrict multiple login failures.
+
+            // TODO : Currently, the signin security is handled at the session level. Make to user level.
+            SigninSecurity signinSecurity = new SigninSecurity();
+            signinSecurity.setCurrentSecurityLevel(SigninSecurityLevel.CREDENTIALS);
+            session.setAttribute(WebConstants.SIGNIN_SECURITY, signinSecurity);
         } catch (Exception exception) {
             LOGGER.fatal("Unable to create user session " + exception.getMessage(), exception);
         }

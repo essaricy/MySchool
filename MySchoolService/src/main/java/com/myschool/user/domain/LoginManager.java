@@ -54,16 +54,16 @@ public class LoginManager {
         LoginDto loginDetails = null;
         try {
             if (login == null) {
-                throw new DataException("Login Details are not provided.");
+                throw new DataException("Username or password is invalid.");
             }
             String loginId = login.getLoginId();
             String password = login.getPassword();
             if (StringUtil.isNullOrBlank(loginId) || StringUtil.isNullOrBlank(password)) {
-                throw new DataException("Login Details are not provided.");
+                throw new DataException("Username or password is invalid.");
             }
             loginDetails = loginDao.getLoginDetails(login);
             if (loginDetails == null) {
-                throw new DataException("Incorrect login id or password.");
+                throw new DataException("Username or password is invalid.");
             } else {
                 // Login credentials are valid
                 int userId = loginDetails.getId();
@@ -98,7 +98,6 @@ public class LoginManager {
                     }
                     loginDetails.setUserDetails(employee);
                 }
-
                 loginDetails.setUserPreference(userDao.getUserPreferences(userId));
                 loginDetails.setUserStatistics(userDao.getUserStatistics(userId));
             }

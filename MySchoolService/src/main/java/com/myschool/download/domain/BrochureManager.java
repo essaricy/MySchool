@@ -6,12 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.assembler.BrochureDataAssembler;
-import com.myschool.application.dto.ResourceDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.download.dto.BrochureDto;
-import com.myschool.infra.filesystem.util.FileUtil;
-import com.myschool.infra.media.agent.MediaServerAgent;
-import com.myschool.infra.media.exception.ResourceException;
+import com.myschool.infra.storage.StorageAccessAgent;
+import com.myschool.infra.storage.exception.StorageAccessException;
+import com.myschool.storage.dto.StorageItem;
 
 /**
  * The Class BrochureManager.
@@ -19,9 +18,9 @@ import com.myschool.infra.media.exception.ResourceException;
 @Component
 public class BrochureManager {
 
-    /** The media server agent. */
+    /** The storage access agent. */
     @Autowired
-    private MediaServerAgent mediaServerAgent;
+    private StorageAccessAgent storageAccessAgent;
 
     /**
      * Gets the all.
@@ -32,16 +31,10 @@ public class BrochureManager {
     public List<BrochureDto> getAll() throws DataException {
         List<BrochureDto> brochures = null;
         try {
-            List<ResourceDto> resources = mediaServerAgent.getBrochures();
-            brochures = BrochureDataAssembler.create(resources);
-            if (brochures != null && !brochures.isEmpty()) {
-                for (BrochureDto brochure : brochures) {
-                    String brochureType = brochure.getBrochureType();
-                    brochure.setBrochureType(FileUtil.getExtension(brochureType));
-                }
-            }
-        } catch (ResourceException resourceException) {
-            throw new DataException(resourceException.getMessage(), resourceException);
+            List<StorageItem> brochureItems = storageAccessAgent.BROCHURE_STORAGE.getAll();
+            brochures = BrochureDataAssembler.create(brochureItems);
+        } catch (StorageAccessException storageAccessException) {
+            throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
         return brochures;
     }
