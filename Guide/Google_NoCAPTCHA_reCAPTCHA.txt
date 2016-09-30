@@ -2,12 +2,11 @@ Google No CAPTCHA reCAPTCHA
 
 Site key
 Use this in the HTML code your site serves to users.
-6LfuRAcUAAAAADlao8Xuehf1BuJR4uvGKkU_kcSf
+6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-
 
 Secret key
 Use this for communication between your site and Google. Be sure to keep it a secret.
-6LfuRAcUAAAAAPsRFiODwwCF4HLSK0IIDSju1qhK
-
+6LeZRQcUAAAAAKEaTxRq15lE0MY1jshHcySsvbn3
 
 Step 1: Client Side Integration
 Paste this snippet before the closing </head> tag on your HTML template:
@@ -18,7 +17,7 @@ Paste this snippet at the end of the <form> where you want the reCAPTCHA widget 
 Step 2: Server side integration
 When your users submit the form where you integrated reCAPTCHA, you'll get as part of the payload a string with the name "g-recaptcha-response". In order to check whether Google has verified that user, send a POST request with these parameters:
 URL: https://www.google.com/recaptcha/api/siteverify
-secret (required)	6LfuRAcUAAAAAPsRFiODwwCF4HLSK0IIDSju1qhK
+secret (required)	6LeZRQcUAAAAAKEaTxRq15lE0MY1jshHcySsvbn3
 response (required)	The value of 'g-recaptcha-response'.
 remoteip	The end user's ip address.
 

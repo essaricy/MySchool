@@ -81,7 +81,7 @@ var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPag
         <a href="<%=request.getContextPath()%>" class="headerLink">Home</a>
         | <a href="<%=request.getContextPath()%>/acl/employee.htm" class="headerLink">Employee Login</a>
         | <a href="<%=request.getContextPath()%>/acl/student.htm" class="headerLink">Student Login</a>
-        | <a href="<%=request.getContextPath()%>/acl/assistance.htm" class="headerLink">New Users</a>
+        | <a href="<%=request.getContextPath()%>/acl/admin.htm" class="headerLink">Admin</a>
     </td>
     </c:if>
 

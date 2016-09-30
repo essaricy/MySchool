@@ -74,7 +74,7 @@ $(document).ready( function () {
   <tr>
     <td width="50%" class="label">&nbsp;</td>
     <td width="50%" class="value">
-      <div class="g-recaptcha" data-sitekey="6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-"></div>
+      <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div>
     </td>
   </tr>
   <tr>

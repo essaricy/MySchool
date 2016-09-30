@@ -161,13 +161,13 @@ public class IssueController {
             String issueDataValue = request.getParameter("IssueData");
             if (!StringUtil.isNullOrBlank(issueDataValue)) {
                 JSONObject issueJsonObject = new JSONObject(issueDataValue);
+                IssueDto issue = IssueDataAssembler.create(issueJsonObject);
                 String userCaptchaResponse = issueJsonObject.getString(WebConstants.CAPTCHA_RESPONSE);
                 boolean valid = captchaAgent.isValid(userCaptchaResponse);
                 System.out.println("valid? " + valid);
                 if (!valid) {
                     throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
                 }
-                IssueDto issue = IssueDataAssembler.create(issueJsonObject);
                 result.setSuccessful(issueService.create(issue));
             }
         } catch (ServiceException serviceException) {

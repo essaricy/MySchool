@@ -64,6 +64,17 @@
         </layout>
     </appender>
 
+    <appender name="CAPTCHA_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="DatePattern" value="yyyy-MM-dd" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/captcha_responses.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
+        </layout>
+    </appender>
+
     <appender name="WEB_USER_SESSION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="5MB"/>
@@ -88,13 +99,13 @@
     </category>
 
     <!-- Agent specific logging -->
+    <category name="com.myschool.infra.captcha" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="CAPTCHA_APPENDER" />
+    </category>
     <category name="com.myschool.infra.filesystem" additivity="false">
         <priority value="DEBUG" />
         <appender-ref ref="FILE_SYSTEM_APPENDER" />
-    </category>
-    <category name="com.myschool.infra.storage" additivity="false">
-        <priority value="DEBUG" />
-        <appender-ref ref="STORAGE_APPENDER" />
     </category>
     <category name="com.myschool.infra.ojo" additivity="false">
         <priority value="DEBUG" />
@@ -103,6 +114,10 @@
     <category name="com.myschool.infra.oxo" additivity="false">
         <priority value="DEBUG" />
         <appender-ref ref="DATATYPE_CONVERSION_APPENDER" />
+    </category>
+    <category name="com.myschool.infra.storage" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="STORAGE_APPENDER" />
     </category>
 
 	<!-- User session management and activity tracking logs category. -->

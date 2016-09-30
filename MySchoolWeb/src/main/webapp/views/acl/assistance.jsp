@@ -3,15 +3,31 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <style>
-.card {
-    width: 95%;
+.card1 {
+    width: 75%;
+}
+#AssistanceOptionsList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 99%;
+}
+#AssistanceOptionsList li {
+  margin: 1px;
+  padding: 0.5em;
+  font-size: 1em;
+  border: 1px solid #888;
+}
+#AssistanceOptionsList li:hover {
+  cursor: pointer;
+ /* background-color: #EEE;*/
 }
 </style>
 <script>
   var current_slide = 'Problem';
   $(document).ready(function() {
     //$('.btn').click(function(evt){evt.preventDefault();});
-    $('.card').hide();
+    $('.card1').hide();
     $('#' + current_slide).show();
 
     $('#StartAgain').click(function() {
@@ -20,31 +36,40 @@
 
     $('#Next').click(function() {
       if (current_slide == 'Problem') {
+        //var Problem = $("input[name='Problem']:checked"). val();
+        //alert(selectedOption);
 
-        var Problem = $("input[name='Problem']:checked"). val();
-        if (Problem == 'NewSignUp') {
-          $('#Problem').slideUp();
-          $('#NewSignupInstructions').slideDown();
-          $('#BotFilter').slideDown();
-          current_slide = 'NewSignupInstructions';
-        } else if (Problem == 'FindAccount') {
+        if (selectedOption == 'NewSignUp') {
+          //$('#Problem').slideUp();
+          //$('#NewSignupInstructions').slideDown();
+          //$('#BotFilter').slideDown();
+          if ($('#UserType').val() == 'EMPLOYEE') {
+            document.forms[0].action='<%=request.getContextPath()%>/portal-employee/launchSelfSubmit.htm'
+          } else if ($('#UserType').val() == 'STUDENT') {
+            document.forms[0].action='<%=request.getContextPath()%>/portal-student/launchSelfSubmit.htm'
+          }
+          document.forms[0].submit();
+          //current_slide = 'NewSignupInstructions';
+        } else if (selectedOption == 'FindAccount') {
           $('#Problem').slideUp();
           $('#SearchByEmail').slideDown();
           $('#BotFilter').slideDown();
           current_slide = 'FindAccount';
-        } else if (Problem == 'RegStatus') {
+          $('#StartAgain').removeAttr('disabled');
+        } else if (selectedOption == 'RegStatus') {
           $('#Problem').slideUp();
           $('#SearchByEmail').slideDown();
           $('#BotFilter').slideDown();
           current_slide = 'RegStatus';
+          $('#StartAgain').removeAttr('disabled');
         }
-      } else if (current_slide == 'NewSignupInstructions') {
+      } /*else if (current_slide == 'NewSignupInstructions') {
         $('#NewSignupInstructions').slideUp();
         $('#BotFilter').slideUp();
         $('#SelfSubmitForm').slideDown();
         $('#Next').hide();
         $('#StartAgain').hide();
-      } else if (current_slide == 'FindAccount') {
+      }*/ else if (current_slide == 'FindAccount') {
         $('#SearchByEmail').slideUp();
         $('#BotFilter').slideUp();
         $('#SearchAccount_Result').slideDown();
@@ -65,34 +90,39 @@
       document.forms[0].action = '<%=request.getContextPath()%>/acl/student.htm';
       </c:if>
       document.forms[0].submit();
-  });
+    });
+    var selectedOption=null;
+    $("#AssistanceOptionsList").selectable({
+      selected: function( event, ui ) {
+        $(ui.selected).addClass("ui-selected").siblings().removeClass("ui-selected");
+        selectedOption=$(ui.selected).attr('value');
+      }
+    });
   });
 </script>
 
 <form action="">
-<input type="hidden" name="USER_TYPE" value="${USER_TYPE}" />
-<div id="Problem" class="card">
-  <h3>What is your problem statement?</h3>
-  <label>
-    <input type="radio" name="Problem" value="NewSignUp" />I am new to this and i would like to sign up.
-  </label><br/>
-  <label>
-    <input type="radio" name="Problem" value="FindAccount" />I do not remember if i had signed up to this.
-      ( or )
-      I have signed up to this but i do not remember anything. Help me find my account.
-  </label><br/>
-  <label>
-    <input type="radio" name="Problem" value="RegStatus" />I would like to know the status of my account.
-  </label><br/>
+
+<input type="hidden" id="UserType" value="${UserType}" />
+<div id="Problem" class="card1">
+  <h3>How can we assist you?</h3>
+  <ol id="AssistanceOptionsList">
+    <li value="NewSignUp">I am new to this and i would like to sign up</li>
+    <li value="FindAccount">I do not remember if i had signed up to this. Help me find my account</li>
+    <li value="FindAccount">I have signed up for this but i do not remember anything. Help me find my account</li>
+    <li value="RegStatus">I would like to know the status of my account</li>
+  </ol>
+  <br/>
 </div>
 
-<div id="SearchByEmail" class="card">
+<div id="SearchByEmail" class="card1">
   <h3>Find My Account</h3>
   Enter the email id that may be associated to your account.<br/><br/>
   <input type="text" id="EmailID" name="EmailID" style="width:40%; height:38px; font-size: 14pt;" placeholder="Enter email id"><br/><br/>
 </div>
 
-<div id="NewSignupInstructions" class="card">
+<!--
+<div id="NewSignupInstructions" class="card1">
   <h3>
   <c:if test="${USER_TYPE == 'EMPLOYEE'}">Employee</c:if>
   <c:if test="${USER_TYPE == 'STUDENT'}">Student</c:if>&nbsp;Registration - Instructions</h3>
@@ -123,17 +153,18 @@
     </ul>
   </div>
 </div>
+-->
 
-<div id="BotFilter" class="card">
-  <div class="g-recaptcha" data-sitekey="6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-"></div>
+<div id="BotFilter" class="card1">
+  <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div>
 </div>
 
-<div id="SelfSubmitForm" class="card">
+<div id="SelfSubmitForm" class="card1">
   <h3>Employee/Student Registration</h3>
   Show the Registration Page.
 </div>
 
-<div id="SearchAccount_Result" class="card">
+<div id="SearchAccount_Result" class="card1">
   <h3>Search Result</h3>
   This email id is associated with the following  accounts.
   <ul>
@@ -150,7 +181,7 @@
   </p>
 </div>
 
-<div id="RegStatus_Result" class="card">
+<div id="RegStatus_Result" class="card1">
   <h3>Employee/Student Registration Status</h3>
   You have submitted your form on [date]<br/>
   Your form has not been verified by the approver yet.<br/>
@@ -166,7 +197,7 @@
 </div>
 
 <div>
-    <input type="button" id="StartAgain" value="Start Again" />
+    <input type="button" id="StartAgain" value="Start Again" disabled />
     <input type="button" id="Next" value="Next" />
 </div>
 </form>

@@ -1,11 +1,8 @@
 package com.myschool.infra.captcha.agent;
 
-import java.io.File;
-
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.AgentException;
-import com.myschool.common.exception.ConfigurationException;
 import com.myschool.infra.agent.AbstractAgent;
 
 /**
@@ -13,15 +10,6 @@ import com.myschool.infra.agent.AbstractAgent;
  */
 @Component
 public abstract class CaptchaAgent extends AbstractAgent {
-
-    /* (non-Javadoc)
-     * @see com.myschool.infra.agent.Agent#loadConfiguration(java.io.File)
-     */
-    @Override
-    public void loadConfiguration(File configFile)
-            throws ConfigurationException {
-        // TODO load captcha config file.
-    }
 
     /* (non-Javadoc)
      * @see com.myschool.infra.Agent#validate()
@@ -36,5 +24,12 @@ public abstract class CaptchaAgent extends AbstractAgent {
      * @return true, if is valid
      */
     public abstract boolean isValid(String captchaResponse);
+
+    /**
+     * Gets the client key.
+     *
+     * @return the client key
+     */
+    public abstract String getClientKey();
 
 }

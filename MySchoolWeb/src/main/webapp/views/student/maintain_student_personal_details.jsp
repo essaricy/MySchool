@@ -1,19 +1,14 @@
 <%@ taglib prefix="myschool" tagdir="/WEB-INF/tags" %>
 
-<style>
-#StudentPersonalDetailsTable {
-  font-size: 0.65em;
-}
-</style>
 <script type="text/javascript">
 $(document).ready(function(){
   $('#CorrespondenceAddress').textcounter({id: 'CorrespondenceAddress'});
   $('#PermanentAddress').textcounter({id: 'PermanentAddress'});
   $('#IdentificationMarks').textcounter({id: 'IdentificationMarks'});
-  $('#Gender').chosen();
-  $('#Religion').chosen();
-  $('#Nationality').chosen();
-  $('#BloodGroup').chosen();
+  $('#Gender').chosen({width: "208px"});
+  $('#Religion').chosen({width: "208px"});
+  $('#Nationality').chosen({width: "208px"});
+  $('#BloodGroup').chosen({width: "208px"});
   $(this).datePicker({id: 'DateOfBirth', future: false});
 });
 

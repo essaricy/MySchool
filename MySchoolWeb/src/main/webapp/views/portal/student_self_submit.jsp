@@ -5,19 +5,24 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <style>
-#StudentAccordion p {
-  font-size: 0.7em;
-  font-weight: bold;
-  text-align: left;
+#StudentRegistrationTabs {
+  font-size: 1.1em;
+}
+#PostSubmitNotes {
+  color: green;
 }
 </style>
 
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/widgets/jquery.waitMe/waitMe.css" />
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.waitMe/waitMe.js"></script> 
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-student-attributes.js"></script>
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-ajax.js"></script>
 <script>
 jQuery(document).ready(function() {
-  $(this).myAccordion({id: 'StudentAccordion'});
-  $("#StudentAccordion").accordion( "option", "active", 0);
+  $('#StudentRegistrationTabs').tabs({id: 'StudentRegistrationTabs'});
+  $("#StudentRegistrationTabs").tabs("option", "active", 0);
   $('#LastAdmissionNumber').hide();
+  $('#PostSubmitNotes').hide();
 
   var uploader = new plupload.Uploader({
     // General settings
@@ -40,7 +45,8 @@ jQuery(document).ready(function() {
   });
   uploader.init();
   uploader.bind('FilesAdded', function (up, files) {
-    setTimeout(function () { uploader.start(); }, 1000);
+    //setTimeout(function () { uploader.start(); }, 1000);
+    wait();
     uploader.start();
   });
   uploader.bind('FileUploaded', function(up, file, result) {
@@ -49,20 +55,22 @@ jQuery(document).ready(function() {
       notifySuccess('Image has been successfully uploaded and will be updated when saved.');
       // Replace image with some fading effect
       var studentImage = $('#studentImage');
-      var studentImageUrl = '<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var originalImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=student&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var passportImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=student&imageSize=PASSPORT&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
       studentImage.fadeOut(1000, function () {
-        studentImage.attr('src', studentImageUrl);
+        studentImage.attr('src', passportImageUrl);
         // Magnify image on click
-        studentImage.click(function() {$.magnificPopup.open({ items: { src: studentImageUrl }, type: 'image' })});
+        studentImage.click(function() {$.magnificPopup.open({ items: { src: originalImageUrl }, type: 'image' })});
         studentImage.fadeIn(3000);
       });
       $('#ImageReferenceNumber').val(response.ReferenceNumber);
     } else {
       attendError('Unable to upload the image now. Please try again.');
     }
+    unwait();
   });
 
-  jQuery('#save').click(function () {
+  jQuery('#SaveStudentData').click(function () {
     var verificationCode = $('#g-recaptcha-response').val();
     if (verificationCode == '') {
       notifyError('Click on "I\'m not a robot"');
@@ -73,12 +81,8 @@ jQuery(document).ready(function() {
       notifyError('Please agree to the declaration.');
       return false;
     }
-    confirm('Please ensure that you have entered correct information.<br /> You cannot change the information after save is successful.', confirmSave);
+    interactConfirm('Please ensure that you have entered correct information.<br /> You cannot change the information after save is successful.', saveStudent);
   });
-
-  function confirmSave() {
-    saveStudent();
-  }
 
   function saveStudent() {
     var StudentData = new Object();
@@ -90,48 +94,30 @@ jQuery(document).ready(function() {
     StudentData.FamilyMemberDetails=getStudentFamilyMembers();
     StudentData.DocumentDetails=getStudentDocuments();
 
-    jQuery.ajax({
-      type: "POST",
-      url: "<%=request.getContextPath()%>/portal-student/submitStudent.htm",
-      data: {
-        StudentData: JSON.stringify(StudentData),
-        CaptchaResponse: $('#g-recaptcha-response').val()
-      },
-      context: this
-    }).done(function(result) {
-      if (result.Successful) {
-        info_cb(result.StatusMessage, redirectToLogin);
-      } else {
-        var message = result.StatusMessage;
-        if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-          attendError(message);
-        } else {
-          error("Something really went wrong and we apologize for the inconvenience caused!!!");
-        }
-      }
-    });
+    var formData = {
+      StudentData: JSON.stringify(StudentData),
+      CaptchaResponse: $('#g-recaptcha-response').val()
+    }
+
+    sendAjax("<%=request.getContextPath()%>/portal-student/submitStudent.htm", formData, postSuccess, null);
   }
 
-  function redirectToLogin() {
-    window.location = '<%=request.getContextPath()%>';
+  function postSuccess() {
+    // Remove all the content that has an action associated with
+    $("#StudentRegistrationTabs").find("input,button,textarea,select").attr("disabled", "disabled");
+    $(".iconImage,.ui-datepicker-trigger,.g-recaptcha,#uploadImage,#AgreeStatement,#SaveStudentData").fadeOut(1000);
+    $('.chosen-select').trigger("chosen:updated");
+    $('#PostSubmitNotes').fadeIn(1000);
   }
-  $(document).social({
-    title: '${ORGANIZATION_PROFILE.organizationName} - Student Self Submit (ESS)'
-  });
-
 });
 </script>
 
 <input type="hidden" id="Verified" value="NO" />
 <input type="hidden" id="StudentId" value="0" />
 <table class="formTable_Container">
-  <caption>
-    Student Registration (Self-Submit Service)
-  </caption>
+  <caption>Student Registration (Self-Submit Service)</caption>
   <tr>
     <td colspan="2" align="center" valign="top" style="padding-top: 8px;">
-      <div id="Socialize"></div>
-      <p/>
       <!-- Student instructions page -->
       <%@ include file="/views/portal/portal_student_instructions.jsp" %>
     </td>
@@ -145,7 +131,7 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
+            <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
           </td>
         </tr>
         <tr>
@@ -159,38 +145,48 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=${Student.studentNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>
+            <c:if test="${Student.imageAccess == null || Student.imageAccess.passportLink == null}">
+              <img id="studentImage" name="studentImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
+            </c:if>
+            <c:if test="${Student.imageAccess != null && Student.imageAccess.passportLink != null}">
+              <img id="studentImage" name="studentImage" src="${Student.imageAccess.passportLink}" border="1" width="150px" height="180px"/>
+            </c:if>
           </td>
         </tr>
       </table>
       </c:if>
     </td>
     <td width="85%" valign="top">
-      <div id="StudentAccordion">
-        <p class="title"><spring:message code="student.admission.details"/></p>
-        <div><%@ include file="/views/student/maintain_student_admission_details.jsp" %></div>
-        <p class="title"><spring:message code="student.personal.details"/></p>
-        <div><%@ include file="/views/student/maintain_student_personal_details.jsp" %></div>
-        <p class="title"><spring:message code="student.family.details"/></p>
-        <div><%@ include file="/views/student/maintain_student_family_members.jsp" %></div>
-        <p class="title">Student Documents</p>
-        <div><%@ include file="/views/student/maintain_student_documents.jsp" %></div>
+      <div id="StudentRegistrationTabs">
+        <ul>
+          <li><a href="#StudentAdmissionDetailsTab">Admission</a></li>
+          <li><a href="#StudentPersonalDetailsTab">Personal</a></li>
+          <li><a href="#StudentFamilyDetailsTab">Family</a></li>
+          <li><a href="#StudentDocumentDetailsTab">Documents</a></li>
+        </ul>
+
+        <div id="StudentAdmissionDetailsTab"><%@ include file="/views/student/maintain_student_admission_details.jsp" %></div>
+        <div id="StudentPersonalDetailsTab"><%@ include file="/views/student/maintain_student_personal_details.jsp" %></div>
+        <div id="StudentFamilyDetailsTab"><%@ include file="/views/student/maintain_student_family_members.jsp" %></div>
+        <div id="StudentDocumentDetailsTab"><%@ include file="/views/student/maintain_student_documents.jsp" %></div>
       </div>
     </td>
   </tr>
     <td width="15%" valign="top">&nbsp;</td>
     <td width="85%" valign="top">
       <div id="StudentFormActionButtons" style="margin-top: 10px; margin-bottom: 40px; text-align: center;">
-        <div class="g-recaptcha" data-sitekey="6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-"></div><br/>
+        <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div><br/>
         <table>
           <tr>
             <td align="left" colspan="2">
+              <p id="AgreeStatement">
               <input type="checkbox" id="Agree">&nbsp;I, hereby, certify that the information entered is true to the best of my knowledge and belief.
+              </p>
             </td>
           </tr>
           <tr>
             <td align="center" colspan="2">
-              <input type="button" id="save" value="Save" /><br/>
+              <input type="button" id="SaveStudentData" value="Save" /><br/>
             </td>
           </tr>
         </table>
@@ -198,4 +194,18 @@ jQuery(document).ready(function() {
     </td>
   </tr>
 </table>
+<form action="">
+<input type="hidden" name="UserType" value="STUDENT" />
+<div id="PostSubmitNotes">
+  <p>
+    Thank you for using Student Self-Submit Service.<br/>
+    Your form has been successfully submitted and you will be notified through email when it is approved.<br/>
+    You can always enquire the status of your application from <a href="#"
+        onclick="document.forms[0].action='<%=request.getContextPath() %>/acl/assistance.htm'">assistance</a> page.<br/>
+  </p>
+  <p>
+    <a href="<%=request.getContextPath() %>">Back to Home</a>
+  </p>
+</div>
 <br/>
+</form>

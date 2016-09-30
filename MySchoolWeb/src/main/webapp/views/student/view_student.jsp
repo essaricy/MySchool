@@ -41,10 +41,10 @@ jQuery(document).ready(function() {
     <td width="85%" valign="top">
       <div id="StudentRegistrationTabs">
         <ul>
-          <li><a href="#StudentAdmissionDetailsTab"><spring:message code="student.admission.details"/></a></li>
-          <li><a href="#StudentPersonalDetailsTab"><spring:message code="student.personal.details"/></a></li>
-          <li><a href="#StudentFamilyDetailsTab"><spring:message code="student.family.details"/></a></li>
-          <li><a href="#StudentDocumentDetailsTab">Student Documents</a></li>
+          <li><a href="#StudentAdmissionDetailsTab">Admission</a></li>
+          <li><a href="#StudentPersonalDetailsTab">Personal</a></li>
+          <li><a href="#StudentFamilyDetailsTab">Family</a></li>
+          <li><a href="#StudentDocumentDetailsTab">Documents</a></li>
         </ul>
 
         <div id="StudentAdmissionDetailsTab"><%@ include file="/views/student/view_student_admission_details.jsp" %></div>

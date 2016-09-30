@@ -1,5 +1,8 @@
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/widgets/jquery.expand.collapse/css/example.css" />
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.expand.collapse/scripts/expand.js"></script>
+
+<script type="text/javascript" src="<%=request.getContextPath()%>/widgets/jquery.expand.collapse/scripts/expand.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/widgets/jquery.countdown360/src/jquery.countdown360.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/scripts/myschool-timer.js"></script>
 <script>
 jQuery(document).ready(function() {
   $('#StudentFormRow').hide();
@@ -19,6 +22,12 @@ jQuery(document).ready(function() {
     $('#StudentFormRow').show(1000);
     $('#StudentFormActionButtons').show();
   });
+
+    $("#TimeToReadInstractions").fadeOut(1000, function() {
+      $('#InstructionsRead').fadeIn(500);
+    });
+  });
+  $('#InstructionsRead').hide();
 });
 </script>
 
@@ -55,5 +64,5 @@ jQuery(document).ready(function() {
   </div>
 </div>
 <br />
-<input type="button" id="InstructionsRead" value="I have read the instructions" />
+<div id="TimeToReadInstractions"></div><input type="button" id="InstructionsRead" value="I have read the instructions" />
 <br />

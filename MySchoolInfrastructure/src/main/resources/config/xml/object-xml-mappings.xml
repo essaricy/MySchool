@@ -135,6 +135,7 @@
         <field alias="UseEmployeeSelfSubmit" name="useEmployeeSelfSubmit"/>
         <field alias="UseStudentSelfSubmit" name="useStudentSelfSubmit"/>
         <field alias="PinnedGallery" name="pinnedGallery"/>
+        <field alias="CaptchaKey" name="captchaKey"/>
     </object-xml-mapping>
     <object-xml-mapping name="NumberNameValue" type="com.myschool.application.dto.NumberNameValueDto">
         <field alias="Number" name="number"/>

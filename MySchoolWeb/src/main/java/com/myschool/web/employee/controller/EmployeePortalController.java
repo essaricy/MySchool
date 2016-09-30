@@ -70,28 +70,27 @@ public class EmployeePortalController {
         EmployeeDto employee = null;
 
         try {
-            // Verify CAPTCHA
-            String userCaptchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
-            boolean valid = captchaAgent.isValid(userCaptchaResponse);
-            System.out.println("valid? " + valid);
-            if (!valid) {
-                throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
-            }
-
             String employeeDataValue = request.getParameter("EmployeeData");
             if (!StringUtil.isNullOrBlank(employeeDataValue)) {
                 JSONObject employeeData = new JSONObject(employeeDataValue);
                 employee = EmployeeDataAssembler.create(employeeData);
-                employee.setVerified(false);
                 if (employee != null) {
+                    employee.setVerified(false);
                     String employeeNumber = employee.getEmployeeNumber();
+
+                    // Verify CAPTCHA
+                    String userCaptchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
+                    boolean valid = captchaAgent.isValid(userCaptchaResponse);
+                    System.out.println("valid? " + valid);
+                    if (!valid) {
+                        throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
+                    }
+
                     // Create a new employee
                     employeeService.create(employee);
                     EmployeeDto employeeDto = employeeService.get(employeeNumber);
                     result.setSuccessful(true);
-                    result.setStatusMessage("Thank you for using Employee Self-Submit Service. "
-                            + "Your informaton has been successfully submitted and you will be notified through email when it is approved.<br/>"
-                            + "For any queries, please visit the corresponding branch.");
+                    result.setStatusMessage("Form has been submitted successfully");
                     result.setReferenceNumber(String.valueOf(employeeDto.getEmployeeId()));
                 }
             }

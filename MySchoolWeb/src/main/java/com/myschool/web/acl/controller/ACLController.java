@@ -207,7 +207,7 @@ public class ACLController {
             }
             // User account is present in our system
             System.out.println("loginSuccessful");
-            LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_SUCCESS, sessionId, loginId, userType));
+            LOGGER.info(MessageFormat.format(UserActivityConstant.SIGNUP_SUCCESS, sessionId, loginId, userType));
             UserContext context = ContextUtil.createUserContext(loginDetails);
             if (userType == UserType.STUDENT) {
                 StudentDto student = (StudentDto) loginDetails.getUserDetails();
@@ -229,7 +229,7 @@ public class ACLController {
             map.put(WebConstants.MESSAGE, message);
             map.put(WebConstants.USER_TYPE, userType);
 
-            LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_FAILED, sessionId, loginId, message));
+            LOGGER.info(MessageFormat.format(UserActivityConstant.SIGNUP_FAILED, sessionId, loginId, message));
             modelAndView = ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
         } catch (ServiceException serviceException) {
             String message = serviceException.getMessage();
@@ -238,7 +238,7 @@ public class ACLController {
             map.put(WebConstants.MESSAGE, message);
             map.put(WebConstants.USER_TYPE, userType);
 
-            LOGGER.info(MessageFormat.format(UserActivityConstant.USER_LOGIN_FAILED, sessionId, loginId, message));
+            LOGGER.info(MessageFormat.format(UserActivityConstant.SIGNUP_FAILED, sessionId, loginId, message));
             modelAndView = ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
         }
         return modelAndView;

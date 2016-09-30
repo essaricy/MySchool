@@ -37,10 +37,10 @@ public class LoginDaoImpl implements LoginDao {
 
         try {
             connection = databaseAgent.getConnection();
-            preparedStatement = connection.prepareStatement(LoginDaoSql.SELECT_BY_LOGIN);
+            preparedStatement = connection.prepareStatement(LoginDaoSql.SELECT_BY_LOGIN_ROLE);
             preparedStatement.setString(1, login.getLoginId());
-            preparedStatement.setString(2, login.getLoginId());
-            preparedStatement.setString(3, login.getPassword());
+            preparedStatement.setString(2, login.getPassword());
+            preparedStatement.setInt(3, login.getUserType().getUserTypeValue());
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 loginDetails = new LoginDto();

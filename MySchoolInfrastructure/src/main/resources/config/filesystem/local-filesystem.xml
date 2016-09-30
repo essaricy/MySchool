@@ -88,14 +88,4 @@
             <directory name="upload" absence="CREATE" />
         </directory>
     </directory>
-    <directory name="transfers" absence="CREATE" >
-        <directory name="outbound" absence="CREATE">
-            <directory name="attendance" absence="CREATE" />
-            <directory name="exim" absence="CREATE">
-                <directory name="export" absence="CREATE" />
-                <directory name="import" absence="CREATE" />
-            </directory>
-            <directory name="logs" absence="CREATE" />
-        </directory>
-    </directory>
 </file-system>

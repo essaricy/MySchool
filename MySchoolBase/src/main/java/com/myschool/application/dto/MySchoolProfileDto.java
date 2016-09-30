@@ -43,6 +43,9 @@ public class MySchoolProfileDto implements Serializable {
     /** The pinned gallery. */
     private String pinnedGallery;
 
+    /** The captcha key. */
+    private String captchaKey;
+
     /**
      * Checks if is email active.
      * 
@@ -242,30 +245,43 @@ public class MySchoolProfileDto implements Serializable {
     }
 
     /**
-     * Constructs a <code>String</code> with all attributes
-     * in name = value format.
+     * Gets the captcha key.
      *
-     * @return a <code>String</code> representation 
-     * of this object.
+     * @return the captchaKey
      */
+    public String getCaptchaKey() {
+        return captchaKey;
+    }
+
+    /**
+     * Sets the captcha key.
+     *
+     * @param captchaKey the captchaKey to set
+     */
+    public void setCaptchaKey(String captchaKey) {
+        this.captchaKey = captchaKey;
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
     public String toString() {
-        final String SEPARATOR = ", ";
-        StringBuilder retValue = new StringBuilder();
-        retValue.append("MySchoolProfileDto ( ")
-            .append(super.toString()).append(SEPARATOR)
-            .append("emailActive = ").append(this.emailActive).append(SEPARATOR)
-            .append("smsActive = ").append(this.smsActive).append(SEPARATOR)
-            .append("emailStudents = ").append(this.emailStudents).append(SEPARATOR)
-            .append("smsStudents = ").append(this.smsStudents).append(SEPARATOR)
-            .append("emailEmployees = ").append(this.emailEmployees).append(SEPARATOR)
-            .append("smsEmployees = ").append(this.smsEmployees).append(SEPARATOR)
-            .append("ayeInProgress = ").append(this.ayeInProgress).append(SEPARATOR)
-            .append("useMenuIcons = ").append(this.useMenuIcons).append(SEPARATOR)
-            .append("useEmployeeSelfSubmit = ").append(this.useEmployeeSelfSubmit).append(SEPARATOR)
-            .append("useStudentSelfSubmit = ").append(this.useStudentSelfSubmit).append(SEPARATOR)
-            .append("pinnedGallery = ").append(this.pinnedGallery).append(SEPARATOR)
-            .append(" )\n");
-        return retValue.toString();
+        StringBuilder builder = new StringBuilder();
+        builder.append("MySchoolProfileDto [emailActive=").append(emailActive)
+                .append(", smsActive=").append(smsActive)
+                .append(", emailStudents=").append(emailStudents)
+                .append(", smsStudents=").append(smsStudents)
+                .append(", emailEmployees=").append(emailEmployees)
+                .append(", smsEmployees=").append(smsEmployees)
+                .append(", ayeInProgress=").append(ayeInProgress)
+                .append(", useMenuIcons=").append(useMenuIcons)
+                .append(", useEmployeeSelfSubmit=")
+                .append(useEmployeeSelfSubmit).append(", useStudentSelfSubmit=")
+                .append(useStudentSelfSubmit).append(", pinnedGallery=")
+                .append(pinnedGallery).append(", captchaKey=")
+                .append(captchaKey).append("]");
+        return builder.toString();
     }
 
 }

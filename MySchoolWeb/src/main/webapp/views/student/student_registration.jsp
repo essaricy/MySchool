@@ -91,12 +91,14 @@ jQuery(document).ready(function() {
     if (response.Successful) {
       notifySuccess('Image has been successfully uploaded and will be updated when saved.');
       // Replace image with some fading effect
+      // Replace image with some fading effect
       var studentImage = $('#studentImage');
-      var studentImageUrl = '<%=request.getContextPath()%>/image/getImage.htm?type=student&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var originalImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=student&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var passportImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=student&imageSize=PASSPORT&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
       studentImage.fadeOut(1000, function () {
-        studentImage.attr('src', studentImageUrl);
+        studentImage.attr('src', passportImageUrl);
         // Magnify image on click
-        studentImage.click(function() {$.magnificPopup.open({ items: { src: studentImageUrl }, type: 'image' })});
+        studentImage.click(function() {$.magnificPopup.open({ items: { src: originalImageUrl }, type: 'image' })});
         studentImage.fadeIn(3000);
       });
       $('#ImageReferenceNumber').val(response.ReferenceNumber);

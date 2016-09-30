@@ -27,6 +27,7 @@ import com.myschool.user.dto.ModuleAccessDto;
 @Component
 public class LoginManager {
 
+    /** The privileges manager. */
     @Autowired
     private PrivilegesManager privilegesManager;
 
@@ -34,12 +35,15 @@ public class LoginManager {
     @Autowired
     private LoginDao loginDao;
 
+    /** The user dao. */
     @Autowired
     private UserDao userDao;
 
+    /** The student manager. */
     @Autowired
     private StudentManager studentManager;
 
+    /** The employee manager. */
     @Autowired
     private EmployeeManager employeeManager;
 
@@ -58,7 +62,8 @@ public class LoginManager {
             }
             String loginId = login.getLoginId();
             String password = login.getPassword();
-            if (StringUtil.isNullOrBlank(loginId) || StringUtil.isNullOrBlank(password)) {
+            UserType userType = login.getUserType();
+            if (StringUtil.isNullOrBlank(loginId) || StringUtil.isNullOrBlank(password) || userType == null) {
                 throw new DataException("Username or password is invalid.");
             }
             loginDetails = loginDao.getLoginDetails(login);
@@ -68,7 +73,6 @@ public class LoginManager {
                 // Login credentials are valid
                 int userId = loginDetails.getId();
                 int refUserId = loginDetails.getRefUserId();
-                UserType userType = loginDetails.getUserType();
 
                 List<ModuleAccessDto> privileges = privilegesManager.getUserPrivileges(userId, userType.getUserTypeValue());
                 loginDetails.setModuleAccess(privileges);

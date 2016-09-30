@@ -66,21 +66,22 @@ public class StudentPortalController {
         StudentDto student = null;
 
         try {
-            // Verify CAPTCHA
-            String userCaptchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
-            boolean valid = captchaAgent.isValid(userCaptchaResponse);
-            System.out.println("valid? " + valid);
-            if (!valid) {
-                throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
-            }
-
             String studentDataValue = request.getParameter("StudentData");
             if (!StringUtil.isNullOrBlank(studentDataValue)) {
                 JSONObject studentData = new JSONObject(studentDataValue);
                 student = StudentDataAssembler.create(studentData);
-                student.setVerified(false);
                 if (student != null) {
+                    student.setVerified(false);
                     String admissionNumber = student.getAdmissionNumber();
+
+                    // Verify CAPTCHA
+                    String userCaptchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
+                    boolean valid = captchaAgent.isValid(userCaptchaResponse);
+                    System.out.println("valid? " + valid);
+                    if (!valid) {
+                        throw new ServiceException("Form is not submitted. CAPTCHA moderated.");
+                    }
+
                     // Create a new student
                     studentService.create(student);
                     StudentDto studentDto = studentService.get(admissionNumber);

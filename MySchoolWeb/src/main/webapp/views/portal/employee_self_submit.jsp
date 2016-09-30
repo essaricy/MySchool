@@ -5,19 +5,24 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <style>
-#EmployeeAccordion p {
-  font-size: 0.8em;
-  font-weight: bold;
-  text-align: left;
+#EmployeeRegistrationTabs {
+  font-size: 1.1em;
+}
+#PostSubmitNotes {
+  color: green;
 }
 </style>
 
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/widgets/jquery.waitMe/waitMe.css" />
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.waitMe/waitMe.js"></script> 
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-employee-attributes.js"></script>
+<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-ajax.js"></script>
 <script>
 jQuery(document).ready(function() {
-  $(this).myAccordion({id: 'EmployeeAccordion'});
-  $("#EmployeeAccordion").accordion( "option", "active", 0);
-  $('#LastEmployeeNumber').hide();
+  $('#EmployeeRegistrationTabs').tabs({id: 'EmployeeRegistrationTabs'});
+  $("#EmployeeRegistrationTabs").tabs("option", "active", 0);
+  $('#LastEmploymentNumber').hide();
+  $('#PostSubmitNotes').hide();
 
   var uploader = new plupload.Uploader({
     // General settings
@@ -40,7 +45,8 @@ jQuery(document).ready(function() {
   });
   uploader.init();
   uploader.bind('FilesAdded', function (up, files) {
-    setTimeout(function () { uploader.start(); }, 1000);
+    //setTimeout(function () { uploader.start(); }, 1000);
+    wait();
     uploader.start();
   });
   uploader.bind('FileUploaded', function(up, file, result) {
@@ -49,20 +55,22 @@ jQuery(document).ready(function() {
       notifySuccess('Image has been successfully uploaded and will be updated when saved.');
       // Replace image with some fading effect
       var employeeImage = $('#employeeImage');
-      var employeeImageUrl = '<%=request.getContextPath()%>/image/getImage.htm?type=employee&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var originalImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=employee&imageSize=ORIGINAL&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
+      var passportImageUrl = '<%=request.getContextPath()%>/image/getEvanescentImage.htm?type=employee&imageSize=PASSPORT&contentId=' + response.ReferenceNumber + '&sid=' + new Date().getTime();
       employeeImage.fadeOut(1000, function () {
-        employeeImage.attr('src', employeeImageUrl);
+        employeeImage.attr('src', passportImageUrl);
         // Magnify image on click
-        employeeImage.click(function() {$.magnificPopup.open({ items: { src: employeeImageUrl }, type: 'image' })});
+        employeeImage.click(function() {$.magnificPopup.open({ items: { src: originalImageUrl }, type: 'image' })});
         employeeImage.fadeIn(3000);
       });
       $('#ImageReferenceNumber').val(response.ReferenceNumber);
     } else {
       attendError('Unable to upload the image now. Please try again.');
     }
+    unwait();
   });
 
-  jQuery('#save').click(function () {
+  jQuery('#SaveEmployeeData').click(function () {
     var verificationCode = $('#g-recaptcha-response').val();
     if (verificationCode == '') {
       notifyError('Click on "I\'m not a robot"');
@@ -73,12 +81,8 @@ jQuery(document).ready(function() {
       notifyError('Please agree to the declaration.');
       return false;
     }
-    confirm('Please ensure that you have entered correct information.<br /> You cannot change the information after save is successful.', confirmSave);
+    interactConfirm('Please ensure that you have entered correct information.<br /> You cannot change the information after save is successful.', saveEmployee);
   });
-
-  function confirmSave() {
-    saveEmployee();
-  }
 
   function saveEmployee() {
     var EmployeeData = getPersonalDetails();
@@ -102,35 +106,20 @@ jQuery(document).ready(function() {
     EmployeeData.EmployeeTeachingSubjects = getEmployeeTeachingSubjects();
     //alert(JSON.stringify(EmployeeData));
 
-    jQuery.ajax({
-      type: "POST",
-      url: "<%=request.getContextPath()%>/portal-employee/submitEmployee.htm",
-      data: {
-        EmployeeData: JSON.stringify(EmployeeData),
-        CaptchaResponse: $('#g-recaptcha-response').val()
-      },
-      context: this
-    }).done(function(result) {
-      if (result.Successful) {
-        info_cb(result.StatusMessage, redirectToLogin);
-      } else {
-        var message = result.StatusMessage;
-        if (message != null && typeof(message) != 'undefined' && message != '' && message != 'null') {
-          attendError(message);
-        } else {
-          error("Something really went wrong and we apologize for the inconvenience caused!!!");
-        }
-      }
-    });
+    var formData = {
+      EmployeeData: JSON.stringify(EmployeeData),
+      CaptchaResponse: $('#g-recaptcha-response').val()
+    }
+    sendAjax("<%=request.getContextPath()%>/portal-employee/submitEmployee.htm", formData, postSuccess, null);
   }
 
-  function redirectToLogin() {
-    window.location = '<%=request.getContextPath()%>';
+  function postSuccess() {
+    // Remove all the content that has an action associated with
+    $("#EmployeeRegistrationTabs").find("input,button,textarea,select").attr("disabled", "disabled");
+    $(".iconImage,.ui-datepicker-trigger,.g-recaptcha,#uploadImage,#AgreeStatement,#SaveEmployeeData").fadeOut(1000);
+    $('.chosen-select').trigger("chosen:updated");
+    $('#PostSubmitNotes').fadeIn(1000);
   }
-  $(document).social({
-    title: '${ORGANIZATION_PROFILE.organizationName} - Employee Self Submit (ESS)'
-  });
-
 });
 </script>
 
@@ -157,7 +146,7 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=no-image" border="1" width="150px" height="180px"/>
+            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
           </td>
         </tr>
         <tr>
@@ -171,37 +160,46 @@ jQuery(document).ready(function() {
       <table class="formTable_Data">
         <tr>
           <td align="center">
-            <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/image/getImage.htm?type=employee&imageSize=ORIGINAL&contentId=${Employee.employeeNumber}&sid=<%= new java.util.Date().getTime()%>" border="1" width="150px" height="180px"/>
+            <c:if test="${Employee.imageAccess == null || Employee.imageAccess.passportLink == null}">
+              <img id="employeeImage" name="employeeImage" src="<%=request.getContextPath()%>/images/icons/no-image-yet.png" width="150px" height="180px" class="no-image"/>
+            </c:if>
+            <c:if test="${Employee.imageAccess != null && Employee.imageAccess.passportLink != null}">
+              <img id="employeeImage" name="employeeImage" src="${Employee.imageAccess.passportLink}" border="1" width="150px" height="180px"/>
+            </c:if>
+
           </td>
         </tr>
       </table>
       </c:if>
     </td>
     <td width="85%" valign="top">
-      <div id="EmployeeAccordion">
-        <p class="title">Employment Details</p>
-        <div><%@ include file="/views/employee/maintain_employment_details.jsp" %></div>
-        <p class="title">Personal Details</p>
-        <div><%@ include file="/views/employee/maintain_employee_personal_details.jsp" %></div>
-        <p class="title">Employee Contact Details</p>
-        <div><%@ include file="/views/employee/maintain_employee_contact_details.jsp" %></div>
-        <p class="title">Employee Documents</p>
-        <div><%@ include file="/views/employee/maintain_employee_document_details.jsp" %></div>
-        <p class="title">Employee Education</p>
-        <div><%@ include file="/views/employee/maintain_employee_education_details.jsp" %></div>
-        <p class="title">Employee Experience</p>
-        <div><%@ include file="/views/employee/maintain_employee_experience_details.jsp" %></div>
-        <p class="title">Employee Promotions</p>
-        <div><%@ include file="/views/employee/maintain_employee_promotion_details.jsp" %></div>
-        <p class="title">Employee Teaching Subjects</p>
-        <div><%@ include file="/views/employee/maintain_employee_teaching_subjects.jsp" %></div>
+      <div id="EmployeeRegistrationTabs">
+        <ul>
+          <li><a href="#EmploymentDetailsTab">Employment</a></li>
+          <li><a href="#EmployeePersonalDetailsTab">Personal</a></li>
+          <li><a href="#EmployeeFamilyDetailsTab">Contacts</a></li>
+          <li><a href="#EmployeeDocumentDetailsTab">Documents</a></li>
+          <li><a href="#EmployeeEducationDetailsTab">Education</a></li>
+          <li><a href="#EmployeeExperienceDetailsTab">Experience</a></li>
+          <li><a href="#EmployeePromotionDetailsTab">Promotions</a></li>
+          <li><a href="#EmployeeTeachingSubjectsDetailsTab">Teaching Subjects</a></li>
+        </ul>
+
+        <div id="EmploymentDetailsTab"><%@ include file="/views/employee/maintain_employment_details.jsp" %></div>
+        <div id="EmployeePersonalDetailsTab"><%@ include file="/views/employee/maintain_employee_personal_details.jsp" %></div>
+        <div id="EmployeeFamilyDetailsTab"><%@ include file="/views/employee/maintain_employee_contact_details.jsp" %></div>
+        <div id="EmployeeDocumentDetailsTab"><%@ include file="/views/employee/maintain_employee_document_details.jsp" %></div>
+        <div id="EmployeeEducationDetailsTab"><%@ include file="/views/employee/maintain_employee_education_details.jsp" %></div>
+        <div id="EmployeeExperienceDetailsTab"><%@ include file="/views/employee/maintain_employee_experience_details.jsp" %></div>
+        <div id="EmployeePromotionDetailsTab"><%@ include file="/views/employee/maintain_employee_promotion_details.jsp" %></div>
+        <div id="EmployeeTeachingSubjectsDetailsTab"><%@ include file="/views/employee/maintain_employee_teaching_subjects.jsp" %></div>
       </div>
     </td>
   </tr>
     <td width="15%" valign="top">&nbsp;</td>
     <td width="85%" valign="top">
       <div id="EmployeeFormActionButtons" style="margin-top: 10px; margin-bottom: 40px; text-align: center;">
-        <div class="g-recaptcha" data-sitekey="6LeZRQcUAAAAAN-GN8J5Pw0qv3InG7pgk_4jl8P-"></div><br/>
+        <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div><br/>
         <table>
           <tr>
             <td align="left" colspan="2">
@@ -210,7 +208,7 @@ jQuery(document).ready(function() {
           </tr>
           <tr>
             <td align="center" colspan="2">
-              <input type="button" id="save" value="Save" /><br/>
+              <input type="button" id="SaveEmployeeData" value="Save" /><br/>
             </td>
           </tr>
         </table>
@@ -218,3 +216,18 @@ jQuery(document).ready(function() {
     </td>
   </tr>
 </table>
+<form action="">
+<input type="hidden" name="UserType" value="EMPLOYEE" />
+<div id="PostSubmitNotes">
+  <p>
+    Thank you for using Employee Self-Submit Service.<br/>
+    Your form has been successfully submitted and you will be notified through email when it is approved.<br/>
+    You can always enquire the status of your application from <a href="#"
+        onclick="document.forms[0].action='<%=request.getContextPath() %>/acl/assistance.htm'">assistance</a> page.<br/>
+  </p>
+  <p>
+    <a href="<%=request.getContextPath() %>">Back to Home</a>
+  </p>
+</div>
+<br/>
+</form>
