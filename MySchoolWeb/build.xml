@@ -73,7 +73,9 @@
         <include name="commons-io-2.1.jar" />
         <include name="commons-logging-1.1.1.jar" />
         <include name="concurrent-1.3.3.jar" />
+    	<include name="datafactory-0.8.jar" />
         <include name="dynamicreports-core-2.4.1.jar" />
+    	<include name="freemarker.jar" />
     	<include name="google-api-client-1.22.0.jar" />
         <include name="google-api-services-drive-v3-rev34-1.22.0.jar" />
         <include name="google-http-client-1.22.0.jar" />

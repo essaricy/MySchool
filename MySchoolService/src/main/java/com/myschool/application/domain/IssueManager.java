@@ -20,7 +20,6 @@ import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.graph.constant.ToDateType;
-import com.myschool.infra.middleware.agent.MiddlewareAgent;
 import com.myschool.user.constants.UserType;
 
 /**
@@ -32,14 +31,6 @@ public class IssueManager {
     /** The issue dao. */
     @Autowired
     private IssueDao issueDao;
-
-    /** The middleware agent. */
-    @Autowired
-    private MiddlewareAgent middlewareAgent;
-
-    /** The profile manager. */
-    @Autowired
-    private ProfileManager profileManager;
 
     /** The issue validator. */
     @Autowired
@@ -61,9 +52,6 @@ public class IssueManager {
             issueId = issueDao.create(issue);
             // send an email to one who raised issue and to admin if issue is created
             if (issueId > 0 ) {
-                /*issue.setIssueId(issueId);
-                MessageDto messageDto = null;//MessageDataAssembler.createMessage(organizationProfile, issue, cacheAgent.getMessage(ApplicationProperties.MAIL_FROM_SUPPORT));
-                middlewareAgent.sendMessage(messageDto);*/
             }
         } catch (DaoException daoException) {
             throw new DataException(daoException.getMessage(), daoException);

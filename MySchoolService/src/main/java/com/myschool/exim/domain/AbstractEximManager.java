@@ -15,9 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.dao.DocumentDao;
-import com.myschool.application.dao.ProfileDao;
 import com.myschool.application.dao.RelationshipDao;
-import com.myschool.application.domain.ProfileManager;
 import com.myschool.attendance.dao.AttendanceDao;
 import com.myschool.branch.dao.BranchDao;
 import com.myschool.branch.dao.DivisionDao;
@@ -107,10 +105,6 @@ public abstract class AbstractEximManager {
     @Autowired
     protected StudentManager studentManager;
 
-    /** The profile manager. */
-    @Autowired
-    protected ProfileManager profileManager;
-
     /** The branch dao. */
     @Autowired
     protected BranchDao branchDao;
@@ -141,10 +135,6 @@ public abstract class AbstractEximManager {
     /** The attendance dao. */
     @Autowired
     protected AttendanceDao attendanceDao;
-
-    /** The profile dao. */
-    @Autowired
-    protected ProfileDao profileDao;
 
     /** The region dao. */
     @Autowired

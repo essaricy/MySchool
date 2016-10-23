@@ -11,29 +11,8 @@ public class AppConfigDto implements Serializable {
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
-    /** The myschool. */
-    private MySchoolDto myschool;
-
     /** The agent dtos. */
     private List<AgentDto> agentDtos;
-
-    /**
-     * Gets the myschool.
-     * 
-     * @return the myschool
-     */
-    public MySchoolDto getMyschool() {
-        return myschool;
-    }
-
-    /**
-     * Sets the myschool.
-     * 
-     * @param myschool the new myschool
-     */
-    public void setMyschool(MySchoolDto myschool) {
-        this.myschool = myschool;
-    }
 
     /**
      * Gets the agent dtos.
@@ -65,7 +44,6 @@ public class AppConfigDto implements Serializable {
         StringBuilder retValue = new StringBuilder();
         retValue.append("AppConfigDto ( ")
             .append(super.toString()).append(SEPARATOR)
-            .append("myschool = ").append(this.myschool).append(SEPARATOR)
             .append("agentDtos = ").append(this.agentDtos).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();

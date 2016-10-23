@@ -37,9 +37,9 @@
                 <file name="MySchoolService.xml" absence="ERROR" />
                 <file name="MySchoolTransformation.xml" absence="ERROR" />
             </directory>
-            <directory name="templates" absence="ERROR" id="TEMPLATES_CONFIG">
+            <!-- <directory name="templates" absence="ERROR" id="TEMPLATES_CONFIG">
                 <file name="templates-config.xml" absence="ERROR" />
-            </directory>
+            </directory> -->
             <directory name="xml" absence="ERROR">
                 <file name="object-xml-mappings.xml" absence="ERROR" />
             </directory>

@@ -12,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.application.service.ProfileService;
 import com.myschool.branch.service.BranchService;
+import com.myschool.organization.service.OrganizationService;
 import com.myschool.school.service.SchoolService;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.publicdata.constants.PublicDataViewNames;
@@ -25,9 +25,8 @@ public class PublicDataController {
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(PublicDataController.class);
 
-    /** The profile service. */
     @Autowired
-    private ProfileService profileService;
+    private OrganizationService organizationService;
 
     /** The branch service. */
     @Autowired
@@ -105,7 +104,7 @@ public class PublicDataController {
             HttpServletResponse response) throws Exception {
         System.out.println("@@@@@@@@@@@@@@@@ pubic/locateUs.htm");
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("organization", profileService.getOrganizationProfile());
+        map.put("organization", organizationService.getOrganization());
         map.put("branches", branchService.getAll());
         map.put("schools", schoolService.getAll());
         return ViewDelegationController.delegateWholePageView(request, PublicDataViewNames.VIEW_LOCATE_US, map);

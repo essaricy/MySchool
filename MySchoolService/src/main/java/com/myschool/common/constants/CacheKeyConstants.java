@@ -44,8 +44,14 @@ public class CacheKeyConstants {
     /** The Constant STUDENT. */
     public static final String STUDENT = "STUDENT";
 
-    /** The Constant ORGANIZATION_PROFILE. */
-    public static final String ORGANIZATION_PROFILE = "ORGANIZATION_PROFILE";
+    /** The Constant ORGANIZATION. */
+    public static final String ORGANIZATION = "ORGANIZATION";
+
+    /** The Constant ORGANIZATION_PREFERENCES. */
+    public static final String ORGANIZATION_PREFERENCES = "ORGANIZATION_PREFERENCES";
+
+    /** The Constant ORGANIZATION_MANIFEST. */
+    public static final String ORGANIZATION_MANIFEST = "ORGANIZATION_MANIFEST";
 
     /** The Constant MY_SCHOOL_PROFILE. */
     public static final String MY_SCHOOL_PROFILE = "MY_SCHOOL_PROFILE";

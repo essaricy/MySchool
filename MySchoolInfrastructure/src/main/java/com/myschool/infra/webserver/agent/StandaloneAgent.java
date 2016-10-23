@@ -18,6 +18,9 @@ import com.myschool.infra.database.constants.DataSourceConstants;
 @Component
 public class StandaloneAgent extends WebServerAgent {
 
+    /* (non-Javadoc)
+     * @see com.myschool.infra.webserver.agent.WebServerAgent#validate()
+     */
     @Override
     public void validate() throws AgentException {
     }
@@ -39,6 +42,14 @@ public class StandaloneAgent extends WebServerAgent {
             throw new AgentException(sqlException.getMessage(), sqlException);
         }
         return dataSource;
+    }
+
+    /* (non-Javadoc)
+     * @see com.myschool.infra.webserver.agent.WebServerAgent#isWebServer()
+     */
+    @Override
+    public boolean isWebServer() throws AgentException {
+        return false;
     }
 
 }

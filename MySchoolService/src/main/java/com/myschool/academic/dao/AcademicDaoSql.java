@@ -53,7 +53,7 @@ public final class AcademicDaoSql {
 
         builder.append(SELECT_ALL);
         builder.append("WHERE ");
-        builder.append("ACADEMIC_YEAR_NAME = (SELECT CURRENT_AY_NAME FROM ORGANIZATION_PROFILE) ");
+        builder.append("ACADEMIC_YEAR_NAME = (SELECT CURRENT_AY_NAME FROM ORGANIZATION_MANIFEST) ");
         SELECT_CURRENT_ACADEMIC = builder.toString();
         builder.setLength(0);
 
@@ -62,8 +62,8 @@ public final class AcademicDaoSql {
         builder.append("AY_START_DATE > ( ");
         builder.append("SELECT AY_END_DATE ");
         builder.append("FROM  ACADEMICS  ");
-        builder.append("INNER JOIN ORGANIZATION_PROFILE ");
-        builder.append("ON ORGANIZATION_PROFILE.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
+        builder.append("INNER JOIN ORGANIZATION_MANIFEST ");
+        builder.append("ON ORGANIZATION_MANIFEST.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
         builder.append("ORDER BY AY_START_DATE ASC ");
         builder.append("LIMIT 1 ");
         SELECT_NEXT_ACADEMIC = builder.toString();

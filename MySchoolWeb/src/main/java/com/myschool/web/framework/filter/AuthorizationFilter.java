@@ -50,7 +50,6 @@ public class AuthorizationFilter implements Filter {
         String contextPath = request.getContextPath();
 
         HttpSession session = HttpUtil.getExistingSession(request);
-        //request.setAttribute(WebConstants.MYSCHOOL_PROFILE, session.getAttribute(WebConstants.MYSCHOOL_PROFILE));
     	Object userContext = session.getAttribute(WebConstants.USER_CONTEXT);
     	if (userContext instanceof UserContext) {
     		String slashedContext = contextPath + "/";

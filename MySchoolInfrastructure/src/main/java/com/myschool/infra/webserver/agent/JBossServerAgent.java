@@ -33,4 +33,12 @@ public class JBossServerAgent extends WebServerAgent {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.myschool.infra.webserver.agent.WebServerAgent#isWebServer()
+     */
+    @Override
+    public boolean isWebServer() throws AgentException {
+        return true;
+    }
+
 }

@@ -4,8 +4,8 @@
 
 <script src='https://www.google.com/recaptcha/api.js'></script>
 <script language="javascript" type="text/javascript">
-$(document).ready( function () {
   $('#Description').textcounter({
+$(document).ready( function () {
     id: 'Description'
   });
 
@@ -74,7 +74,7 @@ $(document).ready( function () {
   <tr>
     <td width="50%" class="label">&nbsp;</td>
     <td width="50%" class="value">
-      <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div>
+      <div class="g-recaptcha" data-sitekey="${ORGANIZATION_MANIFEST.captchaKey}"></div>
     </td>
   </tr>
   <tr>

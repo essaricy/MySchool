@@ -181,7 +181,7 @@ public class StudentDaoSql {
 
         buffer.append("UPDATE STUDENT ");
         buffer.append("SET ADMISSION_STATUS_ID=? ");
-        buffer.append("AND LAST_ADMISSION_NUMBER= (SELECT CURRENT_AY_NAME FROM ORGANIZATION_PROFILE) ");
+        buffer.append("AND LAST_ADMISSION_NUMBER= (SELECT CURRENT_AY_NAME FROM ORGANIZATION_MANIFEST) ");
         buffer.append("WHERE ADMISSION_NUMBER=?");
         TERMINATE_STUDENT = buffer.toString();
         buffer.setLength(0);
@@ -305,7 +305,7 @@ public class StudentDaoSql {
         queryBuffer.append("ON REF_SECTION.SECTION_ID = CLASS.REF_SECTION_ID ");
 
         // TODO get them based on student date of joining.
-        //queryBuffer.append("WHERE ACADEMIC_YEAR = (SELECT CURRENT_AY_NAME FROM ORGANIZATION_PROFILE) ");
+        //queryBuffer.append("WHERE ACADEMIC_YEAR = (SELECT CURRENT_AY_NAME FROM ORGANIZATION_MANIFEST) ");
         queryBuffer.append("AND STUDENT.CLASS_ID  = ").append(classId);
         return queryBuffer.toString();
     }

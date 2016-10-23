@@ -75,18 +75,12 @@ $(document).ready(function() {
 });
 
 </script>
+
 <div id="freewall">
   <!-- PUBLIC Announcements -->
   <div class="brick size42">
     <jsp:include page="/views/application/view_announcements.jsp">
       <jsp:param name="ANNOUNCEMENT_TYPE" value="PUBLIC"/>
-    </jsp:include>
-  </div>
-
-  <!-- Latest Gallery -->
-  <div class="brick size54">
-    <jsp:include page="/views/application/view_latest_gallery.jsp">
-      <jsp:param name="REFERENCE_SIZE" value=".size54" />
     </jsp:include>
   </div>
 
@@ -138,3 +132,6 @@ $(document).ready(function() {
     </div>
   </div>
 </div>
+
+<!-- ####################################### GALLERY ############################################### -->
+<%@ include file="/views/common/latest_gallery_strip.jsp" %>

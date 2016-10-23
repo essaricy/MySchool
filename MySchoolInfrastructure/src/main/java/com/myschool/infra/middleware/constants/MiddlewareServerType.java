@@ -3,6 +3,7 @@ package com.myschool.infra.middleware.constants;
 /**
  * The Enum MiddlewareServerType.
  */
+@Deprecated
 public enum MiddlewareServerType {
 
     /** The ACTIVE_MQ. */

@@ -8,9 +8,6 @@ public class ApplicationViewNames {
     /** The Constant DASH_BOARD. */
     public static final String DASH_BOARD = "dashboard";
 
-    /** The Constant MANAGE_PROFILE. */
-    public static final String MANAGE_PROFILE = "manage_profile";
-
     /** The Constant VIEW_REGIONS. */
     public static final String VIEW_REGIONS = "view_regions";
 

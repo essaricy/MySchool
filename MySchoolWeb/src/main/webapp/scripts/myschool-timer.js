@@ -44,10 +44,10 @@ function mediumCountdownTimer(elem, seconds, autostart, callback) {
 }
 
 /*********************** INDEFINITE FUNCTIONS ***********************/
-function wait(elem) {
+function wait() {
   startLoading($('body'));
 }
-function unwait(elem) {
+function unwait() {
   stopLoading($('body'));
 }
 

@@ -105,9 +105,15 @@ var currentDataTable = null;
 	  var iDisplayLength = (typeof recordsPerPage == 'undefined') ? 10 : recordsPerPage;
 	  dataTableSettings.iDisplayLength=iDisplayLength;
       enableActionButtons(containerName, false);
-      oTable = $('#' + containerName + '_Inner').dataTable(dataTableSettings);
+
+	  // Make the progress appear while loading.
+	  dataTableSettings.fnInitComplete=function() {stopLoading('#' + containerName);}
+	  startLoading('#' + containerName);
+
+	  oTable = $('#' + containerName + '_Inner').dataTable(dataTableSettings);
       makeSelectableTable();
       enableActionButtons(containerName, true);
+	  //stopLoading('#' + containerName);
     }
 
     function setCalendar() {

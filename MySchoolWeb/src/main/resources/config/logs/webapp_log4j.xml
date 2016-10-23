@@ -20,12 +20,23 @@
    <!-- Preserve messages in a local file -->
    <!-- ================================= -->
 
-    <appender name="WEB_APP_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+    <appender name="CAPTCHA_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="5MB"/>
         <param name="MaxBackupIndex" value="10"/>
         <param name="DatePattern" value="yyyy-MM-dd" />
-        <param name="File" value="@@APPL.LOCAL.LOGS@@/webapp.log" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_captcha_responses.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %m%n" />
+        </layout>
+    </appender>
+
+    <appender name="DATATYPE_CONVERSION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="DatePattern" value="yyyy-MM-dd" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_object_conversions.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
         </layout>
@@ -42,6 +53,17 @@
         </layout>
     </appender>
 
+    <appender name="NOTIFICATION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+        <param name="Append" value="true" />
+        <param name="MaxFileSize" value="5MB"/>
+        <param name="MaxBackupIndex" value="10"/>
+        <param name="DatePattern" value="yyyy-MM-dd" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_notification.log" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
+        </layout>
+    </appender>
+
     <appender name="STORAGE_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="5MB"/>
@@ -53,23 +75,23 @@
         </layout>
     </appender>
 
-    <appender name="DATATYPE_CONVERSION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+    <appender name="WEB_APP_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="5MB"/>
         <param name="MaxBackupIndex" value="10"/>
         <param name="DatePattern" value="yyyy-MM-dd" />
-        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_object_conversions.log" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/webapp.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
         </layout>
     </appender>
 
-    <appender name="CAPTCHA_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
+    <appender name="NOTIFICATION_APPENDER" class="com.myschool.infra.logging.DateAndSizeBasedRollingFileAppender">
         <param name="Append" value="true" />
         <param name="MaxFileSize" value="5MB"/>
         <param name="MaxBackupIndex" value="10"/>
         <param name="DatePattern" value="yyyy-MM-dd" />
-        <param name="File" value="@@APPL.LOCAL.LOGS@@/captcha_responses.log" />
+        <param name="File" value="@@APPL.LOCAL.LOGS@@/agent_notification_template.log" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d %-5p [%c{1}] %m%n" />
         </layout>
@@ -107,6 +129,10 @@
         <priority value="DEBUG" />
         <appender-ref ref="FILE_SYSTEM_APPENDER" />
     </category>
+    <category name="com.myschool.infra.notification" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="NOTIFICATION_APPENDER" />
+    </category>
     <category name="com.myschool.infra.ojo" additivity="false">
         <priority value="DEBUG" />
         <appender-ref ref="DATATYPE_CONVERSION_APPENDER" />
@@ -120,6 +146,15 @@
         <appender-ref ref="STORAGE_APPENDER" />
     </category>
 
+    <category name="com.myschool.infra.notification" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="NOTIFICATION_APPENDER" />
+    </category>
+    <category name="com.myschool.infra.template" additivity="false">
+        <priority value="DEBUG" />
+        <appender-ref ref="NOTIFICATION_APPENDER" />
+    </category>
+
 	<!-- User session management and activity tracking logs category. -->
 	<category name="com.myschool.web.framework.filter.WebUserActivityLogFilter" additivity="false">
 		<priority value="DEBUG" />
@@ -129,7 +164,7 @@
 		<priority value="DEBUG" />
 		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
 	</category>
-	<category name="com.myschool.web.user.controller.LoginController" additivity="false">
+	<category name="com.myschool.web.acl.controller.ACLController" additivity="false">
 		<priority value="DEBUG" />
 		<appender-ref ref="WEB_USER_SESSION_APPENDER" />
 	</category>

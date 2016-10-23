@@ -13,9 +13,7 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.myschool.acl.constant.SigninSecurityLevel;
 import com.myschool.acl.dto.SigninSecurity;
-import com.myschool.application.dto.MySchoolProfileDto;
-import com.myschool.application.dto.OrganizationProfileDto;
-import com.myschool.application.service.ProfileService;
+import com.myschool.organization.service.OrganizationService;
 import com.myschool.user.constants.UserActivityConstant;
 import com.myschool.web.application.constants.WebConstants;
 
@@ -35,9 +33,7 @@ public class WebUserSessionListener implements HttpSessionListener {
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(WebUserSessionListener.class);
 
-
-    /** The profile service. */
-    private ProfileService profileService;
+    private OrganizationService organizationService;
 
     /**
      * Instantiates a new web user session listener.
@@ -57,12 +53,16 @@ public class WebUserSessionListener implements HttpSessionListener {
 
             // Add the necessary attributes to the session
             initialize(session.getServletContext());
-            OrganizationProfileDto organizationProfile = profileService.getOrganizationProfile();
-            MySchoolProfileDto mySchoolProfile = profileService.getMySchoolProfile();
-            session.setAttribute(WebConstants.ORGANIZATION_PROFILE, organizationProfile);
-            session.setAttribute(WebConstants.MYSCHOOL_PROFILE, mySchoolProfile);
-            // Attributes related to restrict multiple login failures.
 
+            session.setAttribute(WebConstants.ORGANIZATION, organizationService.getOrganization());
+            session.setAttribute(WebConstants.ORGANIZATION_PREFERENCES, organizationService.getOrganizationPreferences());
+            session.setAttribute(WebConstants.ORGANIZATION_MANIFEST, organizationService.getOrganizationManifest());
+
+            System.out.println("WebConstants.ORGANIZATION=" + session.getAttribute(WebConstants.ORGANIZATION));
+            System.out.println("WebConstants.ORGANIZATION_PREFERENCES=" + session.getAttribute(WebConstants.ORGANIZATION_PREFERENCES));
+            System.out.println("WebConstants.ORGANIZATION_MANIFEST=" + session.getAttribute(WebConstants.ORGANIZATION_MANIFEST));
+
+            // Attributes related to restrict multiple login failures.
             // TODO : Currently, the signin security is handled at the session level. Make to user level.
             SigninSecurity signinSecurity = new SigninSecurity();
             signinSecurity.setCurrentSecurityLevel(SigninSecurityLevel.CREDENTIALS);
@@ -89,8 +89,8 @@ public class WebUserSessionListener implements HttpSessionListener {
      */
     public void initialize(ServletContext servletContext) {
         try {
-            if (profileService == null) {
-                profileService = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).getBean(ProfileService.class);
+            if (organizationService == null) {
+                organizationService = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext).getBean(OrganizationService.class);
             }
         } catch (BeansException beansException) {
             LOGGER.fatal("Unable to lookup bean from web application context. " + beansException.getMessage(), beansException);

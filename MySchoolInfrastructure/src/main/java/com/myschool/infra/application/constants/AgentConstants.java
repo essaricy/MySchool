@@ -53,4 +53,13 @@ public class AgentConstants {
     /** The Constant STORAGE_SERVER. */
     public static final String STORAGE_SERVER = "storage_server";
 
+    /** The Constant NOTIFICATION. */
+    public static final String NOTIFICATION = "notification";
+
+    /** The Constant TEMPLATE_ENGINE. */
+    public static final String TEMPLATE_ENGINE = "template_engine";
+
+    /** The Constant DATA_GENERATOR. */
+    public static final String DATA_GENERATOR = "data_generator";
+
 }

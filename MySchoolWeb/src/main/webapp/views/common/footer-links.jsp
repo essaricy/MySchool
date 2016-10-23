@@ -4,41 +4,49 @@
   <tr>
     <!-- ################################################################################################ -->
     <td>
-    <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
-      <li><a href="<%=request.getContextPath()%>/public/aboutOrganization.htm">About Organization</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/aboutLeadership.htm">Our Leadership</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/achievements.htm">Achievements</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/locateUs.htm">Locate Us</a> / 
-      <a href="<%=request.getContextPath()%>/public/contactUs.htm">Contact Us</a></li>
-    </ul>
+      <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
+        <li><a href="<%=request.getContextPath()%>/public/aboutOrganization.htm">About Organization</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/aboutLeadership.htm">Our Leadership</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/achievements.htm">Achievements</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/locateUs.htm">Locate Us</a> / 
+        <a href="<%=request.getContextPath()%>/public/contactUs.htm">Contact Us</a></li>
+      </ul>
     </td>
     <!-- ################################################################################################ -->
     <td>
-    <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
-      <li><a href="<%=request.getContextPath()%>/public/calendar.htm">Academic Calendar</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/holidays.htm">Holidays</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/brochures.htm">Brochures</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/gallery.htm">Gallery</a></li>
-    </ul>
+      <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
+        <li><a href="<%=request.getContextPath()%>/public/calendar.htm">Academic Calendar</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/holidays.htm">Holidays</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/brochures.htm">Brochures</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/gallery.htm">Gallery</a></li>
+      </ul>
     </td>
     <!-- ################################################################################################ -->
     <td>
-    <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
-      <li><a href="<%=request.getContextPath()%>/public/timetable.htm">Class Schedules</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/upcomingExams.htm">Upcoming Exams</a></li>
-      <li><a href="<%=request.getContextPath()%>/public/upcomingEvents.htm">Upcoming Events</a></li>
-      <li><a href="#">Exam Results</a></li>
-    </ul>
+      <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
+        <li><a href="<%=request.getContextPath()%>/public/timetable.htm">Class Schedules</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/upcomingExams.htm">Upcoming Exams</a></li>
+        <li><a href="<%=request.getContextPath()%>/public/upcomingEvents.htm">Upcoming Events</a></li>
+        <li><a href="#">Exam Results</a></li>
+      </ul>
     </td>
     <!-- ################################################################################################ -->
+    <c:if test="${ORGANIZATION_PREFERENCES != null && (ORGANIZATION_PREFERENCES.useEmployeeSelfSubmit or ORGANIZATION_PREFERENCES.useStudentSelfSubmit)}">
     <td>
-    <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
-      <li><a href="<%=request.getContextPath()%>/portal-student/launchSelfSubmit.htm">Student Self Submit</a></li>
-      <li><a href="<%=request.getContextPath()%>/portal-employee/launchSelfSubmit.htm">Employee Self Submit</a></li>
-      <li>&nbsp;</li>
-      <li>&nbsp;</li>
-    </ul>
+      <ul style="margin: 0; padding: 0; list-style: none; display: block; -webkit-margin-before: 1em; -webkit-margin-after: 1em; -webkit-margin-start: 0px; -webkit-margin-end: 0px; -webkit-padding-start: 40px; text-align: left; font-size: 14px; line-height: 1.4em;">
+        <c:if test="${ORGANIZATION_PREFERENCES.useEmployeeSelfSubmit}">
+        <li><a href="<%=request.getContextPath()%>/portal-student/launchSelfSubmit.htm">Student Self Submit</a></li>
+        </c:if>
+
+        <c:if test="${ORGANIZATION_PREFERENCES.useStudentSelfSubmit}">
+        <li><a href="<%=request.getContextPath()%>/portal-employee/launchSelfSubmit.htm">Employee Self Submit</a></li>
+        </c:if>
+        <li>&nbsp;</li>
+        <li>&nbsp;</li>
+      </ul>
     </td>
+    </c:if>
+
   </tr>
 </table>
 </div>

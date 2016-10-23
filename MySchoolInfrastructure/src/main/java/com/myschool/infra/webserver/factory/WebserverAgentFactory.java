@@ -40,12 +40,12 @@ public class WebserverAgentFactory extends AgentFactory {
 
     /* (non-Javadoc)
      * @see com.myschool.infra.agent.factory.AgentFactory#getAgent(java.lang.String)
-     */
+     
     @Override
     public Agent getAgent(String agentName) throws AgentException {
-        throw new AgentException("WebserverAgent is runtime-deterministic agent. Please use WebserverAgentFactory.getAgent() to retrieve WebserverAgent");
-        
-    }
+        //throw new AgentException("WebserverAgent is runtime-deterministic agent. Please use WebserverAgentFactory.getAgent() to retrieve WebserverAgent");
+        return 
+    }*/
 
     /**
      * Gets the agent.

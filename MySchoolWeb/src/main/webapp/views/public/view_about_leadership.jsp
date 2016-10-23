@@ -1,7 +1,7 @@
 <script>
 $(document).ready(function() {
   $(document).social({
-    title: '${ORGANIZATION_PROFILE.organizationName} - Leadership'
+    title: '${ORGANIZATION.name} - Leadership'
   });
 });
 </script>

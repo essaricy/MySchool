@@ -197,7 +197,7 @@ $(document).ready(function() {
     }
  }
   $(document).social({
-    title: '${ORGANIZATION_PROFILE.organizationName} - Director'
+    title: '${ORGANIZATION.name} - Director'
   });
 });
 </script>

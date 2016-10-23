@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,7 +22,6 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.ResourceUtil;
 import com.myschool.filesystem.dto.AbsenceCode;
 import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.filesystem.dto.FileDto;
@@ -107,11 +107,7 @@ public class FileSystemReader extends DefaultHandler {
         } catch (IOException ioException) {
             throw new ConfigurationException(ioException.getMessage(), ioException);
         } finally {
-            try {
-                ResourceUtil.releaseResource(inputStream);
-            } catch (FileSystemException fileSystemException) {
-                throw new ConfigurationException(fileSystemException.getMessage(), fileSystemException);
-            }
+            IOUtils.closeQuietly(inputStream);
         }
         return fileSystem;
     }

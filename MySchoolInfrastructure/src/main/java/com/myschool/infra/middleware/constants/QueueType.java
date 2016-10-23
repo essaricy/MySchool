@@ -3,6 +3,7 @@ package com.myschool.infra.middleware.constants;
 /**
  * The Enum QueueType.
  */
+@Deprecated
 public enum QueueType {
 
     /** The OUTPUT. */

@@ -3,6 +3,7 @@ package com.myschool.infra.filesystem.constants;
 /**
  * The Class NotificationConfigConstants.
  */
+@Deprecated
 public class NotificationConfigConstants {
 
     /** The Constant ATTRIBUTE_TEST_FILE. */

@@ -1,5 +1,6 @@
 package com.myschool.infra.application.constants;
 
+@Deprecated
 public enum CommandType {
 
     ADD, UPDATE, DELETE;

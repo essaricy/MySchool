@@ -83,10 +83,10 @@
     });
     $('.Login').click(function(evt) {
       evt.preventDefault();
-      <c:if test="${USER_TYPE == 'EMPLOYEE'}">
+      <c:if test="${UserType == 'EMPLOYEE'}">
       document.forms[0].action = '<%=request.getContextPath()%>/acl/employee.htm';
       </c:if>
-      <c:if test="${USER_TYPE == 'STUDENT'}">
+      <c:if test="${UserType == 'STUDENT'}">
       document.forms[0].action = '<%=request.getContextPath()%>/acl/student.htm';
       </c:if>
       document.forms[0].submit();
@@ -121,42 +121,8 @@
   <input type="text" id="EmailID" name="EmailID" style="width:40%; height:38px; font-size: 14pt;" placeholder="Enter email id"><br/><br/>
 </div>
 
-<!--
-<div id="NewSignupInstructions" class="card1">
-  <h3>
-  <c:if test="${USER_TYPE == 'EMPLOYEE'}">Employee</c:if>
-  <c:if test="${USER_TYPE == 'STUDENT'}">Student</c:if>&nbsp;Registration - Instructions</h3>
-
-  <div class="collapse">
-    <ul>
-      <li>Do not provide your credentials such as Account Number, Password, User id and Card Number. We do not collect such information.</li>
-      <li>Fraudulent e-mails contain links of look-alike websites to mislead into entering sensitive financial data.</li>
-      <li>Do not respond to pop-up windows asking for your confidential information.</li>
-    </ul>
-  </div>
-  <h3 class="expand">Self-Submit Steps</h3>
-  <div class="collapse">
-    <ul>
-      <li>Fill up the form section-by-section and make sure you fillup all the mandatory columns (marked with <label style="color: red;">*</label>).</li>
-      <li>Revisit the details that you have entered and correct them before save.</li>
-      <li>SAVE ONLY when you think you are done with the form. Please note that you will not be able to edit the information you entered once you save the form.</li>
-      <li>Your form will be submitted for verification.</li>
-      <li>You will be notified when your form is approved. This email provides you the necessary information to log into the website.</li>
-      <li>Please change your password after your first login for many security reasons.</li>
-    </ul>
-  </div>
-  <h3 class="expand">Please read the instructions below before you start filling up the form.</h3>
-  <div class="collapse">
-    <ul>
-      <li>Avoid uploading group photos, blurred photos or photos with large size. The maximum limit of the photo is 2MB.</li>
-      <li>If you report any issues or if you have any concerns, please use 'Have A Question?' link below the page.</li>
-    </ul>
-  </div>
-</div>
--->
-
 <div id="BotFilter" class="card1">
-  <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div>
+  <div class="g-recaptcha" data-sitekey="${ORGANIZATION_MANIFEST.captchaKey}"></div>
 </div>
 
 <div id="SelfSubmitForm" class="card1">
@@ -197,7 +163,7 @@
 </div>
 
 <div>
-    <input type="button" id="StartAgain" value="Start Again" disabled />
-    <input type="button" id="Next" value="Next" />
+  <input type="button" id="StartAgain" value="Start Again" disabled />
+  <input type="button" id="Next" value="Next" />
 </div>
 </form>

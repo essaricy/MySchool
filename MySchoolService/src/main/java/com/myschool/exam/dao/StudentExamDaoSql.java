@@ -93,12 +93,12 @@ public class StudentExamDaoSql {
         builder.append("AND EXAM.EXAM_COMPLETED='Y' ");
         builder.append("AND EXAM_DATE BETWEEN ");
         builder.append("  (SELECT AY_START_DATE FROM ACADEMICS ");
-        builder.append("  INNER JOIN ORGANIZATION_PROFILE ");
-        builder.append("  ON ORGANIZATION_PROFILE.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME)");
+        builder.append("  INNER JOIN ORGANIZATION_MANIFEST ");
+        builder.append("  ON ORGANIZATION_MANIFEST.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME)");
         builder.append(" AND ");
         builder.append("  (SELECT AY_END_DATE FROM ACADEMICS ");
-        builder.append("  INNER JOIN ORGANIZATION_PROFILE ");
-        builder.append("  ON ORGANIZATION_PROFILE.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
+        builder.append("  INNER JOIN ORGANIZATION_MANIFEST ");
+        builder.append("  ON ORGANIZATION_MANIFEST.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
         builder.append("ORDER BY EXAM.EXAM_DATE, EXAM.EXAM_NAME");
         SELECT_CURRENT_ACADEMIC_STUDENT_SUBJECT_MARKS = builder.toString();
         builder.setLength(0);

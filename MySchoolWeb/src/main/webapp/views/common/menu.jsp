@@ -10,7 +10,7 @@ img.menuItemImage {
 }
 </style>
 
-<c:if test="${USER_CONTEXT != null && MYSCHOOL_PROFILE != null}">
+<c:if test="${USER_CONTEXT != null && ORGANIZATION_PREFERENCES != null}">
     <c:if test="${USER_CONTEXT.moduleAccess != null}">
         <ul id="solidmenu" class="solidblockmenu">
             <li>
@@ -35,7 +35,7 @@ img.menuItemImage {
                             <c:forEach var="functionAccess" items="${moduleAccess.functionAccess}">
                                 <c:if test="${functionAccess.view == true}">
                                     <li>
-                                        <c:if test="${MYSCHOOL_PROFILE.useMenuIcons == true && functionAccess.iconUrl != null}">
+                                        <c:if test="${ORGANIZATION_PREFERENCES.useMenuIcons == true && functionAccess.iconUrl != null}">
                                         <img src="<%=request.getContextPath()%>/images/icons/${functionAccess.iconUrl}" class="menuItemImage" />
                                         &nbsp;
                                         </c:if>

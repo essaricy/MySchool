@@ -6,19 +6,19 @@ import java.io.File;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+import com.myschool.infra.report.constants.ReportStyles;
+import com.myschool.infra.report.exception.ReportException;
+import com.myschool.organization.dto.Organization;
+import com.myschool.report.dto.ReportCriteria;
+import com.myschool.report.dto.ReportDto;
+
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;
 import net.sf.dynamicreports.report.builder.column.ColumnBuilders;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.data.ListOfArrayDataSource;
-
-import org.springframework.stereotype.Component;
-
-import com.myschool.application.dto.OrganizationProfileDto;
-import com.myschool.infra.report.constants.ReportStyles;
-import com.myschool.infra.report.exception.ReportException;
-import com.myschool.report.dto.ReportCriteria;
-import com.myschool.report.dto.ReportDto;
 
 /**
  * The Class JasperSimpleListingReportBuilder.
@@ -29,22 +29,16 @@ public class JasperSimpleListingReportBuilder extends JasperAbstractReportBuilde
     /** The Constant EMPTY_DATA_SOURCE. */
     private static final JREmptyDataSource EMPTY_DATA_SOURCE = new JREmptyDataSource();
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.myschool.infra.report.builders.ReportBuilder#generateReport(com.myschool
-     * .application.dto.OrganizationProfileDto,
-     * com.myschool.report.dto.ReportDto,
-     * com.myschool.infra.report.dto.ReportCriteria)
+    /* (non-Javadoc)
+     * @see com.myschool.infra.report.builders.ReportBuilder#generateReport(com.myschool.organization.dto.Organization, com.myschool.report.dto.ReportDto, com.myschool.report.dto.ReportCriteria)
      */
     @Override
-    public final File generateReport(OrganizationProfileDto organizationProfile,
+    public final File generateReport(Organization organization,
             ReportDto report, ReportCriteria reportCriteria) throws ReportException {
 
         File reportFile = null;
         Hashtable<String, Object> reportParameters = report.getReportParameters();
-        JasperReportBuilder jasperReportBuilder = getBaseReport(organizationProfile, report, reportCriteria);
+        JasperReportBuilder jasperReportBuilder = getBaseReport(organization, report, reportCriteria);
         String[] listingHeaders = (String[]) reportParameters.get("LISTING_HEADERS");
         List<Object[]> reportData = (List<Object[]>) reportParameters.get("LISTING_DATA");
         if (listingHeaders == null) {

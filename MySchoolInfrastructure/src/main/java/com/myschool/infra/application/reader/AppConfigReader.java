@@ -22,7 +22,6 @@ import com.myschool.common.util.StringUtil;
 import com.myschool.infra.application.constants.AppConfigConstants;
 import com.myschool.infra.application.dto.AgentDto;
 import com.myschool.infra.application.dto.AppConfigDto;
-import com.myschool.infra.application.dto.MySchoolDto;
 import com.myschool.infra.filesystem.util.FileUtil;
 
 /**
@@ -33,9 +32,6 @@ public class AppConfigReader extends DefaultHandler {
 
     /** The app config. */
     private AppConfigDto appConfig;
-
-    /** The myschool. */
-    private MySchoolDto myschool;
 
     /** The agent dtos. */
     private List<AgentDto> agentDtos;
@@ -51,7 +47,8 @@ public class AppConfigReader extends DefaultHandler {
      * @return the app config
      * @throws ConfigurationException the configuration exception
      */
-    public AppConfigDto getAppConfig(String appConfigPath, Properties fileSystemProperties) throws ConfigurationException {
+    public AppConfigDto getAppConfig(String appConfigPath,
+            Properties fileSystemProperties) throws ConfigurationException {
         String message = "Application configuration file is not found.";
         try {
             if (StringUtil.isNullOrBlank(appConfigPath)) {
@@ -109,11 +106,6 @@ public class AppConfigReader extends DefaultHandler {
                 agentConfig.setConfigFile(new File(resolvedConfigFilePath));
             }
             agentDtos.add(agentConfig);
-        } else if (localName.equalsIgnoreCase(AppConfigConstants.ELEMENT_MYSCHOOL)) {
-            myschool = new MySchoolDto();
-            myschool.setBaseDir(new File(attributes.getValue(AppConfigConstants.ATTRIBUTE_BASE_DIR)));
-            myschool.setMySchoolName(attributes.getValue(AppConfigConstants.ATTRIBUTE_ID));
-            myschool.setWebUrl(attributes.getValue(AppConfigConstants.ATTRIBUTE_WEB_URL));
         }
     }
 
@@ -125,7 +117,6 @@ public class AppConfigReader extends DefaultHandler {
             throws SAXException {
         if (localName.equalsIgnoreCase(AppConfigConstants.ELEMENT_APP_CONFIG)) {
             appConfig.setAgentDtos(agentDtos);
-            appConfig.setMyschool(myschool);
         }
     }
 

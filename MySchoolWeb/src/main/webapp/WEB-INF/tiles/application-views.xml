@@ -6,10 +6,6 @@
         <put-attribute name="body" value="/views/application/view_dashboard.jsp" />
     </definition>
 
-    <definition name="manage_profile_wholepage" extends="wholepage_layout">
-        <put-attribute name="body" value="/views/application/manage_profile.jsp" />
-    </definition>
-
     <definition name="view_regions_wholepage" extends="wholepage_layout">
         <put-attribute name="body" value="/views/application/view_regions.jsp" />
     </definition>

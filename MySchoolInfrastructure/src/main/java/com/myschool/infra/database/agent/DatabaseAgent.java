@@ -70,7 +70,7 @@ public class DatabaseAgent extends AbstractAgent {
         try {
             connection = getConnection();
             statement = connection.createStatement();
-            resultSet = statement.executeQuery("SELECT * FROM ORGANIZATION_PROFILE");
+            resultSet = statement.executeQuery("SELECT * FROM ORGANIZATION");
         } catch (SQLException sqlException) {
             throw new AgentException("Errors occurred while validating DatabaseAgent", sqlException);
         } catch (ConnectionException connectionException) {

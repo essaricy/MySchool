@@ -10,8 +10,8 @@ public class LoginDaoSql {
     /** The Constant SELECT_ALL. */
     public static final String SELECT_ALL;
 
-    /** The Constant SELECT_BY_LOGIN. */
-    public static final String SELECT_BY_LOGIN;
+    /** The Constant SELECT_BY_LOGIN_ROLE. */
+    public static final String SELECT_BY_LOGIN_ROLE;
 
     static{
         StringBuilder builder = new StringBuilder();
@@ -34,9 +34,10 @@ public class LoginDaoSql {
 
         builder.append(SELECT_ALL);
         builder.append("WHERE ");
-        builder.append("(USER_NAME=? OR USER_NAME=?) AND PASSWORD=?");
-        SELECT_BY_LOGIN = builder.toString();
+        builder.append("USER_NAME=? AND PASSWORD=? AND REF_USER_TYPE_ID=?");
+        SELECT_BY_LOGIN_ROLE = builder.toString();
         builder.setLength(0);
+
     }
 
     /**

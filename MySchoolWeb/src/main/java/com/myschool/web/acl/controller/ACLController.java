@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.acl.constant.SigninSecurityLevel;
 import com.myschool.acl.dto.SigninSecurity;
+import com.myschool.acl.service.ACLService;
+import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.InsufficientInputException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.Encryptor;
@@ -42,7 +44,6 @@ import com.myschool.web.framework.util.HttpUtil;
 @RequestMapping("acl")
 public class ACLController {
 
-
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(ACLController.class);
 
@@ -59,6 +60,9 @@ public class ACLController {
     /** The captcha agent. */
     @Autowired
     private CaptchaAgent captchaAgent;
+
+    @Autowired
+    private ACLService aclService;
 
     /**
      * Admin.
@@ -125,7 +129,7 @@ public class ACLController {
         System.out.println("@@@@@@@@@@@@@@@@ acl/forgotPassword.htm");
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(WebConstants.USER_TYPE, UserType.STUDENT);
-        return ViewDelegationController.delegateWholePageView(request, ACLViewNames.FORGOT_PASSWORD, map);
+        return ViewDelegationController.delegateWholePageView(request, ACLViewNames.CHANGE_PASSWORD_REQUEST, map);
     }
 
     /**
@@ -240,6 +244,14 @@ public class ACLController {
 
             LOGGER.info(MessageFormat.format(UserActivityConstant.SIGNUP_FAILED, sessionId, loginId, message));
             modelAndView = ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
+        } catch (Exception exception) {
+            String message = exception.getMessage();
+
+            map.put(WebConstants.MESSAGE, message);
+            map.put(WebConstants.USER_TYPE, userType);
+
+            LOGGER.info(MessageFormat.format(UserActivityConstant.SIGNUP_FAILED, sessionId, loginId, message));
+            modelAndView = ViewDelegationController.delegateWholePageView(request, ACLViewNames.USER_LOGIN, map);
         }
         return modelAndView;
     }
@@ -316,5 +328,88 @@ public class ACLController {
         }
         return modelAndView;
     }
+
+    @RequestMapping(value = "changePasswordRequest")
+    public ModelAndView changePasswordRequest(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+
+        System.out.println("@@@@@@@@@@@@@@@@ acl/changePasswordRequest.htm");
+        ResultDto result = new ResultDto();
+
+        try {
+            String captchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
+            System.out.println("captchaResponse=" + captchaResponse);
+            if (StringUtil.isNullOrBlank(captchaResponse)
+                    || !captchaAgent.isValid(captchaResponse)) {
+                throw new InsufficientInputException("You are required to answer to CAPTCHA.");
+            }
+            String emailId = request.getParameter("EmailID");
+            // Validate email id
+            if (StringUtil.isNullOrBlank(emailId)) {
+                throw new ServiceException("EmailId is required");
+            }
+            aclService.processChangePasswordRequest(emailId);
+            result.setSuccessful(true);
+            //result.setStatusMessage("We have sent you an email that contains valid links to ");
+        } catch (Exception exception) {
+            result.setStatusMessage(exception.getMessage());
+        } finally {
+            HttpUtil.writeAsJson(response, result);
+        }
+        return null;
+    }
+
+    @RequestMapping(value = "changePasswordPermit")
+    public ModelAndView changePasswordComplete(HttpServletRequest request,
+            HttpServletResponse response) throws Exception {
+        System.out.println("@@@@@@@@@@@@@@@@ acl/changePasswordPermit.htm");
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        //String captchaResponse = request.getParameter(WebConstants.CAPTCHA_RESPONSE);
+
+        try {
+            String emailId = request.getParameter("email");
+            String token = request.getParameter("token");
+            // Validate email id
+            if (StringUtil.isNullOrBlank(emailId)) {
+                throw new ServiceException("Invalid link");
+            }
+            if (StringUtil.isNullOrBlank(token)) {
+                throw new ServiceException("Invalid link");
+            }
+            map.put("EmailID", emailId);
+            map.put("Token", token);
+        } catch (Exception exception) {
+            map.put(WebConstants.MESSAGE, exception.getMessage());
+            exception.printStackTrace();
+        }
+        return ViewDelegationController.delegateWholePageView(request, ACLViewNames.CHANGE_PASSWORD_PERMIT, map);
+    }
+
+    /*public String generateToken(String captchaResponse, String necessity, String emailId,
+            int validity) throws ServiceException {
+        // validate CAPTCHA. must
+        System.out.println("captchaResponse=" + captchaResponse);
+        if (StringUtil.isNullOrBlank(captchaResponse)
+                || !captchaAgent.isValid(captchaResponse)) {
+            throw new ServiceException("You are required to answer to CAPTCHA.");
+        }
+        // Validate email id
+        if (StringUtil.isNullOrBlank(emailId)) {
+            throw new ServiceException("EmailId is required");
+        }
+        //String admissionNumber = request.getParameter("AdmissionNumber");
+        //String employmentNumber = request.getParameter("EmploymentNumber");
+        Token token = new Token();
+        token.setConsumedBy(emailId);
+        token.setValidity(validity);
+        //token.setValidity(60 * 60 * 24);
+        token.setNecessity(necessity);
+        // TODO Have program source and validity mapping.
+        System.out.println("token before = " + token);
+        tokenService.create(token);
+        System.out.println("token After = " + token);
+        return token.getTokenId();
+    }*/
 
 }

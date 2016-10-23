@@ -37,7 +37,7 @@ public class UserDataAssembler {
 
         if (employee != null) {
             user = new UsersDto();
-            user.setUserName(UserType.EMPLOYEE.getPrefix() + employee.getEmployeeNumber());
+            user.setUserName(employee.getEmployeeNumber());
             user.setPassword(PasswordUtil.getInitialPassword(employee));
             user.setUserType(UserType.EMPLOYEE);
             user.setRefUserId(employee.getEmployeeId());
@@ -56,7 +56,7 @@ public class UserDataAssembler {
 
         if (student != null) {
             user = new UsersDto();
-            user.setUserName(UserType.STUDENT.getPrefix() + student.getAdmissionNumber());
+            user.setUserName(student.getAdmissionNumber());
             user.setPassword(PasswordUtil.getInitialPassword(student));
             user.setUserType(UserType.STUDENT);
             user.setRefUserId(student.getStudentId());

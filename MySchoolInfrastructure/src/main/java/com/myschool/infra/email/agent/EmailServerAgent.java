@@ -2,8 +2,10 @@ package com.myschool.infra.email.agent;
 
 import java.io.File;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.AddressException;
@@ -54,8 +56,14 @@ public class EmailServerAgent extends AbstractAgent {
      *
      * @return the email session
      */
-    public Session getEmailSession() {
-        return Session.getDefaultInstance(properties);
+    private Session getEmailSession() {
+        return Session.getDefaultInstance(properties, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(
+                        properties.getProperty(EmailConstants.MYSCHOOL_EMAIL_ID),
+                        properties.getProperty(EmailConstants.MYSCHOOL_EMAIL_PASSWORD));
+            } 
+        });
     }
 
     /**

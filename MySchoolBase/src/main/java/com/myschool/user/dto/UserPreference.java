@@ -2,8 +2,6 @@ package com.myschool.user.dto;
 
 import java.io.Serializable;
 
-import com.myschool.user.constants.ColorSwatch;
-
 /**
  * The Class UserPreference.
  */
@@ -23,9 +21,6 @@ public class UserPreference implements Serializable {
 
     /** The user theme. */
     private UserTheme userTheme;
-
-    /** The color swatch. */
-    private ColorSwatch colorSwatch;
 
     /**
      * Gets the user id.
@@ -99,24 +94,6 @@ public class UserPreference implements Serializable {
         this.userTheme = userTheme;
     }
 
-    /**
-     * Gets the color swatch.
-     *
-     * @return the color swatch
-     */
-    public ColorSwatch getColorSwatch() {
-		return colorSwatch;
-	}
-
-	/**
-	 * Sets the color swatch.
-	 *
-	 * @param colorSwatch the new color swatch
-	 */
-	public void setColorSwatch(ColorSwatch colorSwatch) {
-		this.colorSwatch = colorSwatch;
-	}
-
 	/**
 	 * Constructs a <code>String</code> with all attributes
 	 * in name = value format.
@@ -133,7 +110,6 @@ public class UserPreference implements Serializable {
 	        .append("allowAds = ").append(this.allowAds).append(SEPARATOR)
 	        .append("recordsPerPage = ").append(this.recordsPerPage).append(SEPARATOR)
 	        .append("userTheme = ").append(this.userTheme).append(SEPARATOR)
-	        .append("colorSwatch = ").append(this.colorSwatch).append(SEPARATOR)
 	        .append(" )\n");
 	    return retValue.toString();
 	}

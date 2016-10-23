@@ -114,11 +114,11 @@ public class ExamDaoSql {
         builder.append("CLASS_ID=? ");
         builder.append("AND EXAM_DATE ");
         builder.append("BETWEEN ( SELECT AY_START_DATE FROM ACADEMICS ");
-        builder.append("INNER JOIN ORGANIZATION_PROFILE ");
-        builder.append("ON ORGANIZATION_PROFILE.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
+        builder.append("INNER JOIN ORGANIZATION_MANIFEST ");
+        builder.append("ON ORGANIZATION_MANIFEST.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
         builder.append("AND ( SELECT AY_END_DATE FROM ACADEMICS ");
-        builder.append("INNER JOIN ORGANIZATION_PROFILE ");
-        builder.append("ON ORGANIZATION_PROFILE.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME ) ");
+        builder.append("INNER JOIN ORGANIZATION_MANIFEST ");
+        builder.append("ON ORGANIZATION_MANIFEST.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME ) ");
         SELECT_BY_CLASS_CURRENT_ACADEMIC = builder.toString();
         builder.setLength(0);
 
@@ -126,11 +126,11 @@ public class ExamDaoSql {
         builder.append("WHERE ");
         builder.append("WHERE EXAM_DATE ");
         builder.append("BETWEEN ( SELECT AY_START_DATE FROM ACADEMICS ");
-        builder.append("INNER JOIN ORGANIZATION_PROFILE ");
-        builder.append("ON ORGANIZATION_PROFILE.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
+        builder.append("INNER JOIN ORGANIZATION_MANIFEST ");
+        builder.append("ON ORGANIZATION_MANIFEST.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME) ");
         builder.append("AND ( SELECT AY_END_DATE FROM ACADEMICS ");
-        builder.append("INNER JOIN ORGANIZATION_PROFILE ");
-        builder.append("ON ORGANIZATION_PROFILE.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME ) ");
+        builder.append("INNER JOIN ORGANIZATION_MANIFEST ");
+        builder.append("ON ORGANIZATION_MANIFEST.CURRENT_AY_NAME = ACADEMICS.ACADEMIC_YEAR_NAME ) ");
         SELECT_BY_CURRENT_ACADEMIC = builder.toString();
         builder.setLength(0);
     }

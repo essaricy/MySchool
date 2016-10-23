@@ -6,8 +6,6 @@
         <field alias="AcademicYearEndDate" name="academicYearEndDate"/>
     </object-xml-mapping>
     <object-xml-mapping name="AcademicYearClosure" type="com.myschool.academic.dto.AcademicYearClosureDto">
-        <field alias="OrganizationProfile" name="organizationProfile" type="com.myschool.application.dto.OrganizationProfileDto"/>
-        <field alias="MySchoolProfile" name="mySchoolProfile" type="com.myschool.application.dto.MySchoolProfileDto"/>
         <field alias="CurrentAcademic" name="currentAcademic" type="com.myschool.academic.dto.AcademicDto"/>
         <field alias="NextAcademic" name="nextAcademic" type="com.myschool.academic.dto.AcademicDto"/>
         <field alias="ExamGrades" name="examGrades" type="java.util.List"/>
@@ -123,32 +121,10 @@
         <field alias="ModuleName" name="moduleName"/>
         <field alias="AccessUrl" name="accessUrl"/>
     </object-xml-mapping>
-    <object-xml-mapping name="MySchoolProfile" type="com.myschool.application.dto.MySchoolProfileDto">
-        <field alias="EmailActive" name="emailActive"/>
-        <field alias="SmsActive" name="smsActive"/>
-        <field alias="EmailStudents" name="emailStudents"/>
-        <field alias="SmsStudents" name="smsStudents"/>
-        <field alias="EmailEmployees" name="emailEmployees"/>
-        <field alias="SmsEmployees" name="smsEmployees"/>
-        <field alias="AyeInProgress" name="ayeInProgress"/>
-        <field alias="UseMenuIcons" name="useMenuIcons"/>
-        <field alias="UseEmployeeSelfSubmit" name="useEmployeeSelfSubmit"/>
-        <field alias="UseStudentSelfSubmit" name="useStudentSelfSubmit"/>
-        <field alias="PinnedGallery" name="pinnedGallery"/>
-        <field alias="CaptchaKey" name="captchaKey"/>
-    </object-xml-mapping>
     <object-xml-mapping name="NumberNameValue" type="com.myschool.application.dto.NumberNameValueDto">
         <field alias="Number" name="number"/>
         <field alias="Name" name="name"/>
         <field alias="Value" name="value"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="OrganizationProfile" type="com.myschool.application.dto.OrganizationProfileDto">
-        <field alias="OrganizationName" name="organizationName"/>
-        <field alias="CurrentAcademicYear" name="currentAcademicYear"/>
-        <field alias="Address" name="address"/>
-        <field alias="PhoneNumber" name="phoneNumber"/>
-        <field alias="FaxNumber" name="faxNumber"/>
-        <field alias="MapUrl" name="mapUrl"/>
     </object-xml-mapping>
     <object-xml-mapping name="AttendanceCode" type="com.myschool.attendance.dto.AttendanceCodeDto">
         <field alias="Code" name="code"/>
@@ -555,20 +531,16 @@
         <field alias="Height" name="height"/>
         <field alias="FolderName" name="folderName"/>
     </object-xml-mapping>
-    <object-xml-mapping name="MessageDetail" type="com.myschool.middleware.dto.MessageDetail">
-        <field alias="MessageId" name="messageId"/>
-        <field alias="XmlContent" name="xmlContent"/>
-        <field alias="EmailSubject" name="emailSubject"/>
-        <field alias="XslTemplateBaseName" name="xslTemplateBaseName"/>
-        <field alias="MessageEvent" name="messageEvent" type="com.myschool.middleware.constants.MessageEvent"/>
-        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
-        <field alias="Recipient" name="recipient"/>
-        <field alias="MessageTracker" name="messageTracker" type="com.myschool.middleware.dto.MessageTracker"/>
-    </object-xml-mapping>
     <object-xml-mapping name="MessageTracker" type="com.myschool.middleware.dto.MessageTracker">
         <field alias="TempFileId" name="tempFileId"/>
         <field alias="InputFile" name="inputFile" type="java.io.File"/>
         <field alias="OutputFile" name="outputFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="NotificationConfig" type="com.myschool.notification.dto.NotificationConfig">
+        <field alias="BaseDir" name="baseDir"/>
+        <field alias="TemplatesBase" name="templatesBase"/>
+        <field alias="SamplesBase" name="samplesBase"/>
+        <field alias="NotificationTemplates" name="notificationTemplates" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="NotificationCriteria" type="com.myschool.notification.dto.NotificationCriteriaDto">
         <field alias="EndPoint" name="endPoint"/>
@@ -583,20 +555,40 @@
         <field alias="NotificationDetailSendTo" name="notificationDetailSendTo"/>
         <field alias="NotificationStatus" name="notificationStatus" type="com.myschool.notification.constants.NotificationStatus"/>
     </object-xml-mapping>
-    <object-xml-mapping name="Notification" type="com.myschool.notification.dto.NotificationDto">
-        <field alias="NotificationId" name="notificationId"/>
-        <field alias="NotificationEndPoint" name="notificationEndPoint" type="com.myschool.notification.constants.NotificationEndPoint"/>
-        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
-        <field alias="NotificationType" name="notificationType" type="com.myschool.notification.constants.NotificationType"/>
-        <field alias="NotificationStatus" name="notificationStatus" type="com.myschool.notification.constants.NotificationStatus"/>
-        <field alias="NotifyingIds" name="notifyingIds" type="java.util.List"/>
+    <object-xml-mapping name="NotificationTemplate" type="com.myschool.notification.dto.NotificationTemplate">
+        <field alias="Name" name="name"/>
+        <field alias="Category" name="category"/>
+        <field alias="Medium" name="medium" type="com.myschool.notification.constants.NotificationMedium"/>
+        <field alias="Template" name="template"/>
+        <field alias="Sample" name="sample"/>
     </object-xml-mapping>
-    <object-xml-mapping name="NotificationTemplate" type="com.myschool.notification.dto.NotificationTemplateDto">
-        <field alias="NotificationEndPoint" name="notificationEndPoint" type="com.myschool.notification.constants.NotificationEndPoint"/>
-        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
-        <field alias="NotificationType" name="notificationType" type="com.myschool.notification.constants.NotificationType"/>
-        <field alias="TemplateFile" name="templateFile" type="java.io.File"/>
-        <field alias="TestFile" name="testFile" type="java.io.File"/>
+    <object-xml-mapping name="Organization" type="com.myschool.organization.dto.Organization">
+        <field alias="Id" name="id"/>
+        <field alias="Name" name="name"/>
+        <field alias="Address" name="address"/>
+        <field alias="PhoneNumber" name="phoneNumber"/>
+        <field alias="FaxNumber" name="faxNumber"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="OrganizationManifest" type="com.myschool.organization.dto.OrganizationManifest">
+        <field alias="Id" name="id"/>
+        <field alias="AcademicYearName" name="academicYearName"/>
+        <field alias="MapURL" name="mapURL"/>
+        <field alias="AyeInProgress" name="ayeInProgress"/>
+        <field alias="CaptchaKey" name="captchaKey"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="OrganizationPreferences" type="com.myschool.organization.dto.OrganizationPreferences">
+        <field alias="Id" name="id"/>
+        <field alias="EmailActive" name="emailActive"/>
+        <field alias="SmsActive" name="smsActive"/>
+        <field alias="EmailStudents" name="emailStudents"/>
+        <field alias="SmsStudents" name="smsStudents"/>
+        <field alias="EmailEmployees" name="emailEmployees"/>
+        <field alias="SmsEmployees" name="smsEmployees"/>
+        <field alias="UseMenuIcons" name="useMenuIcons"/>
+        <field alias="UseEmployeeSelfSubmit" name="useEmployeeSelfSubmit"/>
+        <field alias="UseStudentSelfSubmit" name="useStudentSelfSubmit"/>
+        <field alias="DefaultTheme" name="defaultTheme"/>
+        <field alias="DefaultGallery" name="defaultGallery"/>
     </object-xml-mapping>
     <object-xml-mapping name="Dataset" type="com.myschool.report.dto.DatasetDto">
         <field alias="PlotValue" name="plotValue"/>
@@ -680,6 +672,37 @@
         <field alias="DateOfJoiningMin" name="dateOfJoiningMin"/>
         <field alias="DateOfJoiningMax" name="dateOfJoiningMax"/>
         <field alias="RecordStatus" name="recordStatus" type="com.myschool.common.constants.RecordStatus"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Template" type="com.myschool.template.dto.Template">
+        <field alias="Id" name="id"/>
+        <field alias="TemplateName" name="templateName"/>
+        <field alias="ExampleName" name="exampleName"/>
+        <field alias="TemplateRelativePath" name="templateRelativePath"/>
+        <field alias="ExampleRelativePath" name="exampleRelativePath"/>
+        <field alias="TemplateFile" name="templateFile" type="java.io.File"/>
+        <field alias="ExampleFile" name="exampleFile" type="java.io.File"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="TemplateConfig" type="com.myschool.template.dto.TemplateConfig">
+        <field alias="BasePath" name="basePath"/>
+        <field alias="BaseDir" name="baseDir" type="java.io.File"/>
+        <field alias="TemplateGroups" name="templateGroups" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="TemplateGroup" type="com.myschool.template.dto.TemplateGroup">
+        <field alias="Name" name="name"/>
+        <field alias="DeliveryMethod" name="deliveryMethod"/>
+        <field alias="Usage" name="usage"/>
+        <field alias="GroupFile" name="groupFile" type="java.io.File"/>
+        <field alias="TemplateFileNamePattern" name="templateFileNamePattern"/>
+        <field alias="ExampleFileNamePattern" name="exampleFileNamePattern"/>
+        <field alias="Templates" name="templates" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="Token" type="com.myschool.token.dto.Token">
+        <field alias="TokenId" name="tokenId"/>
+        <field alias="ConsumedBy" name="consumedBy"/>
+        <field alias="Necessity" name="necessity"/>
+        <field alias="GeneratedOn" name="generatedOn"/>
+        <field alias="DisposedOn" name="disposedOn"/>
+        <field alias="Validity" name="validity"/>
     </object-xml-mapping>
     <object-xml-mapping name="ChangePassword" type="com.myschool.user.dto.ChangePasswordDto">
         <field alias="UserId" name="userId"/>
@@ -806,16 +829,6 @@
         <field alias="Height" name="height"/>
         <field alias="FolderName" name="folderName"/>
     </object-xml-mapping>
-    <object-xml-mapping name="Message" type="com.myschool.infra.middleware.dto.MessageDto">
-        <field alias="NotificationEndPoint" name="notificationEndPoint" type="com.myschool.notification.constants.NotificationEndPoint"/>
-        <field alias="NotificationMode" name="notificationMode" type="com.myschool.notification.constants.NotificationMode"/>
-        <field alias="NotificationType" name="notificationType" type="com.myschool.notification.constants.NotificationType"/>
-        <field alias="ToPerson" name="toPerson" type="com.myschool.common.dto.Person"/>
-        <field alias="CopyTo" name="copyTo" type="java.util.List"/>
-        <field alias="MySchool" name="mySchool" type="com.myschool.infra.application.dto.MySchoolDto"/>
-        <field alias="OrganizationProfile" name="organizationProfile" type="com.myschool.application.dto.OrganizationProfileDto"/>
-        <field alias="Content" name="content" type="java.lang.Object"/>
-    </object-xml-mapping>
     <object-xml-mapping name="MessageQueue" type="com.myschool.infra.middleware.dto.MessageQueue">
         <field alias="QueueCategory" name="queueCategory" type="com.myschool.infra.middleware.constants.QueueCategory"/>
         <field alias="Description" name="description"/>
@@ -860,5 +873,33 @@
         <field alias="Minute" name="minute"/>
         <field alias="Second" name="second"/>
         <field alias="Days" name="days"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="WebConfig" type="com.myschool.infra.web.dto.WebConfig">
+        <field alias="Url" name="url"/>
+        <field alias="WebResources" name="webResources" type="java.util.List"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="WebContent" type="com.myschool.infra.web.dto.WebContent">
+        <field alias="ContentLink" name="contentLink"/>
+        <field alias="OriginalImageLink" name="originalImageLink"/>
+        <field alias="PassportImageLink" name="passportImageLink"/>
+        <field alias="ThumbnailImageLink" name="thumbnailImageLink"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="WebProfile" type="com.myschool.infra.web.dto.WebProfile">
+        <field alias="Logo" name="logo" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="NoImage" name="noImage" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="ContactUs" name="contactUs" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="Unsubscribe" name="unsubscribe" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="Website" name="website" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="ChangePassword" name="changePassword" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="Facebook" name="facebook" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="Twitter" name="twitter" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="Googleplus" name="googleplus" type="com.myschool.infra.web.dto.WebContent"/>
+    </object-xml-mapping>
+    <object-xml-mapping name="WebResource" type="com.myschool.infra.web.dto.WebResource">
+        <field alias="Name" name="name"/>
+        <field alias="LinkUrl" name="linkUrl"/>
+        <field alias="ImageUrl" name="imageUrl"/>
+        <field alias="PassportUrl" name="passportUrl"/>
+        <field alias="ThumbUrl" name="thumbUrl"/>
     </object-xml-mapping>
 </object-xml-mappings>

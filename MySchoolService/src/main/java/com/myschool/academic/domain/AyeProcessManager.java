@@ -8,17 +8,13 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.academic.dto.AcademicYearClosureDto;
 import com.myschool.academic.dto.AyeProcessCriteriaDto;
-import com.myschool.application.dao.ProfileDao;
-import com.myschool.application.domain.ProfileManager;
-import com.myschool.application.dto.MySchoolProfileDto;
-import com.myschool.common.constants.CacheKeyConstants;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.exam.domain.ExamGradeManager;
-import com.myschool.infra.cache.agent.InMemoryCacheAgent;
+import com.myschool.organization.dao.OrganizationManager;
+import com.myschool.organization.dto.OrganizationManifest;
 
 /**
  * The Class AyeProcessManager.
@@ -26,13 +22,8 @@ import com.myschool.infra.cache.agent.InMemoryCacheAgent;
 @Component
 public class AyeProcessManager {
 
-    /** The in memory cache agent. */
     @Autowired
-    private InMemoryCacheAgent inMemoryCacheAgent;
-
-    /** The profile manager. */
-    @Autowired
-    private ProfileManager profileManager;
+    private OrganizationManager organizationManager;
 
     /** The academic manager. */
     @Autowired
@@ -42,10 +33,6 @@ public class AyeProcessManager {
     @Autowired
     private ExamGradeManager examGradeManager;
 
-    /** The profile dao. */
-    @Autowired
-    private ProfileDao profileDao;
-
     /**
      * Gets the academic year closure.
      * 
@@ -54,8 +41,8 @@ public class AyeProcessManager {
      */
     public AcademicYearClosureDto getAcademicYearClosure() throws DataException {
         AcademicYearClosureDto academicYearClosure = new AcademicYearClosureDto();
-        academicYearClosure.setOrganizationProfile(profileManager.getOrganizationProfile());
-        academicYearClosure.setMySchoolProfile(profileManager.getMyschoolProfile());
+        //academicYearClosure.setOrganizationProfile(profileManager.getOrganizationProfile());
+        //academicYearClosure.setMySchoolProfile(profileManager.getMyschoolProfile());
         academicYearClosure.setCurrentAcademic(academicManager.getCurrentAcademic());
         academicYearClosure.setNextAcademic(academicManager.getNextAcademic());
         academicYearClosure.setExamGrades(examGradeManager.getGrades());
@@ -112,30 +99,24 @@ public class AyeProcessManager {
      */
     public boolean update(String ayeProgressStatus) throws DataException {
         try {
-            MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
-            boolean existingAyeInProgress = myschoolProfile.isAyeInProgress();
+            OrganizationManifest organizationManifest = organizationManager.getOrganizationManifest();
+            boolean existingAyeInProgress = organizationManifest.isAyeInProgress();
             boolean requestedAyeInProgress = ConversionUtil.toBoolean(ayeProgressStatus);
             if (existingAyeInProgress) {
                 if (requestedAyeInProgress) {
                     throw new ValidationException("Academic Year Closure is already in progress.");
                 } else {
-                    profileDao.updateAyeProgress(ayeProgressStatus);
-                    myschoolProfile.setAyeInProgress(requestedAyeInProgress);
-                    //inMemoryCacheAgent.putEntry(CacheKeyConstants.MY_SCHOOL_PROFILE, myschoolProfile);
+                    organizationManager.setAcademicYearEndProcess(requestedAyeInProgress);
                 }
             } else {
                 if (requestedAyeInProgress) {
-                    profileDao.updateAyeProgress(ayeProgressStatus);
-                    myschoolProfile.setAyeInProgress(requestedAyeInProgress);
-                    inMemoryCacheAgent.putEntry(CacheKeyConstants.MY_SCHOOL_PROFILE, myschoolProfile);
+                    organizationManager.setAcademicYearEndProcess(requestedAyeInProgress);
                 } else {
                     // Ignore the request
                     return false;
                 }
             }
             return true;
-        } catch (DaoException daoException) {
-            throw new DataException(daoException.getMessage(), daoException);
         } catch (ValidationException validationException) {
             throw new DataException(validationException.getMessage(), validationException);
         }

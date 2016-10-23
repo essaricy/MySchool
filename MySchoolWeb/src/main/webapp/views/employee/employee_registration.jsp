@@ -86,7 +86,8 @@ jQuery(document).ready(function() {
   });
   uploader.init();
   uploader.bind('FilesAdded', function (up, files) {
-    setTimeout(function () { uploader.start(); }, 1000);
+    //setTimeout(function () { uploader.start(); }, 1000);
+    wait();
     uploader.start();
   });
   uploader.bind('FileUploaded', function(up, file, result) {
@@ -107,6 +108,7 @@ jQuery(document).ready(function() {
     } else {
       attendError('Unable to upload the image now. Please try again.');
     }
+    unwait();
   });
 
   jQuery('#LastEmployeeNumber').click(function () {
@@ -133,6 +135,8 @@ jQuery(document).ready(function() {
   });
 
   function saveEmployee (verify) {
+    //wait();
+
     var EmployeeData = getPersonalDetails();
     var EmploymentData = getEmploymentDetails();
     EmployeeData.EmployeeId = $('#EmployeeId').val();
@@ -220,6 +224,7 @@ jQuery(document).ready(function() {
       }
       $('#ImageReferenceNumber').val('');
     });
+    //unwait();
   }
 });
 </script>

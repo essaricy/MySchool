@@ -7,6 +7,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -29,10 +30,8 @@ import com.myschool.common.dto.Rule;
 import com.myschool.common.dto.StatusDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.ResourceUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exim.constants.EximPolicy;
@@ -655,14 +654,8 @@ public class StudentEximManager extends AbstractEximManager {
             throw new DataException(ioException.getMessage(), ioException);
         } catch (RuleException ruleException) {
             throw new DataException(ruleException.getMessage(), ruleException);
-        }/* catch (FileSystemException fileSystemException) {
-            throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        }*/ finally {
-            try {
-                ResourceUtil.releaseResource(fileOutputStream);
-            } catch (FileSystemException fileSystemException) {
-                throw new DataException(fileSystemException.getMessage(), fileSystemException);
-            }
+        } finally {
+            IOUtils.closeQuietly(fileOutputStream);
         }
         return exportStatusDto;
     }

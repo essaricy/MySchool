@@ -6,12 +6,16 @@
         <put-attribute name="body" value="/views/acl/user_login.jsp" />
     </definition>
 
-    <definition name="forgot_password_wholepage" extends="wholepage_layout">
-        <put-attribute name="body" value="/views/acl/forgot_password.jsp" />
-    </definition>
-
     <definition name="assistance_wholepage" extends="wholepage_layout">
         <put-attribute name="body" value="/views/acl/assistance.jsp" />
+    </definition>
+
+    <definition name="change_password_request_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/acl/change_password_request.jsp" />
+    </definition>
+
+    <definition name="change_password_permit_wholepage" extends="wholepage_layout">
+        <put-attribute name="body" value="/views/acl/change_password_permit.jsp" />
     </definition>
 
 </tiles-definitions>

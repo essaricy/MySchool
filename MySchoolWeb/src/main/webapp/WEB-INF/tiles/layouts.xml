@@ -28,6 +28,7 @@
             <add-attribute value="widgets/jquery.social-likes/social-likes_birman.css" />
             <add-attribute value="widgets/jquery.toggleSwitch/lib/ToggleSwitch.css" />
             <add-attribute value="widgets/jquery.tooltipster/css/tooltipster.css" />
+            <add-attribute value="widgets/jquery.waitMe/waitMe.css" />
 
             <add-attribute value="themes/${current_theme}.css" />
         </put-list-attribute>
@@ -56,14 +57,17 @@
             <add-attribute value="widgets/jquery.timeago/jquery.timeago.min.js" />
             <add-attribute value="widgets/jquery.toggleSwitch/lib/ToggleSwitch.js" />
             <add-attribute value="widgets/jquery.tooltipster/js/jquery.tooltipster.min.js" />
+            <add-attribute value="widgets/jquery.waitMe/waitMe.js" />
 
             <add-attribute value="scripts/myschool-accordion.js" />
             <add-attribute value="scripts/myschool-activeTable.js" />
+            <add-attribute value="scripts/myschool-ajax.js" />
             <add-attribute value="scripts/myschool-datePicker.js" />
             <add-attribute value="scripts/myschool-lazySelect.js" />
             <add-attribute value="scripts/myschool-messages.js" />
             <add-attribute value="scripts/myschool-responseHandler.js" />
             <add-attribute value="scripts/myschool-social.js" />
+            <add-attribute value="scripts/myschool-timer.js" />
             <add-attribute value="scripts/myschool-validator.js" />
         </put-list-attribute>
     </definition>

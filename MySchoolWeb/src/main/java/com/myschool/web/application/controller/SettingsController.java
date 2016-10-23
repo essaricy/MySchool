@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.user.constants.SecurityQuestion;
 import com.myschool.user.dto.UserContext;
 import com.myschool.user.service.UserService;
 import com.myschool.web.application.constants.WebConstants;
@@ -56,14 +55,14 @@ public class SettingsController {
      * @param response the response
      * @return the model and view
      * @throws Exception the exception
-     */
+     *//*
     @RequestMapping(value="launchForgotPassword")
     public ModelAndView launchForgotPassword(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("securityQuestions", SecurityQuestion.values());
         return ViewDelegationController.delegateWholePageView(request, UserViewNames.FORGOT_PASSWORD, map);
-    }
+    }*/
 
     /**
      * Reset password.

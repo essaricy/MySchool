@@ -1,0 +1,7 @@
+To send emails from java app using gmail,
+
+Goto the setting.
+https://www.google.com/settings/security/lesssecureapps
+
+Click on "Turn on" for "Access for less secure apps"
+Otherwise, we will get AuthenticationFailedException.

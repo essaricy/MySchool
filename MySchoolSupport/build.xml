@@ -4,6 +4,9 @@
     <property file="deploy.properties" />
     <path id="jars-classpath">
         <fileset dir="../${lib}" includes="*.jar" />
+        <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
+        <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
+        <fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
     </path>
 
     <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />

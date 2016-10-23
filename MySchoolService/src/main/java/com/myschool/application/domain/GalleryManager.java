@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.application.assembler.GalleryDataAssembler;
 import com.myschool.application.dto.GalleryDetailDto;
-import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.StringUtil;
 import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.storage.StorageAccessAgent;
 import com.myschool.infra.storage.exception.StorageAccessException;
+import com.myschool.organization.dao.OrganizationManager;
+import com.myschool.organization.dto.OrganizationPreferences;
 import com.myschool.storage.dto.StorageItem;
 
 /**
@@ -24,9 +25,8 @@ import com.myschool.storage.dto.StorageItem;
 @Component
 public class GalleryManager {
 
-    /** The profile manager. */
     @Autowired
-    private ProfileManager profileManager;
+    private OrganizationManager organizationManager;
 
     /** The storage access agent. */
     @Autowired
@@ -43,8 +43,8 @@ public class GalleryManager {
         try {
             // Get the list of galleries
             List<StorageItem> storageItems = storageAccessAgent.GALLERY_STORAGE.getAll();
-            MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
-            String pinnedGallery = myschoolProfile.getPinnedGallery();
+            OrganizationPreferences preferences = organizationManager.getOrganizationPreferences();
+            String pinnedGallery = preferences.getDefaultGallery();
             galleries = GalleryDataAssembler.createGalleryDetails(storageItems, pinnedGallery);
         } catch (StorageAccessException storageAccessException) {
             throw new DataException(storageAccessException.getMessage(), storageAccessException);
@@ -89,8 +89,8 @@ public class GalleryManager {
      * @throws DataException the data exception
      */
     public GalleryDetailDto getPinned() throws DataException {
-        MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
-        String pinnedGallery = myschoolProfile.getPinnedGallery();
+        OrganizationPreferences preferences = organizationManager.getOrganizationPreferences();
+        String pinnedGallery = preferences.getDefaultGallery();
         return getGallery(pinnedGallery);
     }
 
@@ -122,7 +122,7 @@ public class GalleryManager {
                 throw new DataException("Cannot Pin Gallery '" + galleryName
                         + "'. There are no images in this gallery.");
             }
-            profileManager.pinGallery(galleryName);
+            organizationManager.pinGallery(galleryName);
         } catch (StorageAccessException storageAccessException) {
             throw new DataException(storageAccessException.getMessage(), storageAccessException);
         }
@@ -241,10 +241,10 @@ public class GalleryManager {
                 throw new DataException("Gallery '" + galleryName + "' does not exist");
             }
             // Remove pin if its a pinned gallery
-            MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
-            String pinnedGallery = myschoolProfile.getPinnedGallery();
+            OrganizationPreferences preferences = organizationManager.getOrganizationPreferences();
+            String pinnedGallery = preferences.getDefaultGallery();
             if (galleryName.equals(pinnedGallery)) {
-                profileManager.pinGallery(null);
+                organizationManager.pinGallery(null);
             }
             success = storageAccessAgent.GALLERY_STORAGE.delete(galleryName);
         } catch (StorageAccessException storageAccessException) {

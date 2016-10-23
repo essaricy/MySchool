@@ -3,10 +3,6 @@
 <tiles-definitions>
 
     <!-- User related views -->
-    <definition name="forgot_password_wholepage" extends="wholepage_layout">
-        <put-attribute name="body" value="/views/user/forgot_password.jsp" />
-    </definition>
-
     <definition name="default_privileges_wholepage" extends="wholepage_layout">
         <put-attribute name="body" value="/views/user/default_privileges.jsp" />
     </definition>

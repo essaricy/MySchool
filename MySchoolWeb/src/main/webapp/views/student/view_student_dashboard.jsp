@@ -303,12 +303,7 @@ $(document).ready(function() {
     </table>
     </div>
   </div>
-
-  <!-- Latest Gallery -->
-  <div class="brick size43">
-    <jsp:include page="/views/application/view_latest_gallery.jsp">
-      <jsp:param name="REFERENCE_SIZE" value=".size43" />
-    </jsp:include>
-  </div>
-
 </div>
+
+<!-- ####################################### GALLERY ############################################### -->
+<%@ include file="/views/common/latest_gallery_strip.jsp" %>

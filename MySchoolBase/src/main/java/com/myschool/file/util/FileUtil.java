@@ -211,7 +211,7 @@ public class FileUtil {
         } catch (IOException ioException) {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
-            ResourceUtil.releaseResource(fileOutputStream);
+            IOUtils.closeQuietly(fileOutputStream);
         }
     }
 
@@ -229,7 +229,7 @@ public class FileUtil {
                 writeToFile(file, content.getBytes());
             }
         } finally {
-            ResourceUtil.releaseResource(fileOutputStream);
+            IOUtils.closeQuietly(fileOutputStream);
         }
     }
 
@@ -258,8 +258,8 @@ public class FileUtil {
         } catch (IOException ioException) {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
-            ResourceUtil.releaseResource(fileOutputStream);
-            ResourceUtil.releaseResource(fileInputStream);
+            IOUtils.closeQuietly(fileOutputStream);
+            IOUtils.closeQuietly(fileInputStream);
         }
         fromFile.delete();
     }
@@ -435,7 +435,7 @@ public class FileUtil {
         } catch (IOException ioException) {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
-            ResourceUtil.releaseResource(fileInputStream);
+            IOUtils.closeQuietly(fileInputStream);
         }
         return content.toString();
     }
@@ -464,8 +464,8 @@ public class FileUtil {
         } catch (IOException ioException) {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
-            ResourceUtil.releaseResource(inputStream);
-            ResourceUtil.releaseResource(fileOutputStream);
+            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(fileOutputStream);
         }
     }
 

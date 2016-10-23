@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.commons.io.IOUtils;
+
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.file.util.FileUtil;
 
@@ -41,7 +43,7 @@ public class PropertiesUtil {
         } catch (IOException ioException) {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
-            ResourceUtil.releaseResource(fileInputStream);
+            IOUtils.closeQuietly(fileInputStream);
         }
         return properties;
     }
@@ -64,7 +66,7 @@ public class PropertiesUtil {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
             if (closeStream){
-                ResourceUtil.releaseResource(inputStream);
+                IOUtils.closeQuietly(inputStream);
             }
         }
         return properties;

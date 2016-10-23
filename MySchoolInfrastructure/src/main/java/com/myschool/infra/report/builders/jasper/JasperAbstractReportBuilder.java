@@ -12,13 +12,13 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.application.dto.OrganizationProfileDto;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.infra.report.builders.ReportBuilder;
 import com.myschool.infra.report.constants.ReportStyles;
 import com.myschool.infra.report.exception.ReportException;
+import com.myschool.organization.dto.Organization;
 import com.myschool.report.dto.ReportCriteria;
 import com.myschool.report.dto.ReportCriteriaToken;
 import com.myschool.report.dto.ReportDto;
@@ -49,15 +49,15 @@ public abstract class JasperAbstractReportBuilder implements ReportBuilder {
 
     /**
      * Gets the base report.
-     * 
-     * @param organizationProfile the organization profile
+     *
+     * @param organization the organization
      * @param report the report
      * @param reportCriteria the report criteria
      * @return the base report
      * @throws ReportException the report exception
      */
     protected JasperReportBuilder getBaseReport(
-            OrganizationProfileDto organizationProfile, ReportDto report,
+            Organization organization, ReportDto report,
             ReportCriteria reportCriteria) throws ReportException {
         JasperReportBuilder reportBuilder = null;
         if (reportCriteria == null) {
@@ -73,15 +73,15 @@ public abstract class JasperAbstractReportBuilder implements ReportBuilder {
 
         // Organization Name Builder
         TextFieldBuilder<String> organizationNameBuilder = componentBuilders.text(
-                organizationProfile.getOrganizationName());
+                organization.getName());
         organizationNameBuilder.setStyle(ReportStyles.SERIF_12_BOLD_CENTER);
         // Address Builder
         TextFieldBuilder<String> addressBuilder = componentBuilders.text(
-                organizationProfile.getAddress());
+                organization.getAddress());
         addressBuilder.setStyle(ReportStyles.SERIF_8_REGULAR_CENTER);
         // Phone & Fax Builder
-        String phoneNumber = organizationProfile.getPhoneNumber();
-        String faxNumber = organizationProfile.getFaxNumber();
+        String phoneNumber = organization.getPhoneNumber();
+        String faxNumber = organization.getFaxNumber();
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Phone: ").append((phoneNumber == null ? " " : phoneNumber));
         if (faxNumber != null) {

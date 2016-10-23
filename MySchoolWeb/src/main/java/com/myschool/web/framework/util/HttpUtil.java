@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,7 +21,6 @@ import com.myschool.common.assembler.ImageDataAssembler;
 import com.myschool.common.assembler.ResultDataAssembler;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.ResourceUtil;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.user.dto.UserSession;
@@ -121,8 +121,8 @@ public class HttpUtil {
         } catch (IOException ioException) {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
-            ResourceUtil.releaseResource(outputStream);
-            ResourceUtil.releaseResource(fileInputStream);
+            IOUtils.closeQuietly(outputStream);
+            IOUtils.closeQuietly(fileInputStream);
         }
     }
 
@@ -163,8 +163,8 @@ public class HttpUtil {
         } catch (IOException ioException) {
             throw new FileSystemException(ioException.getMessage(), ioException);
         } finally {
-            ResourceUtil.releaseResource(bufferedOutputStream);
-            ResourceUtil.releaseResource(fileInputStream);
+            IOUtils.closeQuietly(bufferedOutputStream);
+            IOUtils.closeQuietly(fileInputStream);
         }
     }
 

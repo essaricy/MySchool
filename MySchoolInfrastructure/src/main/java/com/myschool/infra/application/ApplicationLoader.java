@@ -17,7 +17,6 @@ import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.PropertiesUtil;
 import com.myschool.common.util.StringUtil;
 import com.myschool.infra.application.dto.AppConfigDto;
-import com.myschool.infra.application.dto.MySchoolDto;
 import com.myschool.infra.application.reader.AppConfigReader;
 import com.myschool.infra.filesystem.constants.FileSystemConstants;
 import com.myschool.infra.filesystem.util.FileUtil;
@@ -90,15 +89,6 @@ public class ApplicationLoader {
             properties = PropertiesUtil.loadNestedProperties(fileSystemPropertiesFile);
         }
         return properties;
-    }
-
-    /**
-     * Gets the my school.
-     * 
-     * @return the my school
-     */
-    public MySchoolDto getMySchool() {
-        return appConfig.getMyschool();
     }
 
 }

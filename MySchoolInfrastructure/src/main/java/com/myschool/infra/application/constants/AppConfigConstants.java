@@ -14,9 +14,6 @@ public class AppConfigConstants {
     /** The Constant ELEMENT_AGENT. */
     public static final String ELEMENT_AGENT = "agent";
 
-    /** The Constant ELEMENT_MYSCHOOL. */
-    public static final String ELEMENT_MYSCHOOL = "myschool";
-
     /** The Constant ATTRIBUTE_ID. */
     public static final String ATTRIBUTE_ID = "id";
 
@@ -31,11 +28,5 @@ public class AppConfigConstants {
 
     /** The Constant ATTRIBUTE_DESCRIPTION. */
     public static final String ATTRIBUTE_DESCRIPTION = "description";
-
-    /** The Constant ATTRIBUTE_BASE_DIR. */
-    public static final String ATTRIBUTE_BASE_DIR = "base-dir";
-
-    /** The Constant ATTRIBUTE_WEB_URL. */
-    public static final String ATTRIBUTE_WEB_URL = "web-url";
 
 }

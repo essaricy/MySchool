@@ -1,0 +1,106 @@
+<notification-config>
+
+    <notifications>
+        <notification id="ChangePasswordRequest" from-name="MySchool" title="Forgot Password?" validity="12h" />
+        <notification id="ChangePasswordComplete" from-name="MySchool" title="Your password has been changed" />
+
+        <!-- modify below -->
+        <!-- <notification mode="EMAIL" end-point="STUDENT">
+            <templates>
+                <template name="REGISTRATION" template-file="Registration.xsl"
+                    test-file="Registration.xml" />
+                <template name="MONTHLY_ATTENDANCE_REPORT" template-file="MonthlyAttendanceReport.xsl"
+                    test-file="MonthlyAttendanceReport.xml" />
+                <template name="YEARLY_ATTENDANCE_REPORT" template-file="YearlyAttendanceReport.xsl"
+                    test-file="YearlyAttendanceReport.xml" />
+                <template name="EXAM_RESULT" template-file="ExamResult.xsl"
+                    test-file="ExamResult.xml" />
+                <template name="LEAVE_NOTIFICATION" template-file="LeaveNotification.xsl"
+                    test-file="LeaveNotification.xml" />
+                <template name="FEE_SUMMARY" template-file="FeeSummary.xsl"
+                    test-file="FeeSummary.xml" />
+                <template name="BIRTHDAY_GREETING" template-file="BirthdayGreeting.xsl"
+                    test-file="BirthDayGreeting.xml" />
+            </templates>
+        </notification>
+        <notification mode="EMAIL" end-point="EMPLOYEE">
+            <templates>
+                <template name="REGISTRATION" template-file="Registration.xsl"
+                    test-file="Registration.xml" />
+                <template name="MONTHLY_ATTENDANCE_REPORT" template-file="MonthlyAttendanceReport.xsl"
+                    test-file="MonthlyAttendanceReport.xml" />
+                <template name="YEARLY_ATTENDANCE_REPORT" template-file="YearlyAttendanceReport.xsl"
+                    test-file="YearlyAttendanceReport.xml" />
+                <template name="PAYSLIP" template-file="Payslip.xsl"
+                    test-file="Payslip.xml" />
+                <template name="LEAVE_NOTIFICATION" template-file="LeaveNotification.xsl"
+                    test-file="LeaveNotification.xml" />
+                <template name="BIRTHDAY_GREETING" template-file="BirthdayGreeting.xsl"
+                    test-file="BirthDayGreeting.xml" />
+                <template name="PROMOTION_LETTER" template-file="PromotionLetter.xsl"
+                    test-file="PromotionLetter.xml" />
+                <template name="SERVICE_LETTER" template-file="ServiceLetter.xsl"
+                    test-file="ServiceLetter.xml" />
+            </templates>
+        </notification>
+        <notification mode="EMAIL" end-point="NOTICE_BOARD">
+            <templates>
+                <template name="ACHIEVEMENTS" template-file="Achievements.xsl"
+                    test-file="Achievements.xml" />
+                <template name="DECLARE_HOLIDAYS" template-file="DeclareHoliday.xsl"
+                    test-file="DeclareHoliday.xml" />
+                <template name="GENERAL_NOTICE" template-file="GeneralNotice.xsl"
+                    test-file="GeneralNotice.xml" />
+            </templates>
+        </notification>
+
+        <notification mode="SMS" end-point="STUDENT">
+            <templates>
+                <template name="REGISTRATION" template-file="Registration.xsl"
+                    test-file="Registration.xml" />
+                <template name="MONTHLY_ATTENDANCE_REPORT" template-file="MonthlyAttendanceReport.xsl"
+                    test-file="MonthlyAttendanceReport.xml" />
+                <template name="YEARLY_ATTENDANCE_REPORT" template-file="YearlyAttendanceReport.xsl"
+                    test-file="YearlyAttendanceReport.xml" />
+                <template name="EXAM_RESULT" template-file="ExamResult.xsl"
+                    test-file="ExamResult.xml" />
+                <template name="LEAVE_NOTIFICATION" template-file="LeaveNotification.xsl"
+                    test-file="LeaveNotification.xml" />
+                <template name="FEE_SUMMARY" template-file="FeeSummary.xsl"
+                    test-file="FeeSummary.xml" />
+                <template name="BIRTHDAY_GREETING" template-file="BirthdayGreeting.xsl"
+                    test-file="BirthDayGreeting.xml" />
+            </templates>
+        </notification>
+        <notification mode="SMS" end-point="EMPLOYEE">
+            <templates>
+                <template name="REGISTRATION" template-file="Registration.xsl"
+                    test-file="Registration.xml" />
+                <template name="MONTHLY_ATTENDANCE_REPORT" template-file="MonthlyAttendanceReport.xsl"
+                    test-file="MonthlyAttendanceReport.xml" />
+                <template name="YEARLY_ATTENDANCE_REPORT" template-file="YearlyAttendanceReport.xsl"
+                    test-file="YearlyAttendanceReport.xml" />
+                <template name="PAYSLIP" template-file="Payslip.xsl"
+                    test-file="Payslip.xml" />
+                <template name="LEAVE_NOTIFICATION" template-file="LeaveNotification.xsl"
+                    test-file="LeaveNotification.xml" />
+                <template name="BIRTHDAY_GREETING" template-file="BirthdayGreeting.xsl"
+                    test-file="BirthDayGreeting.xml" />
+                <template name="PROMOTION_LETTER" template-file="PromotionLetter.xsl"
+                    test-file="PromotionLetter.xml" />
+                <template name="SERVICE_LETTER" template-file="ServiceLetter.xsl"
+                    test-file="ServiceLetter.xml" />
+            </templates>
+        </notification>
+        <notification mode="SMS" end-point="NOTICE_BOARD">
+            <templates>
+                <template name="ACHIEVEMENTS" template-file="Achievements.xsl"
+                    test-file="Achievements.xml" />
+                <template name="DECLARE_HOLIDAYS" template-file="DeclareHoliday.xsl"
+                    test-file="DeclareHoliday.xml" />
+                <template name="GENERAL_NOTICE" template-file="GeneralNotice.xsl"
+                    test-file="GeneralNotice.xml" />
+            </templates>
+        </notification> -->
+    </notifications>
+</notification-config>

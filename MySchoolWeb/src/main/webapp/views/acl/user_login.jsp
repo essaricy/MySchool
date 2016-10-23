@@ -103,11 +103,11 @@ $(document).ready(function () {
       <input type="password" id="Password" name="Password" style="width: 90%; height:38px; font-size: 14pt;" placeholder="Enter Password"><br/>
 
       <c:if test="${SIGNIN_SECURITY.currentSecurityLevel == 'USE_CAPTCHA'}">
-        <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div><br/>
+        <div class="g-recaptcha" data-sitekey="${ORGANIZATION_MANIFEST.captchaKey}"></div><br/>
       </c:if>
 
       <input type="button" id="Login" value="Sign In" style="width: 95%;height:38px; font-size: 14pt;"/><br/>
-      <c:if test="${USER_TYPE != 'ADMIN'}">
+      <c:if test="${UserType != 'ADMIN'}">
       <a href="<%=request.getContextPath() %>/acl/forgotPassword.htm">Forgot Password?</a><br/><br/>
       <a href="#" id="NeedAssistance">Need assistance?</a>
       </c:if>

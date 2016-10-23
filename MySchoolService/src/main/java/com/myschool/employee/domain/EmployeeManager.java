@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.application.domain.ProfileManager;
-import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.common.assembler.ImageDataAssembler;
 import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.DaoException;
@@ -38,9 +36,8 @@ import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.infra.storage.StorageAccessAgent;
 import com.myschool.infra.storage.exception.StorageAccessException;
-import com.myschool.notification.constants.NotificationEndPoint;
-import com.myschool.notification.constants.NotificationType;
-import com.myschool.notification.domain.NotificationManager;
+import com.myschool.organization.dao.OrganizationManager;
+import com.myschool.organization.dto.OrganizationPreferences;
 import com.myschool.storage.dto.StorageItem;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.domain.UserManager;
@@ -52,6 +49,7 @@ import com.myschool.user.dto.UsersDto;
 @Component
 public class EmployeeManager {
 
+    /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(EmployeeManager.class);
 
     /** The employee dao. */
@@ -66,17 +64,17 @@ public class EmployeeManager {
     @Autowired
     private EmployeeValidator employeeValidator;
 
-    /** The notification manager. */
+    /** The notification manager. *//*
     @Autowired
-    private NotificationManager notificationManager;
+    private NotificationManager notificationManager;*/
 
     /** The temp file system. */
     @Autowired
     private TempFileSystem tempFileSystem;
 
-    /** The profile manager. */
+    /** The organization manager. */
     @Autowired
-    private ProfileManager profileManager;
+    private OrganizationManager organizationManager;
 
     /** The employee contact dao. */
     @Autowired
@@ -526,14 +524,14 @@ public class EmployeeManager {
 
     /**
      * Gets the notification email id.
-     * 
-     * @param myschoolProfile the myschool profile
+     *
+     * @param preferences the preferences
      * @param employee the employee
      * @return the notification email id
      */
-    public String getNotificationEmailId(MySchoolProfileDto myschoolProfile, EmployeeDto employee) {
+    public String getNotificationEmailId(OrganizationPreferences preferences, EmployeeDto employee) {
         String notificationEmailId = null;
-        if (myschoolProfile.isEmailActive() && myschoolProfile.isEmailEmployees()) {
+        if (preferences.isEmailActive() && preferences.isEmailEmployees()) {
             EmployeeContact employeeContact = employee.getEmployeeContact();
             if (employeeContact != null) {
                 EmployeeNotificationTo emailNotificationTo = employeeContact.getEmailNotificationTo();
@@ -557,14 +555,14 @@ public class EmployeeManager {
 
     /**
      * Gets the notification mobile number.
-     * 
-     * @param myschoolProfile the myschool profile
+     *
+     * @param preferences the preferences
      * @param employee the employee
      * @return the notification mobile number
      */
-    public String getNotificationMobileNumber(MySchoolProfileDto myschoolProfile, EmployeeDto employee) {
+    public String getNotificationMobileNumber(OrganizationPreferences preferences, EmployeeDto employee) {
         String notificationMobileNumber = null;
-        if (myschoolProfile.isSmsActive() && myschoolProfile.isSmsEmployees()) {
+        if (preferences.isSmsActive() && preferences.isSmsEmployees()) {
             EmployeeContact employeeContact = employee.getEmployeeContact();
             if (employeeContact != null) {
                 EmployeeNotificationTo smsNotificationTo = employeeContact.getSmsNotificationTo();
@@ -598,21 +596,21 @@ public class EmployeeManager {
         if (user == null) {
             int userId = userManager.createUser(employee);
             if (userId > 0) {
-                MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
+                OrganizationPreferences preferences = organizationManager.getOrganizationPreferences();
                 List<Integer> mailNotifyingIds = new ArrayList<Integer>();
                 List<Integer> smsNotifyingIds = new ArrayList<Integer>();
-                String notificationEmailId = getNotificationEmailId(myschoolProfile, employee);
+                String notificationEmailId = getNotificationEmailId(preferences, employee);
                 if (notificationEmailId != null) {
                     mailNotifyingIds.add(employeeId);
                 }
-                String notificationMobileNumber = getNotificationMobileNumber(myschoolProfile, employee);
+                String notificationMobileNumber = getNotificationMobileNumber(preferences, employee);
                 if (notificationMobileNumber != null) {
                     smsNotifyingIds.add(employeeId);
                 }
-                notificationManager.createNotification(
+                /*notificationManager.createNotification(
                         NotificationEndPoint.EMPLOYEE,
                         NotificationType.REGISTRATION, mailNotifyingIds,
-                        smsNotifyingIds);
+                        smsNotifyingIds);*/
             }
         }
     }

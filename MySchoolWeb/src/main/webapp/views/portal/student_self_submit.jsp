@@ -13,10 +13,7 @@
 }
 </style>
 
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/widgets/jquery.waitMe/waitMe.css" />
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/widgets/jquery.waitMe/waitMe.js"></script> 
 <script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-student-attributes.js"></script>
-<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/scripts/myschool-ajax.js"></script>
 <script>
 jQuery(document).ready(function() {
   $('#StudentRegistrationTabs').tabs({id: 'StudentRegistrationTabs'});
@@ -175,7 +172,7 @@ jQuery(document).ready(function() {
     <td width="15%" valign="top">&nbsp;</td>
     <td width="85%" valign="top">
       <div id="StudentFormActionButtons" style="margin-top: 10px; margin-bottom: 40px; text-align: center;">
-        <div class="g-recaptcha" data-sitekey="${MYSCHOOL_PROFILE.captchaKey}"></div><br/>
+        <div class="g-recaptcha" data-sitekey="${ORGANIZATION_MANIFEST.captchaKey}"></div><br/>
         <table>
           <tr>
             <td align="left" colspan="2">

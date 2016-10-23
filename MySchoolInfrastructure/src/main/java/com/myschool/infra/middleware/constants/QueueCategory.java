@@ -3,6 +3,7 @@ package com.myschool.infra.middleware.constants;
 /**
  * The Enum QueueCategory.
  */
+@Deprecated
 public enum QueueCategory {
 
     /** The COMMAND_EXECUTOR. */

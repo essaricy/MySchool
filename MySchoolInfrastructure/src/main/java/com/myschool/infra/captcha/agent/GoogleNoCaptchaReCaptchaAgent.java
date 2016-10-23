@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.text.MessageFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -20,6 +22,7 @@ import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.PropertiesUtil;
+import com.myschool.common.util.StringUtil;
 import com.myschool.infra.captcha.constants.CaptchaConstants;
 
 /**
@@ -43,6 +46,8 @@ public class GoogleNoCaptchaReCaptchaAgent extends CaptchaAgent {
     /** The verify url. */
     private String verifyUrl;
 
+    private Map<String, CaptchaVerificationResult> resultsCache;
+
     /* (non-Javadoc)
      * @see com.myschool.infra.agent.Agent#loadConfiguration(java.io.File)
      */
@@ -52,14 +57,32 @@ public class GoogleNoCaptchaReCaptchaAgent extends CaptchaAgent {
         try {
             LOGGER.info("Loading configuration");
             properties = PropertiesUtil.loadProperties(configFile);
+            resultsCache = new HashMap<String, CaptchaVerificationResult>() {
+
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public CaptchaVerificationResult put(String key,
+                        CaptchaVerificationResult value) {
+                    // TODO: ensure this list does not grow huge. Remove older items, (say more than 1hr) periodically.
+                    return super.put(key, value);
+                }
+            };
 
             clientKey = properties.getProperty(CaptchaConstants.KEY_CLIENT);
-            LOGGER.info("clientKey=" + clientKey);
             serverKey = properties.getProperty(CaptchaConstants.KEY_SERVER);
-            LOGGER.info("serverKey=" + serverKey);
             verifyUrl = properties.getProperty(CaptchaConstants.VERIFY_URL);
-            LOGGER.info("verifyUrl=" + verifyUrl);
 
+            if (StringUtil.isNullOrBlank(clientKey)) {
+                throw new ConfigurationException("Missing '" + CaptchaConstants.KEY_CLIENT + "' in the config file.");
+            }
+            if (StringUtil.isNullOrBlank(serverKey)) {
+                throw new ConfigurationException("Missing '" + CaptchaConstants.KEY_SERVER + "' in the config file.");
+            }
+            if (StringUtil.isNullOrBlank(verifyUrl)) {
+                throw new ConfigurationException("Missing '" + CaptchaConstants.VERIFY_URL + "' in the config file.");
+            }
+            LOGGER.info("Loaded configuration");
         } catch (FileSystemException fileSystemException) {
             throw new ConfigurationException(fileSystemException.getMessage(), fileSystemException);
         }
@@ -70,16 +93,29 @@ public class GoogleNoCaptchaReCaptchaAgent extends CaptchaAgent {
      */
     @Override
     public void validate() throws AgentException {
-        LOGGER.info("validate");
+        //LOGGER.info("validate");
     }
 
     /* (non-Javadoc)
      * @see com.myschool.infra.captcha.agent.CaptchaAgent#isValid(java.lang.String)
      */
     @Override
-    public boolean isValid(String captchaResponse) {
-        CaptchaVerificationResult result = sendPost(verifyUrl, serverKey, captchaResponse);
-        return (result != null && result.isSuccess());
+    public synchronized boolean isValid(String captchaResponse) {
+        boolean valid = false;
+        CaptchaVerificationResult result = null;
+        LOGGER.info("Enter - " + captchaResponse);
+        if (resultsCache.containsKey(captchaResponse)) {
+            result = resultsCache.get(captchaResponse);
+            LOGGER.info("CachedResponse - " + result);
+        } else {
+            result = sendPost(verifyUrl, serverKey, captchaResponse);
+            if (result != null) {
+                resultsCache.put(captchaResponse, result);
+            }
+        }
+        valid = (result != null && result.isSuccess());
+        LOGGER.info("Exit - " + valid);
+        return valid;
     }
 
     /**
@@ -95,7 +131,7 @@ public class GoogleNoCaptchaReCaptchaAgent extends CaptchaAgent {
         BufferedReader bufferedReader = null;
         DataOutputStream dataOutputStream = null;
         try {
-            LOGGER.info("request - " + captchaResponse);
+            //LOGGER.info("request - " + captchaResponse);
             URL obj = new URL(url);
             HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
@@ -113,8 +149,8 @@ public class GoogleNoCaptchaReCaptchaAgent extends CaptchaAgent {
             dataOutputStream.writeBytes(data);
             dataOutputStream.flush();
 
-            int responseCode = con.getResponseCode();
-            LOGGER.info("responseCode - " + responseCode);
+            //int responseCode = con.getResponseCode();
+            //LOGGER.info("responseCode - " + responseCode);
 
             bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
             String inputLine;
@@ -124,10 +160,10 @@ public class GoogleNoCaptchaReCaptchaAgent extends CaptchaAgent {
                 response.append(inputLine);
             }
             //print result
-            LOGGER.info("response - " + response);
+            LOGGER.info("GoogleResponse - " + response);
             result = CaptchaDataAssembler.create(response.toString());
         } catch (Exception exception) {
-            LOGGER.error(exception.getMessage(), exception);
+            LOGGER.error("Error - " + exception.getMessage(), exception);
         } finally {
             IOUtils.closeQuietly(dataOutputStream);
             IOUtils.closeQuietly(bufferedReader);

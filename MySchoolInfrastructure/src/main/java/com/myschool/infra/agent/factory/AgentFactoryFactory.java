@@ -6,18 +6,21 @@ import org.springframework.stereotype.Component;
 import com.myschool.infra.application.constants.AgentConstants;
 import com.myschool.infra.cache.factory.CacheAgentFactory;
 import com.myschool.infra.captcha.factory.CaptchaAgentFactory;
+import com.myschool.infra.data.factory.DataGeneratorAgentFactory;
 import com.myschool.infra.database.factory.DatabaseAgentFactory;
 import com.myschool.infra.email.factory.EmailServerAgentFactory;
 import com.myschool.infra.filesystem.factory.FileSystemAgentFactory;
 import com.myschool.infra.graph.factory.GraphAgentFactory;
 import com.myschool.infra.image.factory.ImageScalingAgentFactory;
 import com.myschool.infra.middleware.factory.MiddlewareAgentFactory;
+import com.myschool.infra.notification.factory.NotificationAgentFactory;
 import com.myschool.infra.ojo.factory.OjoAgentFactory;
 import com.myschool.infra.oxo.factory.OxoAgentFactory;
 import com.myschool.infra.report.factory.ReportAgentFactory;
 import com.myschool.infra.scheduler.agent.SchedulerAgentFactory;
 import com.myschool.infra.sms.factory.SmsServerAgentFactory;
 import com.myschool.infra.storage.factory.StorageAccessAgentFactory;
+import com.myschool.infra.template.factory.TemplateAgentFactory;
 import com.myschool.infra.webserver.factory.WebserverAgentFactory;
 
 /**
@@ -86,6 +89,15 @@ public class AgentFactoryFactory {
     @Autowired
     private StorageAccessAgentFactory storageAccessAgentFactory;
 
+    @Autowired
+    private NotificationAgentFactory notificationAgentFactory;
+
+    @Autowired
+    private TemplateAgentFactory templateAgentFactory;
+
+    @Autowired
+    private DataGeneratorAgentFactory dataGeneratorAgentFactory;
+
     /**
      * Gets the agent factory.
      *
@@ -127,6 +139,12 @@ public class AgentFactoryFactory {
                 agentFactory = smsServerAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.STORAGE_SERVER)) {
                 agentFactory = storageAccessAgentFactory;
+            } else if (agentKeyName.equals(AgentConstants.NOTIFICATION)) {
+                agentFactory = notificationAgentFactory;
+            } else if (agentKeyName.equals(AgentConstants.TEMPLATE_ENGINE)) {
+                agentFactory = templateAgentFactory;
+            } else if (agentKeyName.equals(AgentConstants.DATA_GENERATOR)) {
+                agentFactory = dataGeneratorAgentFactory;
             }
         }
         return agentFactory;

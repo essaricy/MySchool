@@ -23,6 +23,7 @@ jQuery(document).ready(function() {
     $('#StudentFormActionButtons').show();
   });
 
+  smallCountdownTimerNow($('#TimeToReadInstractions'), 90, function () {
     $("#TimeToReadInstractions").fadeOut(1000, function() {
       $('#InstructionsRead').fadeIn(500);
     });

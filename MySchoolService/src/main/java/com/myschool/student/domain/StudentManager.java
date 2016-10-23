@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.application.domain.ProfileManager;
-import com.myschool.application.dto.MySchoolProfileDto;
 import com.myschool.clazz.dao.RegisteredClassDao;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.assembler.ImageDataAssembler;
@@ -32,9 +30,8 @@ import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.infra.storage.StorageAccessAgent;
 import com.myschool.infra.storage.exception.StorageAccessException;
-import com.myschool.notification.constants.NotificationEndPoint;
-import com.myschool.notification.constants.NotificationType;
-import com.myschool.notification.domain.NotificationManager;
+import com.myschool.organization.dao.OrganizationManager;
+import com.myschool.organization.dto.OrganizationPreferences;
 import com.myschool.storage.dto.StorageItem;
 import com.myschool.student.dao.StudentDao;
 import com.myschool.student.dao.StudentDocumentDao;
@@ -61,13 +58,12 @@ public class StudentManager {
     @Autowired
     private UserManager userManager;
 
-    /** The notification manager. */
+    /** The notification manager. *//*
     @Autowired
-    private NotificationManager notificationManager;
+    private NotificationManager notificationManager;*/
 
-    /** The profile manager. */
     @Autowired
-    private ProfileManager profileManager;
+    private OrganizationManager organizationManager;
 
     /** The student dao. */
     @Autowired
@@ -609,47 +605,45 @@ public class StudentManager {
         List<Integer> smsNotifyingIds = new ArrayList<Integer>();
 
         if (familyMembers != null && !familyMembers.isEmpty()) {
-            MySchoolProfileDto mySchoolProfile = profileManager.getMyschoolProfile();
+            OrganizationPreferences preferences = organizationManager.getOrganizationPreferences();
             for (FamilyMemberDto familyMember : familyMembers) {
                 if (familyMember != null) {
                     int familyMemberId = familyMember.getFamilyMemberId();
-                    if (canMailParents(mySchoolProfile, familyMember)) {
+                    if (canMailParents(preferences, familyMember)) {
                         mailNotifyingIds.add(familyMemberId);
                     }
-                    if (canSmsParents(mySchoolProfile, familyMember)) {
+                    if (canSmsParents(preferences, familyMember)) {
                         smsNotifyingIds.add(familyMemberId);
                     }
                 }
             }
-            notificationManager.createNotification(
+            /*notificationManager.createNotification(
                     NotificationEndPoint.STUDENT,
                     NotificationType.REGISTRATION, mailNotifyingIds,
-                    smsNotifyingIds);
+                    smsNotifyingIds);*/
         }
     }
 
     /**
      * Can mail parents.
      * 
-     * @param mySchoolProfile the my school profile
      * @param familyMember the family member
      * @return true, if successful
      */
-    public boolean canMailParents(MySchoolProfileDto mySchoolProfile,
+    public boolean canMailParents(OrganizationPreferences preferences,
             FamilyMemberDto familyMember) {
-        return mySchoolProfile.isEmailActive() && mySchoolProfile.isEmailStudents() && familyMember.isAvailEmail();
+        return preferences.isEmailActive() && preferences.isEmailStudents() && familyMember.isAvailEmail();
     }
 
     /**
      * Can sms parents.
      * 
-     * @param mySchoolProfile the my school profile
      * @param familyMember the family member
      * @return true, if successful
      */
-    public boolean canSmsParents(MySchoolProfileDto mySchoolProfile,
+    public boolean canSmsParents(OrganizationPreferences preferences,
             FamilyMemberDto familyMember) {
-        return mySchoolProfile.isSmsActive() && mySchoolProfile.isSmsStudents() && familyMember.isAvailEmail();
+        return preferences.isSmsActive() && preferences.isSmsStudents() && familyMember.isAvailEmail();
     }
 
     /**
@@ -664,20 +658,20 @@ public class StudentManager {
         if (user == null) {
             int userId = userManager.createUser(student);
             if (userId > 0) {
-                MySchoolProfileDto myschoolProfile = profileManager.getMyschoolProfile();
+                OrganizationPreferences preferences = organizationManager.getOrganizationPreferences();
                 List<Integer> mailNotifyingIds = new ArrayList<Integer>();
                 List<Integer> smsNotifyingIds = new ArrayList<Integer>();
                 List<FamilyMemberDto> familyMembers = student.getFamilyMembers();
-                if (notifyEmail(myschoolProfile, familyMembers)) {
+                if (notifyEmail(preferences, familyMembers)) {
                     mailNotifyingIds.add(studentId);
                 }
-                if (notifySMS(myschoolProfile, familyMembers)) {
+                if (notifySMS(preferences, familyMembers)) {
                     smsNotifyingIds.add(studentId);
                 }
-                notificationManager.createNotification(
+                /*notificationManager.createNotification(
                         NotificationEndPoint.STUDENT,
                         NotificationType.REGISTRATION, mailNotifyingIds,
-                        smsNotifyingIds);
+                        smsNotifyingIds);*/
             }
         }
     }
@@ -685,14 +679,12 @@ public class StudentManager {
     /**
      * Notify email.
      * 
-     * @param myschoolProfile the myschool profile
      * @param familyMembers the family members
      * @return true, if successful
      */
-    public boolean notifyEmail(
-            MySchoolProfileDto myschoolProfile,
+    public boolean notifyEmail(OrganizationPreferences preferences,
             List<FamilyMemberDto> familyMembers) {
-        if (myschoolProfile.isEmailActive() && myschoolProfile.isEmailStudents()) {
+        if (preferences.isEmailActive() && preferences.isEmailStudents()) {
             if (familyMembers != null && !familyMembers.isEmpty()) {
                 for (FamilyMemberDto familyMember : familyMembers) {
                     if (familyMember != null) {
@@ -710,14 +702,12 @@ public class StudentManager {
     /**
      * Notify sms.
      * 
-     * @param myschoolProfile the myschool profile
      * @param familyMembers the family members
      * @return true, if successful
      */
-    public boolean notifySMS(
-            MySchoolProfileDto myschoolProfile,
+    public boolean notifySMS(OrganizationPreferences preferences,
             List<FamilyMemberDto> familyMembers) {
-        if (myschoolProfile.isSmsActive() && myschoolProfile.isSmsStudents()) {
+        if (preferences.isSmsActive() && preferences.isSmsStudents()) {
             if (familyMembers != null && !familyMembers.isEmpty()) {
                 for (FamilyMemberDto familyMember : familyMembers) {
                     if (familyMember != null) {

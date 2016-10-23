@@ -1,7 +1,7 @@
 package com.myschool.report.dto;
 
 /**
- * The Enum ReportCriteriaToken.
+ * The class ReportCriteriaToken.
  */
 public class ReportCriteriaToken {
 

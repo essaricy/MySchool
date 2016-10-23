@@ -11,14 +11,17 @@ public class WebConstants {
     /** The Constant USER_CONTEXT. */
     public static final String USER_CONTEXT = "USER_CONTEXT";
 
-    /** The Constant MYSCHOOL_PROFILE. */
-    public static final String MYSCHOOL_PROFILE = "MYSCHOOL_PROFILE";
-
     /** The Constant VIEW_ONLY. */
     public static final String VIEW_ONLY = "VIEW_ONLY";
 
-    /** The Constant ORGANIZATION_PROFILE. */
-    public static final String ORGANIZATION_PROFILE = "ORGANIZATION_PROFILE";
+    /** The Constant ORGANIZATION. */
+    public static final String ORGANIZATION = "ORGANIZATION";
+
+    /** The Constant ORGANIZATION_PREFERENCES. */
+    public static final String ORGANIZATION_PREFERENCES = "ORGANIZATION_PREFERENCES";
+
+    /** The Constant ORGANIZATION_MANIFEST. */
+    public static final String ORGANIZATION_MANIFEST = "ORGANIZATION_MANIFEST";
 
     /** The Constant STUDENT. */
     public static final String STUDENT = "Student";
