@@ -32,7 +32,6 @@ import com.myschool.employee.dao.EmployeeExperienceDao;
 import com.myschool.employee.dao.EmployeePromotionDao;
 import com.myschool.employee.dao.EmployeeSubjectDao;
 import com.myschool.employee.dao.EmploymentStatusDao;
-import com.myschool.employee.domain.EmployeeManager;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeeContact;
 import com.myschool.employee.dto.EmployeeDocument;
@@ -69,10 +68,6 @@ public class EmployeeEximManager extends AbstractEximManager {
 
     /** The Constant EMPLOYEE_SUBJECT_UPDATE_FAIL. */
     private static final String EMPLOYEE_SUBJECT_UPDATE_FAIL = "Subject ({0}) in Class ({1}) already assigned to Employee ({2})";
-
-    /** The employee manager. */
-    @Autowired
-    private EmployeeManager employeeManager;
 
     /** The employee dao. */
     @Autowired

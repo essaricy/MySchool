@@ -39,12 +39,14 @@ public class FreeMarkerTemplateAgent extends TemplateAgent {
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(FreeMarkerTemplateAgent.class);
 
+    /** The agents. */
     @Autowired
     private Agents agents;
 
     /** The configuration. */
     private Configuration configuration;
 
+    /** The web profile. */
     private WebProfile webProfile;
 
     /* (non-Javadoc)
@@ -88,7 +90,7 @@ public class FreeMarkerTemplateAgent extends TemplateAgent {
      * @see com.myschool.infra.template.agent.TemplateAgent#generateText(com.myschool.template.dto.Template, com.myschool.infra.notification.Message)
      */
     @Override
-    protected String generateText(Template template, Message message) throws MessageGenerationException {
+    public String generateText(Template template, Message message) throws MessageGenerationException {
         String output = null;
         try {
             LOGGER.info("enter text - " + message.getId());
@@ -121,7 +123,7 @@ public class FreeMarkerTemplateAgent extends TemplateAgent {
      * @see com.myschool.infra.template.agent.TemplateAgent#generateFile(com.myschool.template.dto.Template, com.myschool.infra.notification.Message, java.io.File)
      */
     @Override
-    protected void generateFile(Template template, Message message, File output) throws MessageGenerationException {
+    public void generateFile(Template template, Message message, File output) throws MessageGenerationException {
         Writer writer = null;
         try {
             LOGGER.info("enter file - " + message.getId());

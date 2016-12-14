@@ -13,15 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.branch.service.BranchService;
 import com.myschool.clazz.dto.SubjectDto;
-import com.myschool.clazz.service.ClassService;
 import com.myschool.clazz.service.SubjectService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
-import com.myschool.school.service.SchoolService;
 import com.myschool.web.clazz.constants.ClazzViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
@@ -37,18 +34,6 @@ public class SubjectController {
     /** The subject service. */
     @Autowired
     private SubjectService subjectService;
-
-    /** The school service. */
-    @Autowired
-    private SchoolService schoolService;
-
-    /** The class service. */
-    @Autowired
-    private ClassService classService;
-
-    /** The branch service. */
-    @Autowired
-    private BranchService branchService;
 
     /** The view error handler. */
     @Autowired

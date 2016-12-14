@@ -5,8 +5,8 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
+import com.myschool.file.util.FileUtil;
 import com.myschool.image.constant.ImageSize;
-import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.image.dto.ImageResizingOptionDto;
 
 import net.coobird.thumbnailator.Thumbnails;

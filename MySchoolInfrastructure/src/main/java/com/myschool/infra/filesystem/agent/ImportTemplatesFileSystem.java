@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.exim.constants.EximPolicy;
-import com.myschool.infra.filesystem.util.FileUtil;
+import com.myschool.file.util.FileUtil;
 
 /**
  * The Class ImportTemplatesFileSystem.

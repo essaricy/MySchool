@@ -25,7 +25,6 @@ import com.myschool.exim.dto.UploadTrackerDto;
 import com.myschool.exim.exception.EximException;
 import com.myschool.exim.service.EximService;
 import com.myschool.exim.service.UploadService;
-import com.myschool.infra.database.factory.DatabaseAgentFactory;
 
 /**
  * The Class DataExternalizer.
@@ -42,10 +41,6 @@ public class DataExternalizer implements Externalize {
     /** The exim service. */
     @Autowired
     private EximService eximService;
-
-    /** The database agent factory. */
-    @Autowired
-    private DatabaseAgentFactory databaseAgentFactory;
 
     /** The upload service. */
     @Autowired

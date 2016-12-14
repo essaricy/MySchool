@@ -13,7 +13,6 @@ import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.SectionDto;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -35,10 +34,6 @@ public class StudentReportBuilder extends SimpleListingReportBuilder {
     /** The student manager. */
     @Autowired
     private StudentManager studentManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

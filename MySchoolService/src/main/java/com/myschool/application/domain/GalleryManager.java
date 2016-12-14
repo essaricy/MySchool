@@ -12,7 +12,7 @@ import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.StringUtil;
-import com.myschool.infra.filesystem.util.FileUtil;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.storage.StorageAccessAgent;
 import com.myschool.infra.storage.exception.StorageAccessException;
 import com.myschool.organization.dao.OrganizationManager;

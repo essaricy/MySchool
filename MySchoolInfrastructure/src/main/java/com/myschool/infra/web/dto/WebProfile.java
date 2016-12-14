@@ -19,6 +19,9 @@ public class WebProfile implements Serializable {
     /** The contact us. */
     private WebContent contactUs;
 
+    /** The verify email. */
+    private WebContent verifyEmail;
+
     /** The unsubscribe. */
     private WebContent unsubscribe;
 
@@ -89,6 +92,24 @@ public class WebProfile implements Serializable {
      */
     public void setContactUs(WebContent contactUs) {
         this.contactUs = contactUs;
+    }
+
+    /**
+     * Gets the verify email.
+     *
+     * @return the verifyEmail
+     */
+    public WebContent getVerifyEmail() {
+        return verifyEmail;
+    }
+
+    /**
+     * Sets the verify email.
+     *
+     * @param verifyEmail the verifyEmail to set
+     */
+    public void setVerifyEmail(WebContent verifyEmail) {
+        this.verifyEmail = verifyEmail;
     }
 
     /**
@@ -207,6 +228,7 @@ public class WebProfile implements Serializable {
         StringBuilder builder = new StringBuilder();
         builder.append("WebProfile [logo=").append(logo).append(", noImage=")
                 .append(noImage).append(", contactUs=").append(contactUs)
+                .append(", verifyEmail=").append(verifyEmail)
                 .append(", unsubscribe=").append(unsubscribe)
                 .append(", website=").append(website)
                 .append(", changePassword=").append(changePassword)

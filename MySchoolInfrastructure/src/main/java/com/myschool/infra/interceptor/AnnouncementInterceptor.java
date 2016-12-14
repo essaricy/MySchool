@@ -9,9 +9,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class AnnouncementInterceptor {
 
-    private static final String CREATE_BRANCH = "A New Branch is opened at {0}, {1}";
+    //private static final String CREATE_BRANCH = "A New Branch is opened at {0}, {1}";
 
-    private static final String CREATE_DIVISION = "Introducing a new Division {0}";
+    //private static final String CREATE_DIVISION = "Introducing a new Division {0}";
 
     @After("execution(* com.myschool.*.service.*ServiceImpl.create(..))")
     public void afterCreate(JoinPoint joinPoint) {/*

@@ -13,7 +13,6 @@ import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.domain.EmployeeEducationManager;
 import com.myschool.employee.dto.EmployeeEducation;
-import com.myschool.exim.domain.EmployeeEximManager;
 
 /**
  * The Class EmployeeEducationValidator.
@@ -24,10 +23,6 @@ public class EmployeeEducationValidator extends AbstractValidator<EmployeeEducat
     /** The employee Education manager. */
     @Autowired
     private EmployeeEducationManager employeeEducationManager;
-
-    /** The employee exim manager. */
-    @Autowired
-    private EmployeeEximManager employeeEximManager;
 
     /* (non-Javadoc)
      * @see com.myschool.common.validator.AbstractValidator#doValidate(java.lang.Object)

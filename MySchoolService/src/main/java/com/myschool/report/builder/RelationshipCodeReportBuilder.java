@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.myschool.application.domain.RelationshipManager;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -23,10 +22,6 @@ public class RelationshipCodeReportBuilder extends SimpleListingReportBuilder {
     /** The relationship manager. */
     @Autowired
     private RelationshipManager relationshipManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

@@ -17,7 +17,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.util.FileUtil;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.template.constants.TemplateConfigConstants;
 import com.myschool.template.dto.Template;
 import com.myschool.template.dto.TemplateConfig;

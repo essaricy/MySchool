@@ -3,7 +3,6 @@ package com.myschool.infra.notification.agent;
 import java.io.File;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,14 +14,18 @@ import com.myschool.infra.agent.AbstractAgent;
 import com.myschool.infra.application.Agents;
 import com.myschool.infra.data.agent.DataGeneratorAgent;
 import com.myschool.infra.email.agent.EmailServerAgent;
+import com.myschool.infra.notification.Message;
+import com.myschool.infra.notification.constants.NotificationConstants;
 import com.myschool.infra.notification.reader.NotificationConfigReader;
 import com.myschool.infra.template.agent.TemplateAgent;
 import com.myschool.infra.template.exception.MessageGenerationException;
 import com.myschool.infra.webserver.agent.WebServerAgent;
+import com.myschool.notification.dto.Notification;
 import com.myschool.notification.dto.NotificationConfig;
-import com.myschool.notification.dto.NotificationTemplate;
 import com.myschool.notification.exception.NotificationException;
 import com.myschool.organization.dto.Organization;
+import com.myschool.template.dto.Template;
+import com.myschool.token.dto.Token;
 
 /**
  * The Class NotificationAgent.
@@ -31,7 +34,7 @@ import com.myschool.organization.dto.Organization;
 public class NotificationAgent extends AbstractAgent {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(NotificationAgent.class);
+    //private static final Logger LOGGER = Logger.getLogger(NotificationAgent.class);
 
     /** The email server agent. */
     @Autowired
@@ -63,6 +66,18 @@ public class NotificationAgent extends AbstractAgent {
         // TODO for each type of template there will be a subject. maintain it here
         // TODO from address list configuration
         // TODO have a priority queue here.
+        
+        notificationConfig = notificationConfigReader.getNotificationConfig(configFile);
+        System.out.println("notificationConfig=" + notificationConfig);
+        List<Notification> notifications = notificationConfig.getNotifications();
+
+        if (notifications != null && !notifications.isEmpty()) {
+            for (Notification notification : notifications) {
+                String id = notification.getId();
+                Template template = templateAgent.getTemplate(id);
+                notification.setTemplate(template);
+            }
+        }
     }
 
     /* (non-Javadoc)
@@ -73,32 +88,31 @@ public class NotificationAgent extends AbstractAgent {
         try {
             WebServerAgent webServerAgent = agents.getWebServerAgent();
             if (webServerAgent.isWebServer()) {
-                emailServerAgent.sendEmail("allstudents.in@gmail.com", "mail2srikanthkumar@gmail.com", "Appserver started", "MySchool Application server has been started.");
+                Token token = new Token();
+                // TODO send to "Application Support" group
+                token.setConsumedBy("srikanthkumar.ragi@gmail.com");
+                token.setNecessity(NotificationConstants.APPSERVER_STARTUP);
+                token.setTokenId(dataGeneratorAgent.getUniqueId());
+                sendNotification(null, null, token);
             }
-        } catch (EmailException e) {
-            e.printStackTrace();
+        } catch (NotificationException notificationException) {
+            throw new AgentException(notificationException.getMessage(), notificationException);
         }
     }
 
-    /**
-     * Send change password request.
-     *
-     * @param organizationProfile the organization profile
-     * @param emailId the email id
-     * @param tokenId the token id
-     * @throws NotificationException 
-     */
-    public void sendChangePasswordRequest(Organization organizationProfile,
-            String emailId, String tokenId) throws NotificationException {
+    public void sendNotification(Organization organization, Person sendTo,
+            Token token) throws NotificationException {
         try {
-            Person sendTo = new Person();
-            sendTo.setEmailId(emailId);
-            sendTo.setFirstName("First");
-            sendTo.setLastName("Last");
-            sendTo.setMiddleName("Middle");
+            String emailId = token.getConsumedBy();
 
-            String output = templateAgent.generateChangePasswordRequest(sendTo);
-            emailServerAgent.sendEmail("MySchool", emailId, "Forgot Password?", output);
+            Message message = new Message();
+            message.setId(token.getTokenId());
+            message.setSendTo(sendTo);
+
+            Notification notification = getNotification(token.getNecessity());
+            String output = templateAgent.generateText(notification.getTemplate(), message);
+
+            emailServerAgent.sendEmail(emailId, notification.getTitle(), output);
         } catch (MessageGenerationException messageGenerationException) {
             throw new NotificationException(messageGenerationException.getMessage(), messageGenerationException);
         } catch (EmailException emailException) {
@@ -106,19 +120,24 @@ public class NotificationAgent extends AbstractAgent {
         }
     }
 
-    /**
-     * Gets the template.
-     *
-     * @param templateName the template name
-     * @return the template
-     */
-    private NotificationTemplate getTemplate(String templateName) {
-        List<NotificationTemplate> notificationTemplates = notificationConfig.getNotificationTemplates();
-        for (NotificationTemplate notificationTemplate : notificationTemplates) {
-            String name = notificationTemplate.getName();
-            if (name.equals(templateName)) {
-                return notificationTemplate;
+    private Notification getNotification(String id) {
+        List<Notification> notifications = notificationConfig.getNotifications();
+        for (Notification notification : notifications) {
+            if (id.equals(notification.getId())) {
+                return notification;
             }
+        }
+        return null;
+    }
+
+    public Token getTokenDetails(String id, String emailId) {
+        Token token = null;
+        Notification notification = getNotification(id);
+        if (notification != null) {
+            token = new Token();
+            token.setConsumedBy(emailId);
+            token.setNecessity(notification.getId());
+            token.setValidity(notification.getValidity());
         }
         return null;
     }

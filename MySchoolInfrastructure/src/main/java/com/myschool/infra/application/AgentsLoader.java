@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.agent.Agent;
 import com.myschool.infra.agent.factory.AgentFactory;
 import com.myschool.infra.agent.factory.AgentFactoryFactory;
 import com.myschool.infra.application.dto.AgentDto;
-import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.webserver.factory.WebserverAgentFactory;
 
 /**
@@ -59,29 +59,22 @@ public class AgentsLoader {
                 className = agentConfig.getClassName();
                 configFile = agentConfig.getConfigFile();
 
+                //System.out.println("agentId=" + agentId);
                 agentFactory = agentFactoryFactory.getAgentFactory(agentId);
                 if (agentFactory == null) {
                     throw new AgentException("Agent Factory not found for the agent " + agentId);
                 }
                 if (agentFactory instanceof WebserverAgentFactory) {
                     agent = ((WebserverAgentFactory) agentFactory).getAgent();
-                    if (agent == null) {
-                        throw new AgentException("Agent not found for the agent " + agentId);
-                    }
-                    agent.setFileSystemProperties(fileSystemProperties);
                 } else {
                     agent = agentFactory.getAgent(className);
-                    if (agent == null) {
-                        throw new AgentException("Agent not found for the agent " + agentId);
-                    }
-                    if (configFile == null) {
-                    } else {
-                        message = configFile + " is missing/inaccessible for the agent " + agentId;
-                        FileUtil.checkFile(configFile.getAbsolutePath(), message, message);
-                        agent.setFileSystemProperties(fileSystemProperties);
-                        agent.loadConfiguration(configFile); 
-                    }
                 }
+                if (configFile != null) {
+                    message = configFile + " is missing/inaccessible for the agent " + agentId;
+                    FileUtil.checkFile(configFile.getAbsolutePath(), message, message);
+                    agent.loadConfiguration(configFile);
+                }
+                agent.setFileSystemProperties(fileSystemProperties);
                 agent.validate();
                 LOGGER.info("Loaded agent '" + agentId + "' successfully.");
                 agents.put(agentId, agent);

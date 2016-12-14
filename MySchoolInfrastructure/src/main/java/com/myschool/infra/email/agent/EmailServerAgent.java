@@ -138,14 +138,14 @@ public class EmailServerAgent extends AbstractAgent {
      * @param aBody the a body
      * @throws EmailException the email exception
      */
-    public void sendEmail(String fromAddress, String toAddress,
+    public void sendEmail(/*String fromAddress, */String toAddress,
             String aSubject, String aBody) throws EmailException {
         try {
             Session session = getEmailSession();
             // Create a default MimeMessage object.
             MimeMessage message = new MimeMessage(session);
             // Set From: header field of the header.
-            message.setFrom(new InternetAddress(fromAddress));
+            //message.setFrom(new InternetAddress(fromAddress));
             // Set To: header field of the header.
             addRecipients(toAddress, message);
             // Set Subject: header field

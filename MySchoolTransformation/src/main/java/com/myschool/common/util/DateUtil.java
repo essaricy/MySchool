@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 import com.myschool.common.exception.InvalidDataException;
 
@@ -364,6 +365,50 @@ public class DateUtil {
             return MONTH_NAMES[monthNumber-1];
         }
         return null;
+    }
+
+    public static long getSecondsFromOffset(String offset) {
+        /*
+        * notation examples = 3d, 30s
+        * s    seconds
+        * m    minutes
+        * h    hours
+        * d    days
+        * M    months
+        * y    years
+        * */
+        long seconds = 0;
+        if (offset != null) {
+                if (Pattern.matches("\\d{1}s", offset) || Pattern.matches("\\d{2}s", offset)) {
+                        seconds = Long.parseLong(offset.substring(0, offset.indexOf("s")));
+                } else if (Pattern.matches("\\d{1}m", offset) || Pattern.matches("\\d{2}m", offset)) {
+                        seconds = Long.parseLong(offset.substring(0, offset.indexOf("m"))) * 60;
+                } else if (Pattern.matches("\\d{1}h", offset) || Pattern.matches("\\d{2}h", offset)) {
+                        seconds = Long.parseLong(offset.substring(0, offset.indexOf("h"))) * 60 * 60;
+                } else if (Pattern.matches("\\d{1}d", offset) || Pattern.matches("\\d{2}d", offset)) {
+                        seconds = Long.parseLong(offset.substring(0, offset.indexOf("d"))) * 60 * 60 * 24;
+                } else if (Pattern.matches("\\d{1}M", offset) || Pattern.matches("\\d{2}M", offset)) {
+                        seconds = Long.parseLong(offset.substring(0, offset.indexOf("M"))) * 60 * 60 * 24 * 30;
+                } else if (Pattern.matches("\\d{1}y", offset) || Pattern.matches("\\d{2}y", offset)) {
+                        seconds = Long.parseLong(offset.substring(0, offset.indexOf("y"))) * 60 * 60 * 24 * 30 * 365;
+                }
+        }
+        return seconds;
+    }
+
+    public static long getMillisFromOffset(String offset) {
+        long value = getSecondsFromOffset(offset);
+        return value * 1000;
+    }
+
+    public static long getMinutesFromOffset(String offset) {
+        long value = getSecondsFromOffset(offset);
+        return (value==0)?value:value/60;
+    }
+
+    public static long getHoursFromOffset(String offset) {
+        long value = getMinutesFromOffset(offset);
+        return (value==0)?value:value/60;
     }
 
 }

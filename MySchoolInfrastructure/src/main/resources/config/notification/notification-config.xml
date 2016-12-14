@@ -1,8 +1,11 @@
 <notification-config>
 
     <notifications>
-        <notification id="ChangePasswordRequest" from-name="MySchool" title="Forgot Password?" validity="12h" />
-        <notification id="ChangePasswordComplete" from-name="MySchool" title="Your password has been changed" />
+        <notification id="AppServerStartup" title="Application Server has been started" />
+
+        <notification id="ChangePasswordRequest" title="Forgot Password?" validity="12h" />
+        <notification id="ChangePasswordComplete" title="Your password has been changed" />
+        <notification id="EmailAddressVerification" title="Verify your email address" validity="12h" />
 
         <!-- modify below -->
         <!-- <notification mode="EMAIL" end-point="STUDENT">

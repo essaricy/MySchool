@@ -17,7 +17,6 @@ import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
 import com.myschool.branch.dto.RegionDto;
 import com.myschool.branch.dto.StateDto;
-import com.myschool.branch.service.BranchService;
 import com.myschool.clazz.dto.ClassDto;
 import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
@@ -52,10 +51,6 @@ public class ClassController {
     /** The registered class service. */
     @Autowired
     private RegisteredClassService registeredClassService;
-
-    /** The branch service. */
-    @Autowired
-    private BranchService branchService;
 
     /** The school service. */
     @Autowired

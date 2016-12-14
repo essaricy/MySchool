@@ -9,10 +9,9 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.file.constant.FileExtension;
+import com.myschool.file.util.FileUtil;
 import com.myschool.image.constant.ImageSize;
-import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.image.agent.ImageScalingAgent;
-import com.myschool.infra.oxo.agent.OxoAgent;
 import com.myschool.sautil.base.StandAloneUtility;
 
 /**
@@ -30,9 +29,6 @@ public class ImageScalingProcessor extends StandAloneUtility {
     /** The image scaling agent. */
     @Autowired
     private ImageScalingAgent imageScalingAgent;
-
-    @Autowired
-    private OxoAgent oxoAgent;
 
     /* (non-Javadoc)
      * @see com.myschool.sautil.base.StandAloneUtility#validateParameters()

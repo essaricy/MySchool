@@ -3,7 +3,6 @@ package com.myschool.infra.template.agent;
 import java.io.File;
 import java.text.MessageFormat;
 import java.util.List;
-import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,7 +150,7 @@ public abstract class TemplateAgent extends AbstractAgent {
      * @return the string
      * @throws MessageGenerationException the message generation exception
      */
-    protected abstract String generateText(Template template, Message message) throws MessageGenerationException;
+    public abstract String generateText(Template template, Message message) throws MessageGenerationException;
 
     /**
      * Generate file.
@@ -161,7 +160,7 @@ public abstract class TemplateAgent extends AbstractAgent {
      * @param output the output
      * @throws MessageGenerationException the message generation exception
      */
-    protected abstract void generateFile(Template template, Message message, File output) throws MessageGenerationException;
+    public abstract void generateFile(Template template, Message message, File output) throws MessageGenerationException;
 
     /**
      * Gets the template base.
@@ -178,7 +177,7 @@ public abstract class TemplateAgent extends AbstractAgent {
      * @param id the id
      * @return the template
      */
-    protected Template getTemplate(String id) {
+    public Template getTemplate(String id) {
         List<TemplateGroup> templateGroups = templateConfig.getTemplateGroups();
         if (templateGroups != null && !templateGroups.isEmpty()) {
             for (TemplateGroup templateGroup : templateGroups) {
@@ -202,11 +201,11 @@ public abstract class TemplateAgent extends AbstractAgent {
      * @return the string
      * @throws MessageGenerationException the message generation exception
      */
-    public String generateChangePasswordRequest(Person sendTo) throws MessageGenerationException {
+    /*public String generateChangePasswordRequest(Person sendTo) throws MessageGenerationException {
         Message message = new Message();
         message.setId(UUID.randomUUID().toString());
         message.setSendTo(sendTo);
         return generateText(getTemplate("ChangePasswordRequest"), message);
-    }
+    }*/
 
 }

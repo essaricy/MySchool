@@ -2,7 +2,6 @@ package com.myschool.infra.middleware.agent;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.infra.application.constants.CommandName;
@@ -30,8 +29,8 @@ public class MiddlewareStandaloneBridge {
     public static final String OPTION_TRACKER_ID = "--tracker-id";
 
     /** The middleware message helper. */
-    @Autowired
-    private MiddlewareMessageHelper middlewareMessageHelper;
+    /*@Autowired
+    private MiddlewareMessageHelper middlewareMessageHelper;*/
 
     /**
      * Send stand alone command.

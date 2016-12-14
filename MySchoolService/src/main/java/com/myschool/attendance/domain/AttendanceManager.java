@@ -2,16 +2,13 @@ package com.myschool.attendance.domain;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.academic.dao.HolidayDao;
 import com.myschool.attendance.dao.AttendanceDao;
 import com.myschool.attendance.dto.AttendanceCodeDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
-import com.myschool.student.dao.StudentDao;
 
 /**
  * The Class AttendanceManager.
@@ -20,15 +17,7 @@ import com.myschool.student.dao.StudentDao;
 public class AttendanceManager {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(AttendanceManager.class);
-
-    /** The student dao. */
-    @Autowired
-    private StudentDao studentDao;
-
-    /** The holiday dao. */
-    @Autowired
-    private HolidayDao holidayDao;
+    //private static final Logger LOGGER = Logger.getLogger(AttendanceManager.class);
 
     /** The attendance dao. */
     @Autowired

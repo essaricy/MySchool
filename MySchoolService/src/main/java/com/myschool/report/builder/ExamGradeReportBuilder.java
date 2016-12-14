@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.exam.domain.ExamGradeManager;
 import com.myschool.exam.dto.ExamGradeDto;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
@@ -26,10 +25,6 @@ public class ExamGradeReportBuilder extends SimpleListingReportBuilder {
     /** The exam grade manager. */
     @Autowired
     private ExamGradeManager examGradeManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

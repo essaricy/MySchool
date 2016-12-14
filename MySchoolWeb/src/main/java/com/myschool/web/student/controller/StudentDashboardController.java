@@ -24,13 +24,11 @@ import com.myschool.exam.assembler.StudentExamDataAssembler;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.StudentExamsSummaryDto;
 import com.myschool.exam.dto.StudentInExamDto;
-import com.myschool.exam.service.ExamGradeService;
 import com.myschool.exam.service.ExamService;
 import com.myschool.exam.service.StudentExamService;
 import com.myschool.graph.assembler.ChartDataAssembler;
 import com.myschool.graph.dto.LineChartDto;
 import com.myschool.student.dto.StudentDto;
-import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.util.HttpUtil;
 
@@ -55,17 +53,9 @@ public class StudentDashboardController {
     @Autowired
     private ExamService examService;
 
-    /** The exam grade service. */
-    @Autowired
-    private ExamGradeService examGradeService;
-
     /** The student exam service. */
     @Autowired
     private StudentExamService studentExamService;
-
-    /** The student service. */
-    @Autowired
-    private StudentService studentService;
 
     /**
      * Private announcements.

@@ -10,9 +10,9 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.SecureRandomGenerator;
 import com.myschool.file.constant.FileExtension;
+import com.myschool.file.util.FileUtil;
 import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.image.constant.ImageSize;
-import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.infra.image.agent.ImageScalingAgent;
 
 /**

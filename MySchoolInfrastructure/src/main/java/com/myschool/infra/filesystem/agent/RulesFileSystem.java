@@ -12,10 +12,10 @@ import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.exim.constants.EximPolicy;
 import com.myschool.file.constant.FileExtension;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.cache.agent.InMemoryCacheAgent;
 import com.myschool.infra.filesystem.exception.RuleException;
 import com.myschool.infra.filesystem.reader.RulesConfigReader;
-import com.myschool.infra.filesystem.util.FileUtil;
 
 /**
  * The Class RulesFileSystem.

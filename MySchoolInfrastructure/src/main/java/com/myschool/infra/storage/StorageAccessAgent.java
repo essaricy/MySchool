@@ -923,7 +923,7 @@ public abstract class StorageAccessAgent<T> extends AbstractAgent {
                     if (storageItems == null) {
                         storageItems = new ArrayList<StorageItem>();
                     }
-                    String name = key.substring(storagePath.length() + 1);
+                    //String name = key.substring(storagePath.length() + 1);
                     storageItem = createStorageItem(file);
                     storageItems.add(storageItem);
                 } catch (StorageAccessException storageAccessException) {

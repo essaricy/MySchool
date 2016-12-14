@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 import com.myschool.branch.domain.DivisionManager;
 import com.myschool.branch.dto.DivisionDto;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -26,10 +25,6 @@ public class DivisionReportBuilder extends SimpleListingReportBuilder {
     /** The division manager. */
     @Autowired
     private DivisionManager divisionManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

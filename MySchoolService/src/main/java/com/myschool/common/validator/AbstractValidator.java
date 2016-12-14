@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.dao.DocumentDao;
-import com.myschool.clazz.dao.ClassDao;
 import com.myschool.clazz.dao.RegisteredClassDao;
 import com.myschool.clazz.dao.RegisteredSubjectDao;
 import com.myschool.clazz.dto.RegisteredClassDto;
@@ -43,10 +42,6 @@ public abstract class AbstractValidator<Type> {
     /** The designation dao. */
     @Autowired
     private DesignationDao designationDao;
-
-    /** The class dao. */
-    @Autowired
-    private ClassDao classDao;
 
     /** The registered class dao. */
     @Autowired

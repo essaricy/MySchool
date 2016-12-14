@@ -1,4 +1,4 @@
-<web-config url="@@APP.WEB.URL@@">
+<web-config url="@@APPL.WEB.URL@@">
 
     <web-resources>
         <web-resource name="Logo" link-url="" image-url="@@APP.LOGO.URL@@" passport-url="" thumb-url="" />
@@ -7,6 +7,7 @@
         <web-resource name="ContactUs" link-url="@@APP.CONTACTUS.URL@@" image-url="" passport-url="" thumb-url="" />
         <web-resource name="ChangePassword" link-url="@@APP.CHANGEPWD.URL@@" image-url="" passport-url="" thumb-url="" />
         <web-resource name="Unsubscribe" link-url="@@APP.UNSUBSCRIBE.URL@@" image-url="" passport-url="" thumb-url="" />
+        <web-resource name="VerifyEmailAddress" link-url="@@APP.UNSUBSCRIBE.URL@@" image-url="" passport-url="" thumb-url="" />
 
         <web-resource name="Social-facebook" link-url="@@APP.FACEBOOK.LINK@@" image-url="@@APP.FACEBOOK.IMG@@" passport-url="" thumb-url="" />
         <web-resource name="Social-twitter" link-url="@@APP.TWITTER.LINK@@" image-url="@@APP.TWITTER.IMG@@" passport-url="" thumb-url="" />

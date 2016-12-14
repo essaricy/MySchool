@@ -13,7 +13,6 @@ import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.domain.EmployeeDocumentManager;
 import com.myschool.employee.dto.EmployeeDocument;
-import com.myschool.exim.domain.EmployeeEximManager;
 import com.myschool.user.constants.UserType;
 
 /**
@@ -25,10 +24,6 @@ public class EmployeeDocumentValidator extends AbstractValidator<EmployeeDocumen
     /** The employee document manager. */
     @Autowired
     private EmployeeDocumentManager employeeDocumentManager;
-
-    /** The employee exim manager. */
-    @Autowired
-    private EmployeeEximManager employeeEximManager;
 
     /* (non-Javadoc)
      * @see com.myschool.common.validator.AbstractValidator#doValidate(java.lang.Object)

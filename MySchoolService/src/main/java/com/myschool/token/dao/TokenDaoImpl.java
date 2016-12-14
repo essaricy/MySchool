@@ -119,7 +119,7 @@ public class TokenDaoImpl implements TokenDao {
             preparedStatement.setString(3, token.getNecessity());
             preparedStatement.setDate(4, new Date(System.currentTimeMillis()));
             //preparedStatement.setString(4, token.getDisposedOn());
-            preparedStatement.setInt(5, token.getValidity());
+            preparedStatement.setInt(5, (int) token.getValidity());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException sqlException) {
             throw new DaoException(sqlException.getMessage(), sqlException);

@@ -26,7 +26,7 @@ public class Token implements Serializable {
     private String disposedOn;
 
     /** The validity. */
-    private int validity;
+    private long validity;
 
     /**
      * Gets the token id.
@@ -123,7 +123,7 @@ public class Token implements Serializable {
      *
      * @return the validity
      */
-    public int getValidity() {
+    public long getValidity() {
         return validity;
     }
 
@@ -132,7 +132,7 @@ public class Token implements Serializable {
      *
      * @param validity the validity to set
      */
-    public void setValidity(int validity) {
+    public void setValidity(long validity) {
         this.validity = validity;
     }
 

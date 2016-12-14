@@ -536,11 +536,14 @@
         <field alias="InputFile" name="inputFile" type="java.io.File"/>
         <field alias="OutputFile" name="outputFile" type="java.io.File"/>
     </object-xml-mapping>
+    <object-xml-mapping name="Notification" type="com.myschool.notification.dto.Notification">
+        <field alias="Id" name="id"/>
+        <field alias="Title" name="title"/>
+        <field alias="Validity" name="validity"/>
+        <field alias="Template" name="template" type="com.myschool.template.dto.Template"/>
+    </object-xml-mapping>
     <object-xml-mapping name="NotificationConfig" type="com.myschool.notification.dto.NotificationConfig">
-        <field alias="BaseDir" name="baseDir"/>
-        <field alias="TemplatesBase" name="templatesBase"/>
-        <field alias="SamplesBase" name="samplesBase"/>
-        <field alias="NotificationTemplates" name="notificationTemplates" type="java.util.List"/>
+        <field alias="Notifications" name="notifications" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="NotificationCriteria" type="com.myschool.notification.dto.NotificationCriteriaDto">
         <field alias="EndPoint" name="endPoint"/>
@@ -554,13 +557,6 @@
         <field alias="NotificationId" name="notificationId"/>
         <field alias="NotificationDetailSendTo" name="notificationDetailSendTo"/>
         <field alias="NotificationStatus" name="notificationStatus" type="com.myschool.notification.constants.NotificationStatus"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="NotificationTemplate" type="com.myschool.notification.dto.NotificationTemplate">
-        <field alias="Name" name="name"/>
-        <field alias="Category" name="category"/>
-        <field alias="Medium" name="medium" type="com.myschool.notification.constants.NotificationMedium"/>
-        <field alias="Template" name="template"/>
-        <field alias="Sample" name="sample"/>
     </object-xml-mapping>
     <object-xml-mapping name="Organization" type="com.myschool.organization.dto.Organization">
         <field alias="Id" name="id"/>
@@ -774,7 +770,6 @@
         <field alias="AllowAds" name="allowAds"/>
         <field alias="RecordsPerPage" name="recordsPerPage"/>
         <field alias="UserTheme" name="userTheme" type="com.myschool.user.dto.UserTheme"/>
-        <field alias="ColorSwatch" name="colorSwatch" type="com.myschool.user.constants.ColorSwatch"/>
     </object-xml-mapping>
     <object-xml-mapping name="UserSession" type="com.myschool.user.dto.UserSession">
         <field alias="SessionId" name="sessionId"/>
@@ -812,17 +807,11 @@
         <field alias="ConfigFile" name="configFile" type="java.io.File"/>
     </object-xml-mapping>
     <object-xml-mapping name="AppConfig" type="com.myschool.infra.application.dto.AppConfigDto">
-        <field alias="Myschool" name="myschool" type="com.myschool.infra.application.dto.MySchoolDto"/>
         <field alias="AgentDtos" name="agentDtos" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="ConfigurationParameter" type="com.myschool.infra.application.dto.ConfigurationParameterDto">
         <field alias="Id" name="id"/>
         <field alias="Value" name="value"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="MySchool" type="com.myschool.infra.application.dto.MySchoolDto">
-        <field alias="MySchoolName" name="mySchoolName"/>
-        <field alias="BaseDir" name="baseDir" type="java.io.File"/>
-        <field alias="WebUrl" name="webUrl"/>
     </object-xml-mapping>
     <object-xml-mapping name="ImageResizingOption" type="com.myschool.infra.image.dto.ImageResizingOptionDto">
         <field alias="Width" name="width"/>
@@ -888,6 +877,7 @@
         <field alias="Logo" name="logo" type="com.myschool.infra.web.dto.WebContent"/>
         <field alias="NoImage" name="noImage" type="com.myschool.infra.web.dto.WebContent"/>
         <field alias="ContactUs" name="contactUs" type="com.myschool.infra.web.dto.WebContent"/>
+        <field alias="VerifyEmail" name="verifyEmail" type="com.myschool.infra.web.dto.WebContent"/>
         <field alias="Unsubscribe" name="unsubscribe" type="com.myschool.infra.web.dto.WebContent"/>
         <field alias="Website" name="website" type="com.myschool.infra.web.dto.WebContent"/>
         <field alias="ChangePassword" name="changePassword" type="com.myschool.infra.web.dto.WebContent"/>

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.clazz.dto.RegisteredSubjectDto;
-import com.myschool.clazz.service.RegisteredSubjectService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.StringUtil;
@@ -86,9 +85,6 @@ public class EmployeeAttributesController {
     /** The employee subject service. */
     @Autowired
     private EmployeeSubjectService employeeSubjectService;
-
-    @Autowired
-    private RegisteredSubjectService registeredSubjectService;
 
     /**
      * Launch.

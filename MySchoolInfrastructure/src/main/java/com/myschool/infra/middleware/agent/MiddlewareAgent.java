@@ -146,7 +146,7 @@ public abstract class MiddlewareAgent extends AbstractAgent {
      * 
      * @throws ConfigurationException the configuration exception
      */
-    private void loadMqConfiguration() throws ConfigurationException {
+    public void loadMqConfiguration() throws ConfigurationException {
         String property = fileSystemProperties.getProperty(FileSystemConstants.CONFIG_MIDDLEWARE_QUEUE_FILE);
         File mqConfigFile = new File(property);
         mqConfiguration = messageQueueConfigReader.getConfiguration(mqConfigFile);

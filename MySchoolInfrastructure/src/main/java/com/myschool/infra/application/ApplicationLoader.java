@@ -16,10 +16,10 @@ import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.PropertiesUtil;
 import com.myschool.common.util.StringUtil;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.application.dto.AppConfigDto;
 import com.myschool.infra.application.reader.AppConfigReader;
 import com.myschool.infra.filesystem.constants.FileSystemConstants;
-import com.myschool.infra.filesystem.util.FileUtil;
 
 /**
  * The Class ApplicationLoader.

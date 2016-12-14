@@ -3,7 +3,6 @@ package com.myschool.infra.notification.reader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,11 +17,11 @@ import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
-import com.myschool.infra.filesystem.util.FileUtil;
+import com.myschool.common.util.DateUtil;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.notification.constants.NotificationConfigConstants;
-import com.myschool.notification.constants.NotificationMedium;
+import com.myschool.notification.dto.Notification;
 import com.myschool.notification.dto.NotificationConfig;
-import com.myschool.notification.dto.NotificationTemplate;
 
 /**
  * The Class NotificationConfigReader.
@@ -33,20 +32,8 @@ public class NotificationConfigReader extends DefaultHandler {
     /** The Constant LOGGER. */
     private static final Logger LOGGER = Logger.getLogger(NotificationConfigReader.class);
 
-    //private static final String FILE_HIERARCHY = "{0}/{1}/{2}/{3}";
-    private static final String FILE_HIERARCHY = "{0}/{1}/{2}";
-
     /** The notification config. */
     private NotificationConfig notificationConfig;
-
-    /** The notification template. */
-    private NotificationTemplate notificationTemplate;
-
-    /** The medium. */
-    private String medium;
-
-    /** The category. */
-    private String category;
 
     /**
      * Gets the notification config.
@@ -58,10 +45,10 @@ public class NotificationConfigReader extends DefaultHandler {
     public NotificationConfig getNotificationConfig(
             File configFile) throws ConfigurationException {
         try {
-            LOGGER.info("Loading notification templates.");
+            LOGGER.info("Loading notifications.");
             FileUtil.checkFile(configFile, "Missing notifications configuration file", "Invalid notifications configuration file");
             LOGGER.info("Reading configuration.");
-            readNotificationTemplates(configFile);
+            readNotifications(configFile);
         } catch (SAXException saxException) {
             throw new ConfigurationException(saxException.getMessage(), saxException);
         } catch (IOException ioException) {
@@ -73,13 +60,12 @@ public class NotificationConfigReader extends DefaultHandler {
     }
 
     /**
-     * Read notification templates.
      *
      * @param configFile the config file
      * @throws SAXException the SAX exception
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    private void readNotificationTemplates(File configFile) throws SAXException, IOException {
+    private void readNotifications(File configFile) throws SAXException, IOException {
         XMLReader xMLReader = XMLReaderFactory.createXMLReader();
         // Set the ContentHandler...
         xMLReader.setContentHandler(this);
@@ -88,15 +74,6 @@ public class NotificationConfigReader extends DefaultHandler {
         xMLReader.parse(new InputSource(configXmlStream));
     }
 
-    /**
-     * Start element.
-     *
-     * @param namespaceURI the namespace uri
-     * @param localName the local name
-     * @param qName the q name
-     * @param attributes the attributes
-     * @throws SAXException the SAX exception
-     */
     /*
      * (non-Javadoc)
      * 
@@ -108,47 +85,25 @@ public class NotificationConfigReader extends DefaultHandler {
             String qName, Attributes attributes) throws SAXException {
         if (localName.equalsIgnoreCase(NotificationConfigConstants.NOTIFICATION_CONFIG)) {
             notificationConfig = new NotificationConfig();
-            notificationConfig.setBaseDir(attributes.getValue(NotificationConfigConstants.BASE_DIR));
-            notificationConfig.setSamplesBase(attributes.getValue(NotificationConfigConstants.SAMPLES_DIR));
-            notificationConfig.setTemplatesBase(attributes.getValue(NotificationConfigConstants.TEMPLATES_DIR));
         } else if (localName.equalsIgnoreCase(NotificationConfigConstants.NOTIFICATIONS)) {
-            notificationConfig.setNotificationTemplates(new ArrayList<NotificationTemplate>());
+            notificationConfig.setNotifications(new ArrayList<Notification>());
         } else if (localName.equalsIgnoreCase(NotificationConfigConstants.NOTIFICATION)) {
-            medium = attributes.getValue(NotificationConfigConstants.MEDIUM);
-            category = attributes.getValue(NotificationConfigConstants.CATEGORY);
-        } else if (localName.equalsIgnoreCase(NotificationConfigConstants.TEMPLATE)) {
-            notificationTemplate = new NotificationTemplate();
-            notificationTemplate.setCategory(category);
-            notificationTemplate.setMedium(NotificationMedium.get(medium));
-            notificationTemplate.setName(attributes.getValue(NotificationConfigConstants.NAME));
+            Notification notification = new Notification();
+            notification.setId(attributes.getValue(NotificationConfigConstants.ID));
+            notification.setTitle(attributes.getValue(NotificationConfigConstants.TITLE));
+            notification.setValidity(DateUtil.getMillisFromOffset(attributes.getValue(NotificationConfigConstants.VALIDITY)));
 
-            notificationTemplate.setSample(MessageFormat.format(
-                    FILE_HIERARCHY, medium.toLowerCase(), category.toLowerCase(),
-                    attributes.getValue(NotificationConfigConstants.SAMPLE)));
-            notificationTemplate.setTemplate(MessageFormat.format(
-                    FILE_HIERARCHY, medium.toLowerCase(), category.toLowerCase(),
-                    attributes.getValue(NotificationConfigConstants.FILE)));
+            List<Notification> notifications = notificationConfig.getNotifications();
+            notifications.add(notification);
         }
     }
 
-    /**
-     * End element.
-     *
-     * @param uri the uri
-     * @param localName the local name
-     * @param qName the q name
-     * @throws SAXException the SAX exception
-     */
     /* (non-Javadoc)
      * @see org.xml.sax.helpers.DefaultHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
-        if (localName.equalsIgnoreCase(NotificationConfigConstants.TEMPLATE)) {
-            List<NotificationTemplate> notificationTemplates = notificationConfig.getNotificationTemplates();
-            notificationTemplates.add(notificationTemplate);
-        }
     }
 
 

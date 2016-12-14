@@ -12,7 +12,6 @@ import com.myschool.application.domain.DocumentManager;
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.dto.DocumentSearchCriteria;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -30,10 +29,6 @@ public class MasterDocumentReportBuilder extends SimpleListingReportBuilder {
     /** The document manager. */
     @Autowired
     private DocumentManager documentManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

@@ -3,16 +3,13 @@ package com.myschool.infra.middleware.agent;
 import java.io.File;
 
 import javax.jms.Connection;
-import javax.jms.JMSException;
 
-import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.PropertiesUtil;
-import com.myschool.infra.middleware.constants.MiddlwareConstants;
 
 /**
  * The Class ActiveMQMiddlewareAgent.
@@ -21,7 +18,7 @@ import com.myschool.infra.middleware.constants.MiddlwareConstants;
 public class ActiveMQMiddlewareAgent extends MiddlewareAgent {
 
     /** The active mq connection factory. */
-    private static ActiveMQConnectionFactory activeMQConnectionFactory;
+    //private static ActiveMQConnectionFactory activeMQConnectionFactory;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.agent.Agent#loadConfiguration(java.io.File)

@@ -1,10 +1,8 @@
 package com.myschool.infra.ojo.agent;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.infra.agent.AbstractAgent;
-import com.myschool.infra.oxo.reader.OxoMappingReader;
 
 /**
  * The Class OjoAgent.
@@ -13,8 +11,8 @@ import com.myschool.infra.oxo.reader.OxoMappingReader;
 public abstract class OjoAgent extends AbstractAgent {
 
     /** The object xml mapping reader. */
-    @Autowired
-    private OxoMappingReader objectXmlMappingReader;
+    //@Autowired
+    //private OxoMappingReader objectXmlMappingReader;
 
     /**
      * To json.

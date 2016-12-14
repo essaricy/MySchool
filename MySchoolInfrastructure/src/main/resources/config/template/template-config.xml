@@ -1,9 +1,19 @@
 <template-config base-dir="@@APPL.LOCAL.DEPLOY@@/@@CONFIG.TEMPLATE@@">
 
+    <template-group name="notification" delivery-method="EMAIL" usage="ADMIN"
+        template-file-name-pattern="{id}.html" example-file-name-pattern="{id}_Example.html" >
+        <template id="AppServerStartup" />
+    </template-group>
+
     <template-group name="notification" delivery-method="EMAIL" usage="ACL"
         template-file-name-pattern="{id}.html" example-file-name-pattern="{id}_Example.html" >
         <template id="ChangePasswordRequest" />
         <template id="ChangePasswordComplete" />
+    </template-group>
+
+    <template-group name="notification" delivery-method="EMAIL" usage="EMPLOYEE"
+        template-file-name-pattern="{id}.html" example-file-name-pattern="{id}_Example.html" >
+        <template id="EmailAddressVerification" />
     </template-group>
 
 </template-config>

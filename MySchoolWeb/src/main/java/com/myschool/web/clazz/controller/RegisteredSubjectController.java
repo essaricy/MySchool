@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.RegisteredSubjectDto;
 import com.myschool.clazz.dto.SubjectDto;
-import com.myschool.clazz.service.ClassService;
 import com.myschool.clazz.service.RegisteredClassService;
 import com.myschool.clazz.service.RegisteredSubjectService;
 import com.myschool.clazz.service.SubjectService;
@@ -41,10 +40,6 @@ public class RegisteredSubjectController {
 
     @Autowired
     private RegisteredSubjectService registeredSubjectService;
-
-    /** The class service. */
-    @Autowired
-    private ClassService classService;
 
     @Autowired
     private RegisteredClassService registeredClassService;

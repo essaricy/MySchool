@@ -13,7 +13,6 @@ import com.myschool.branch.dto.StateDto;
 import com.myschool.branch.service.StateService;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
 
 /**
@@ -26,10 +25,6 @@ public class StateController {
     /** The state service. */
     @Autowired
     private StateService stateService;
-
-    /** The view error handler. */
-    @Autowired
-    private ViewErrorHandler viewErrorHandler;
 
     /**
      * List.

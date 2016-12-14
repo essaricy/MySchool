@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -41,7 +40,7 @@ import net.sf.dynamicreports.report.exception.DRException;
 public abstract class JasperAbstractReportBuilder implements ReportBuilder {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(JasperAbstractReportBuilder.class);
+    //private static final Logger LOGGER = Logger.getLogger(JasperAbstractReportBuilder.class);
 
     /** The temp file system. */
     @Autowired

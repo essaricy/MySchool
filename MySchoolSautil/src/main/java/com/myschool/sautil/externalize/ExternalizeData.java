@@ -11,9 +11,9 @@ import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.CollectionUtil;
 import com.myschool.common.util.StringUtil;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.application.constants.ExternalizeAction;
 import com.myschool.infra.application.constants.ExternalizeDataFormat;
-import com.myschool.infra.filesystem.util.FileUtil;
 import com.myschool.sautil.base.StandAloneUtility;
 
 /**

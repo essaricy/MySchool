@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.employee.domain.DesignationManager;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
@@ -26,10 +25,6 @@ public class DesignationReportBuilder extends SimpleListingReportBuilder {
     /** The designation manager. */
     @Autowired
     private DesignationManager designationManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

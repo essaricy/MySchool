@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.domain.EmployeeManager;
 import com.myschool.employee.dto.DesignationDto;
@@ -31,10 +30,6 @@ public class EmployeeReportBuilder extends SimpleListingReportBuilder {
     /** The employee manager. */
     @Autowired
     private EmployeeManager employeeManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

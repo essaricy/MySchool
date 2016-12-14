@@ -18,13 +18,11 @@ import com.myschool.attendance.dao.AttendanceProfileDao;
 import com.myschool.attendance.dto.AttendanceMonth;
 import com.myschool.attendance.dto.AttendanceProfileDto;
 import com.myschool.attendance.validator.AttendanceProfileValidator;
-import com.myschool.clazz.domain.RegisteredClassManager;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.exception.DaoException;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.school.domain.SchoolManager;
 import com.myschool.school.dto.SchoolDto;
 
 /**
@@ -48,14 +46,6 @@ public class AttendanceProfileManager {
     /** The holiday manager. */
     @Autowired
     private HolidayManager holidayManager;
-
-    /** The school manager. */
-    @Autowired
-    private SchoolManager schoolManager;
-
-    /** The registered class manager. */
-    @Autowired
-    private RegisteredClassManager registeredClassManager;
 
     /** The attendance profile validator. */
     @Autowired

@@ -16,7 +16,6 @@ import com.myschool.branch.service.RegionService;
 import com.myschool.common.util.StringUtil;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
-import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
 
 /**
@@ -29,9 +28,6 @@ public class RegionController {
     /** The region service. */
     @Autowired
     private RegionService regionService;
-
-    @Autowired
-    private ViewErrorHandler viewErrorHandler;
 
     @RequestMapping(value="list")
     public ModelAndView list(HttpServletRequest request,

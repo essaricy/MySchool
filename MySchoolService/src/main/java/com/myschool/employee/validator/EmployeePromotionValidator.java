@@ -1,6 +1,5 @@
 package com.myschool.employee.validator;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
@@ -9,7 +8,6 @@ import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeePromotion;
-import com.myschool.exim.domain.EmployeeEximManager;
 import com.myschool.infra.cache.exception.CacheException;
 
 /**
@@ -17,10 +15,6 @@ import com.myschool.infra.cache.exception.CacheException;
  */
 @Component
 public class EmployeePromotionValidator extends AbstractValidator<EmployeePromotion> {
-
-    /** The employee exim manager. */
-    @Autowired
-    private EmployeeEximManager employeeEximManager;
 
     /* (non-Javadoc)
      * @see com.myschool.common.validator.AbstractValidator#doValidate(java.lang.Object)

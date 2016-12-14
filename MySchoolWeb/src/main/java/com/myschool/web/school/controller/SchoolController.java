@@ -15,7 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
-import com.myschool.branch.service.BranchService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
@@ -38,10 +37,6 @@ public class SchoolController {
     /** The school service. */
     @Autowired
     private SchoolService schoolService;
-
-    /** The branch service. */
-    @Autowired
-    private BranchService branchService;
 
     /** The view error handler. */
     @Autowired

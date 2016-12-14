@@ -14,7 +14,6 @@ import com.myschool.exam.dao.ExamDao;
 import com.myschool.exam.dao.SubjectExamDao;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.SubjectExamDto;
-import com.myschool.student.domain.StudentManager;
 
 /**
  * The Class ExamManager.
@@ -32,18 +31,6 @@ public class ExamManager {
     /** The subject exam dao. */
     @Autowired
     private SubjectExamDao subjectExamDao;
-
-    /** The exam grade manager. */
-    @Autowired
-    private ExamGradeManager examGradeManager;
-
-    /** The student exam manager. */
-    @Autowired
-    private StudentExamManager studentExamManager;
-
-    /** The student manager. */
-    @Autowired
-    private StudentManager studentManager;
 
     /**
      * Gets the by class.

@@ -12,7 +12,6 @@ import com.myschool.academic.domain.HolidayManager;
 import com.myschool.academic.dto.HolidayDto;
 import com.myschool.academic.dto.HolidaySearchCriteria;
 import com.myschool.common.exception.DataException;
-import com.myschool.common.util.MessageUtil;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -30,10 +29,6 @@ public class HolidayReportBuilder extends SimpleListingReportBuilder {
     /** The holiday manager. */
     @Autowired
     private HolidayManager holidayManager;
-
-    /** The message util. */
-    @Autowired
-    private MessageUtil messageUtil;
 
     /* (non-Javadoc)
      * @see com.myschool.infra.report.builders.SimpleListingReportBuilder#getListingHeaders()

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.clazz.dto.RegisteredSubjectDto;
-import com.myschool.clazz.service.ClassService;
 import com.myschool.clazz.service.RegisteredClassService;
 import com.myschool.clazz.service.RegisteredSubjectService;
 import com.myschool.common.dto.ResultDto;
@@ -35,10 +34,6 @@ import com.myschool.web.framework.util.HttpUtil;
 @Controller
 @RequestMapping("exam")
 public class ExamController {
-
-    /** The class service. */
-    @Autowired
-    private ClassService classService;
 
     @Autowired
     private RegisteredClassService registeredClassService;

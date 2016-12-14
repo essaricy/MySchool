@@ -1,14 +1,12 @@
 package com.myschool.sautil.middleware;
 
-import org.apache.log4j.Logger;
-
 /**
  * The Class CommandMessageProcessor.
  */
 public class CommandMessageProcessor extends MessageProcessor {
 
     /** The Constant LOGGER. */
-    private static final Logger LOGGER = Logger.getLogger(CommandMessageProcessor.class);
+    //private static final Logger LOGGER = Logger.getLogger(CommandMessageProcessor.class);
 
     /* (non-Javadoc)
      * @see com.myschool.sautil.middleware.MessageProcessor#processObject(java.lang.Object)

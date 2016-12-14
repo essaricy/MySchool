@@ -6,14 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.FileSystemException;
+import com.myschool.file.util.FileUtil;
 import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.filesystem.dto.FileDto;
-import com.myschool.infra.filesystem.util.FileUtil;
 
 /**
  * The Class TemplatesFileSystem.
  */
 @Component
+@Deprecated
 public class TemplatesFileSystem extends AbstractSubFileSystem {
 
     /** The Constant DEVICE. */
@@ -27,9 +28,9 @@ public class TemplatesFileSystem extends AbstractSubFileSystem {
     @Autowired
     private DeviceTemplatesFileSystem deviceTemplatesFileSystem;
 
-    /** The notification templates file system. */
+    /** The notification templates file system. *//*
     @Autowired
-    private NotificationTemplatesFileSystem notificationTemplatesFileSystem;
+    private NotificationTemplatesFileSystem notificationTemplatesFileSystem;*/
 
     /* (non-Javadoc)
      * @see com.myschool.infra.filesystem.agent.AbstractSubFileSystem#init(com.myschool.infra.filesystem.dto.DirectoryDto)
@@ -42,7 +43,7 @@ public class TemplatesFileSystem extends AbstractSubFileSystem {
         deviceTemplatesFileSystem.init(deviceDirectory);
         DirectoryDto importDirectory = getChildDirectory(mainDirectory, IMPORT);
         importTemplatesFileSystem.init(importDirectory);
-        initNotificationTemplatesFileSystem();
+        //initNotificationTemplatesFileSystem();
     }
 
     /**
@@ -50,7 +51,7 @@ public class TemplatesFileSystem extends AbstractSubFileSystem {
      *
      * @throws FileSystemException the file system exception
      */
-    private void initNotificationTemplatesFileSystem() throws FileSystemException {
+    public void initNotificationTemplatesFileSystem() throws FileSystemException {
         String notificationMessage = "Notification configuration file not found to load.";
         String notificationDirectoryMessage = "Notification directory not found.";
         if (configurationFiles == null || configurationFiles.isEmpty()) {
@@ -75,7 +76,7 @@ public class TemplatesFileSystem extends AbstractSubFileSystem {
         DirectoryDto testNotificationDirectory = getChildDirectory(testDirectory, NOTIFICATION);
         FileUtil.checkDirectory(testNotificationDirectory.getFile(), notificationDirectoryMessage, notificationDirectoryMessage);
 
-        notificationTemplatesFileSystem.load(file, mainNotificationDirectory, testNotificationDirectory);
+        //notificationTemplatesFileSystem.load(file, mainNotificationDirectory, testNotificationDirectory);
     }
 
 }

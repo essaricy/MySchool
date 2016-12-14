@@ -11,9 +11,7 @@ import org.springframework.stereotype.Component;
 import com.myschool.academic.dao.AcademicDao;
 import com.myschool.academic.dto.AcademicDto;
 import com.myschool.attendance.assembler.AttendanceProfileDataAssembler;
-import com.myschool.attendance.dao.AttendanceAssignmentsDao;
 import com.myschool.attendance.dao.AttendanceDao;
-import com.myschool.attendance.dao.AttendanceProfileDao;
 import com.myschool.attendance.domain.AttendanceProfileManager;
 import com.myschool.attendance.dto.AttendanceCode;
 import com.myschool.attendance.dto.AttendanceCodeDto;
@@ -83,14 +81,6 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
     /** The attendance dao. */
     @Autowired
     private AttendanceDao attendanceDao;
-
-    /** The attendance profile dao. */
-    @Autowired
-    private AttendanceProfileDao attendanceProfileDao;
-
-    /** The attendance assignments dao. */
-    @Autowired
-    private AttendanceAssignmentsDao attendanceAssignmentsDao;
 
     /** The attendance profile manager. */
     @Autowired
@@ -209,7 +199,7 @@ public class AttendanceProfileValidator extends AbstractValidator<AttendanceProf
         // retrieve only this academic year's attendance profiles to compare
         List<AttendanceProfileDto> allAttendanceProfiles = attendanceProfileManager.getAllInDetail(academicYearName);
         if (allAttendanceProfiles != null && !allAttendanceProfiles.isEmpty()) {
-            int profilesForAnYear = allAttendanceProfiles.size();
+            //int profilesForAnYear = allAttendanceProfiles.size();
 
             // Check if it conflicts with other academic profiles school assignment.
             for (AttendanceProfileDto existingAttendanceProfile : allAttendanceProfiles) {

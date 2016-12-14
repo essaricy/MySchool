@@ -19,10 +19,10 @@ import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.util.PropertiesUtil;
 import com.myschool.common.util.StringUtil;
+import com.myschool.file.util.FileUtil;
 import com.myschool.infra.application.constants.AppConfigConstants;
 import com.myschool.infra.application.dto.AgentDto;
 import com.myschool.infra.application.dto.AppConfigDto;
-import com.myschool.infra.filesystem.util.FileUtil;
 
 /**
  * The Class AppConfigReader.
