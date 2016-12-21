@@ -77,9 +77,6 @@ public class EmployeeDaoSql {
         // Region
         buffer.append("REF_REGION.REGION_ID AS REF_REGION_REGION_ID, ");
         buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME, ");
-        // State
-        buffer.append("REF_STATE.STATE_ID AS REF_STATE_STATE_ID, ");
-        buffer.append("REF_STATE.STATE_NAME AS REF_STATE_STATE_NAME, ");
         // Designation
         buffer.append("REF_DESIGNATION.DESIGNATION_ID AS REF_DESIGNATION_DESIGNATION_ID, ");
         buffer.append("REF_DESIGNATION.DESIGNATION AS REF_DESIGNATION_DESIGNATION, ");
@@ -90,7 +87,6 @@ public class EmployeeDaoSql {
         buffer.append("FROM EMPLOYEE ");
         buffer.append("INNER JOIN BRANCH ON BRANCH.BRANCH_ID = EMPLOYEE.EMPLOYED_AT ");
         buffer.append("INNER JOIN REF_REGION ON REF_REGION.REGION_ID = BRANCH.REF_REGION_ID ");
-        buffer.append("INNER JOIN REF_STATE ON REF_STATE.STATE_ID = REF_REGION.REF_STATE_ID ");
         buffer.append("INNER JOIN REF_DESIGNATION ON REF_DESIGNATION.DESIGNATION_ID = EMPLOYEE.DESIGNATION_ID ");
         buffer.append("INNER JOIN EMPLOYMENT_STATUS ON EMPLOYMENT_STATUS.STATUS_ID = EMPLOYEE.EMPLOYMENT_STATUS_ID ");
 

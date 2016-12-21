@@ -27,8 +27,6 @@ public class AnnouncementInterceptor {
             } else if (object instanceof BranchDto) {
                 BranchDto branch = (BranchDto) object;
                 RegionDto region = branch.getRegion();
-                StateDto state = region.getState();
-                announcement = MessageFormat.format(CREATE_BRANCH, branch.getAddress(), state.getStateName()); 
             } else if (object instanceof DivisionDto) {
                 DivisionDto division = (DivisionDto) object;
                 announcement = MessageFormat.format(CREATE_DIVISION, division.getDivisionCode()); 

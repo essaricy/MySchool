@@ -9,8 +9,7 @@ $(document).ready(function() {
         width: "60%",
         caption: 'Regions',
         columns: [
-            '<spring:message code="region.name"/>',
-            '<spring:message code="state.name"/>'
+            '<spring:message code="region.name"/>'
         ],
         dataTableSettings: {
             "bPaginate": true,

@@ -182,11 +182,6 @@
     <object-xml-mapping name="Region" type="com.myschool.branch.dto.RegionDto">
         <field alias="RegionId" name="regionId"/>
         <field alias="RegionName" name="regionName"/>
-        <field alias="State" name="state" type="com.myschool.branch.dto.StateDto"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="State" type="com.myschool.branch.dto.StateDto">
-        <field alias="StateId" name="stateId"/>
-        <field alias="StateName" name="stateName"/>
     </object-xml-mapping>
     <object-xml-mapping name="Class" type="com.myschool.clazz.dto.ClassDto">
         <field alias="ClassId" name="classId"/>

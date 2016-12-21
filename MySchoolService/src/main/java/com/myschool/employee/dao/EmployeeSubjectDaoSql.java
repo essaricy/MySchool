@@ -74,9 +74,6 @@ public final class EmployeeSubjectDaoSql {
         // Region
         buffer.append("REF_REGION.REGION_ID AS REF_REGION_REGION_ID, ");
         buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME, ");
-        // State
-        buffer.append("REF_STATE.STATE_ID AS REF_STATE_STATE_ID, ");
-        buffer.append("REF_STATE.STATE_NAME AS REF_STATE_STATE_NAME, ");
         // Division
         buffer.append("REF_DIVISION.DIVISION_ID AS REF_DIVISION_DIVISION_ID, ");
         buffer.append("REF_DIVISION.DIVISION_CODE AS REF_DIVISION_DIVISION_CODE, ");
@@ -92,7 +89,6 @@ public final class EmployeeSubjectDaoSql {
         buffer.append("INNER JOIN REF_SECTION ON REF_SECTION.SECTION_ID = CLASS.REF_SECTION_ID ");
         buffer.append("INNER JOIN BRANCH ON BRANCH.BRANCH_ID= SCHOOL.BRANCH_ID ");
         buffer.append("INNER JOIN REF_REGION ON REF_REGION.REGION_ID = BRANCH.REF_REGION_ID ");
-        buffer.append("INNER JOIN REF_STATE ON REF_STATE.STATE_ID = REF_REGION.REF_STATE_ID ");
         buffer.append("INNER JOIN REF_DIVISION ON REF_DIVISION.DIVISION_ID = SCHOOL.REF_DIVISION_ID ");
         SELECT_ALL = buffer.toString();
         buffer.setLength(0);

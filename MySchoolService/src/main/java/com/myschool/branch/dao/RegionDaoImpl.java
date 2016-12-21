@@ -118,42 +118,6 @@ public class RegionDaoImpl implements RegionDao {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.branch.dao.RegionDao#get(java.lang.String, int)
-     */
-    @Override
-    public RegionDto get(String regionName, int stateId) throws DaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        RegionDto region = null;
-
-        try {
-            connection = databaseAgent.getConnection();
-            preparedStatement = connection.prepareStatement(RegionDaoSql.SELECT_BY_REGION_NAME_STATE_ID);
-            preparedStatement.setString(1, regionName);
-            preparedStatement.setInt(2, stateId);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                region = RegionDataAssembler.create(resultSet);
-            }
-        } catch (SQLException sqlException) {
-            throw new DaoException(sqlException.getMessage(), sqlException);
-        } catch (ConnectionException connectionException) {
-            throw new DaoException(connectionException.getMessage(),
-                    connectionException);
-        } finally {
-            try {
-                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
-            } catch (ConnectionException connectionException) {
-                throw new DaoException(connectionException.getMessage(),
-                        connectionException);
-            }
-        }
-        return region;
-    }
-
-    /* (non-Javadoc)
      * @see com.myschool.branch.dao.RegionDao#get(java.lang.String)
      */
     @Override
@@ -189,10 +153,10 @@ public class RegionDaoImpl implements RegionDao {
     }
 
     /* (non-Javadoc)
-     * @see com.myschool.branch.dao.RegionDao#create(java.lang.String, int)
+     * @see com.myschool.branch.dao.RegionDao#create(java.lang.String)
      */
     @Override
-    public int create(String regionName, int stateId) throws DaoException {
+    public int create(String regionName) throws DaoException {
         int nextId = 0;
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -204,7 +168,6 @@ public class RegionDaoImpl implements RegionDao {
             preparedStatement = connection.prepareStatement(RegionDaoSql.INSERT);
             preparedStatement.setInt(1, nextId);
             preparedStatement.setString(2, regionName);
-            preparedStatement.setInt(3, stateId);
             if (preparedStatement.executeUpdate() == 0) {
                 nextId = 0;
             }

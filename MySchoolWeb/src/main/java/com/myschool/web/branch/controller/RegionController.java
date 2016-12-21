@@ -49,18 +49,12 @@ public class RegionController {
         List<RegionDto> regions = null;
         JSONArray data = new JSONArray();
         try {
-            String stateIdval = request.getParameter("StateId");
-            if (StringUtil.isNullOrBlank(stateIdval)) {
-                regions = regionService.getAll();
-            } else {
-                regions = regionService.getByState(Integer.parseInt(stateIdval));
-            }
+            regions = regionService.getAll();
             if (regions != null) {
                 for(RegionDto region : regions) {
                     JSONArray row = new JSONArray();
                     row.put(region.getRegionId());
                     row.put(region.getRegionName());
-                    row.put(region.getState().getStateName());
                     data.put(row);
                 }
             }

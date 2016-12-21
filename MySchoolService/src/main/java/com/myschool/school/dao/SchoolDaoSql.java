@@ -56,8 +56,6 @@ public class SchoolDaoSql {
         buffer.append("BRANCH.MAP_URL AS BRANCH_MAP_URL,");
         buffer.append("REF_REGION.REGION_ID AS REF_REGION_REGION_ID, ");
         buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME, ");
-        buffer.append("REF_STATE.STATE_ID AS REF_STATE_STATE_ID, ");
-        buffer.append("REF_STATE.STATE_NAME AS REF_STATE_STATE_NAME, ");
         buffer.append("REF_DIVISION.DIVISION_ID AS REF_DIVISION_DIVISION_ID, ");
         buffer.append("REF_DIVISION.DIVISION_CODE AS REF_DIVISION_DIVISION_CODE, ");
         buffer.append("REF_DIVISION.DESCRIPTION AS REF_DIVISION_DESCRIPTION ");
@@ -65,7 +63,6 @@ public class SchoolDaoSql {
         buffer.append("INNER JOIN REF_DIVISION ON SCHOOL.REF_DIVISION_ID = REF_DIVISION.DIVISION_ID ");
         buffer.append("INNER JOIN BRANCH ON SCHOOL.BRANCH_ID = BRANCH.BRANCH_ID ");
         buffer.append("INNER JOIN REF_REGION ON REF_REGION.REGION_ID = BRANCH.REF_REGION_ID ");
-        buffer.append("INNER JOIN REF_STATE ON REF_STATE.STATE_ID = REF_REGION.REF_STATE_ID ");
         SELECT_ALL = buffer.toString();
         buffer.setLength(0);
 

@@ -112,10 +112,6 @@ public class StudentDaoSql {
 
         buffer.append("REF_REGION.REGION_ID AS REF_REGION_REGION_ID, ");
         buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME, ");
-
-        buffer.append("REF_STATE.STATE_ID AS REF_STATE_STATE_ID, ");
-        buffer.append("REF_STATE.STATE_NAME AS REF_STATE_STATE_NAME ");
-
         buffer.append("FROM STUDENT ");
         buffer.append("INNER JOIN ADMISSION_STATUS ON ADMISSION_STATUS.STATUS_ID = STUDENT.ADMISSION_STATUS_ID ");
         buffer.append("INNER JOIN CLASS ON CLASS.CLASS_ID = STUDENT.CLASS_ID ");
@@ -126,7 +122,6 @@ public class StudentDaoSql {
         buffer.append("INNER JOIN BRANCH ON BRANCH.BRANCH_ID = SCHOOL.BRANCH_ID ");
         buffer.append("INNER JOIN REF_DIVISION ON REF_DIVISION.DIVISION_ID = SCHOOL.REF_DIVISION_ID ");
         buffer.append("INNER JOIN REF_REGION ON BRANCH.REF_REGION_ID = REF_REGION.REGION_ID ");
-        buffer.append("INNER JOIN REF_STATE ON REF_REGION.REF_STATE_ID = REF_STATE.STATE_ID ");
 
         SELECT_ALL = buffer.toString();
         buffer.setLength(0);

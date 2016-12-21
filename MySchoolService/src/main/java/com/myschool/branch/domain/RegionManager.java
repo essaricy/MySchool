@@ -53,21 +53,4 @@ public class RegionManager {
         return region;
     }
 
-    /**
-     * Gets the by state.
-     * 
-     * @param stateId the state id
-     * @return the by state
-     * @throws DataException the data exception
-     */
-    public List<RegionDto> getByState(int stateId) throws DataException {
-        List<RegionDto> regions = null;
-        try {
-            regions = regionDao.getByState(stateId);
-        } catch (DaoException daoException) {
-            throw new DataException(daoException.getMessage(), daoException);
-        }
-        return regions;
-    }
-
 }

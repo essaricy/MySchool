@@ -11,9 +11,6 @@ public class ApplicationViewNames {
     /** The Constant VIEW_REGIONS. */
     public static final String VIEW_REGIONS = "view_regions";
 
-    /** The Constant VIEW_STATES. */
-    public static final String VIEW_STATES = "view_states";
-
     /** The Constant VIEW_SLIDE_SHOW. */
     public static final String VIEW_SLIDE_SHOW = "slideshow";
 

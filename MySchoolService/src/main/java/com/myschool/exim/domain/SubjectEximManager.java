@@ -33,7 +33,7 @@ public class SubjectEximManager extends AbstractEximManager {
     private static final String MASTER_SUBJECT_ADD_SUCCESS = "Subject ({0}) has been added successfully.";
 
     /** The Constant MASTER_SUBJECT_ADD_FAILED. */
-    private static final String MASTER_SUBJECT_ADD_FAILED = "System encountered problems while adding State ({0})";
+    private static final String MASTER_SUBJECT_ADD_FAILED = "System encountered problems while adding Subject ({0})";
 
     /** The Constant MASTER_SUBJECT_ALREADY_EXISTS. */
     private static final String MASTER_SUBJECT_ALREADY_EXISTS = "Subject ({0}) has already been defined.";

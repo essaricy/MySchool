@@ -8,9 +8,6 @@ public class ReportCriteriaTokenConstants {
     /** The Constant REGION. */
     public static final String REGION = "Region";
 
-    /** The Constant STATE. */
-    public static final String STATE = "State";
-
     /** The Constant DESIGNATION. */
     public static final String DESIGNATION = "Designation";
 

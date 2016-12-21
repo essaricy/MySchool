@@ -15,9 +15,7 @@
         </DocumentsSubmitted>
         <RegisteredClass ClassId="1">
           <Branch BranchId="1" BranchCode="BC" Description="Description" Address="Address" EmailId="branch@myschoolims.in" PhoneNumber="123 456 7890" MapUrl="http://www.google.co.in">
-            <Region RegionId="1" RegionName="Region Name">
-              <State StateId="1" StateName="State Name"/>
-            </Region>
+            <Region RegionId="1" RegionName="Region Name" />
           </Branch>
           <Class ClassId="1" ClassName="Class Name" PromotionOrder="100"/>
           <Medium MediumId="1" Description="Description"/>
@@ -25,9 +23,7 @@
           <Division DivisionId="1" DivisionCode="DC" Description="Description"/>
           <School SchoolId="1" SchoolName="School Name" Address="Address" EmailId="school@myschoolims.in" PrimaryPhoneNumber="123 456 7890" SecondaryPhoneNumber="123 456 7890" FaxNumber="123 456 7890" MobileNumber="123 456 7890" MapUrl="http://www.google.co.in">
             <Branch BranchId="1" BranchCode="BC" Description="Description" Address="Address" EmailId="branch@myschoolims.in" PhoneNumber="123 456 7890" MapUrl="http://www.google.co.in">
-              <Region RegionId="1" RegionName="Region Name">
-                <State StateId="1" StateName="State Name"/>
-              </Region>
+              <Region RegionId="1" RegionName="Region Name" />
             </Branch>
             <Division DivisionId="1" DivisionCode="DC" Description="Description"/>
           </School>
@@ -82,9 +78,7 @@
     <Exam ExamId="1" ExamName="Annual Exam" ExamDate="2013-10-19" ExamCompleted="true">
       <RegisteredClass ClassId="1">
         <Branch BranchId="1" BranchCode="BC" Description="Description" Address="Address" EmailId="branch@myschoolims.in" PhoneNumber="123 456 7890" MapUrl="http://www.google.co.in">
-          <Region RegionId="1" RegionName="Region Name">
-            <State StateId="1" StateName="State Name"/>
-          </Region>
+          <Region RegionId="1" RegionName="Region Name" />
         </Branch>
         <Class ClassId="1" ClassName="Class Name" PromotionOrder="100"/>
         <Medium MediumId="1" Description="Description"/>
@@ -92,9 +86,7 @@
         <Division DivisionId="1" DivisionCode="DC" Description="Description"/>
         <School SchoolId="1" SchoolName="School Name" Address="Address" EmailId="school@myschoolims.in" PrimaryPhoneNumber="123 456 7890" SecondaryPhoneNumber="123 456 7890" FaxNumber="123 456 7890" MobileNumber="123 456 7890" MapUrl="http://www.google.co.in">
           <Branch BranchId="1" BranchCode="BC" Description="Description" Address="Address" EmailId="branch@myschoolims.in" PhoneNumber="123 456 7890" MapUrl="http://www.google.co.in">
-            <Region RegionId="1" RegionName="Region Name">
-              <State StateId="1" StateName="State Name"/>
-            </Region>
+            <Region RegionId="1" RegionName="Region Name" />
           </Branch>
           <Division DivisionId="1" DivisionCode="DC" Description="Description"/>
         </School>

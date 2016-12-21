@@ -2,6 +2,5 @@
 <rules>
     <field-sequence>
         <field name="REGION_NAME" mandatory="true" maxlength="64" datatype="ANY_CHARACTER" />
-        <field name="STATE_NAME" mandatory="true" maxlength="32" datatype="ANY_CHARACTER" />
     </field-sequence>
 </rules>

@@ -20,7 +20,6 @@ import com.myschool.attendance.dao.AttendanceDao;
 import com.myschool.branch.dao.BranchDao;
 import com.myschool.branch.dao.DivisionDao;
 import com.myschool.branch.dao.RegionDao;
-import com.myschool.branch.dao.StateDao;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
 import com.myschool.clazz.dao.ClassDao;
@@ -178,10 +177,6 @@ public abstract class AbstractEximManager {
     /** The exam grade dao. */
     @Autowired
     protected ExamGradeDao examGradeDao;
-
-    /** The state dao. */
-    @Autowired
-    protected StateDao stateDao;
 
     /** The designation dao. */
     @Autowired

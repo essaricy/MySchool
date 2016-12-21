@@ -16,9 +16,6 @@ public class RegionDto implements Serializable {
     /** The region name. */
     private String regionName;
     
-    /** The state. */
-    private StateDto state;
-    
     /**
      * Gets the region id.
      *
@@ -54,24 +51,6 @@ public class RegionDto implements Serializable {
     public void setRegionName(String regionName) {
         this.regionName = regionName;
     }
-    
-    /**
-     * Gets the state.
-     *
-     * @return the state
-     */
-    public StateDto getState() {
-        return state;
-    }
-    
-    /**
-     * Sets the state.
-     *
-     * @param state the new state
-     */
-    public void setState(StateDto state) {
-        this.state = state;
-    }
 
     /**
      * Constructs a <code>String</code> with all attributes
@@ -87,7 +66,6 @@ public class RegionDto implements Serializable {
             .append(super.toString()).append(SEPARATOR)
             .append("regionId = ").append(this.regionId).append(SEPARATOR)
             .append("regionName = ").append(this.regionName).append(SEPARATOR)
-            .append("state = ").append(this.state).append(SEPARATOR)
             .append(" )\n");
         return retValue.toString();
     }

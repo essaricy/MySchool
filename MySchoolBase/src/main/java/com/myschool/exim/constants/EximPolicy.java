@@ -14,9 +14,6 @@ public enum EximPolicy {
     /** The DOCUMENTS. */
     DOCUMENTS(1),
 
-    /** The STATES. */
-    STATES(1),
-
     /** The DIVISIONS. */
     DIVISIONS(1),
 
@@ -48,7 +45,7 @@ public enum EximPolicy {
     HOLIDAYS(1),
 
     /** The REGIONS. */
-    REGIONS(2, STATES),
+    REGIONS(2),
 
     /** The BRANCHES. */
     BRANCHES(3, REGIONS),

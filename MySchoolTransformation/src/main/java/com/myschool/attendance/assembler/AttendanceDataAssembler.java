@@ -192,11 +192,7 @@ public class AttendanceDataAssembler {
             assignedArray = new JSONArray();
             for (Object object : assignments) {
                 assignedJson = new JSONObject();
-                if (object instanceof StateDto) {
-                    StateDto state = (StateDto) object;
-                    assignedJson = StateDataAssembler.create(state);
-                    assignedJson.put("IDName", "StateId");
-                } else if (object instanceof RegionDto) {
+                if (object instanceof RegionDto) {
                     RegionDto region = (RegionDto) object;
                     assignedJson = RegionDataAssembler.create(region);
                     assignedJson.put("IDName", "RegionId");
@@ -237,7 +233,6 @@ public class AttendanceDataAssembler {
             attendanceProfile.setEffectiveAcademic(effectiveAcademic);
 
             attendanceProfile.setYearAttendance(createYearAttendance(attendanceProfileJson.getJSONArray("YearAttendance")));
-            attendanceProfile.setStates(getAssigned(attendanceProfileJson.getJSONArray("AssignedStates"), StateDto.class));
             attendanceProfile.setRegions(getAssigned(attendanceProfileJson.getJSONArray("AssignedRegions"), RegionDto.class));
             attendanceProfile.setBranches(getAssigned(attendanceProfileJson.getJSONArray("AssignedBranches"), BranchDto.class));
             attendanceProfile.setSchools(getAssigned(attendanceProfileJson.getJSONArray("AssignedSchools"), SchoolDto.class));
@@ -275,8 +270,6 @@ public class AttendanceDataAssembler {
                             ((SchoolDto) assignment).setSchoolId(Integer.parseInt(idValue));
                         } else if (assignment instanceof RegisteredClassDto) {
                             ((RegisteredClassDto) assignment).setClassId(Integer.parseInt(idValue));
-                        } else if (assignment instanceof StateDto) {
-                            ((StateDto) assignment).setStateId(Integer.parseInt(idValue));
                         } else {
                             // Avoid possibility of adding incompatible type to the list
                             continue;

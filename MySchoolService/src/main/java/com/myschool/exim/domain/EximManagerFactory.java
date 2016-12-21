@@ -63,10 +63,6 @@ public class EximManagerFactory {
     @Autowired
     private SectionEximManager sectionEximManager;
 
-    /** The state exim manager. */
-    @Autowired
-    private StateEximManager stateEximManager;
-
     /** The student exim manager. */
     @Autowired
     private StudentEximManager studentEximManager;
@@ -123,8 +119,6 @@ public class EximManagerFactory {
             abstractEximManager = schoolEximManager;
         } else if (eximPolicy == EximPolicy.MASTER_SECTIONS) {
             abstractEximManager = sectionEximManager;
-        } else if (eximPolicy == EximPolicy.STATES) {
-            abstractEximManager = stateEximManager;
         } else if (eximPolicy == EximPolicy.STUDENT_ATTENDANCE) {
             abstractEximManager = attendanceEximManager;
         } else if (eximPolicy == EximPolicy.STUDENT_DOCUMENT) {

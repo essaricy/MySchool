@@ -10,10 +10,6 @@
         <put-attribute name="body" value="/views/application/view_regions.jsp" />
     </definition>
 
-    <definition name="view_states_wholepage" extends="wholepage_layout">
-        <put-attribute name="body" value="/views/application/view_states.jsp" />
-    </definition>
-
     <definition name="view_documents_wholepage" extends="wholepage_layout">
         <put-attribute name="body" value="/views/application/view_documents.jsp" />
     </definition>

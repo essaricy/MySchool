@@ -23,7 +23,6 @@
 var URL_MAP = new Object();
 URL_MAP.ACADEMIC_YEAR='<%=request.getContextPath()%>/academic/jsonList.htm';
 URL_MAP.REGION='<%=request.getContextPath()%>/region/jsonList.htm';
-URL_MAP.STATE='<%=request.getContextPath()%>/state/jsonList.htm';
 URL_MAP.DESIGNATION='<%=request.getContextPath()%>/designation/jsonList.htm';
 URL_MAP.BRANCH='<%=request.getContextPath()%>/branch/jsonList.htm';
 URL_MAP.DIVISION='<%=request.getContextPath()%>/division/jsonList.htm';

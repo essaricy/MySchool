@@ -67,19 +67,4 @@ public class RegionServiceImpl implements RegionService {
         return false;
     }
 
-    /* (non-Javadoc)
-     * @see com.myschool.branch.service.RegionService#getByState(int)
-     */
-    @Override
-    public List<RegionDto> getByState(int stateId) throws ServiceException {
-        List<RegionDto> regions = null;
-        try {
-            regions = regionManager.getByState(stateId);
-        } catch (DataException dataException) {
-            throw new ServiceException(dataException.getMessage(),
-                    dataException);
-        }
-        return regions;
-    }
-
 }

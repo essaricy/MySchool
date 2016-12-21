@@ -5,7 +5,6 @@ import java.text.MessageFormat;
 import org.springframework.stereotype.Component;
 
 import com.myschool.branch.dto.RegionDto;
-import com.myschool.branch.dto.StateDto;
 import com.myschool.branch.fields.RegionFieldNames;
 import com.myschool.common.dto.Rule;
 import com.myschool.common.exception.DaoException;
@@ -63,13 +62,7 @@ public class RegionEximManager extends AbstractEximManager {
         ImportRecordStatusDto importRecordStatus = new ImportRecordStatusDto();
         try {
             if (eximPolicy == EximPolicy.REGIONS) {
-                RegionDto region = (RegionDto) content;
-                String stateName = region.getState().getStateName();
-                StateDto state = stateDao.get(stateName);
-                if (state == null || state.getStateId() == 0) {
-                    throw new ValidationException("State (" + stateName + ") must be present to add a Region.");
-                }
-                region.setState(state);
+                //RegionDto region = (RegionDto) content;
             }
         } catch (Exception exception) {
             importRecordStatus.setActionCode(ImportRecordStatusDto.ACTION_CODE_SKIP);
@@ -92,9 +85,8 @@ public class RegionEximManager extends AbstractEximManager {
             if (eximPolicy == EximPolicy.REGIONS) {
                 RegionDto region = (RegionDto) importRecordStatus.getContent();
                 String regionName = region.getRegionName();
-                int stateId = region.getState().getStateId();
-                if (regionDao.get(regionName, stateId) == null) {
-                    if (regionDao.create(regionName, stateId) > 0) {
+                if (regionDao.get(regionName) == null) {
+                    if (regionDao.create(regionName) > 0) {
                         importRecordStatus.setStatusCode(ImportRecordStatusDto.STATUS_ADDED);
                         importRecordStatus.setStatusDescription(MessageFormat.format(ADD_SUCCESS, regionName));
                     } else {
@@ -127,10 +119,6 @@ public class RegionEximManager extends AbstractEximManager {
         String dataType = rule.getDataType();
         if (fieldName.equals(RegionFieldNames.REGION_NAME)) {
             region.setRegionName(DataTypeValidator.validate(fieldValue, dataType, fieldName));
-        } else if (fieldName.equals(RegionFieldNames.STATE_NAME)) {
-            StateDto state = new StateDto();
-            state.setStateName(DataTypeValidator.validate(fieldValue, dataType, fieldName));
-            region.setState(state);
         }
         return region;
     }

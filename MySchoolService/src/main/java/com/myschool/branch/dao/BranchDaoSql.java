@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.RegionDto;
-import com.myschool.branch.dto.StateDto;
 import com.myschool.common.util.DatabaseUtil;
 
 /**
@@ -46,12 +45,9 @@ public class BranchDaoSql {
         buffer.append("BRANCH.EMAIL_ID, ");
         buffer.append("BRANCH.MAP_URL,");
         buffer.append("REF_REGION.REGION_ID AS REF_REGION_REGION_ID, ");
-        buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME, ");
-        buffer.append("REF_STATE.STATE_ID AS REF_STATE_STATE_ID, ");
-        buffer.append("REF_STATE.STATE_NAME AS REF_STATE_STATE_NAME ");
+        buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME ");
         buffer.append("FROM BRANCH ");
         buffer.append("INNER JOIN REF_REGION ON REF_REGION.REGION_ID = BRANCH.REF_REGION_ID ");
-        buffer.append("INNER JOIN REF_STATE ON REF_STATE.STATE_ID = REF_REGION.REF_STATE_ID ");
         SELECT_ALL = buffer.toString();
         buffer.setLength(0);
 
@@ -116,10 +112,6 @@ public class BranchDaoSql {
             whereClauseMap.put("BRANCH.PHONE_NUMBER LIKE '%?%'", branchCriteria.getPhoneNumber());
             if (region != null) {
                 whereClauseMap.put("REF_REGION.REGION_NAME LIKE '%?%'", region.getRegionName());
-                StateDto state = region.getState();
-                if (state != null) {
-                    whereClauseMap.put("REF_STATE.STATE_NAME LIKE '%?%'", state.getStateName());
-                }
             }
             buffer.append(DatabaseUtil.getWhereClause(whereClauseMap));
         }

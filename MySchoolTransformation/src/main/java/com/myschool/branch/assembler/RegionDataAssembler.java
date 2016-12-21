@@ -28,7 +28,6 @@ public class RegionDataAssembler {
             jsonObject = new JSONObject();
             jsonObject.put("RegionId", region.getRegionId());
             jsonObject.put("RegionName", region.getRegionName());
-            jsonObject.put("State", StateDataAssembler.create(region.getState()));
         }
         return jsonObject;
     }
@@ -61,7 +60,6 @@ public class RegionDataAssembler {
             region.setRegionId(resultSet.getInt("REGION_ID"));
             region.setRegionName(resultSet.getString("REGION_NAME"));
         }
-        region.setState(StateDataAssembler.create(resultSet, true));
         return region;
     }
 
@@ -76,7 +74,6 @@ public class RegionDataAssembler {
         if (reportCriteriaValues != null) {
             region = new RegionDto();
             region.setRegionName(ReportDataAssembler.getString(reportCriteriaValues, ReportCriteriaTokenConstants.REGION));
-            region.setState(StateDataAssembler.create(reportCriteriaValues));
         }
         return region;
     }

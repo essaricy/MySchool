@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
 import com.myschool.branch.dto.RegionDto;
-import com.myschool.branch.dto.StateDto;
 import com.myschool.clazz.dto.ClassDto;
 import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
@@ -341,15 +340,6 @@ public class ClassController {
                     } else {
                         row.put(region.getRegionId());
                         row.put(region.getRegionName());
-
-                        StateDto state = region.getState();
-                        if (state == null) {
-                            row.put(0);
-                            row.put(""); // 15
-                        } else {
-                            row.put(state.getStateId());
-                            row.put(state.getStateName()); //15
-                        }
                     }
                     if (division == null) {
                         row.put(0);
