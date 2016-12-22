@@ -96,12 +96,12 @@
     <target name="DeployToServer-Local">
         <!-- If it s a local deployment then all the files are already present.
         Just copy the required libs to the webserver lib directory and the war to the deploy directory. -->
-        <echo message="Copying lib files to ${deploy.server.appserver.lib}" />
+        <!--<echo message="Copying lib files to ${deploy.server.appserver.lib}" />
         <copy todir="${deploy.server.appserver.lib}">
             <fileset dir="${myschool.web}/${target.dir}">
                 <include name="*.jar"/>
             </fileset>
-        </copy>
+        </copy>-->
         <echo message="Deploying *.war, *.xml to ${deploy.server.appserver.deploy}" />
         <copy todir="${deploy.server.appserver.deploy}">
             <fileset dir="${myschool.web}/${target.dir}">

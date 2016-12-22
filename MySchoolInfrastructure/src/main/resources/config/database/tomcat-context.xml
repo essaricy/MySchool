@@ -1,7 +1,7 @@
-<Context path="/@@APPL.WEB.CONTEXT@@/">
+<Context path="/@@APPL.WEB.CONTEXT@@">
   <Resource name="jdbc/@@DB.DATASOURCE.NAME@@" auth="Container" type="javax.sql.DataSource"
     username="@@DB.USER@@" password="@@DB.PWD@@"
     driverClassName="org.postgresql.Driver"
     url="@@DB.SERVER.URL@@"
-    maxActive="8" maxIdle="4"/>
+    maxTotal="8" maxIdle="4"/>
 </Context>

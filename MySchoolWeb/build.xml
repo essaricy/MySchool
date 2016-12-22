@@ -120,10 +120,14 @@
     </fileset>
 
     <fileset id="libraries-for-tomcat" dir="../${lib}">
-        <!-- Application Jars -->
-        <include name="jstl.jar" />
-        <include name="mail.jar" />
         <include name="concurrent-1.3.3.jar" />
+        <include name="jstl-1.2.jar" />
+        <include name="mail.jar" />
+        <include name="postgresql-9.4.1212.jar"/>
+    </fileset>
+
+    <fileset id="libraries-for-jboss" dir="../${lib}">
+        <include name="postgresql-9.1-901.jdbc4.jar"/>
     </fileset>
 
     <target name="BuildWar-JBoss">
@@ -147,6 +151,7 @@
             <fileset dir="${src.main.webapp}" />
             <lib refid="internal-libraries" />
             <lib refid="external-libraries" />
+            <lib refid="libraries-for-jboss" />
         </war>
         <delete file="${target.dir}/${log4j.file}" />
         <delete file="${target.dir}/${filesystem.file}" />
@@ -189,10 +194,10 @@
         <delete file="${target.dir}/${log4j.file}" />
         <delete file="${target.dir}/${filesystem.file}" />
 
-        <copy todir="${target.dir}">
+        <!--<copy todir="${target.dir}">
             <fileset dir="../${lib}">
                 <include name="postgresql-9.1-901.jdbc4.jar"/>
             </fileset>
-        </copy>
+        </copy>-->
     </target>
 </project>
