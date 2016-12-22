@@ -20,10 +20,6 @@
             <directory name="image" absence="ERROR">
                 <file name="image-scaling.properties" absence="ERROR" />
             </directory>
-            <directory name="middleware" absence="ERROR">
-                <file name="active-mq.properties" absence="ERROR" />
-                <file name="MessageQueueConfig.xml" absence="ERROR" />
-            </directory>
             <directory name="rules" absence="ERROR" id="RULES_CONFIG">
                 <file name="rules-config.properties" absence="ERROR" />
             </directory>

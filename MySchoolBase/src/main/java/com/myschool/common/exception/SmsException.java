@@ -1,11 +1,9 @@
 package com.myschool.common.exception;
 
-import com.myschool.middleware.exception.RecoverableMessageException;
-
 /**
  * The Class SmsException.
  */
-public class SmsException extends RecoverableMessageException {
+public class SmsException extends Exception {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;

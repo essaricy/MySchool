@@ -526,11 +526,6 @@
         <field alias="Height" name="height"/>
         <field alias="FolderName" name="folderName"/>
     </object-xml-mapping>
-    <object-xml-mapping name="MessageTracker" type="com.myschool.middleware.dto.MessageTracker">
-        <field alias="TempFileId" name="tempFileId"/>
-        <field alias="InputFile" name="inputFile" type="java.io.File"/>
-        <field alias="OutputFile" name="outputFile" type="java.io.File"/>
-    </object-xml-mapping>
     <object-xml-mapping name="Notification" type="com.myschool.notification.dto.Notification">
         <field alias="Id" name="id"/>
         <field alias="Title" name="title"/>
@@ -812,16 +807,6 @@
         <field alias="Width" name="width"/>
         <field alias="Height" name="height"/>
         <field alias="FolderName" name="folderName"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="MessageQueue" type="com.myschool.infra.middleware.dto.MessageQueue">
-        <field alias="QueueCategory" name="queueCategory" type="com.myschool.infra.middleware.constants.QueueCategory"/>
-        <field alias="Description" name="description"/>
-        <field alias="Output" name="output"/>
-        <field alias="Fail" name="fail"/>
-        <field alias="Error" name="error"/>
-    </object-xml-mapping>
-    <object-xml-mapping name="MqConfiguration" type="com.myschool.infra.middleware.dto.MqConfiguration">
-        <field alias="MessageQueues" name="messageQueues" type="java.util.List"/>
     </object-xml-mapping>
     <object-xml-mapping name="ObjectXmlField" type="com.myschool.infra.oxo.dto.ObjectXmlFieldDto">
         <field alias="Name" name="name"/>

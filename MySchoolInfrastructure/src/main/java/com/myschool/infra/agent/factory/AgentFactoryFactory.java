@@ -12,7 +12,6 @@ import com.myschool.infra.email.factory.EmailServerAgentFactory;
 import com.myschool.infra.filesystem.factory.FileSystemAgentFactory;
 import com.myschool.infra.graph.factory.GraphAgentFactory;
 import com.myschool.infra.image.factory.ImageScalingAgentFactory;
-import com.myschool.infra.middleware.factory.MiddlewareAgentFactory;
 import com.myschool.infra.notification.factory.NotificationAgentFactory;
 import com.myschool.infra.ojo.factory.OjoAgentFactory;
 import com.myschool.infra.oxo.factory.OxoAgentFactory;
@@ -52,10 +51,6 @@ public class AgentFactoryFactory {
     /** The graph agent factory. */
     @Autowired
     private GraphAgentFactory graphAgentFactory;
-
-    /** The middleware agent factory. */
-    @Autowired
-    private MiddlewareAgentFactory middlewareAgentFactory;
 
     /** The ojo agent factory. */
     @Autowired
@@ -119,8 +114,6 @@ public class AgentFactoryFactory {
                 agentFactory = fileSystemAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.GRAPHS)) {
                 agentFactory = graphAgentFactory;
-            } else if (agentKeyName.equals(AgentConstants.MIDDLEWARE)) {
-                agentFactory = middlewareAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.OJO)) {
                 agentFactory = ojoAgentFactory;
             } else if (agentKeyName.equals(AgentConstants.OXO)) {

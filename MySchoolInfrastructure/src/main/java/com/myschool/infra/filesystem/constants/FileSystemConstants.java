@@ -29,8 +29,4 @@ public class FileSystemConstants {
     /** The Constant CONFIG_SPRING_SERVICE_FILE. */
     public static final String CONFIG_SPRING_SERVICE_FILE = "config.spring.service.file";
 
-    /** The Constant CONFIG_MIDDLEWARE_QUEUE_FILE. */
-    public static final String CONFIG_MIDDLEWARE_QUEUE_FILE ="config.middleware.queue.file";
-
-
 }

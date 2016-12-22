@@ -3,9 +3,7 @@ package com.myschool.exim.domain;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +22,8 @@ import com.myschool.exim.dto.UploadRecordTrackerDto;
 import com.myschool.exim.dto.UploadTrackerDto;
 import com.myschool.file.constant.FileExtension;
 import com.myschool.file.util.FileUtil;
-import com.myschool.infra.application.constants.CommandName;
-import com.myschool.infra.application.constants.ExternalizeAction;
-import com.myschool.infra.application.constants.ExternalizeDataFormat;
 import com.myschool.infra.filesystem.agent.ImportTemplatesFileSystem;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
-import com.myschool.infra.middleware.agent.MiddlewareStandaloneBridge;
-import com.myschool.infra.middleware.exception.MessageException;
 import com.myschool.user.constants.UserType;
 
 /**
@@ -50,10 +43,6 @@ public class UploadManager {
     /** The temp file system. */
     @Autowired
     private TempFileSystem tempFileSystem;
-
-    /** The middleware standalone bridge. */
-    @Autowired
-    private MiddlewareStandaloneBridge middlewareStandaloneBridge;
 
     /**
      * Creates the upload tracker.
@@ -333,18 +322,9 @@ public class UploadManager {
             // Prepare data required to run externalize data program.
             File propertiesFile = new File(trackerDirectory,
                     trackerId + FileUtil.FILE_EXTENSION_SEPARATOR + FileExtension.PROPERTIES.getFileExtension());
-            Map<String, Object> commandArguements = new HashMap<String, Object>();
-            commandArguements.put(MiddlewareStandaloneBridge.PARAM_NAME_ACTION, ExternalizeAction.LOAD);
-            commandArguements.put(MiddlewareStandaloneBridge.PARAM_NAME_EXT_DIR, trackerDirectory.getAbsolutePath());
-            commandArguements.put(MiddlewareStandaloneBridge.PARAM_NAME_EXT_CFG, propertiesFile.getAbsolutePath());
-            commandArguements.put(MiddlewareStandaloneBridge.PARAM_NAME_DATA_FORMAT, ExternalizeDataFormat.EXCEL);
-            commandArguements.put(MiddlewareStandaloneBridge.OPTION_TRACKER_ID, trackerId);
-            middlewareStandaloneBridge.sendStandAloneCommand(
-                    CommandName.EXTERNALIZE_DATA, commandArguements);
+            // TODO middleware code removed here. provide alternate flow.
         } catch (FileSystemException fileSystemException) {
             throw new DataException(fileSystemException.getMessage(), fileSystemException);
-        } catch (MessageException messageException) {
-            throw new DataException(messageException.getMessage(), messageException);
         }
     }
 

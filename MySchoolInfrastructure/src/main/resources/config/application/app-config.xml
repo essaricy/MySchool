@@ -17,7 +17,6 @@
         <!-- <agent id="graphs" class="com.myschool.infra.graph.agent.CewolfGraphAgent" /> -->
         <agent id="image_scaling" class="com.myschool.infra.image.agent.ThumbnailatorImageScalingAgent" config="${config.image.scaling.file}" />
         <agent id="in_cache" class="com.myschool.infra.cache.agent.JvmInMemoryCacheAgent" />
-        <agent id="middleware" class="com.myschool.infra.middleware.agent.ActiveMQMiddlewareAgent" config="${config.middleware.server.file}" />
         <agent id="notification" class="com.myschool.infra.notification.agent.NotificationAgent" config="${config.notification.file}" />
         <!-- Use OXO Configuration file as the configuration is same for OJO and OXO -->
         <agent id="ojo" class="com.myschool.infra.ojo.agent.XStreamJsonAgent" config="${config.oxo.file}" />

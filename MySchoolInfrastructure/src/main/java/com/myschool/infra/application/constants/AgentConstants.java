@@ -5,9 +5,6 @@ package com.myschool.infra.application.constants;
  */
 public class AgentConstants {
 
-    /** The Constant MIDDLEWARE. */
-    public static final String MIDDLEWARE = "middleware";
-
     /** The Constant EMAIL. */
     public static final String EMAIL = "email";
 

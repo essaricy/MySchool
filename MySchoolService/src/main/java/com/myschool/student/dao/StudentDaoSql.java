@@ -111,7 +111,7 @@ public class StudentDaoSql {
         buffer.append("REF_DIVISION.DESCRIPTION AS REF_DIVISION_DESCRIPTION, ");
 
         buffer.append("REF_REGION.REGION_ID AS REF_REGION_REGION_ID, ");
-        buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME, ");
+        buffer.append("REF_REGION.REGION_NAME AS REF_REGION_REGION_NAME ");
         buffer.append("FROM STUDENT ");
         buffer.append("INNER JOIN ADMISSION_STATUS ON ADMISSION_STATUS.STATUS_ID = STUDENT.ADMISSION_STATUS_ID ");
         buffer.append("INNER JOIN CLASS ON CLASS.CLASS_ID = STUDENT.CLASS_ID ");
