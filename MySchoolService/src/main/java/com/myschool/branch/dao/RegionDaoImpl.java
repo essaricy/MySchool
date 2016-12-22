@@ -187,43 +187,4 @@ public class RegionDaoImpl implements RegionDao {
         return nextId;
     }
 
-    /* (non-Javadoc)
-     * @see com.myschool.branch.dao.RegionDao#getByState(int)
-     */
-    public List<RegionDto> getByState(int stateId) throws DaoException {
-        Connection connection = null;
-        PreparedStatement preparedStatement = null;
-        ResultSet resultSet = null;
-
-        RegionDto region = null;
-        List<RegionDto> regions = null;
-
-        try {
-            connection = databaseAgent.getConnection();
-            preparedStatement = connection.prepareStatement(RegionDaoSql.SELECT_BY_STATE_ID);
-            preparedStatement.setInt(1, stateId);
-            resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                region = RegionDataAssembler.create(resultSet);
-                if (regions == null) {
-                    regions = new ArrayList<RegionDto>();
-                }
-                regions.add(region);
-            }
-        } catch (SQLException sqlException) {
-            throw new DaoException(sqlException.getMessage(), sqlException);
-        } catch (ConnectionException connectionException) {
-            throw new DaoException(connectionException.getMessage(),
-                    connectionException);
-        } finally {
-            try {
-                databaseAgent.releaseResources(connection, preparedStatement, resultSet);
-            } catch (ConnectionException connectionException) {
-                throw new DaoException(connectionException.getMessage(),
-                        connectionException);
-            }
-        }
-        return regions;
-    }
-
 }
