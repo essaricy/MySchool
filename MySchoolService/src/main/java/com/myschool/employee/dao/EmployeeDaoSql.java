@@ -4,9 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.myschool.common.constants.RecordStatus;
-import com.myschool.common.util.DatabaseUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
+import com.quasar.core.util.DatabaseUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeeDaoSql.

@@ -12,10 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.exam.assembler.ExamDataAssembler;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.infra.database.agent.DatabaseAgent;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class ExamDaoImpl.

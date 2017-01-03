@@ -20,13 +20,13 @@ import com.myschool.clazz.service.RegisteredClassService;
 import com.myschool.clazz.service.RegisteredSubjectService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.SubjectExamDto;
 import com.myschool.exam.service.ExamService;
 import com.myschool.web.exam.constants.ExamViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class ExamController.

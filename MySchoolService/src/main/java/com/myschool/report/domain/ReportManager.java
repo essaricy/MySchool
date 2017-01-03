@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.report.agent.ReportAgent;
 import com.myschool.infra.report.builders.ReportBuilder;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
@@ -20,7 +18,8 @@ import com.myschool.report.dao.ReportDao;
 import com.myschool.report.dto.ReportCriteria;
 import com.myschool.report.dto.ReportDto;
 import com.myschool.report.factory.ReportBuilderFactory;
-
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.StringUtil;
 import com.myschool.organization.dao.OrganizationManager;
 
 /**

@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.ExamGradeDto;
 import com.myschool.exam.dto.StudentExamDto;
@@ -31,6 +30,7 @@ import com.myschool.student.dto.StudentDto;
 import com.myschool.web.exam.constants.ExamViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class StudentExamController.

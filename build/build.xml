@@ -82,7 +82,8 @@
     </target>
 
     <target name="CleanCodeBases">
-        <ant antfile="build.xml" target="Clean" dir="${myschool.support}" />
+    	<ant antfile="build.xml" target="Clean" dir="${quasar.core.project}" />
+    	<ant antfile="build.xml" target="Clean" dir="${myschool.support}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.base}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.transformation}" />
         <ant antfile="build.xml" target="Clean" dir="${myschool.infrastructure}" />
@@ -106,6 +107,7 @@
     </target>
 
     <target name="BuildAll">
+    	<ant antfile="build.xml" target="Build" dir="${quasar.core.project}" />
     	<ant antfile="build.xml" target="Build" dir="${myschool.support}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.base}" />
         <ant antfile="build.xml" target="Build" dir="${myschool.transformation}" />
@@ -118,6 +120,7 @@
     </target>
 
     <target name="DeployAll">
+    	<ant antfile="build.xml" target="Deploy" dir="${quasar.core.project}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.support}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.base}" />
         <ant antfile="build.xml" target="Deploy" dir="${myschool.transformation}" />

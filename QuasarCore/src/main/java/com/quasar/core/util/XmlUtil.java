@@ -1,4 +1,4 @@
-package com.myschool.common.util;
+package com.quasar.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,14 +20,14 @@ import org.xml.sax.SAXException;
 public class XmlUtil {
 
     /**
-     * Validate configuration.
+     * Validates XML .
      * 
      * @param configFileStream the config file stream
      * @param configSchemaStream the config schema stream
      * @throws IOException Signals that an I/O exception has occurred.
      * @throws SAXException the sAX exception
      */
-    public static void validateConfiguration(InputStream configFileStream,
+    public static void validateXml(InputStream configFileStream,
             InputStream configSchemaStream) throws IOException, SAXException {
         Source xmlFile = new StreamSource(configFileStream);
         SchemaFactory schemaFactory = SchemaFactory

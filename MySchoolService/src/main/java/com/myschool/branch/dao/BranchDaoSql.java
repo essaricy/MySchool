@@ -5,7 +5,7 @@ import java.util.Map;
 
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.RegionDto;
-import com.myschool.common.util.DatabaseUtil;
+import com.quasar.core.util.DatabaseUtil;
 
 /**
  * The Class BranchDaoSql.

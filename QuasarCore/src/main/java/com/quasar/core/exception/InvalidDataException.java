@@ -1,5 +1,4 @@
-package com.myschool.common.exception;
-
+package com.quasar.core.exception;
 
 /**
  * The Class InvalidDataException.

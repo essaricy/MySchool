@@ -11,10 +11,10 @@ import org.json.JSONObject;
 import com.myschool.academic.dto.AcademicDto;
 import com.myschool.academic.dto.HolidayDto;
 import com.myschool.academic.dto.HolidaySearchCriteria;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.report.assembler.ReportDataAssembler;
 import com.myschool.report.constants.ReportCriteriaTokenConstants;
 import com.myschool.report.dto.ReportCriteriaToken;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class HolidayDataAssembler.

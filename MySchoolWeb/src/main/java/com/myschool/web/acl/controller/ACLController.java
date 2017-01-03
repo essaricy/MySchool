@@ -18,24 +18,24 @@ import com.myschool.acl.constant.SigninSecurityLevel;
 import com.myschool.acl.dto.SigninSecurity;
 import com.myschool.acl.service.ACLService;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.InsufficientInputException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.util.Encryptor;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.infra.captcha.agent.CaptchaAgent;
 import com.myschool.student.dto.StudentDto;
+import com.myschool.user.assembler.UserDataAssembler;
 import com.myschool.user.constants.UserActivityConstant;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.LoginDto;
 import com.myschool.user.dto.UserContext;
 import com.myschool.user.service.LoginService;
-import com.myschool.user.util.ContextUtil;
 import com.myschool.web.acl.constants.ACLViewNames;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.InsufficientInputException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class ACLController.
@@ -212,7 +212,7 @@ public class ACLController {
             // User account is present in our system
             System.out.println("loginSuccessful");
             LOGGER.info(MessageFormat.format(UserActivityConstant.SIGNUP_SUCCESS, sessionId, loginId, userType));
-            UserContext context = ContextUtil.createUserContext(loginDetails);
+            UserContext context = UserDataAssembler.createUserContext(loginDetails);
             if (userType == UserType.STUDENT) {
                 StudentDto student = (StudentDto) loginDetails.getUserDetails();
                 session.setAttribute(WebConstants.STUDENT, student);

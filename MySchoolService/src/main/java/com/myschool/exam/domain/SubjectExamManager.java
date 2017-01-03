@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.exam.dao.SubjectExamDao;
 import com.myschool.exam.dto.SubjectExamDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class SubjectExamManager.

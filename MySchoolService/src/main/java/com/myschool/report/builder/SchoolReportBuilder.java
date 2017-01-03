@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.common.exception.DataException;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -15,6 +14,7 @@ import com.myschool.report.dto.ReportCriteriaToken;
 import com.myschool.school.assembler.SchoolDataAssembler;
 import com.myschool.school.domain.SchoolManager;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class SchoolReportBuilder.

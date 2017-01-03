@@ -17,13 +17,13 @@ import com.myschool.application.service.DocumentService;
 import com.myschool.common.constants.DocumentApplicability;
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.user.constants.UserType;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class DocumentController.

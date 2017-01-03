@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.branch.domain.DivisionManager;
 import com.myschool.branch.dto.DivisionDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class DivisionServiceImpl.

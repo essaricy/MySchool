@@ -18,7 +18,6 @@ import com.myschool.academic.dto.HolidayDto;
 import com.myschool.application.service.HolidayService;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.dto.PersonalDetailsDto;
-import com.myschool.common.util.StringUtil;
 import com.myschool.exam.assembler.ExamDataAssembler;
 import com.myschool.exam.assembler.StudentExamDataAssembler;
 import com.myschool.exam.dto.ExamDto;
@@ -31,6 +30,7 @@ import com.myschool.graph.dto.LineChartDto;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class StudentDashboardController.

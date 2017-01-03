@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.domain.EmployeeManager;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.student.domain.StudentManager;
@@ -20,6 +17,9 @@ import com.myschool.user.dao.LoginDao;
 import com.myschool.user.dao.UserDao;
 import com.myschool.user.dto.LoginDto;
 import com.myschool.user.dto.ModuleAccessDto;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class LoginManager.

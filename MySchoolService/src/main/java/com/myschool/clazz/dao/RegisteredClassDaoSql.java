@@ -9,8 +9,8 @@ import com.myschool.clazz.dto.ClassDto;
 import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.SectionDto;
-import com.myschool.common.util.DatabaseUtil;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.util.DatabaseUtil;
 
 
 /**

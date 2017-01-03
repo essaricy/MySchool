@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.student.dao.StudentDocumentDao;
 import com.myschool.student.dto.StudentDocument;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.validator.StudentDocumentValidator;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentDocumentManager.

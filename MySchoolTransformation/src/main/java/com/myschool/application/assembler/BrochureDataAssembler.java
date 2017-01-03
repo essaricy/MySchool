@@ -6,8 +6,8 @@ import java.util.List;
 import org.json.JSONArray;
 
 import com.myschool.download.dto.BrochureDto;
-import com.myschool.file.util.FileUtil;
 import com.myschool.storage.dto.StorageItem;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class BrochureDataAssembler.

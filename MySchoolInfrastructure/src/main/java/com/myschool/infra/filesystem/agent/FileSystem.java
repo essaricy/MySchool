@@ -4,8 +4,8 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.stereotype.Component;
 
-import com.myschool.common.exception.FileSystemException;
 import com.myschool.filesystem.dto.DirectoryDto;
+import com.quasar.core.exception.FileSystemException;
 
 /**
  * The Interface FileSystem.

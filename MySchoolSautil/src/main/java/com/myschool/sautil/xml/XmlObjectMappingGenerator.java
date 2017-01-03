@@ -30,10 +30,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.oxo.agent.OxoAgent;
 import com.myschool.infra.oxo.constants.OxoMappingConstants;
 import com.myschool.sautil.base.StandAloneUtility;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class XmlObjectMappingGenerator.

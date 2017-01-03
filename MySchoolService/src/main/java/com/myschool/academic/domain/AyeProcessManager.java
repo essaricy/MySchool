@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 import com.myschool.academic.dto.AcademicYearClosureDto;
 import com.myschool.academic.dto.AyeProcessCriteriaDto;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.exam.domain.ExamGradeManager;
 import com.myschool.organization.dao.OrganizationManager;
 import com.myschool.organization.dto.OrganizationManifest;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class AyeProcessManager.

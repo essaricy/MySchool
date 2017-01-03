@@ -20,10 +20,10 @@ import com.myschool.captcha.assembler.CaptchaDataAssembler;
 import com.myschool.captcha.dto.CaptchaVerificationResult;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.PropertiesUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.captcha.constants.CaptchaConstants;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.PropertiesUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class GoogleNoCaptchaReCaptchaAgent.

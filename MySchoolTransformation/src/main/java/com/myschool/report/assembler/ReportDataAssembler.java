@@ -10,12 +10,12 @@ import java.util.Set;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.report.constants.ReportKey;
 import com.myschool.report.dto.ReportCriteria;
 import com.myschool.report.dto.ReportCriteriaToken;
 import com.myschool.report.dto.ReportDto;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class ReportDataAssembler.

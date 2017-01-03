@@ -10,9 +10,7 @@ import com.myschool.branch.assembler.BranchDataAssembler;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.common.assembler.ImageDataAssembler;
 import com.myschool.common.constants.RecordStatus;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
@@ -20,6 +18,8 @@ import com.myschool.employee.dto.EmploymentStatus;
 import com.myschool.report.assembler.ReportDataAssembler;
 import com.myschool.report.constants.ReportCriteriaTokenConstants;
 import com.myschool.report.dto.ReportCriteriaToken;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeeDataAssembler.

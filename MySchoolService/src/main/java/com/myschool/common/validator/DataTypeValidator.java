@@ -2,7 +2,7 @@ package com.myschool.common.validator;
 
 import java.util.regex.Pattern;
 
-import com.myschool.common.exception.DataException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class DataTypes.

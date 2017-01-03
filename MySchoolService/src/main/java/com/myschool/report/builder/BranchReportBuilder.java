@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 import com.myschool.branch.assembler.BranchDataAssembler;
 import com.myschool.branch.domain.BranchManager;
 import com.myschool.branch.dto.BranchDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.util.MessageUtil;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
 import com.myschool.report.dto.ReportCriteriaToken;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class BranchReportBuilder.

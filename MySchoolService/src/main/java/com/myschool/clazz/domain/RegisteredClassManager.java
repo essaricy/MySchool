@@ -11,7 +11,7 @@ import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.SectionDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class RegisteredClassManager.

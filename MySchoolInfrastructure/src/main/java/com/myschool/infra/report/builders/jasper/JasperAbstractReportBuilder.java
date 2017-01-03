@@ -11,8 +11,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.infra.report.builders.ReportBuilder;
 import com.myschool.infra.report.constants.ReportStyles;
@@ -21,6 +19,8 @@ import com.myschool.organization.dto.Organization;
 import com.myschool.report.dto.ReportCriteria;
 import com.myschool.report.dto.ReportCriteriaToken;
 import com.myschool.report.dto.ReportDto;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.ConversionUtil;
 
 import net.sf.dynamicreports.jasper.builder.JasperReportBuilder;
 import net.sf.dynamicreports.report.builder.DynamicReports;

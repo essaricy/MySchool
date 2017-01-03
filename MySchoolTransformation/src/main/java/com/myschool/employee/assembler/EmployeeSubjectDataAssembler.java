@@ -16,10 +16,10 @@ import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.RegisteredSubjectDto;
 import com.myschool.clazz.dto.SectionDto;
 import com.myschool.clazz.dto.SubjectDto;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSubjectDto;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeeSubjectDataAssembler.

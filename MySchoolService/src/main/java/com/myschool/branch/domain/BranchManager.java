@@ -8,9 +8,9 @@ import org.springframework.stereotype.Component;
 import com.myschool.branch.dao.BranchDao;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InsufficientInputException;
-import com.myschool.common.exception.InvalidDataException;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InsufficientInputException;
+import com.quasar.core.exception.InvalidDataException;
 
 /**
  * The Class BranchManagerImpl.

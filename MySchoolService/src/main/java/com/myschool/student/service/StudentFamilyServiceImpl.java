@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myschool.common.dto.FamilyMemberDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.student.domain.StudentFamilyManager;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentFamilyServiceImpl.

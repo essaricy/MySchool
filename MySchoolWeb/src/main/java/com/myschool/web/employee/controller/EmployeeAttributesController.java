@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.clazz.dto.RegisteredSubjectDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.assembler.EmployeeDocumentDataAssembler;
 import com.myschool.employee.assembler.EmployeeEducationDataAssembler;
 import com.myschool.employee.assembler.EmployeeExperienceDataAssembler;
@@ -39,6 +38,7 @@ import com.myschool.employee.service.EmployeeSubjectService;
 import com.myschool.web.employee.constants.EmployeeViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeeAttributesController.

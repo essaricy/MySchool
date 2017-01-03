@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.myschool.academic.dto.HolidaySearchCriteria;
-import com.myschool.common.util.DatabaseUtil;
+import com.quasar.core.util.DatabaseUtil;
 
 /**
  * The Class HolidayDaoSql.

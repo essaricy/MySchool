@@ -8,12 +8,12 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.PropertiesUtil;
-import com.myschool.common.util.StringUtil;
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.agent.AbstractAgent;
 import com.myschool.infra.data.constants.DataGeneratorConstants;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.FileUtil;
+import com.quasar.core.util.PropertiesUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class DataGeneratorAgent.

@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InsufficientInputException;
-import com.myschool.common.exception.InvalidDataException;
 import com.myschool.school.dao.SchoolDao;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InsufficientInputException;
+import com.quasar.core.exception.InvalidDataException;
 
 /**
  * The Class BranchManagerImpl.

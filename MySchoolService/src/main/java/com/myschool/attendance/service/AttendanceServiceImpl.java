@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.attendance.domain.AttendanceManager;
 import com.myschool.attendance.dto.AttendanceCodeDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class AttendanceServiceImpl.

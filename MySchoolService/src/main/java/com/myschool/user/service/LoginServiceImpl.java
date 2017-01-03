@@ -3,10 +3,10 @@ package com.myschool.user.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.user.domain.LoginManager;
 import com.myschool.user.dto.LoginDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class LoginServiceImpl.

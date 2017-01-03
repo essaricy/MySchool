@@ -3,10 +3,10 @@ package com.myschool.exim.domain;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.dto.Rule;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.exim.constants.EximPolicy;
 import com.myschool.exim.dto.ImportRecordStatusDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class AttendanceEximManager.

@@ -12,12 +12,8 @@ import org.springframework.stereotype.Component;
 import com.myschool.application.assembler.StatisticsDataAssembler;
 import com.myschool.application.dto.DateValueDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InvalidDataException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.Encryptor;
 import com.myschool.common.util.PasswordUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dao.EmployeeDao;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.graph.constant.ToDateType;
@@ -33,6 +29,10 @@ import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InvalidDataException;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class UserManager.

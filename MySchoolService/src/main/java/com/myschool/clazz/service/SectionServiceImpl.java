@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.clazz.domain.SectionManager;
 import com.myschool.clazz.dto.SectionDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 @Service
 public class SectionServiceImpl implements SectionService {

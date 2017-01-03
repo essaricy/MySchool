@@ -16,12 +16,12 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.DateUtil;
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.notification.constants.NotificationConfigConstants;
 import com.myschool.notification.dto.Notification;
 import com.myschool.notification.dto.NotificationConfig;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.DateUtil;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class NotificationConfigReader.

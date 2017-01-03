@@ -4,8 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.dto.Person;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.notification.agent.NotificationAgent;
 import com.myschool.infra.notification.constants.NotificationConstants;
 import com.myschool.notification.exception.NotificationException;
@@ -13,6 +11,8 @@ import com.myschool.organization.dao.OrganizationManager;
 import com.myschool.organization.dto.Organization;
 import com.myschool.token.domain.TokenManager;
 import com.myschool.token.dto.Token;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class ACLManager.

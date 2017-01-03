@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.file.constant.FileExtension;
-import com.myschool.file.util.FileUtil;
 import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.image.agent.ImageScalingAgent;
 import com.myschool.sautil.base.StandAloneUtility;
+import com.quasar.core.constant.FileExtension;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class ImageScalingProcessor.

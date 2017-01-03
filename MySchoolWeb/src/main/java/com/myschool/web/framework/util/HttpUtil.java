@@ -20,10 +20,10 @@ import com.myschool.application.dto.ImageAccessDto;
 import com.myschool.common.assembler.ImageDataAssembler;
 import com.myschool.common.assembler.ResultDataAssembler;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.FileSystemException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.user.dto.UserSession;
+import com.quasar.core.exception.FileSystemException;
 
 import net.sf.uadetector.OperatingSystem;
 import net.sf.uadetector.ReadableDeviceCategory;

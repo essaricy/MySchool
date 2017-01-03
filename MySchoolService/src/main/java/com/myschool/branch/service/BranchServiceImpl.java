@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.branch.domain.BranchManager;
 import com.myschool.branch.dto.BranchDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class BranchServiceImpl.

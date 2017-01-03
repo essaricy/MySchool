@@ -2,7 +2,7 @@ package com.myschool.user.dao;
 
 import java.util.List;
 
-import com.myschool.common.util.CollectionUtil;
+import com.quasar.core.util.CollectionUtil;
 
 /**
  * The Class PrivilegesDaoSql.

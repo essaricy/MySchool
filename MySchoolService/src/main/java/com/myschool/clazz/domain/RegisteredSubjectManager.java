@@ -9,9 +9,9 @@ import com.myschool.clazz.dao.RegisteredSubjectDao;
 import com.myschool.clazz.dto.RegisteredSubjectDto;
 import com.myschool.clazz.dto.SubjectDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InsufficientInputException;
-import com.myschool.common.exception.InvalidDataException;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InsufficientInputException;
+import com.quasar.core.exception.InvalidDataException;
 
 /**
  * The Class RegisteredSubjectManager.

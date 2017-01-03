@@ -16,10 +16,10 @@ import org.apache.commons.net.ftp.FTPFile;
 import org.apache.commons.net.ftp.FTPReply;
 import org.apache.log4j.Logger;
 
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.remote.ftp.constant.FtpServerReturnCode;
 import com.myschool.infra.remote.ftp.constant.MySchoolFTPConstant;
 import com.myschool.infra.remote.ftp.exception.FtpException;
+import com.quasar.core.util.FileUtil;
 
 public abstract class MySchoolFTPClient {
 

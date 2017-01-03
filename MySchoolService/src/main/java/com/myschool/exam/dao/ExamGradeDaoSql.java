@@ -1,6 +1,6 @@
 package com.myschool.exam.dao;
 
-import com.myschool.common.util.DatabaseUtil;
+import com.quasar.core.util.DatabaseUtil;
 
 /**
  * The Class ExamGradeDaoSql.

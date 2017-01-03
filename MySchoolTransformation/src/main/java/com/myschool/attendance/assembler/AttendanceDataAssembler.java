@@ -8,7 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.attendance.dto.AttendanceCodeDto;
-import com.myschool.common.util.ConversionUtil;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class AttendanceDataAssembler.

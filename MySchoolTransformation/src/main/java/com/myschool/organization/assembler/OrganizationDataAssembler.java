@@ -3,10 +3,10 @@ package com.myschool.organization.assembler;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.organization.dto.Organization;
 import com.myschool.organization.dto.OrganizationManifest;
 import com.myschool.organization.dto.OrganizationPreferences;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class OrganizationDataAssembler.

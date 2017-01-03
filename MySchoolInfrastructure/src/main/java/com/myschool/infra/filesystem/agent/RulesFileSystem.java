@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.dto.Rule;
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
 import com.myschool.exim.constants.EximPolicy;
-import com.myschool.file.constant.FileExtension;
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.cache.agent.InMemoryCacheAgent;
 import com.myschool.infra.filesystem.exception.RuleException;
 import com.myschool.infra.filesystem.reader.RulesConfigReader;
+import com.quasar.core.constant.FileExtension;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class RulesFileSystem.

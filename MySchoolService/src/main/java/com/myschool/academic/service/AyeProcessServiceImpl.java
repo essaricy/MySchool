@@ -9,8 +9,8 @@ import com.myschool.academic.domain.AyeProcessManager;
 import com.myschool.academic.dto.AcademicYearClosureDto;
 import com.myschool.academic.dto.AyeProcessCriteriaDto;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class AyeProcessServiceImpl.

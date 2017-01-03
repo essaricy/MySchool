@@ -1,4 +1,4 @@
-package com.myschool.file.util;
+package com.quasar.core.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,9 +10,9 @@ import java.nio.channels.FileChannel;
 
 import org.apache.commons.io.IOUtils;
 
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.file.constant.FileExtension;
-import com.myschool.file.filter.FileNameFilter;
+import com.quasar.core.constant.FileExtension;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.filter.FileNameFilter;
 
 /**
  * The Class FileUtil.

@@ -14,13 +14,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.application.service.GalleryService;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.image.constant.ImageSize;
 import com.myschool.student.service.StudentService;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class ImageController.

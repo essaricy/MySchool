@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.clazz.domain.ClassManager;
 import com.myschool.clazz.dto.ClassDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class ClassServiceImpl.

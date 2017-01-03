@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.application.assembler.BrochureDataAssembler;
-import com.myschool.common.exception.DataException;
 import com.myschool.download.dto.BrochureDto;
 import com.myschool.infra.storage.StorageAccessAgent;
 import com.myschool.infra.storage.exception.StorageAccessException;
 import com.myschool.storage.dto.StorageItem;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class BrochureManager.

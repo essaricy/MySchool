@@ -6,8 +6,8 @@ import java.sql.SQLException;
 import org.json.JSONObject;
 
 import com.myschool.academic.dto.AcademicDto;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class AcademicDataAssembler.

@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myschool.common.constants.RecordStatus;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.employee.domain.EmployeeManager;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
 import com.myschool.image.constant.ImageSize;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class EmployeeServiceImpl.

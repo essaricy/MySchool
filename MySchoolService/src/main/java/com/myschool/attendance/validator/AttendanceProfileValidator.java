@@ -26,15 +26,15 @@ import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.SectionDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.DateUtil;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.school.dao.SchoolDao;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InvalidDataException;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.DateUtil;
 
 /**
  * The Class AttendanceProfileValidator.

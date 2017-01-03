@@ -14,11 +14,11 @@ import org.springframework.stereotype.Repository;
 import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeSearchCriteriaDto;
 import com.myschool.infra.database.agent.DatabaseAgent;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class EmployeeDaoImpl.

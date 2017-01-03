@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.myschool.branch.dao.RegionDao;
 import com.myschool.branch.dto.RegionDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class RegionManager.

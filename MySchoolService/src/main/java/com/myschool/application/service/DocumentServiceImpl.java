@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.application.domain.DocumentManager;
 import com.myschool.common.dto.DocumentDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.user.constants.UserType;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class DocumentServiceImpl.

@@ -4,10 +4,10 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.IssueDto;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.user.constants.UserType;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class IssueValidator.

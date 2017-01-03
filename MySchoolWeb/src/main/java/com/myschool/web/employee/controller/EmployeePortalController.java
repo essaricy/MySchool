@@ -11,7 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.service.EmployeeService;
@@ -20,6 +19,7 @@ import com.myschool.web.application.constants.PortalViewNames;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeePortalController.

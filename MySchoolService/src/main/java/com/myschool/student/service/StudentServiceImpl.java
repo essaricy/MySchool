@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myschool.common.constants.RecordStatus;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.image.constant.ImageSize;
 import com.myschool.student.domain.StudentManager;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentPerformaceDto;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentServiceImpl.

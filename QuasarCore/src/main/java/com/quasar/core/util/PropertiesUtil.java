@@ -1,4 +1,4 @@
-package com.myschool.common.util;
+package com.quasar.core.util;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,8 +11,7 @@ import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.file.util.FileUtil;
+import com.quasar.core.exception.FileSystemException;
 
 /**
  * The Class PropertiesUtil.
@@ -133,6 +132,13 @@ public class PropertiesUtil {
         return value;
     }
 
+    /**
+     * Gets the long.
+     *
+     * @param properties the properties
+     * @param key the key
+     * @return the long
+     */
     public static long getLong(Properties properties, String key) {
         String propertyValue = properties.getProperty(key);
         return Long.parseLong(propertyValue);
@@ -150,6 +156,14 @@ public class PropertiesUtil {
         return Integer.parseInt(propertyValue);
     }
 
+    /**
+     * Gets the file.
+     *
+     * @param properties the properties
+     * @param key the key
+     * @param create the create
+     * @return the file
+     */
     public File getFile(Properties properties, String key, boolean create) {
         File file = null;
         String value = properties.getProperty(key);

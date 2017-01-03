@@ -18,7 +18,6 @@ import com.myschool.application.dto.ImageAccessDto;
 import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.assembler.EmployeeDataAssembler;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeeDto;
@@ -29,6 +28,7 @@ import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.employee.constants.EmployeeViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeeController.

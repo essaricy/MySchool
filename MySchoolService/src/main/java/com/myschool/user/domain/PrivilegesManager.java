@@ -7,11 +7,11 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.application.dto.FunctionDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.user.assembler.ModuleDataAssembler;
 import com.myschool.user.dao.PrivilegesDao;
 import com.myschool.user.dto.ModuleAccessDto;
 import com.myschool.user.dto.UserAccessDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class PrivilegesManager.

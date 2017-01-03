@@ -8,8 +8,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.myschool.application.dto.GalleryDetailDto;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.storage.dto.StorageItem;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class GalleryDataAssembler.

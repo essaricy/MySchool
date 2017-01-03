@@ -11,8 +11,6 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.dto.Person;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.agent.AbstractAgent;
 import com.myschool.infra.data.agent.DataGeneratorAgent;
 import com.myschool.infra.notification.Message;
@@ -21,6 +19,8 @@ import com.myschool.infra.template.reader.TemplateConfigReader;
 import com.myschool.template.dto.Template;
 import com.myschool.template.dto.TemplateConfig;
 import com.myschool.template.dto.TemplateGroup;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class TemplateAgent.

@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.constants.DocumentApplicability;
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.CollectionUtil;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
+import com.quasar.core.util.CollectionUtil;
 
 /**
  * The Class DocumentValidator.
@@ -26,13 +26,13 @@ public class DocumentValidator extends AbstractValidator<DocumentDto> {
         DocumentApplicability applicabilityForEmployee = document.getApplicabilityForEmployee();
         if (applicabilityForEmployee == null) {
             throw new ValidationException("Document applicability for employee must be one of "
-                    + CollectionUtil.toCommaSeperatedString(DocumentApplicability.values()));
+                    + CollectionUtil.toString(DocumentApplicability.values()));
         }
 
         DocumentApplicability applicabilityForStudent = document.getApplicabilityForStudent();
         if (applicabilityForStudent == null) {
             throw new ValidationException("Document applicability for employee must be one of "
-                    + CollectionUtil.toCommaSeperatedString(DocumentApplicability.values()));
+                    + CollectionUtil.toString(DocumentApplicability.values()));
         }
     }
 

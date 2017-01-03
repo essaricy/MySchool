@@ -19,6 +19,8 @@ set CLASSPATH=%CLASSPATH%;%LIB_DIR%/MySchoolService.jar
 set CLASSPATH=%CLASSPATH%;%LIB_DIR%/MySchoolTransformation.jar
 set CLASSPATH=%CLASSPATH%;%LIB_DIR%/MySchoolInfrastructure.jar
 
+set CLASSPATH=%CLASSPATH%;%LIB_DIR%/com.quasar.core.jar
+
 :: Third party jars
 set CLASSPATH=%CLASSPATH%;%LIB_DIR%/activemq-all-5.6.0.jar
 set CLASSPATH=%CLASSPATH%;%LIB_DIR%/aopalliance.jar

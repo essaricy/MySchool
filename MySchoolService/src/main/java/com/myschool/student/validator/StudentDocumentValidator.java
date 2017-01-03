@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.DateUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.student.domain.StudentDocumentManager;
 import com.myschool.student.dto.StudentDocument;
 import com.myschool.user.constants.UserType;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InvalidDataException;
+import com.quasar.core.util.DateUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class StudentDocumentValidator.

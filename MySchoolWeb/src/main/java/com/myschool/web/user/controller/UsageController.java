@@ -15,8 +15,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.application.assembler.StatisticsDataAssembler;
 import com.myschool.application.dto.NumberNameValueDto;
-import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.graph.assembler.ChartDataAssembler;
 import com.myschool.graph.dto.LineChartDto;
 import com.myschool.user.constants.UserType;
@@ -30,6 +28,8 @@ import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.user.constants.UserViewNames;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class UserController.

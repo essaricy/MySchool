@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.ExamGradeDto;
 import com.myschool.exam.dto.StudentExamDto;
@@ -20,6 +19,7 @@ import com.myschool.exam.dto.SubjectExamDto;
 import com.myschool.exim.dao.StudentExamDao;
 import com.myschool.student.dao.StudentDao;
 import com.myschool.student.dto.StudentDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentExamManager.

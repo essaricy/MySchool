@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myschool.application.dto.FunctionDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.user.domain.PrivilegesManager;
 import com.myschool.user.dto.ModuleAccessDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class PrivilegesServiceImpl.

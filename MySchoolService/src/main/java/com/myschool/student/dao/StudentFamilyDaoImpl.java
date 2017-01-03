@@ -14,9 +14,9 @@ import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.database.agent.DatabaseAgent;
 import com.myschool.student.assembler.StudentFamilyDataAssembler;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class StudentFamilyDaoImpl.

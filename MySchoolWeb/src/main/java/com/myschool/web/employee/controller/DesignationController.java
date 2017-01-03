@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.dto.DesignationDto;
@@ -23,6 +22,7 @@ import com.myschool.web.employee.constants.EmployeeViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class DesignationController.

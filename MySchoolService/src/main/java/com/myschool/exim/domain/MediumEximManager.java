@@ -8,11 +8,11 @@ import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.fields.MediumFieldNames;
 import com.myschool.common.dto.Rule;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exim.constants.EximPolicy;
 import com.myschool.exim.dto.ImportRecordStatusDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class MediumEximManager.

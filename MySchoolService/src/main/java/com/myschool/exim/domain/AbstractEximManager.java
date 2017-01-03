@@ -41,9 +41,7 @@ import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.dto.Rule;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dao.DesignationDao;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.exam.dao.ExamDao;
@@ -60,7 +58,6 @@ import com.myschool.exim.dto.UploadFileTrackerDto;
 import com.myschool.exim.dto.UploadRecordTrackerDto;
 import com.myschool.exim.exception.EximException;
 import com.myschool.exim.util.ImportUtil;
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.cache.agent.OutMemoryCacheAgent;
 import com.myschool.infra.cache.exception.CacheException;
 import com.myschool.infra.filesystem.agent.RulesFileSystem;
@@ -74,6 +71,9 @@ import com.myschool.student.domain.StudentManager;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dao.UserDao;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.FileUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class AbstractEximManager.

@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.user.assembler.UserDataAssembler;
 import com.myschool.user.dto.ChangePasswordDto;
@@ -32,6 +29,9 @@ import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InvalidDataException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class UserController.

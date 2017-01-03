@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.academic.domain.HolidayManager;
 import com.myschool.academic.dto.HolidayDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 @Service
 public class HolidayServiceImpl implements HolidayService {

@@ -10,10 +10,10 @@ import org.json.JSONObject;
 
 import com.myschool.application.assembler.DocumentDataAssembler;
 import com.myschool.common.dto.DocumentDto;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.student.dto.StudentDocument;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class StudentDocumentDataAssembler.

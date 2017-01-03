@@ -5,10 +5,10 @@ import java.io.File;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.file.util.FileUtil;
 import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.filesystem.dto.FileDto;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class TemplatesFileSystem.

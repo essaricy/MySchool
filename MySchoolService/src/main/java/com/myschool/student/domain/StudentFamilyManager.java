@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.student.dao.StudentFamilyDao;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.validator.StudentFamilyValidator;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentFamilyManager.

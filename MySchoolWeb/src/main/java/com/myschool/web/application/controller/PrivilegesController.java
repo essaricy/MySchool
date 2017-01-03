@@ -17,8 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.CollectionUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.user.assembler.PrivilegesDataAssembler;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.ModuleAccessDto;
@@ -31,6 +29,8 @@ import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.user.constants.UserViewNames;
+import com.quasar.core.util.CollectionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class PrivilegesController.

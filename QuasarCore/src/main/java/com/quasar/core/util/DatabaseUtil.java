@@ -1,12 +1,10 @@
-package com.myschool.common.util;
+package com.quasar.core.util;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
-import com.myschool.common.util.StringUtil;
 
 /**
  * The Class DatabaseUtil.

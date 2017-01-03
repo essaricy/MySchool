@@ -19,6 +19,8 @@ CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolService.jar
 CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolTransformation.jar
 CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolInfrastructure.jar
 
+CLASSPATH=$CLASSPATH;$LIB_DIR/MySchoolInfrastructure.jar
+
 # Third party jars
 CLASSPATH=$CLASSPATH;$LIB_DIR/aopalliance.jar
 CLASSPATH=$CLASSPATH;$LIB_DIR/asm-3.3.1.jar

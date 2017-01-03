@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.application.domain.GalleryManager;
 import com.myschool.application.dto.GalleryDetailDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class GalleryServiceImpl.

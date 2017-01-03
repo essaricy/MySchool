@@ -8,10 +8,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeePromotion;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class EmployeePromotionDataAssembler.

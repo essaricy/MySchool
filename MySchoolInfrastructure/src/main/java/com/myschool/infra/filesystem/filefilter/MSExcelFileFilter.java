@@ -3,8 +3,8 @@ package com.myschool.infra.filesystem.filefilter;
 import java.io.File;
 import java.io.FileFilter;
 
-import com.myschool.file.constant.FileExtension;
-import com.myschool.file.util.FileUtil;
+import com.quasar.core.constant.FileExtension;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class MSExcelFileFilter.

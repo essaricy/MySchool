@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.CollectionUtil;
-import com.myschool.common.util.StringUtil;
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.application.constants.ExternalizeAction;
 import com.myschool.infra.application.constants.ExternalizeDataFormat;
 import com.myschool.sautil.base.StandAloneUtility;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.CollectionUtil;
+import com.quasar.core.util.FileUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class ExternalizeData.
@@ -53,24 +53,24 @@ public class ExternalizeData extends StandAloneUtility {
             String actionOptionValue = executionProperties.getProperty(OPTION_ACTION);
             if (actionOptionValue == null) {
                 throw new ConfigurationException("Must specify '" + OPTION_ACTION + "' option. Allowed values are "
-                        + CollectionUtil.toCommaSeperatedString(ExternalizeAction.values()));
+                        + CollectionUtil.toString(ExternalizeAction.values()));
             }
             ExternalizeAction externalizeAction = ExternalizeAction.getExternalizeAction(actionOptionValue);
             if (externalizeAction == null) {
                 throw new ConfigurationException("Invalid value for action. Allowed values are "
-                        + CollectionUtil.toCommaSeperatedString(ExternalizeAction.values()));
+                        + CollectionUtil.toString(ExternalizeAction.values()));
             }
 
             // Validate externalize data format
             String dataFormatValue = executionProperties.getProperty(OPTION_DATA_FORMAT);
             if (dataFormatValue == null) {
                 throw new ConfigurationException("Must specify '" + OPTION_DATA_FORMAT + "' option. Allowed values are "
-                        + CollectionUtil.toCommaSeperatedString(ExternalizeDataFormat.values()));
+                        + CollectionUtil.toString(ExternalizeDataFormat.values()));
             }
             ExternalizeDataFormat externalizeDataFormat = ExternalizeDataFormat.getExternalizeDataFormat(dataFormatValue);
             if (externalizeDataFormat == null) {
                 throw new ConfigurationException("Invalid value for data-format. Allowed values are "
-                        + CollectionUtil.toCommaSeperatedString(ExternalizeDataFormat.values()));
+                        + CollectionUtil.toString(ExternalizeDataFormat.values()));
             }
 
             // Validate external directory option

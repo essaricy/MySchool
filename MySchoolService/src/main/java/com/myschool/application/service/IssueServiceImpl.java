@@ -10,10 +10,10 @@ import com.myschool.application.domain.IssueManager;
 import com.myschool.application.dto.DateValueDto;
 import com.myschool.application.dto.IssueDto;
 import com.myschool.application.dto.IssueSearchCriteriaDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.graph.constant.ToDateType;
 import com.myschool.user.constants.UserType;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class IssueServiceImpl.

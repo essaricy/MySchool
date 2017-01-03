@@ -7,9 +7,7 @@ import com.myschool.branch.domain.BranchManager;
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.constant.EmployeeNotificationTo;
@@ -25,6 +23,8 @@ import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeeContact;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmploymentStatus;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeeValidator.

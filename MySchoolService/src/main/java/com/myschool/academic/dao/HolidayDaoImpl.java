@@ -18,8 +18,8 @@ import com.myschool.academic.dto.HolidayDto;
 import com.myschool.academic.dto.HolidaySearchCriteria;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.database.agent.DatabaseAgent;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class HolidayDaoImpl.

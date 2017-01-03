@@ -15,11 +15,11 @@ import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.database.agent.DatabaseAgent;
 import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class StudentDaoImpl.

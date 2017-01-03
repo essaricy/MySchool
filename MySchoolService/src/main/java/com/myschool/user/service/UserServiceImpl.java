@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myschool.application.dto.DateValueDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.graph.constant.ToDateType;
@@ -20,6 +19,7 @@ import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class UserServiceImpl.

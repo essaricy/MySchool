@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.clazz.domain.RegisteredClassManager;
 import com.myschool.clazz.dto.RegisteredClassDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class RegisteredClassServiceImpl.

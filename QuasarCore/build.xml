@@ -1,0 +1,28 @@
+<project name="QuasarCore" default="CleanBuildDeploy">
+    <description>Builds and deploys QuasarCore to server</description>
+
+    <property file="deploy.properties" />
+    <path id="jars-classpath">
+        <fileset dir="../${lib}" includes="*.jar" />
+    </path>
+
+    <target name="CleanBuildDeploy" depends="Clean,Build,Deploy" />
+
+    <target name="Clean">
+        <delete dir="${target.dir}" />
+        <mkdir dir="${target.dir}"/>
+        <mkdir dir="${classes.dir}"/>
+    </target>
+
+    <target name="Build">
+        <javac srcdir="${src.main.java}"
+            destdir="${classes.dir}" classpathref="jars-classpath"
+            source="1.6" target="1.6" includeantruntime="true" />
+        <jar destfile="${target.dir}/${quasar.core.bin}" basedir="${classes.dir}" />
+    </target>
+
+    <target name="Deploy">
+        <copy file="${target.dir}/${quasar.core.bin}" todir="${stage.dir}/${deploy.lib}" />
+    </target>
+</project>
+

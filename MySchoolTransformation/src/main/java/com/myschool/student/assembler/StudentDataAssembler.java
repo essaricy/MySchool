@@ -14,9 +14,7 @@ import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.assembler.ImageDataAssembler;
 import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.PersonalDetailsDto;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.report.assembler.ReportDataAssembler;
 import com.myschool.report.constants.ReportCriteriaTokenConstants;
 import com.myschool.report.dto.ReportCriteriaToken;
@@ -24,6 +22,8 @@ import com.myschool.school.assembler.SchoolDataAssembler;
 import com.myschool.student.dto.AdmissionStatus;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class StudentDataAssembler.

@@ -21,11 +21,11 @@ import com.myschool.clazz.service.RegisteredSubjectService;
 import com.myschool.clazz.service.SubjectService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.web.clazz.constants.ClazzViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class RegisteredSubjectController.

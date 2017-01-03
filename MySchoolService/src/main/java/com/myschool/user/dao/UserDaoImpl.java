@@ -17,7 +17,6 @@ import com.myschool.application.assembler.StatisticsDataAssembler;
 import com.myschool.application.dto.DateValueDto;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.graph.constant.ToDateType;
 import com.myschool.infra.database.agent.DatabaseAgent;
 import com.myschool.user.assembler.UserDataAssembler;
@@ -29,6 +28,7 @@ import com.myschool.user.dto.UserSession;
 import com.myschool.user.dto.UserStatistics;
 import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UsersDto;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class UserDaoImpl.

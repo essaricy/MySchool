@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.student.dao.AdmissionStatusDao;
 import com.myschool.student.dto.AdmissionStatus;
 import com.myschool.student.validator.AdmissionStatusValidator;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class AdmissionStatusManager.

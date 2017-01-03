@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.myschool.academic.domain.AcademicManager;
 import com.myschool.academic.dto.AcademicDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class AcademicServiceImpl.

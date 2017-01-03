@@ -14,13 +14,13 @@ import org.springframework.stereotype.Repository;
 import com.myschool.application.dto.FunctionDto;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.database.agent.DatabaseAgent;
 import com.myschool.user.assembler.ModuleDataAssembler;
 import com.myschool.user.assembler.UserDataAssembler;
 import com.myschool.user.dto.FunctionAccessDto;
 import com.myschool.user.dto.ModuleAccessDto;
 import com.myschool.user.dto.UserAccessDto;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class PrivilegesDaoImpl.

@@ -20,14 +20,14 @@ import com.myschool.application.assembler.GalleryDataAssembler;
 import com.myschool.application.dto.GalleryDetailDto;
 import com.myschool.application.service.GalleryService;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.InsufficientInputException;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.filesystem.agent.TempFileSystem;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.exim.bean.UploadDataFileBean;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.InsufficientInputException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class GalleryController.

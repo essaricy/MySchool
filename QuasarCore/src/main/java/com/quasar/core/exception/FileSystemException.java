@@ -1,7 +1,9 @@
-package com.myschool.common.exception;
+package com.quasar.core.exception;
 
 /**
  * The Class FileSystemException.
+ * @deprecated
+ * @see java.nio.file.FileSystemException
  */
 public class FileSystemException extends Exception {
 

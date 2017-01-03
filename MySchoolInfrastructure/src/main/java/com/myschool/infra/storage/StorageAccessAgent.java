@@ -17,7 +17,6 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
 import com.myschool.filesystem.dto.DirectoryDto;
 import com.myschool.image.constant.ImageSize;
 import com.myschool.infra.agent.AbstractAgent;
@@ -28,6 +27,7 @@ import com.myschool.storage.constant.StorageAccessConstant;
 import com.myschool.storage.constant.WriteMode;
 import com.myschool.storage.dto.StorageConfig;
 import com.myschool.storage.dto.StorageItem;
+import com.quasar.core.exception.FileSystemException;
 
 /**
  * The Class StorageAccessAgent.

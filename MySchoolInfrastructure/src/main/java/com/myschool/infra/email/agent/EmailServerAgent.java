@@ -17,11 +17,11 @@ import org.springframework.stereotype.Component;
 import com.myschool.common.exception.AgentException;
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.EmailException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.common.util.PropertiesUtil;
 import com.myschool.infra.agent.AbstractAgent;
 import com.myschool.infra.email.constants.EmailConstants;
 import com.myschool.infra.web.constants.MimeTypes;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.PropertiesUtil;
 
 /**
  * The Class EmailServerAgent.

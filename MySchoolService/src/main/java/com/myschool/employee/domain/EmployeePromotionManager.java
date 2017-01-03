@@ -6,13 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.employee.dao.EmployeePromotionDao;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeePromotion;
 import com.myschool.employee.validator.EmployeePromotionValidator;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class EmployeePromotionManager.

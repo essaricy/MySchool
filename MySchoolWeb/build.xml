@@ -5,6 +5,8 @@
 
     <path id="jars-classpath">
         <fileset dir="../${lib}" includes="*.jar" />
+    	<fileset dir="../${quasar.core.project}/${target.dir}" includes="${quasar.core.bin}" />
+
         <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
     	<fileset dir="../${myschool.support}/${target.dir}" includes="${myschool.support}.jar" />
         <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />

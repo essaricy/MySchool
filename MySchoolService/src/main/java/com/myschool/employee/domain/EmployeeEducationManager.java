@@ -6,12 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.employee.dao.EmployeeEducationDao;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.dto.EmployeeEducation;
 import com.myschool.employee.validator.EmployeeEducationValidator;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class EmployeeEducationManager.

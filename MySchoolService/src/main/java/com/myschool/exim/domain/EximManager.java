@@ -6,9 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.exim.dao.EximDao;
 import com.myschool.exim.dto.EximDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class EximManager.

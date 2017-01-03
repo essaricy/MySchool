@@ -14,8 +14,8 @@ import com.myschool.academic.assembler.AcademicDataAssembler;
 import com.myschool.academic.dto.AcademicDto;
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.database.agent.DatabaseAgent;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class AcademicDaoImpl.

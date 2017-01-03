@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.data.agent.DataGeneratorAgent;
 import com.myschool.token.dao.TokenDao;
 import com.myschool.token.dto.Token;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class TokenManager.

@@ -23,10 +23,10 @@ import com.myschool.attendance.dto.AttendanceProfileDto;
 import com.myschool.attendance.service.AttendanceProfileService;
 import com.myschool.attendance.service.AttendanceService;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.util.StringUtil;
 import com.myschool.web.attendance.constants.AttendanceViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class AttendanceController.

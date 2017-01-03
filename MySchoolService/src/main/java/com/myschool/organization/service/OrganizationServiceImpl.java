@@ -3,12 +3,12 @@ package com.myschool.organization.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.organization.dao.OrganizationManager;
 import com.myschool.organization.dto.Organization;
 import com.myschool.organization.dto.OrganizationManifest;
 import com.myschool.organization.dto.OrganizationPreferences;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class OrganizationServiceImpl.

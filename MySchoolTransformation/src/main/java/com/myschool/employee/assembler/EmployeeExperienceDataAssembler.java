@@ -8,9 +8,9 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
 import com.myschool.employee.dto.EmployeeExperience;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class EmployeeExperienceDataAssembler.

@@ -5,9 +5,9 @@ import java.util.Map;
 
 import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.DivisionDto;
-import com.myschool.common.util.DatabaseUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.util.DatabaseUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class SchoolDaoSql.

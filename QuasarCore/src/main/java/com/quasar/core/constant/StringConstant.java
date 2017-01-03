@@ -1,10 +1,9 @@
-package com.myschool.application.constants;
-
+package com.quasar.core.constant;
 
 /**
- * The Class ApplicationConstants.
+ * The Class StringConstant.
  */
-public class ApplicationConstants {
+public class StringConstant {
 
     /** The Constant N. */
     public static final String N = "N";

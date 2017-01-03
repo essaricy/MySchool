@@ -15,12 +15,12 @@ import com.myschool.clazz.fields.ClassFieldNames;
 import com.myschool.clazz.fields.ClassesInSchoolFieldNames;
 import com.myschool.common.dto.Rule;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exim.constants.EximPolicy;
 import com.myschool.exim.dto.ImportRecordStatusDto;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class ClassEximManager.

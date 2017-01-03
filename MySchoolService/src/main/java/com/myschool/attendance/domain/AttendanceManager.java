@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.myschool.attendance.dao.AttendanceDao;
 import com.myschool.attendance.dto.AttendanceCodeDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class AttendanceManager.

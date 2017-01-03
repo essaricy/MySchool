@@ -9,8 +9,8 @@ import com.myschool.application.dao.RelationshipDao;
 import com.myschool.application.validator.RelationshipValidator;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class RelationshipManager.

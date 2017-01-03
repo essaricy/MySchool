@@ -21,8 +21,8 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import com.myschool.common.dto.Rule;
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.util.XmlUtil;
 import com.myschool.infra.filesystem.constants.RulesConfigConstants;
+import com.quasar.core.util.XmlUtil;
 
 /**
  * The Class RulesConfigReader.

@@ -1,32 +1,15 @@
-package com.myschool.common.util;
+package com.quasar.core.util;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 
-/**
- * The Class CollectionUtil.
- */
 public class CollectionUtil {
 
-    /**
-     * To comma seperated string.
-     *
-     * @param objectArray the object array
-     * @return the string
-     */
-    public static String toCommaSeperatedString(Object[] objectArray) {
-        StringBuffer stringBuffer = new StringBuffer();
-        if (objectArray != null && objectArray.length !=0) {
-            for (Object object : objectArray) {
-                if (object != null) {
-                    stringBuffer.append(object.toString().toLowerCase()).append(",");
-                }
-            }
-            stringBuffer.setLength(stringBuffer.length() -1);
-        }
-        return stringBuffer.toString();
+    public static String toString(Object[] objectArray) {
+        return StringUtils.join(objectArray, ",");
     }
 
     /**
@@ -51,6 +34,7 @@ public class CollectionUtil {
      * 
      * @param list the list
      * @return the sql array
+     * @deprecated move to database util
      */
     public static String getSqlArray(List<? extends Object> list) {
         String sqlArray = null;

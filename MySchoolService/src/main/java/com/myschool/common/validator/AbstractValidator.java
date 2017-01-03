@@ -13,13 +13,13 @@ import com.myschool.clazz.dto.RegisteredSubjectDto;
 import com.myschool.common.constants.DocumentApplicability;
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.dao.DesignationDao;
 import com.myschool.employee.dto.DesignationDto;
 import com.myschool.infra.cache.exception.CacheException;
 import com.myschool.user.constants.UserType;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class AbstractValidator.

@@ -3,9 +3,9 @@ package com.myschool.exim.assembler;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.exim.constants.EximPolicy;
 import com.myschool.exim.dto.EximDto;
+import com.quasar.core.util.ConversionUtil;
 
 
 /**

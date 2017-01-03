@@ -20,11 +20,11 @@ import com.myschool.attendance.dto.AttendanceMonth;
 import com.myschool.attendance.dto.AttendanceProfileDto;
 import com.myschool.clazz.assembler.RegisteredClassDataAssembler;
 import com.myschool.clazz.dto.RegisteredClassDto;
-import com.myschool.common.util.ConversionUtil;
-import com.myschool.common.util.DateUtil;
 import com.myschool.common.util.JsonUtil;
 import com.myschool.school.assembler.SchoolDataAssembler;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.util.ConversionUtil;
+import com.quasar.core.util.DateUtil;
 
 /**
  * The Class AttendanceProfileDataAssembler.

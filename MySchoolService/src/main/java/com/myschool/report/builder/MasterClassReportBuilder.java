@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.clazz.domain.ClassManager;
 import com.myschool.clazz.dto.ClassDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class MasterClassReportBuilder.

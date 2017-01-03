@@ -12,7 +12,6 @@ import com.myschool.clazz.dto.MediumDto;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.clazz.dto.SectionDto;
 import com.myschool.common.dto.PersonalDetailsDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.infra.report.builders.SimpleListingReportBuilder;
 import com.myschool.infra.report.exception.ReportException;
 import com.myschool.report.dto.ReportCriteria;
@@ -21,6 +20,7 @@ import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.domain.StudentManager;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.student.dto.StudentSearchCriteriaDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentReportBuilder.

@@ -1,4 +1,4 @@
-package com.myschool.common.util;
+package com.quasar.core.util;
 
 import java.util.ArrayList;
 import java.util.List;

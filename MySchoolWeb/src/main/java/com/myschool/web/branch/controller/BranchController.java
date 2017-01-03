@@ -17,14 +17,14 @@ import com.myschool.branch.dto.BranchDto;
 import com.myschool.branch.dto.RegionDto;
 import com.myschool.branch.service.BranchService;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.web.branch.constants.BranchViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class BranchController.

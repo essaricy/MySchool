@@ -10,9 +10,9 @@ import org.json.JSONObject;
 import com.myschool.clazz.assembler.RegisteredClassDataAssembler;
 import com.myschool.clazz.assembler.RegisteredSubjectDataAssembler;
 import com.myschool.clazz.dto.RegisteredClassDto;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.SubjectExamDto;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class ExamDataAssembler.

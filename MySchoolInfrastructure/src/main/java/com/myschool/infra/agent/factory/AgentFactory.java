@@ -5,8 +5,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.AgentException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.agent.Agent;
+import com.quasar.core.util.StringUtil;
 
 /**
  * A factory for creating Agent objects.

@@ -9,9 +9,9 @@ import com.myschool.academic.dao.HolidayDao;
 import com.myschool.academic.dto.HolidayDto;
 import com.myschool.academic.dto.HolidaySearchCriteria;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InsufficientInputException;
-import com.myschool.common.exception.InvalidDataException;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InsufficientInputException;
+import com.quasar.core.exception.InvalidDataException;
 
 /**
  * The Class HolidayManager.

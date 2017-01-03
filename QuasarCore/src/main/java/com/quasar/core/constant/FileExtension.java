@@ -1,4 +1,4 @@
-package com.myschool.file.constant;
+package com.quasar.core.constant;
 
 /**
  * The Enum FileExtension.

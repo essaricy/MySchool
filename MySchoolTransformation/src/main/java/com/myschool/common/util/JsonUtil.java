@@ -3,6 +3,8 @@ package com.myschool.common.util;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.quasar.core.util.StringUtil;
+
 /**
  * The Class JsonUtil.
  */

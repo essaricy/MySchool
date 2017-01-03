@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.myschool.application.dto.NumberNameValueDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.domain.UsageManager;
 import com.myschool.user.dto.UsageCount;
 import com.myschool.user.dto.UserSession;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class UsageServiceImpl.

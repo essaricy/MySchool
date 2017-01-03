@@ -20,10 +20,10 @@ import com.myschool.attendance.dto.AttendanceProfileDto;
 import com.myschool.attendance.validator.AttendanceProfileValidator;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
-import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.school.dto.SchoolDto;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.exception.InvalidDataException;
 
 /**
  * The Class AttendanceProfileManager.

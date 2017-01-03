@@ -4,6 +4,8 @@
     <property file="deploy.properties" />
     <path id="jars-classpath">
         <fileset dir="../${lib}" includes="*.jar" />
+        <fileset dir="../${quasar.core.project}/${target.dir}" includes="${quasar.core.bin}" />
+
         <fileset dir="../${myschool.base}/${target.dir}" includes="${myschool.base}.jar" />
         <fileset dir="../${myschool.infrastructure}/${target.dir}" includes="${myschool.infrastructure}.jar" />
         <fileset dir="../${myschool.transformation}/${target.dir}" includes="${myschool.transformation}.jar" />
@@ -18,6 +20,7 @@
     </target>
 
     <target name="Build">
+    	<echo>fileset dir="../${quasar.core.project}/${target.dir}" includes="${quasar.core.bin}" </echo>
         <javac srcdir="${src.main.java}"
             destdir="${classes.dir}" classpathref="jars-classpath"
             source="1.6" target="1.6" includeantruntime="true" />

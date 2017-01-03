@@ -10,12 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import com.myschool.common.exception.ConnectionException;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.infra.database.agent.DatabaseAgent;
 import com.myschool.organization.assembler.OrganizationDataAssembler;
 import com.myschool.organization.dto.Organization;
 import com.myschool.organization.dto.OrganizationManifest;
 import com.myschool.organization.dto.OrganizationPreferences;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class OrganizationDaoImpl.

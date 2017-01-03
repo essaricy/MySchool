@@ -19,7 +19,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.student.assembler.StudentDocumentDataAssembler;
 import com.myschool.student.assembler.StudentFamilyDataAssembler;
 import com.myschool.student.dto.StudentDocument;
@@ -29,6 +28,7 @@ import com.myschool.student.service.StudentService;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.student.constants.StudentViewNames;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class StudentAttributesController.

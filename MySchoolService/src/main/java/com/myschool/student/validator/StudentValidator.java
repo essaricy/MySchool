@@ -9,7 +9,6 @@ import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
@@ -18,6 +17,7 @@ import com.myschool.student.domain.StudentFamilyManager;
 import com.myschool.student.dto.AdmissionStatus;
 import com.myschool.student.dto.StudentDocument;
 import com.myschool.student.dto.StudentDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentValidator.

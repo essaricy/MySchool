@@ -7,11 +7,11 @@ import java.util.List;
 
 import com.myschool.application.dto.FunctionDto;
 import com.myschool.application.dto.ModuleDto;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.user.dto.FunctionAccessDto;
 import com.myschool.user.dto.ModuleAccessDto;
 import com.myschool.user.dto.UserAccessDto;
 import com.myschool.user.dto.UserContext;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class ModuleDataAssembler.

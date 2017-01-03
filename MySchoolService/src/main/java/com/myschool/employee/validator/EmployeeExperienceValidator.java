@@ -2,12 +2,12 @@ package com.myschool.employee.validator;
 
 import org.springframework.stereotype.Component;
 
-import com.myschool.common.exception.InvalidDataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.DateUtil;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.employee.dto.EmployeeExperience;
+import com.quasar.core.exception.InvalidDataException;
+import com.quasar.core.util.DateUtil;
 
 /**
  * The Class EmployeeExperienceValidator.

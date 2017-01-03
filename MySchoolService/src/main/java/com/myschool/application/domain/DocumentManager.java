@@ -9,9 +9,9 @@ import com.myschool.application.dao.DocumentDao;
 import com.myschool.common.dto.DocumentDto;
 import com.myschool.common.dto.DocumentSearchCriteria;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.user.constants.UserType;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class DocumentManager.

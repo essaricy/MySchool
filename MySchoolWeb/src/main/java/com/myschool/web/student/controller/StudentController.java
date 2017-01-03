@@ -25,7 +25,6 @@ import com.myschool.common.constants.RecordStatus;
 import com.myschool.common.dto.PersonalDetailsDto;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.school.dto.SchoolDto;
 import com.myschool.student.assembler.StudentDataAssembler;
 import com.myschool.student.dto.StudentDto;
@@ -35,6 +34,7 @@ import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.student.constants.StudentViewNames;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class StudentController.

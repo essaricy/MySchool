@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.employee.domain.EmployeeEducationManager;
 import com.myschool.employee.dto.EmployeeEducation;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class EmployeeEducationServiceImpl.

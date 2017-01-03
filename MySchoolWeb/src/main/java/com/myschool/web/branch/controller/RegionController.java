@@ -13,10 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myschool.branch.dto.RegionDto;
 import com.myschool.branch.service.RegionService;
-import com.myschool.common.util.StringUtil;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class RegionController.

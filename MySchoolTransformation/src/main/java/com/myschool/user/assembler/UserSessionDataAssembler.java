@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import com.myschool.common.util.StringUtil;
 import com.myschool.user.dto.UsageCount;
 import com.myschool.user.dto.UserActivity;
 import com.myschool.user.dto.UserSession;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class UserSessionDataAssembler.

@@ -9,11 +9,11 @@ import org.springframework.stereotype.Component;
 import com.myschool.clazz.dao.RegisteredClassDao;
 import com.myschool.clazz.dto.RegisteredClassDto;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.exam.dao.ExamDao;
 import com.myschool.exam.dao.SubjectExamDao;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.SubjectExamDto;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class ExamManager.

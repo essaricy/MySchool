@@ -21,12 +21,12 @@ import com.myschool.application.dto.IssueSearchCriteriaDto;
 import com.myschool.application.service.IssueService;
 import com.myschool.common.dto.ResultDto;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.captcha.agent.CaptchaAgent;
 import com.myschool.web.application.constants.ApplicationViewNames;
 import com.myschool.web.application.constants.WebConstants;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class IssueController.

@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.myschool.common.util.StringUtil;
 import com.myschool.infra.web.constants.MimeTypes;
 import com.myschool.report.assembler.ReportDataAssembler;
 import com.myschool.report.dto.ReportCriteria;
@@ -24,6 +23,7 @@ import com.myschool.report.service.ReportService;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.util.HttpUtil;
 import com.myschool.web.report.constants.ReportViewNames;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class ReportController.

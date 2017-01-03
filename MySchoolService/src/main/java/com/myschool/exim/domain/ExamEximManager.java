@@ -14,9 +14,7 @@ import com.myschool.clazz.dto.SectionDto;
 import com.myschool.clazz.dto.SubjectDto;
 import com.myschool.common.dto.Rule;
 import com.myschool.common.exception.DaoException;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.exam.dto.ExamDto;
 import com.myschool.exam.dto.StudentExamDto;
@@ -29,6 +27,8 @@ import com.myschool.exim.dto.ImportRecordStatusDto;
 import com.myschool.infra.cache.exception.CacheException;
 import com.myschool.school.dto.SchoolDto;
 import com.myschool.student.dto.StudentDto;
+import com.quasar.core.exception.DataException;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class ExamEximManager.

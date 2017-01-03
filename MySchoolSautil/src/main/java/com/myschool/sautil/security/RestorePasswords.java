@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.exception.ConfigurationException;
 import com.myschool.common.exception.ServiceException;
-import com.myschool.common.util.CollectionUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.employee.service.EmployeeService;
 import com.myschool.sautil.base.StandAloneUtility;
@@ -17,6 +16,7 @@ import com.myschool.student.dto.StudentDto;
 import com.myschool.student.service.StudentService;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.service.UserService;
+import com.quasar.core.util.CollectionUtil;
 
 /**
  * The Class RestorePasswords.
@@ -58,13 +58,13 @@ public class RestorePasswords extends StandAloneUtility {
     public void validateParameters() throws ConfigurationException {
         String userTypeValue = executionProperties.getProperty(OPTION_USER_TYPE);
         if (userTypeValue == null) {
-            throw new ConfigurationException("Must specify '" + OPTION_USER_TYPE + "' option. Valid Values are: " + CollectionUtil.toCommaSeperatedString(UserType.values()));
+            throw new ConfigurationException("Must specify '" + OPTION_USER_TYPE + "' option. Valid Values are: " + CollectionUtil.toString(UserType.values()));
         }
         if (!userTypeValue.equalsIgnoreCase(OPTION_VALUE_ALL)) {
             UserType userType = UserType.get(userTypeValue);
             LOGGER.info("UserType " + userType);
             if (userType == null) {
-                throw new ConfigurationException("Invalid value for " + OPTION_USER_TYPE + ". Valid Values are: " + CollectionUtil.toCommaSeperatedString(UserType.values()));
+                throw new ConfigurationException("Invalid value for " + OPTION_USER_TYPE + ". Valid Values are: " + CollectionUtil.toString(UserType.values()));
             } else if (userType == UserType.STUDENT) {
                 // Validate admission number
                 String admissionNumberValue = executionProperties.getProperty(OPTION_ADMISSION_NUMBER);

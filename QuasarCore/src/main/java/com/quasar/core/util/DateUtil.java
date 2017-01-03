@@ -1,4 +1,4 @@
-package com.myschool.common.util;
+package com.quasar.core.util;
 
 import java.text.DateFormatSymbols;
 import java.text.SimpleDateFormat;
@@ -8,7 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import com.myschool.common.exception.InvalidDataException;
+import com.quasar.core.exception.InvalidDataException;
 
 /**
  * The Class DateUtil.

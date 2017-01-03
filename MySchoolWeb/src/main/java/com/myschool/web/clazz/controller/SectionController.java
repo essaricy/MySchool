@@ -16,13 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.clazz.dto.SectionDto;
 import com.myschool.clazz.service.SectionService;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.web.clazz.constants.ClazzViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class SectionController.

@@ -7,19 +7,21 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.myschool.common.util.ConversionUtil;
 import com.myschool.common.util.JsonUtil;
 import com.myschool.common.util.PasswordUtil;
 import com.myschool.employee.dto.EmployeeDto;
 import com.myschool.student.dto.StudentDto;
 import com.myschool.user.constants.UserType;
 import com.myschool.user.dto.ChangePasswordDto;
+import com.myschool.user.dto.LoginDto;
 import com.myschool.user.dto.UserAccessDto;
+import com.myschool.user.dto.UserContext;
 import com.myschool.user.dto.UserPreference;
 import com.myschool.user.dto.UserStatistics;
 import com.myschool.user.dto.UserTheme;
 import com.myschool.user.dto.UserTypeDto;
 import com.myschool.user.dto.UsersDto;
+import com.quasar.core.util.ConversionUtil;
 
 /**
  * The Class UserDataAssembler.
@@ -270,6 +272,25 @@ public class UserDataAssembler {
             jsonObject.put("UserType", userType.toString());
         }
         return jsonObject;
+    }
+
+    /**
+     * Creates the user context.
+     * 
+     * @param loginDetails the login details
+     * @return the user context
+     */
+    public static UserContext createUserContext(LoginDto loginDetails) {
+        UserContext context = null;
+        if (loginDetails != null) {
+            context = new UserContext();
+            context.setLogin(loginDetails);
+            context.setUserType(loginDetails.getUserType());
+            context.setModuleAccess(loginDetails.getModuleAccess());
+            context.setUserPreference(loginDetails.getUserPreference());
+            context.setUserStatistics(loginDetails.getUserStatistics());
+        }
+        return context;
     }
 
 }

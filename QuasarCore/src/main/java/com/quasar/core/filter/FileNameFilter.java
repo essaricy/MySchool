@@ -1,4 +1,4 @@
-package com.myschool.file.filter;
+package com.quasar.core.filter;
 
 import java.io.File;
 import java.io.FilenameFilter;

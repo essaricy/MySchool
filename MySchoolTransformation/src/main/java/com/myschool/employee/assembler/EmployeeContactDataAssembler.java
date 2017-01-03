@@ -8,9 +8,9 @@ import org.json.JSONObject;
 import com.myschool.application.assembler.RelationshipDataAssembler;
 import com.myschool.common.dto.Relationship;
 import com.myschool.common.util.JsonUtil;
-import com.myschool.common.util.StringUtil;
 import com.myschool.employee.constant.EmployeeNotificationTo;
 import com.myschool.employee.dto.EmployeeContact;
+import com.quasar.core.util.StringUtil;
 
 /**
  * The Class EmployeeContactDataAssembler.

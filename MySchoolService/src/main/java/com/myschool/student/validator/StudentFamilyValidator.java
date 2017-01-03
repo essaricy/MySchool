@@ -5,11 +5,11 @@ import org.springframework.stereotype.Component;
 
 import com.myschool.common.dto.FamilyMemberDto;
 import com.myschool.common.dto.Relationship;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ValidationException;
 import com.myschool.common.validator.AbstractValidator;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.student.domain.StudentFamilyManager;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class StudentFamilyValidator.

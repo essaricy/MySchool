@@ -1,9 +1,9 @@
-package com.myschool.common.util;
+package com.quasar.core.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.myschool.application.constants.ApplicationConstants;
+import com.quasar.core.constant.StringConstant;
 
 /**
  * The Class ConversionUtil.
@@ -47,7 +47,7 @@ public class ConversionUtil {
      * @return the string
      */
     public static String toYN(boolean boolValue) {
-        return (boolValue) ? ApplicationConstants.Y : ApplicationConstants.N;
+        return (boolValue) ? StringConstant.Y : StringConstant.N;
     }
 
     /**
@@ -57,10 +57,10 @@ public class ConversionUtil {
      * @return true, if successful
      */
     public static boolean toBoolean(String stringValue) {
-        return (stringValue != null && (stringValue.equalsIgnoreCase(ApplicationConstants.TRUE)
-                || stringValue.equalsIgnoreCase(ApplicationConstants.Y)
-                || stringValue.equalsIgnoreCase(ApplicationConstants.ON)
-                || stringValue.equalsIgnoreCase(ApplicationConstants.YES)));
+        return (stringValue != null && (stringValue.equalsIgnoreCase(StringConstant.TRUE)
+                || stringValue.equalsIgnoreCase(StringConstant.Y)
+                || stringValue.equalsIgnoreCase(StringConstant.ON)
+                || stringValue.equalsIgnoreCase(StringConstant.YES)));
     }
 
     /**

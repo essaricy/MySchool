@@ -16,11 +16,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import com.myschool.common.exception.ConfigurationException;
-import com.myschool.common.exception.FileSystemException;
-import com.myschool.file.util.FileUtil;
 import com.myschool.infra.web.dto.WebConfig;
 import com.myschool.infra.web.dto.WebResource;
 import com.myschool.infra.webserver.constant.WebConfigConstants;
+import com.quasar.core.exception.FileSystemException;
+import com.quasar.core.util.FileUtil;
 
 /**
  * The Class WebConfigReader.

@@ -16,13 +16,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.myschool.branch.dto.DivisionDto;
 import com.myschool.branch.service.DivisionService;
 import com.myschool.common.dto.ResultDto;
-import com.myschool.common.exception.DataException;
 import com.myschool.common.exception.ServiceException;
 import com.myschool.common.validator.DataTypeValidator;
 import com.myschool.web.branch.constants.BranchViewNames;
 import com.myschool.web.framework.controller.ViewDelegationController;
 import com.myschool.web.framework.handler.ViewErrorHandler;
 import com.myschool.web.framework.util.HttpUtil;
+import com.quasar.core.exception.DataException;
 
 /**
  * The Class DivisionController.
